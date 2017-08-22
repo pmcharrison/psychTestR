@@ -64,7 +64,7 @@ nextPage <- function(rv, input) {
   if (length(rv$test_stack) == 0) {
     stop("No pages left to advance to!")
   }
-  if (is(rv$test_stack[[1]], "test_page")) {
+  if (is(rv$test_stack[[1]], "page")) {
     # Next thing on the stack is a test page
     ## Finalise the current page (to do)
     ## Move to the next page

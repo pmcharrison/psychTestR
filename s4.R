@@ -14,7 +14,7 @@ setClass("page",
                       final = "logical"), # whether page is final page or not
          contains = "test_element")
 
-# one_btn_page shows a page with some text and 
+# one_btn_page shows a page with some content and 
 # a 'Next' button.
 setClass("one_btn_page",
          slots = list(body = "shiny.tag"),
@@ -27,6 +27,21 @@ setMethod(
     .Object@ui <- div(body, actionButton("next", "Next"))
     .Object@triggers <- "next"
     .Object@final <- FALSE
+    return(.Object)
+  }
+)
+
+# final_page shows a page with some content and no action buttons
+setClass("final_page",
+         slots = list(body = "shiny.tag"),
+         contains = "page")
+setMethod(
+  f = "initialize",
+  signature = "final_page",
+  definition = function(.Object, body) {
+    .Object@body <- body
+    .Object@ui <- div(body)
+    .Object@final <- TRUE
     return(.Object)
   }
 )
