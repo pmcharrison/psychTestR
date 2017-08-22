@@ -1,3 +1,4 @@
+setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
 setClass("app_logic", slots = list(pages = "list")
          # You could validate here to check that there is a 
@@ -7,7 +8,7 @@ setClass("app_logic", slots = list(pages = "list")
 setClass("test_element")
 
 setClass("test_page",
-         slots = list(ui = "shiny.tag.list", # page UI
+         slots = list(ui = "shiny.tag", # page UI
                       result = "character", # vector of results to save
                       triggers = "character", # inputs that trigger next page
                       final = "logical"), # whether page is final page or not
@@ -15,20 +16,19 @@ setClass("test_page",
 
 # test_page_info_text shows a page with some text and 
 # a 'Next' button.
-setClass("test_page_info_text",
-         slots = list(text = "character"),
+setClass("one_btn_page",
+         slots = list(body = "shiny.tag"),
          contains = "test_page")
 setMethod(
   f = "initialize",
-  signature = "test_page_info_text",
-  definition = function(.Object, text) {
+  signature = "one_btn_page",
+  definition = function(.Object, body) {
     if (length(text) != 1) {
       stop("Length of <text> slot must equal 1.")
     }
-    .Object@text <- text
-    .Object@ui <- fluidPage(tags$p(text),
-                            actionButton("next", "Next"))
-    .Object@result <- character()
+    .Object@body <- body
+    .Object@ui <- div(body,
+                      actionButton("next", "Next"))
     .Object@triggers <- "next"
     .Object@final <- FALSE
     return(.Object)
