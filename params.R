@@ -1,8 +1,8 @@
 title <- "My title"
 
-pages <- list(new("test_page_info_text", "Info text 1"),
-              new("test_page_info_text", "Info text 2"),
-              new("test_page_info_text", "Info text 3"))
+pages <- list(new("test_page_info_text", "Info text 1", "next"),
+              new("test_page_info_text", "Info text 2", "next"),
+              new("test_page_info_text", "Info text 3", "next"))
 
 # pages$p_id <- new("app_page",
 #                   ui = fluidPage(
