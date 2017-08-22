@@ -1,4 +1,4 @@
-shinyPsych_UI <- function(params) {
+psychTestUI  <- function(params) {
   title_content <- wellPanel(h2(params$title, align = "center"))
   main_content <- wellPanel(align = "center", uiOutput("ui"))
   

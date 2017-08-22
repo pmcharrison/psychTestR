@@ -1,6 +1,6 @@
 #### Top-level function ####
 
-shinyPsych_server <- function(params) {
+psychTestServer <- function(params) {
   function(input, output) {
     # rv stores the current test state
     rv <- initialiseRV(params)
