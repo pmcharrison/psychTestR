@@ -16,21 +16,20 @@ setClass("test_page",
 # test_page_info_text shows a page with some text and 
 # a 'Next' button.
 setClass("test_page_info_text",
-         slots = list(text = "character", next_id = "character"),
+         slots = list(text = "character"),
          contains = "test_page")
 setMethod(
   f = "initialize",
   signature = "test_page_info_text",
-  definition = function(.Object, text, next_id) {
+  definition = function(.Object, text) {
     if (length(text) != 1) {
       stop("Length of <text> slot must equal 1.")
     }
-    .Object@next_id <- next_id
     .Object@text <- text
     .Object@ui <- fluidPage(tags$p(text),
-                            actionButton(next_id, "Next"))
+                            actionButton("next", "Next"))
     .Object@result <- character()
-    .Object@triggers <- next_id #"next"
+    .Object@triggers <- "next"
     .Object@final <- FALSE
     return(.Object)
   }
