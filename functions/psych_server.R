@@ -67,6 +67,9 @@ nextPage <- function(rv, input) {
   if (is(rv$test_stack[[1]], "page")) {
     # Next thing on the stack is a test page
     ## Finalise the current page (to do)
+    if (.hasSlot(rv$current_page, "on_complete")) {
+      do.call(rv$current_page@on_complete, list(rv))
+    }
     ## Move to the next page
     rv$current_page <- rv$test_stack[[1]]
     rv$test_stack <- rv$test_stack[- 1]

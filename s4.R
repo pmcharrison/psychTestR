@@ -53,18 +53,20 @@ setClass("video_stimulus_NAFC",
                       source = "character",
                       type = "character",
                       response_options = "character",
-                      wait = "logical"),
+                      wait = "logical",
+                      on_complete = "function"),
          contains = "page")
 setMethod(
   f = "initialize",
   signature = "video_stimulus_NAFC",
-  definition = function(.Object, prompt, source, type, response_options, wait) {
+  definition = function(.Object, prompt, source, type, response_options, wait, on_complete) {
     .Object@prompt <- prompt
     .Object@source <- source
     .Object@response_options <- response_options
     .Object@wait <- wait
     .Object@triggers <- response_options
     .Object@final <- FALSE
+    .Object@on_complete <- if (missing(on_complete)) function(rv) NULL else on_complete
     
     video_ui <- tags$video(# tags$head(tags$script(src = "showResponseUI.js")),
                            tags$source(src = source,
