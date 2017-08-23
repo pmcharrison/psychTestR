@@ -45,3 +45,56 @@ setMethod(
     return(.Object)
   }
 )
+
+# video_stimulus shows some content (typically text) with a video
+# below it and a variable number of forced-choice response options
+setClass("video_stimulus_NAFC",
+         slots = list(prompt = "shiny.tag",
+                      source = "character",
+                      type = "character",
+                      response_options = "character",
+                      wait = "logical"),
+         contains = "page")
+setMethod(
+  f = "initialize",
+  signature = "video_stimulus_NAFC",
+  definition = function(.Object, prompt, source, type, response_options, wait) {
+    .Object@prompt <- prompt
+    .Object@source <- source
+    .Object@response_options <- response_options
+    .Object@wait <- wait
+    .Object@triggers <- response_options
+    .Object@final <- FALSE
+    
+    video_ui <- tags$video(# tags$head(tags$script(src = "showResponseUI.js")),
+                           tags$source(src = source,
+                                       type = paste0("video/", type)),
+                           id = "video_stimulus",
+                           width = "50%",
+                           autoplay = "autoplay",
+                           onended = if (wait) {
+                             "document.getElementById('response_UI').style.visibility = 'visible';"
+                             } else "null")
+    response_ui <- make_ui_NAFC(response_options, hidden = wait)
+    
+    .Object@ui <- div(prompt, video_ui, response_ui)
+    .Object@triggers <- "next"
+    .Object@final <- FALSE
+    return(.Object)
+  }
+)
+
+make_ui_NAFC <- function(response_options, hidden = FALSE) {
+  assertthat::assert_that(is.character(response_options), is.logical(hidden))
+  labels <- if (is.null(names(response_options))) {
+    response_options
+  } else {
+    names(response_options)
+  }
+  withTags(
+    div(id = "response_UI",
+        style = if (hidden) "visibility: hidden" else "visibility: visible",
+        mapply(function(id, label) {
+          actionButton(inputId = id, label = label)
+        }, response_options, labels, SIMPLIFY = F, USE.NAMES = F)))
+}
