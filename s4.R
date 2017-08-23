@@ -78,8 +78,6 @@ setMethod(
     response_ui <- make_ui_NAFC(response_options, hidden = wait)
     
     .Object@ui <- div(prompt, video_ui, response_ui)
-    .Object@triggers <- "next"
-    .Object@final <- FALSE
     return(.Object)
   }
 )

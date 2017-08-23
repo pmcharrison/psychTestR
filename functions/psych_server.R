@@ -75,21 +75,3 @@ nextPage <- function(rv, input) {
     stop("Don't know how to deal with the next thing on the stack!")
   }
 }
-
-# output$ui_body <- renderUI({
-#   bins <- if (is.null(input$bins)) 10 else input$bins
-#   print(bins)
-#   test <- rnorm(bins)
-#   fluidPage(
-#     withTags({
-#       video(source(src = "test.mp4",
-#                    type = "video/mp4"),
-#             width = "25%",
-#             autoplay = "autoplay")
-#       # h3(input$bins)
-#       renderText("bins")
-#     }),
-#     "hello",
-#     checkboxInput("my_test", test, value = FALSE)
-#   )
-# })
