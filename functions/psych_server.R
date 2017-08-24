@@ -16,7 +16,8 @@ psychTestServer <- function(params) {
 initialiseRV <- function(params) {
   reactiveValues(test_stack = params$pages[- 1],
                  current_page = params$pages[[1]],
-                 trigger_values = NULL)
+                 trigger_values = NULL,
+                 params = params)
 }
 
 monitorTriggers <- function(rv, input) {
@@ -64,6 +65,7 @@ nextPage <- function(rv, input) {
   if (length(rv$test_stack) == 0) {
     stop("No pages left to advance to!")
   } else if (is(rv$test_stack[[1]], "code_block")) {
+    print("Executing code block")
     do.call(rv$test_stack[[1]]@fun, list(rv, input))
     rv$test_stack <- rv$test_stack[- 1]
     nextPage(rv, input)

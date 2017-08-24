@@ -1,7 +1,16 @@
 title <- "Music imagery test"
 
-test_modules <- list()
+piat <- list()
+piat$num_items <- 5
 
+piat$items <- suppressMessages(
+  readr::read_delim("www/main/Stimuli_PIAT_Matrix.txt", 
+                    "\t", escape_double = FALSE, trim_ws = TRUE)) %>%
+  .[sample(nrow(.), piat$num_items), ]
+piat$items$ParticipantResponse <- NA
+piat$items$ParticipantCorrect <- NA
+
+test_modules <- list()
 test_modules$intro <- withTags(
   list(new("one_btn_page",
            body = p("The Pitch Imagery Arrow Task has been designed to teach you to successfully imagine musical tones from a visual prompt.")),
@@ -88,11 +97,52 @@ test_modules$repeatable_practice_questions <-
           }
         }))
 
+test_modules$main_piat <-
+  c(list(new("code_block",
+             fun = function(rv, input) {
+               intro <- new("one_btn_page",
+                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. Some of these may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.", rv$params$piat_num_items)))
+               rv$test_stack <- c(list(intro),
+                                  rv$test_stack)
+               rv$piat$progress <- 1
+             })),
+    lapply(seq_len(nrow(piat$items)),
+              function(n) {
+                new("video_stimulus_NAFC",
+                    prompt = tags$p("Did the final tone match the note you were imagining?"),
+                    source = paste0("main/mp4/", piat$items$Filename[n], ".mp4"),
+                    type = "mp4",
+                    response_options = c("Match", "No match"),
+                    wait = TRUE,
+                    on_complete = function(rv, input) {
+                      ParticipantResponse[n] <- if (input$Match == 1) {
+                        "Match"
+                      } else if (input$`No match` == 1) {
+                        "No match"
+                      } else stop("This shouldn't happen!")
+                      correct_answer <- if (piat$items$ProbeAcc[n] == 1) {
+                        "Match"
+                      } else if (piat$items$ProbeAcc[n] == 0) {
+                        "No match"
+                      } else stop()
+                      ParticipantCorrect <- ParticipantResponse == correct_answer
+                      rv$piat$items$ParticipantResponse[n] <- ParticipantResponse
+                      rv$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
+                      print(rv$piat$items)
+                    })}),
+       new("one_btn_page",
+           body = tags$div(tags$p("Congratulations, you finished the main test!"),
+                           tags$p("All that's left is a few questions for you to answer."))))
+
 test_modules$final <- 
   list(new("final_page",
            body = p("You completed the test! You may now close the browser window.")))
 
-pages <- c(test_modules$repeatable_practice_questions,
+pages <- c( # test_modules$repeatable_practice_questions,
+  new("one_btn_page",
+      body = tags$div(tags$p("Congratulations, you finished the main test!"),
+                      tags$p("All that's left is a few questions for you to answer."))),
+           test_modules$main_piat,
            test_modules$final)
            # test_modules$intro,
            # test_modules$final)

@@ -1,3 +1,4 @@
+library(magrittr)
 library(shiny)
 
 lapply(list.files("functions/", pattern = "*\\.R$", full.names = TRUE), source)
