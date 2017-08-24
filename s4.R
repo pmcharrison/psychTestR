@@ -11,7 +11,13 @@ setClass("page",
          slots = list(ui = "shiny.tag", # page UI
                       result = "character", # vector of results to save
                       triggers = "character", # inputs that trigger next page
-                      final = "logical"), # whether page is final page or not
+                      final = "logical", # whether page is final page or not
+                      on_complete = "function"), # function(rv, input) to run on completion
+         prototype = list(ui = div(),
+                          result = character(),
+                          triggers = character(),
+                          final = FALSE,
+                          on_complete = function(rv, input) NULL),
          contains = "test_element")
 
 # one_btn_page shows a page with some content and 
@@ -22,11 +28,10 @@ setClass("one_btn_page",
 setMethod(
   f = "initialize",
   signature = "one_btn_page",
-  definition = function(.Object, body) {
-    .Object@body <- body
-    .Object@ui <- div(body, actionButton("next", "Next"))
+  definition = function(.Object, ...) {
+    .Object <- callNextMethod(.Object, ...)
+    .Object@ui <- div(.Object@body, actionButton("next", "Next"))
     .Object@triggers <- "next"
-    .Object@final <- FALSE
     return(.Object)
   }
 )
@@ -53,36 +58,55 @@ setClass("video_stimulus_NAFC",
                       source = "character",
                       type = "character",
                       response_options = "character",
-                      wait = "logical",
-                      on_complete = "function"),
+                      wait = "logical"),
          contains = "page")
 setMethod(
   f = "initialize",
   signature = "video_stimulus_NAFC",
-  definition = function(.Object, prompt, source, type, response_options, wait, on_complete) {
-    .Object@prompt <- prompt
-    .Object@source <- source
-    .Object@response_options <- response_options
-    .Object@wait <- wait
-    .Object@triggers <- response_options
+  definition = function(.Object, ...) {
+    .Object <- callNextMethod(.Object, ...)
+    .Object@triggers <- .Object@response_options
     .Object@final <- FALSE
-    .Object@on_complete <- if (missing(on_complete)) function(rv) NULL else on_complete
     
-    video_ui <- tags$video(# tags$head(tags$script(src = "showResponseUI.js")),
-                           tags$source(src = source,
-                                       type = paste0("video/", type)),
+    video_ui <- tags$video(tags$source(src = .Object@source,
+                                       type = paste0("video/", .Object@type)),
                            id = "video_stimulus",
                            width = "50%",
                            autoplay = "autoplay",
-                           onended = if (wait) {
+                           onended = if (.Object@wait) {
                              "document.getElementById('response_UI').style.visibility = 'visible';"
                              } else "null")
-    response_ui <- make_ui_NAFC(response_options, hidden = wait)
+    response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait)
     
-    .Object@ui <- div(prompt, video_ui, response_ui)
+    .Object@ui <- div(.Object@prompt, video_ui, response_ui)
     return(.Object)
   }
 )
+
+setClass("page_NAFC",
+         slots = list(prompt = "shiny.tag",
+                      response_options = "character"),
+         contains = "page")
+setMethod(
+  f = "initialize",
+  signature = "page_NAFC",
+  definition = function(.Object, ...) {
+    .Object <- callNextMethod(.Object, ...)
+    .Object@triggers <- .Object@response_options
+    .Object@final <- FALSE
+    
+    response_ui <- make_ui_NAFC(.Object@response_options, hidden = FALSE)
+    
+    .Object@ui <- div(.Object@prompt, response_ui)
+    return(.Object)
+  }
+)
+
+
+setClass("code_block",
+         slots = list(fun = "function"),
+         contains = "test_element",
+         prototype = list(fun = function(rv, input) NULL))
 
 make_ui_NAFC <- function(response_options, hidden = FALSE) {
   assertthat::assert_that(is.character(response_options), is.logical(hidden))
