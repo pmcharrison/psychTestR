@@ -123,6 +123,6 @@ make_ui_NAFC <- function(response_options, hidden = FALSE) {
     div(id = "response_UI",
         style = if (hidden) "visibility: hidden" else "visibility: visible",
         mapply(function(id, label) {
-          actionButtonTrigger(inputId = id, label = label)
+          tags$p(actionButtonTrigger(inputId = id, label = label))
         }, response_options, labels, SIMPLIFY = F, USE.NAMES = F)))
 }

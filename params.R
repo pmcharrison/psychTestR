@@ -137,7 +137,6 @@ test_modules$main_piat <-
                    ParticipantCorrect <- ParticipantResponse == correct_answer
                    rv$params$piat$items$ParticipantResponse[n] <- ParticipantResponse
                    rv$params$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
-                   print(as.data.frame(rv$params$piat$items))
                  })}),
     new("one_btn_page",
         body = tags$div(tags$p("Congratulations, you finished the main test!"),
@@ -191,14 +190,14 @@ test_modules$piat_debrief <-
                textAreaInput("text", label = NULL, width = "80%", height = "100px")),
              on_complete = function(rv, input) {
                rv$piat$debrief$other_comments <- input$text
-               print(rv$piat$debrief)
              })))
 
 test_modules$save_data <- 
   new("code_block",
       fun = function(rv, input) {
-        rv$dat <- list(piat_items = rv$piat$items,
-                       piat_debrief = rv$piat$debrief)
+        rv$dat <- list(piat_items = rv$params$piat$items,
+                       piat_debrief = rv$piat$debrief,
+                       musical_training = rv$musical_training)
         printed <- capture.output(print(rv$dat))
         rv$test_stack <- 
           c(list(new("one_btn_page",
@@ -213,11 +212,11 @@ test_modules$final <-
            body = p("You completed the test! You may now close the browser window.")))
 
 pages <- c(
+  test_modules$intro,
   test_modules$repeatable_practice_questions,
-  # test_modules$intro,
-  # 
-  # test_modules$main_piat,
-  # test_modules$piat_debrief,
-  # test_modules$save_data,
+  test_modules$main_piat,
+  test_modules$piat_debrief,
+  getMusicalTraining(),
+  test_modules$save_data,
   test_modules$final
 )

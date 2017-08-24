@@ -15,7 +15,8 @@ psychTestServer <- function(params) {
       rv$params$piat$items
     },
     server = TRUE,
-    options = list(scrollX = TRUE))
+    options = list(scrollX = TRUE),
+    rownames = FALSE)
     
   }
 }
@@ -40,18 +41,13 @@ nextPage <- function(rv, input) {
   } else if (is(rv$test_stack[[1]], "page")) {
     # Next thing on the stack is a test page
     ## If appropriate, finalise the current page
-    msg("Finalising the current page")
-    msg("Current page:")
-    print(rv$current_page)
     if (is(rv$current_page, "page") &&
         .hasSlot(rv$current_page, "on_complete")) {
       do.call(rv$current_page@on_complete, list(rv, input))
     }
     ## Move to the next page
     rv$current_page <- rv$test_stack[[1]]
-    print(rv$current_page)
     rv$test_stack <- rv$test_stack[- 1]
-    print(rv$test_stack[1:5])
   } else {
     stop("Don't know how to deal with the next thing on the stack!")
   }

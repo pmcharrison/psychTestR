@@ -36,6 +36,8 @@ getStimuli <- function(items) {
   stimuli$ParticipantResponse <- NA
   stimuli$ParticipantCorrect <- NA
   row.names(stimuli) <- NULL
+  stimuli <- cbind(data.frame(Position = seq_len(nrow(stimuli))),
+                   stimuli)
   stimuli
 }
 
