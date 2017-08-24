@@ -5,7 +5,7 @@ shuffle <- function(vec) {
 
 getStimuli <- function(items) {
   item_bank <- suppressMessages(
-    readr::read_delim("www/main/Stimuli_PIAT_Matrix.txt", 
+    readr::read_delim("Stimuli_PIAT_Matrix.txt", 
                       "\t", escape_double = FALSE, trim_ws = TRUE))
   spec <- data.frame()
   Levels <- 1:5
@@ -37,4 +37,8 @@ getStimuli <- function(items) {
   stimuli$ParticipantCorrect <- NA
   row.names(stimuli) <- NULL
   stimuli
+}
+
+msg <- function(msg) {
+  message(paste(Sys.time(), "-", format(msg)))
 }

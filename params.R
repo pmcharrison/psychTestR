@@ -1,5 +1,8 @@
 title <- "Music imagery test"
 
+media_dir <- "http://media.gold-msi.org/test_materials/PIAT/stimuli" %>%
+  gsub("/$", "", .) # just in case someone puts in a trailing slash
+
 side_panel_ui <- div(
   h3("Admin panel"),
   align = "center",
@@ -19,7 +22,7 @@ test_modules$intro <- withTags(
            body = p("Each trial starts with the word “Begin” on the screen, and you will hear an ascending major scale, which provides the key or context for that trial. You will then see a dot on the screen and hear a start note. Press 'Next' for an example of this.")),
        new("video_stimulus_NAFC",
            prompt = p("Here is an example context:"),
-           source = "training/Scale_C_ton.mp4",
+           source = file.path(media_dir, "training/Scale_C_ton.mp4"),
            type = "mp4",
            response_options = "Next",
            wait = TRUE),
@@ -27,7 +30,7 @@ test_modules$intro <- withTags(
            body = p("A variable number of up and/or down arrows will then appear in a sequence, with a corresponding tone, that is stepping up or down the scale. Press 'Next' for an example of these arrows appearing after the ascending scale and start note.")),
        new("video_stimulus_NAFC",
            prompt = p("Here is an example of arrows appearing after the ascending scale and start note:"),
-           source = "training/Example_Trial_sounded_arr.mp4",
+           source = file.path(media_dir, "training/Example_Trial_sounded_arr.mp4"),
            type = "mp4",
            response_options = "Next",
            wait = TRUE),
@@ -35,7 +38,7 @@ test_modules$intro <- withTags(
            body = p("At some point in the trial, an arrow is shown with no tone heard. Your job is to imagine that exact missing tone. Initially there is one tone to be imagined per trial, but the number of tones to be imagined increases over the task, up to 5 tones. The word “hold” will appear with the last silent arrow of the sequence. Hold in your mind the sound of this last tone as you prepare to hear a test tone. Press 'Next' for an example of a single silent arrow added to our trial example.")),
        new("video_stimulus_NAFC",
            prompt = p("Here is an example:"),
-           source = "training/Example_Trial_all_arr.mp4",
+           source = file.path(media_dir, "training/Example_Trial_all_arr.mp4"),
            type = "mp4",
            response_options = "Next",
            wait = TRUE),
@@ -43,27 +46,28 @@ test_modules$intro <- withTags(
            body = p("To test the accuracy of your imagery, a test tone will be sounded and a white fixation cross will display. The tone will either match the note you are imagining, or will be incorrect. Your task will be to determine which is the case. Press 'Next' for the full example trial and try to respond correctly.")),
        new("video_stimulus_NAFC",
            prompt = p("Here is an example complete trial:"),
-           source = "training/Example_Trial_complete.mp4",
+           source = file.path(media_dir, "training/Example_Trial_complete.mp4"),
            type = "mp4",
            response_options = c("Match", "No match"),
            wait = TRUE),
        new("one_btn_page",
            body = p("Most importantly, there is to be no cheating. This is a pitch imagery task, so no humming or moving is allowed to help you imagine. Your goal is to as vividly as possible, imagine these tones and keep the rest of your body still.")),
        new("one_btn_page",
-           body = p("There are 3 practice trials in which you will receive feedback. You are free to attempt these as many times as you wish to familiarise yourself with the task. Once you are ready to start click <Start>. There are 30 trials to complete, starting with one imagined tone per trial and increasing gradually up to five imagined tones per trial. After completing the task, there are a few feedback questions to respond to."))))
+           body = p("There are 3 practice trials in which you will receive feedback. You are free to attempt these as many times as you wish to familiarise yourself with the task."))))
 
 test_modules$practice_questions <-
   lapply(
     list(list(id = "Prac_Trial_Lvl1",
-              answer = "Match"),
-         list(id = "Prac_Trial_Lvl2",
-              answer = "No match"),
-         list(id = "Prac_Trial_Lvl3",
-              answer = "Match")),
+              answer = "Match") #,
+         # list(id = "Prac_Trial_Lvl2",
+         #      answer = "No match"),
+         # list(id = "Prac_Trial_Lvl3",
+         #      answer = "Match")
+         ),
     function(x) {
       new("video_stimulus_NAFC",
           prompt = tags$p("Did the final tone match the note you were imagining?"),
-          source = paste0("training/", x$id, ".mp4"),
+          source = file.path(media_dir, paste0("training/", x$id, ".mp4")),
           type = "mp4",
           response_options = c("Match", "No match"),
           wait = TRUE,
@@ -79,6 +83,7 @@ test_modules$practice_questions <-
                                           "You answered correctly!"
                                         } else "You answered incorrectly."))),
                                rv$test_stack)
+            msg("Just pushed a feedback page.")
           })})
 
 test_modules$repeatable_practice_questions <-
@@ -93,7 +98,7 @@ test_modules$repeatable_practice_questions <-
             FALSE
           } else stop()
           if (try_again) {
-            rv$test_stack <- c(test_modules$practice_questions,
+            rv$test_stack <- c(test_modules$repeatable_practice_questions,
                                rv$test_stack)
           }
         }))
@@ -113,7 +118,8 @@ test_modules$main_piat <-
                  prompt = tags$div(
                    tags$strong(sprintf("Question %i out of %i:", n, nrow(piat$items))),
                    tags$p("Did the final tone match the note you were imagining?")),
-                 source = paste0("main/mp4/", piat$items$Filename[n], ".mp4"),
+                 source = file.path(media_dir, paste0("main/mp4/",
+                                                      piat$items$Filename[n], ".mp4")),
                  type = "mp4",
                  response_options = c("Match", "No match"),
                  wait = TRUE,
@@ -140,6 +146,10 @@ test_modules$main_piat <-
 test_modules$piat_debrief <- 
   c(
     list(
+      new(
+        "one_btn_page",
+        body = tags$div(tags$p("Congratulations, you finished the main test!"),
+                        tags$p("All that's left is a few questions for you to answer."))),
       new("code_block",
           fun = function(rv, input) {
             rv$piat$debrief <- list()
@@ -183,16 +193,31 @@ test_modules$piat_debrief <-
                rv$piat$debrief$other_comments <- input$text
                print(rv$piat$debrief)
              })))
-  
+
+test_modules$save_data <- 
+  new("code_block",
+      fun = function(rv, input) {
+        rv$dat <- list(piat_items = rv$piat$items,
+                       piat_debrief = rv$piat$debrief)
+        printed <- capture.output(print(rv$dat))
+        rv$test_stack <- 
+          c(list(new("one_btn_page",
+                     body = do.call(tags$div,
+                                    c(list(tags$h3("This data would be saved:")),
+                                      lapply(printed, tags$p))))),
+            rv$test_stack)
+      })
 
 test_modules$final <- 
   list(new("final_page",
            body = p("You completed the test! You may now close the browser window.")))
 
-pages <- c( # test_modules$repeatable_practice_questions,
-  new("one_btn_page",
-      body = tags$div(tags$p("Congratulations, you finished the main test!"),
-                      tags$p("All that's left is a few questions for you to answer."))),
-  test_modules$piat_debrief,
+pages <- c(
+  test_modules$repeatable_practice_questions,
+  # test_modules$intro,
+  # 
   # test_modules$main_piat,
-  test_modules$final)
+  # test_modules$piat_debrief,
+  # test_modules$save_data,
+  test_modules$final
+)

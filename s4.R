@@ -1,3 +1,11 @@
+actionButtonTrigger <- function(inputId, label, icon = NULL, width = NULL, ...) {
+  # Version of actionButton that also triggers the next page
+  actionButton(inputId = inputId, label = label,
+               icon = icon, width = width,
+               onclick = 'Shiny.onInputChange("nextPage", performance.now());',
+               ...)
+}
+
 setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
 setClass("app_logic", slots = list(pages = "list")
@@ -10,12 +18,10 @@ setClass("test_element")
 setClass("page",
          slots = list(ui = "shiny.tag", # page UI
                       result = "character", # vector of results to save
-                      triggers = "character", # inputs that trigger next page
                       final = "logical", # whether page is final page or not
                       on_complete = "function"), # function(rv, input) to run on completion
          prototype = list(ui = div(),
                           result = character(),
-                          triggers = character(),
                           final = FALSE,
                           on_complete = function(rv, input) NULL),
          contains = "test_element")
@@ -30,8 +36,8 @@ setMethod(
   signature = "one_btn_page",
   definition = function(.Object, ...) {
     .Object <- callNextMethod(.Object, ...)
-    .Object@ui <- div(.Object@body, actionButton("next", "Next"))
-    .Object@triggers <- "next"
+    .Object@ui <- div(.Object@body,
+                      actionButtonTrigger("next", "Next"))
     return(.Object)
   }
 )
@@ -65,7 +71,6 @@ setMethod(
   signature = "video_stimulus_NAFC",
   definition = function(.Object, ...) {
     .Object <- callNextMethod(.Object, ...)
-    .Object@triggers <- .Object@response_options
     .Object@final <- FALSE
     
     video_ui <- tags$video(tags$source(src = .Object@source,
@@ -92,7 +97,6 @@ setMethod(
   signature = "page_NAFC",
   definition = function(.Object, ...) {
     .Object <- callNextMethod(.Object, ...)
-    .Object@triggers <- .Object@response_options
     .Object@final <- FALSE
     
     response_ui <- make_ui_NAFC(.Object@response_options, hidden = FALSE)
@@ -119,6 +123,6 @@ make_ui_NAFC <- function(response_options, hidden = FALSE) {
     div(id = "response_UI",
         style = if (hidden) "visibility: hidden" else "visibility: visible",
         mapply(function(id, label) {
-          actionButton(inputId = id, label = label)
+          actionButtonTrigger(inputId = id, label = label)
         }, response_options, labels, SIMPLIFY = F, USE.NAMES = F)))
 }
