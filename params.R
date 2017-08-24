@@ -101,7 +101,7 @@ test_modules$main_piat <-
   c(list(new("code_block",
              fun = function(rv, input) {
                intro <- new("one_btn_page",
-                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. Some of these may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.", rv$params$piat_num_items)))
+                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. Some of these may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.", rv$params$piat$num_items)))
                rv$test_stack <- c(list(intro),
                                   rv$test_stack)
                rv$piat$progress <- 1
@@ -115,7 +115,7 @@ test_modules$main_piat <-
                     response_options = c("Match", "No match"),
                     wait = TRUE,
                     on_complete = function(rv, input) {
-                      ParticipantResponse[n] <- if (input$Match == 1) {
+                      ParticipantResponse <- if (input$Match == 1) {
                         "Match"
                       } else if (input$`No match` == 1) {
                         "No match"
@@ -126,9 +126,9 @@ test_modules$main_piat <-
                         "No match"
                       } else stop()
                       ParticipantCorrect <- ParticipantResponse == correct_answer
-                      rv$piat$items$ParticipantResponse[n] <- ParticipantResponse
-                      rv$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
-                      print(rv$piat$items)
+                      rv$params$piat$items$ParticipantResponse[n] <- ParticipantResponse
+                      rv$params$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
+                      print(rv$params$piat$items)
                     })}),
        new("one_btn_page",
            body = tags$div(tags$p("Congratulations, you finished the main test!"),

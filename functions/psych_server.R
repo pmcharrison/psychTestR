@@ -65,14 +65,16 @@ nextPage <- function(rv, input) {
   if (length(rv$test_stack) == 0) {
     stop("No pages left to advance to!")
   } else if (is(rv$test_stack[[1]], "code_block")) {
-    print("Executing code block")
-    do.call(rv$test_stack[[1]]@fun, list(rv, input))
+    current_page <- rv$test_stack[[1]]
+    fun <- current_page@fun
     rv$test_stack <- rv$test_stack[- 1]
+    do.call(fun, list(rv, input))
     nextPage(rv, input)
   } else if (is(rv$test_stack[[1]], "page")) {
     # Next thing on the stack is a test page
-    ## Finalise the current page
-    if (.hasSlot(rv$current_page, "on_complete")) {
+    ## If appropriate, finalise the current page
+    if (is(rv$current_page, "page") &&
+        .hasSlot(rv$current_page, "on_complete")) {
       do.call(rv$current_page@on_complete, list(rv, input))
     }
     ## Move to the next page
