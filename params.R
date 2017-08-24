@@ -1,14 +1,15 @@
 title <- "Music imagery test"
 
-piat <- list()
-piat$num_items <- 5
+side_panel_ui <- div(
+  h3("Admin panel"),
+  align = "center",
+  actionButton("item_info_trigger", "Show item info"),
+  shinyBS::bsModal("item_info_popup", "Item info",
+                   "item_info_trigger", size = "large",
+                   wellPanel(DT::dataTableOutput("item_info"))))
 
-piat$items <- suppressMessages(
-  readr::read_delim("www/main/Stimuli_PIAT_Matrix.txt", 
-                    "\t", escape_double = FALSE, trim_ws = TRUE)) %>%
-  .[sample(nrow(.), piat$num_items), ]
-piat$items$ParticipantResponse <- NA
-piat$items$ParticipantCorrect <- NA
+piat <- list()
+piat$items <- getStimuli()
 
 test_modules <- list()
 test_modules$intro <- withTags(
@@ -53,16 +54,16 @@ test_modules$intro <- withTags(
 
 test_modules$practice_questions <-
   lapply(
-    list(list(id = "1_3_1_0_1101_5_0",
-              answer = "No match"),
-         list(id = "2_5_2_0_0001001_2_1",
+    list(list(id = "Prac_Trial_Lvl1",
               answer = "Match"),
-         list(id = "3_4_5_0_0010011_6_0",
-              answer = "No match")),
+         list(id = "Prac_Trial_Lvl2",
+              answer = "No match"),
+         list(id = "Prac_Trial_Lvl3",
+              answer = "Match")),
     function(x) {
       new("video_stimulus_NAFC",
           prompt = tags$p("Did the final tone match the note you were imagining?"),
-          source = paste0("main/mp4/", x$id, ".mp4"),
+          source = paste0("training/", x$id, ".mp4"),
           type = "mp4",
           response_options = c("Match", "No match"),
           wait = TRUE,
@@ -76,7 +77,7 @@ test_modules$practice_questions <-
             rv$test_stack <- c(list(new("one_btn_page",
                                         body = tags$p(if (practice_correct) {
                                           "You answered correctly!"
-                                          } else "You answered incorrectly."))),
+                                        } else "You answered incorrectly."))),
                                rv$test_stack)
           })})
 
@@ -101,38 +102,40 @@ test_modules$main_piat <-
   c(list(new("code_block",
              fun = function(rv, input) {
                intro <- new("one_btn_page",
-                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. Some of these may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.", rv$params$piat$num_items)))
+                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. Some of these may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.", nrow(rv$params$piat$items))))
                rv$test_stack <- c(list(intro),
                                   rv$test_stack)
                rv$piat$progress <- 1
              })),
     lapply(seq_len(nrow(piat$items)),
-              function(n) {
-                new("video_stimulus_NAFC",
-                    prompt = tags$p("Did the final tone match the note you were imagining?"),
-                    source = paste0("main/mp4/", piat$items$Filename[n], ".mp4"),
-                    type = "mp4",
-                    response_options = c("Match", "No match"),
-                    wait = TRUE,
-                    on_complete = function(rv, input) {
-                      ParticipantResponse <- if (input$Match == 1) {
-                        "Match"
-                      } else if (input$`No match` == 1) {
-                        "No match"
-                      } else stop("This shouldn't happen!")
-                      correct_answer <- if (piat$items$ProbeAcc[n] == 1) {
-                        "Match"
-                      } else if (piat$items$ProbeAcc[n] == 0) {
-                        "No match"
-                      } else stop()
-                      ParticipantCorrect <- ParticipantResponse == correct_answer
-                      rv$params$piat$items$ParticipantResponse[n] <- ParticipantResponse
-                      rv$params$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
-                      print(rv$params$piat$items)
-                    })}),
-       new("one_btn_page",
-           body = tags$div(tags$p("Congratulations, you finished the main test!"),
-                           tags$p("All that's left is a few questions for you to answer."))))
+           function(n) {
+             new("video_stimulus_NAFC",
+                 prompt = tags$div(
+                   tags$strong(sprintf("Question %i out of %i:", n, nrow(piat$items))),
+                   tags$p("Did the final tone match the note you were imagining?")),
+                 source = paste0("main/mp4/", piat$items$Filename[n], ".mp4"),
+                 type = "mp4",
+                 response_options = c("Match", "No match"),
+                 wait = TRUE,
+                 on_complete = function(rv, input) {
+                   ParticipantResponse <- if (input$Match == 1) {
+                     "Match"
+                   } else if (input$`No match` == 1) {
+                     "No match"
+                   } else stop("This shouldn't happen!")
+                   correct_answer <- if (piat$items$ProbeAcc[n] == 1) {
+                     "Match"
+                   } else if (piat$items$ProbeAcc[n] == 0) {
+                     "No match"
+                   } else stop()
+                   ParticipantCorrect <- ParticipantResponse == correct_answer
+                   rv$params$piat$items$ParticipantResponse[n] <- ParticipantResponse
+                   rv$params$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
+                   print(as.data.frame(rv$params$piat$items))
+                 })}),
+    new("one_btn_page",
+        body = tags$div(tags$p("Congratulations, you finished the main test!"),
+                        tags$p("All that's left is a few questions for you to answer."))))
 
 test_modules$final <- 
   list(new("final_page",
@@ -142,7 +145,7 @@ pages <- c( # test_modules$repeatable_practice_questions,
   new("one_btn_page",
       body = tags$div(tags$p("Congratulations, you finished the main test!"),
                       tags$p("All that's left is a few questions for you to answer."))),
-           test_modules$main_piat,
-           test_modules$final)
-           # test_modules$intro,
-           # test_modules$final)
+  test_modules$main_piat,
+  test_modules$final)
+# test_modules$intro,
+# test_modules$final)

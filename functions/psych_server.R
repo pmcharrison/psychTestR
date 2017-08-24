@@ -8,6 +8,13 @@ psychTestServer <- function(params) {
     output$ui <- renderUI(rv$current_page@ui)
     # Triggers are monitored to cue next page
     monitorTriggers(rv, input)
+    output$item_info <- DT::renderDataTable({
+      rv$current_page # for some reason changes aren't detected in rv$params$piat$items
+      rv$params$piat$items
+    },
+    server = TRUE,
+    options = list(scrollX = TRUE))
+    
   }
 }
 
