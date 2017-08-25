@@ -8,20 +8,14 @@ actionButtonTrigger <- function(inputId, label, icon = NULL, width = NULL, ...) 
 
 setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
-setClass("app_logic", slots = list(pages = "list")
-         # You could validate here to check that there is a 
-         # p_id slot
-)
 
 setClass("test_element")
 
 setClass("page",
          slots = list(ui = "shiny.tag", # page UI
-                      result = "character", # vector of results to save
                       final = "logical", # whether page is final page or not
                       on_complete = "function"), # function(rv, input) to run on completion
          prototype = list(ui = div(),
-                          result = character(),
                           final = FALSE,
                           on_complete = function(rv, input) NULL),
          contains = "test_element")
