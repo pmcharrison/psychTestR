@@ -3,6 +3,7 @@ psychTestUI  <- function(params) {
   main_content <- wellPanel(align = "center", uiOutput("ui"))
   
   fluidPage(
+    useShinyjs(),
     fluidRow(column(12, title_content),
     fluidRow(column(2, params$side_panel_ui),
              column(8, main_content)),

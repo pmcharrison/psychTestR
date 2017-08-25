@@ -33,6 +33,12 @@ nextPage <- function(rv, input) {
     nextPage(rv, input)
   } else if (is(rv$test_stack[[1]], "page")) {
     # Next thing on the stack is a test page
+    ## Check validity of the current page, if appropriate
+    if (is(rv$current_page, "page") &&
+        .hasSlot(rv$current_page, "check_validity") &&
+        !do.call(rv$current_page@check_validity, list(rv, input))) {
+      return(FALSE)
+    }
     ## If appropriate, finalise the current page
     if (is(rv$current_page, "page") &&
         .hasSlot(rv$current_page, "on_complete")) {
@@ -44,4 +50,11 @@ nextPage <- function(rv, input) {
   } else {
     stop("Don't know how to deal with the next thing on the stack!")
   }
+}
+
+#' Pushes <obj> onto the test stack contained within <rv>.
+#' <obj> can either be a single object (e.g. one page) or a list
+#' of objects (e.g. a list of pages).
+pushToTextStack <- function(obj, rv) {
+  rv$test_stack <- c(obj, rv$test_stack)
 }

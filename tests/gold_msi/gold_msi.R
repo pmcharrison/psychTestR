@@ -1,11 +1,10 @@
 getMusicalTraining <- function() {
-  c(list(new("code_block",
-             fun = function(rv, input) {
+  c(list(new("one_btn_page",
+             body = tags$p("We will now ask you some questions about your musical background. You will be presented with some statements: your task is to say how much you agree with them."),
+             on_complete = function(rv, input) {
                rv$musical_training <- list(detail = data.frame(),
                                            total_score = 0)
-             }),
-         new("one_btn_page",
-             body = tags$p("We will now ask you some questions about your musical background. You will be presented with some statements: your task is to say how much you agree with them."))),
+             })),
     lapply(list(
       list(q = "I have never been complimented for my talents as a musical performer.",
            opt = c(`Completely Disagree` = "1",

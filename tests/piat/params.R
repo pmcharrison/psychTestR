@@ -222,6 +222,7 @@ test_modules$final <-
            body = p("You completed the test! You may now close the browser window.")))
 
 pages <- c(
+  getBasicDemographics(),
   test_modules$intro,
   test_modules$repeatable_practice_questions,
   test_modules$main_piat,
