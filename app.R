@@ -1,4 +1,4 @@
-source("scripts/load_code.R")
+source("tests/piat/load_piat.R")
 options(shiny.error = browser)
 
 server <- psychTestServer(params)
