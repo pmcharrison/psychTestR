@@ -11,6 +11,16 @@ side_panel_ui <- div(
                    "item_info_trigger", size = "large",
                    wellPanel(DT::dataTableOutput("item_info"))))
 
+renderOutputs <- function(rv, output) {
+  output$item_info <- DT::renderDataTable({
+    rv$current_page # for some reason changes aren't detected in rv$params$piat$items
+    rv$params$piat$items
+  },
+  server = TRUE,
+  options = list(scrollX = TRUE),
+  rownames = FALSE)
+}
+
 piat <- list()
 piat$items <- getStimuli()
 

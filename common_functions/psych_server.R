@@ -9,15 +9,8 @@ psychTestServer <- function(params) {
     # Watch out for the next page
     observeEvent(input$nextPage,
                  nextPage(rv, input))
-    # Render a datatable
-    output$item_info <- DT::renderDataTable({
-      rv$current_page # for some reason changes aren't detected in rv$params$piat$items
-      rv$params$piat$items
-    },
-    server = TRUE,
-    options = list(scrollX = TRUE),
-    rownames = FALSE)
-    
+    # Render outputs
+    params$renderOutputs(rv, output)
   }
 }
 
