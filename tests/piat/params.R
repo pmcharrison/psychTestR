@@ -1,5 +1,7 @@
 title <- "Music imagery test"
 
+display_options <- list(theme = shinytheme("readable"))
+
 media_dir <- "http://media.gold-msi.org/test_materials/PIAT/stimuli" %>%
   gsub("/$", "", .) # just in case someone puts in a trailing slash
 
