@@ -2,7 +2,7 @@ getMusicalTraining <- function() {
   c(list(new("one_btn_page",
              body = tags$p("We will now ask you some questions about your musical background. You will be presented with some statements: your task is to say how much you agree with them."),
              on_complete = function(rv, input) {
-               rv$musical_training <- list(detail = data.frame(),
+               rv$results$musical_training <- list(detail = data.frame(),
                                            total_score = 0)
              })),
     lapply(list(
@@ -80,16 +80,15 @@ getMusicalTraining <- function() {
               answer_num_weighted <-
                 if (x$positive) answer_num else 8 - answer_num
               answer_char <- names(x$opt)[answer]
-              rv$musical_training$detail <-
-                rbind(rv$musical_training$detail,
+              rv$results$musical_training$detail <-
+                rbind(rv$results$musical_training$detail,
                       data.frame(question = x$q,
                                  positive = x$positive,
                                  answer_char = answer_char,
                                  answer_num = answer_num,
                                  answer_num_weighted = answer_num_weighted))
-              rv$musical_training$total_score <- 
-                rv$musical_training$total_score + answer_num_weighted
-              print(rv$musical_training)
+              rv$results$musical_training$total_score <- 
+                rv$results$musical_training$total_score + answer_num_weighted
             })
       }))
 }

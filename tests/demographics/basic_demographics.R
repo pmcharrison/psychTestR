@@ -2,14 +2,13 @@ getBasicDemographics <- function() {
   list(new("one_btn_page",
            body = tags$p("We will now ask you some questions about your personal background."),
            on_complete = function(rv, input) {
-             rv$basic_demographics <- list()
+             rv$results$basic_demographics <- list()
            }),
        new("page_NAFC",
            prompt = tags$p("How do you describe your gender?"),
            response_options = c("Female", "Male", "Other", "Prefer not to answer"),
            on_complete = function(rv, input) {
-             rv$basic_demographics$gender <- input$lastBtnPressed
-             print(rv$basic_demographics)
+             rv$results$basic_demographics$gender <- input$lastBtnPressed
            }),
        new("one_btn_page",
            body = tags$div(
@@ -22,11 +21,11 @@ getBasicDemographics <- function() {
              } else TRUE
            },
            on_complete = function(rv, input) {
-             rv$basic_demographics$age <- input$age
+             rv$results$basic_demographics$age <- input$age
            }),
        new("page_NAFC",
            prompt = tags$div(tags$p("What is your occupational status?"),
-                             tags$p("choose the one most appropriate option)")),
+                             tags$p("(choose the one most appropriate option)")),
            response_options = c("Still at school",
                                 "At university",
                                 "In full-time employment",
@@ -36,7 +35,6 @@ getBasicDemographics <- function() {
                                 "Retired",
                                 "Rather not say"),
            on_complete = function(rv, input) {
-             rv$basic_demographics$gender <- input$lastBtnPressed
-             print(rv$basic_demographics)
+             rv$results$basic_demographics$occupation <- input$lastBtnPressed
            }))
 }
