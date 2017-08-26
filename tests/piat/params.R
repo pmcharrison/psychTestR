@@ -68,11 +68,11 @@ test_modules$intro <- withTags(
 test_modules$practice_questions <-
   lapply(
     list(list(id = "Prac_Trial_Lvl1",
-              answer = "Match") #,
-         # list(id = "Prac_Trial_Lvl2",
-         #      answer = "No match"),
-         # list(id = "Prac_Trial_Lvl3",
-         #      answer = "Match")
+              answer = "Match")
+         list(id = "Prac_Trial_Lvl2",
+              answer = "No match"),
+         list(id = "Prac_Trial_Lvl3",
+              answer = "Match")
          ),
     function(x) {
       new("video_stimulus_NAFC",
@@ -222,11 +222,11 @@ test_modules$final <-
            body = p("You completed the test! You may now close the browser window.")))
 
 pages <- c(
-  getBasicDemographics(),
   test_modules$intro,
   test_modules$repeatable_practice_questions,
   test_modules$main_piat,
   test_modules$piat_debrief,
+  getBasicDemographics(),
   getMusicalTraining(),
   test_modules$save_data,
   test_modules$final

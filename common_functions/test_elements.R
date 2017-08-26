@@ -17,11 +17,11 @@ setClass("page",
          slots = list(ui = "shiny.tag", # page UI
                       final = "logical", # whether page is final page or not
                       on_complete = "function", # function(rv, input) to run on completion
-                      check_validity = "function"), # function(rv, input) to check whether input is valid and progress allowed
+                      validate = "function"), # function(rv, input) to check whether input is valid and progress allowed
          prototype = list(ui = div(),
                           final = FALSE,
                           on_complete = function(rv, input) NULL,
-                          check_validity = function(rv, input) TRUE),
+                          validate = function(rv, input) TRUE),
          contains = "test_element")
 
 # one_btn_page shows a page with some content and 

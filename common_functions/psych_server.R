@@ -35,8 +35,8 @@ nextPage <- function(rv, input) {
     # Next thing on the stack is a test page
     ## Check validity of the current page, if appropriate
     if (is(rv$current_page, "page") &&
-        .hasSlot(rv$current_page, "check_validity") &&
-        !do.call(rv$current_page@check_validity, list(rv, input))) {
+        .hasSlot(rv$current_page, "validate") &&
+        !do.call(rv$current_page@validate, list(rv, input))) {
       return(FALSE)
     }
     ## If appropriate, finalise the current page

@@ -15,7 +15,7 @@ getBasicDemographics <- function() {
            body = tags$div(
              tags$p("What is your age in years?"),
              textInput("age", label = NULL, width = "100px", placeholder = "e.g. 24")),
-           check_validity = function(rv, input) {
+           validate = function(rv, input) {
              if (is.na(as.numeric(input$age)) || input$age < 0) {
                shinyjs::alert("Please ensure that age is entered correctly. Your answer should be numeric.")
                FALSE
