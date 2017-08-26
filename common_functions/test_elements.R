@@ -71,14 +71,18 @@ setMethod(
     .Object <- callNextMethod(.Object, ...)
     .Object@final <- FALSE
     
-    video_ui <- tags$video(tags$source(src = .Object@source,
-                                       type = paste0("video/", .Object@type)),
-                           id = "video_stimulus",
-                           width = "50%",
-                           autoplay = "autoplay",
-                           onended = if (.Object@wait) {
-                             "document.getElementById('response_UI').style.visibility = 'visible';"
-                             } else "null")
+    video_ui <- tags$div(
+      tags$video(
+      tags$source(
+        src = .Object@source,
+        type = paste0("video/", .Object@type)),
+      id = "video_stimulus",
+      width = "50%",
+      preload = "auto",
+      autoplay = "autoplay",
+      onended = if (.Object@wait) {
+        "document.getElementById('response_UI').style.visibility = 'visible';"
+      } else "null"))
     response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait)
     
     .Object@ui <- div(.Object@prompt, video_ui, response_ui)

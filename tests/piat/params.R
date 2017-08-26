@@ -68,7 +68,7 @@ test_modules$intro <- withTags(
 test_modules$practice_questions <-
   lapply(
     list(list(id = "Prac_Trial_Lvl1",
-              answer = "Match")
+              answer = "Match"),
          list(id = "Prac_Trial_Lvl2",
               answer = "No match"),
          list(id = "Prac_Trial_Lvl3",
@@ -165,7 +165,7 @@ test_modules$piat_debrief <-
           }),
       new("one_btn_page",
           body = tags$div(
-            tags$p("How vivid were the musical images (the sound of the music on your mind) you formed during the task on a scale of 1 – 7 (1 – Not Vivid at all, 7 – Very Vivid)?"),
+            tags$p("How vivid were the musical images (the sound of the music in your mind) you formed during the task on a scale of 1 – 7 (1 – Not Vivid at all, 7 – Very Vivid)?"),
             sliderInput("slider", label = NULL, value = 4, min = 1, max = 7, step = 1)),
           on_complete = function(rv, input) {
             rv$piat$debrief$how_vivid <- input$slider
