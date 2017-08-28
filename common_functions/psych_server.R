@@ -23,27 +23,28 @@ initialiseRV <- function(params) {
 }
 
 nextPage <- function(rv, input) {
-  if (length(rv$test_stack) == 0) {
-    stop("No pages left to advance to!")
-  } else if (is(rv$test_stack[[1]], "code_block")) {
-    current_page <- rv$test_stack[[1]]
-    fun <- current_page@fun
+  if (length(rv$test_stack) == 0) stop("No pages left to advance to!")
+  # Check validity of the current page, if appropriate
+  if (is(rv$current_page, "page") &&
+      .hasSlot(rv$current_page, "validate") &&
+      !do.call(rv$current_page@validate, list(rv, input))) {
+    return(FALSE) # i.e. we escape the nextPage evaluation, forcing input revision
+  }
+  # If appropriate, finalise the current page
+  if (is(rv$current_page, "page") &&
+      .hasSlot(rv$current_page, "on_complete")) {
+    do.call(rv$current_page@on_complete, list(rv, input))
+  }
+  # Deal with the next thing on the stack, whatever it is
+  if (is(rv$test_stack[[1]], "code_block")) {
+    rv$current_page <- rv$test_stack[[1]]
+    print(rv$current_page)
+    fun <- rv$current_page@fun
     rv$test_stack <- rv$test_stack[- 1]
     do.call(fun, list(rv, input))
     nextPage(rv, input)
   } else if (is(rv$test_stack[[1]], "page")) {
     # Next thing on the stack is a test page
-    ## Check validity of the current page, if appropriate
-    if (is(rv$current_page, "page") &&
-        .hasSlot(rv$current_page, "validate") &&
-        !do.call(rv$current_page@validate, list(rv, input))) {
-      return(FALSE)
-    }
-    ## If appropriate, finalise the current page
-    if (is(rv$current_page, "page") &&
-        .hasSlot(rv$current_page, "on_complete")) {
-      do.call(rv$current_page@on_complete, list(rv, input))
-    }
     ## Move to the next page
     rv$current_page <- rv$test_stack[[1]]
     rv$test_stack <- rv$test_stack[- 1]
