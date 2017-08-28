@@ -8,19 +8,26 @@ media_dir <- "http://media.gold-msi.org/test_materials/PIAT/stimuli" %>%
 side_panel_ui <- div(
   h3("Admin panel"),
   align = "center",
-  actionButton("item_info_trigger", "Show item info"),
+  tags$p(actionButton("item_info_trigger", "Show item info")),
   shinyBS::bsModal("item_info_popup", "Item info",
                    "item_info_trigger", size = "large",
-                   wellPanel(DT::dataTableOutput("item_info"))))
+                   wellPanel(DT::dataTableOutput("item_info"))),
+  tags$p(downloadButton("download_results", "Download results")))
 
 renderOutputs <- function(rv, output) {
   output$item_info <- DT::renderDataTable({
-    rv$current_page # for some reason changes aren't detected in rv$params$piat$items
-    rv$params$piat$items
+    rv$current_page # for some reason changes aren't detected in rv$results$piat$items
+    rv$results$piat$items
   },
   server = TRUE,
   options = list(scrollX = TRUE),
   rownames = FALSE)
+  output$download_results <- downloadHandler(
+    filename = "results.RDS",
+    content = function(file) {
+      saveRDS(rv$results, file)
+    }
+  )
 }
 
 piat <- list()
@@ -123,6 +130,7 @@ test_modules$main_piat <-
                rv$test_stack <- c(list(intro),
                                   rv$test_stack)
                rv$piat$progress <- 1
+               rv$results <- list(piat = list(items = rv$params$piat$items))
              })),
     lapply(seq_len(nrow(piat$items)),
            function(n) {
@@ -147,8 +155,8 @@ test_modules$main_piat <-
                      "No match"
                    } else stop()
                    ParticipantCorrect <- ParticipantResponse == correct_answer
-                   rv$params$piat$items$ParticipantResponse[n] <- ParticipantResponse
-                   rv$params$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
+                   rv$results$piat$items$ParticipantResponse[n] <- ParticipantResponse
+                   rv$results$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
                  })}),
     new("one_btn_page",
         body = tags$div(tags$p("Congratulations, you finished the main test!"),
@@ -207,16 +215,8 @@ test_modules$piat_debrief <-
 test_modules$save_data <- 
   new("code_block",
       fun = function(rv, input) {
-        rv$dat <- list(piat_items = rv$params$piat$items,
-                       piat_debrief = rv$piat$debrief,
-                       musical_training = rv$musical_training)
-        printed <- capture.output(print(rv$dat))
-        rv$test_stack <- 
-          c(list(new("one_btn_page",
-                     body = do.call(tags$div,
-                                    c(list(tags$h3("This data would be saved:")),
-                                      lapply(printed, tags$p))))),
-            rv$test_stack)
+        message("Saving data!!")
+        print(rv$results)
       })
 
 test_modules$final <- 
