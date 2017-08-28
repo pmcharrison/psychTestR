@@ -5,14 +5,22 @@ display_options <- list(theme = shinytheme("readable"))
 media_dir <- "http://media.gold-msi.org/test_materials/PIAT/stimuli" %>%
   gsub("/$", "", .) # just in case someone puts in a trailing slash
 
+volume_calibration_source <- file.path(media_dir, "training/Scale_C_ton.mp4")
+
 side_panel_ui <- div(
   h3("Admin panel"),
   align = "center",
-  tags$p(actionButton("item_info_trigger", "Show item info")),
+  tipify(
+    el = tags$p(actionButton("item_info_trigger", "Show item info")),
+    title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
+  ),
   shinyBS::bsModal("item_info_popup", "Item info",
                    "item_info_trigger", size = "large",
                    wellPanel(DT::dataTableOutput("item_info"))),
-  tags$p(downloadButton("download_results", "Download results")))
+  tipify(
+    el = tags$p(downloadButton("download_results", "Download results")),
+    title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
+  ))
 
 renderOutputs <- function(rv, output) {
   output$item_info <- DT::renderDataTable({
@@ -36,6 +44,13 @@ piat$items <- getStimuli()
 test_modules <- list()
 test_modules$intro <- withTags(
   list(new("one_btn_page",
+           body = tags$div(
+             tags$p("When you click 'Next', you will be played some audio. You will be asked to adjust the volume to a comfortable level. Please make sure you are wearing your headphones."))),
+       new("volume_calibration",
+           prompt = tags$p("You should hear some audio playing in the background. Please adjust the computer volume to a comfortable level."),
+           source = volume_calibration_source,
+           type = "mp3"),
+       new("one_btn_page",
            body = p("The Pitch Imagery Arrow Task has been designed to teach you to successfully imagine musical tones from a visual prompt.")),
        new("one_btn_page",
            body = p("Each trial starts with the word “Begin” on the screen, and you will hear an ascending major scale, which provides the key or context for that trial. You will then see a dot on the screen and hear a start note. Press 'Next' for an example of this.")),
@@ -70,7 +85,7 @@ test_modules$intro <- withTags(
            response_options = c("Match", "No match"),
            wait = TRUE),
        new("one_btn_page",
-           body = p("Most importantly, there is to be no cheating. This is a pitch imagery task, so no humming or moving is allowed to help you imagine. Your goal is to as vividly as possible, imagine these tones and keep the rest of your body still.")),
+           body = p("We encourage you to just use your imagery to play the missing notes in your head, and don’t hum or move as you imagine. From earlier tests we know that using only your imagery gives the best results on the test.")),
        new("one_btn_page",
            body = p("There are 3 practice trials in which you will receive feedback. You are free to attempt these as many times as you wish to familiarise yourself with the task."))))
 
@@ -82,7 +97,7 @@ test_modules$practice_questions <-
               answer = "No match"),
          list(id = "Prac_Trial_Lvl3",
               answer = "Match")
-         ),
+    ),
     function(x) {
       new("video_stimulus_NAFC",
           prompt = tags$p("Did the final tone match the note you were imagining?"),
@@ -126,7 +141,7 @@ test_modules$main_piat <-
   c(list(new("code_block",
              fun = function(rv, input) {
                intro <- new("one_btn_page",
-                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. Some of these may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.", nrow(rv$params$piat$items))))
+                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.", nrow(rv$params$piat$items))))
                rv$test_stack <- c(list(intro),
                                   rv$test_stack)
                rv$piat$progress <- 1
@@ -212,6 +227,15 @@ test_modules$piat_debrief <-
                rv$piat$debrief$other_comments <- input$text
              })))
 
+test_modules$absolute_pitch <- 
+  new("page_NAFC",
+      prompt = tags$div(tags$p("Do you have absolute pitch?"),
+                        tags$p("Absolute pitch is the ability to name the pitch of a note without being given a reference note, or alternatively to sing a named pitch without a reference note.")),
+      response_options = c("Yes", "No"),
+      on_complete = function(rv, input) {
+        rv$results$absolute_pitch <- input$lastBtnPressed
+      })
+
 test_modules$save_data <- 
   new("code_block",
       fun = function(rv, input) {
@@ -228,6 +252,7 @@ pages <- c(
   test_modules$repeatable_practice_questions,
   test_modules$main_piat,
   test_modules$piat_debrief,
+  test_modules$absolute_pitch,
   getBasicDemographics(),
   getMusicalTraining(),
   test_modules$save_data,
