@@ -28,7 +28,7 @@ getBasicDemographics <- function() {
                              tags$p("(choose the one most appropriate option)")),
            response_options = c("Still at school",
                                 "At university",
-                                "In full-time employment",
+                                "In full- or part-time employment",
                                 "Self-employed",
                                 "Homemaker/full-time parent",
                                 "Unemployed",
