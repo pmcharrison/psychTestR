@@ -3,7 +3,6 @@ library(shiny)
 library(DT)
 library(magrittr)
 library(shinyBS)
-library(shinyjs)
 library(shinythemes)
 
 lapply(list.files("common_functions/", pattern = "*\\.R$", full.names = TRUE), source)
