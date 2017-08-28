@@ -141,7 +141,8 @@ test_modules$main_piat <-
   c(list(new("code_block",
              fun = function(rv, input) {
                intro <- new("one_btn_page",
-                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.", nrow(rv$params$piat$items))))
+                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.",
+                                                  nrow(rv$params$piat$items))))
                rv$test_stack <- c(list(intro),
                                   rv$test_stack)
                rv$piat$progress <- 1
