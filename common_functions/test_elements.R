@@ -73,19 +73,45 @@ setMethod(
     
     video_ui <- tags$div(
       tags$video(
-      tags$source(
-        src = .Object@source,
-        type = paste0("video/", .Object@type)),
-      id = "video_stimulus",
-      width = "50%",
-      preload = "auto",
-      autoplay = "autoplay",
-      onended = if (.Object@wait) {
-        "document.getElementById('response_UI').style.visibility = 'visible';"
-      } else "null"))
+        tags$source(
+          src = .Object@source,
+          type = paste0("video/", .Object@type)),
+        id = "video_stimulus",
+        width = "50%",
+        preload = "auto",
+        autoplay = "autoplay",
+        onended = if (.Object@wait) {
+          "document.getElementById('response_UI').style.visibility = 'visible';"
+        } else "null"))
     response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait)
     
     .Object@ui <- div(.Object@prompt, video_ui, response_ui)
+    return(.Object)
+  }
+)
+
+# volume_calibration is a subclass of one_btn_page that autoplays looping audio
+# in the background.
+setClass("volume_calibration",
+         slots = list(prompt = "shiny.tag",
+                      source = "character",
+                      type = "character"),
+         contains = "page")
+setMethod(
+  f = "initialize",
+  signature = "volume_calibration",
+  definition = function(.Object, ...) {
+    .Object <- callNextMethod(.Object, ...)
+    audio_ui <- tags$audio(
+      tags$source(
+        src = list(...)$source,
+        type = paste0("audio/", list(...)$type)),
+      id = "volume_calibration_audio",
+      preload = "auto",
+      autoplay = "autoplay",
+      loop = "loop")
+    ui <- tags$div(audio_ui, list(...)$prompt, actionButtonTrigger("next", "Next"))
+    .Object@ui <- ui
     return(.Object)
   }
 )
