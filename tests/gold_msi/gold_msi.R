@@ -60,7 +60,7 @@ getMusicalTraining <- function() {
                    `6 to 9` = "6",
                    `10 or more` = "7"),
            positive = TRUE),
-      list(q = "I can play ___ musical instruments.",
+      list(q = "I can play ___ musical instruments (including voice).",
            opt = c(`0` = "1",
                    `1` = "2",
                    `2` = "3",
