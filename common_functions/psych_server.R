@@ -5,7 +5,7 @@ psychTestServer <- function(params) {
     # rv stores the current test state
     rv <- initialiseRV(params)
     # UI is rendered programmatically
-    output$ui <- renderUI(rv$current_page@ui)
+    output$ui <- renderUI(tags$div(id = "current_page.ui", rv$current_page@ui))
     # Watch out for the next page
     observeEvent(input$nextPage,
                  nextPage(rv, input))
@@ -49,6 +49,7 @@ nextPage <- function(rv, input) {
     rv$current_page <- rv$test_stack[[1]]
     rv$test_stack <- rv$test_stack[- 1]
   } else {
+    print(rv$test_stack[[1]])
     stop("Don't know how to deal with the next thing on the stack!")
   }
 }

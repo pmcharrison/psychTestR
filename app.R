@@ -1,7 +1,15 @@
-source("tests/piat/load_piat.R")
+PIAT <- FALSE
 options(shiny.error = browser)
-
-server <- psychTestServer(params)
-ui <- psychTestUI(params)
+if (PIAT) {
+  source("tests/piat/load_piat.R")
+  server <- psychTestServer(params)
+  ui <- psychTestUI(params)
+} else {
+  lapply(list.files("common_functions/", pattern = "*\\.R$", full.names = TRUE), source)
+  params <- new.env()
+  source("tests/cat/test_cat.R", local = params)
+  server <- psychTestServer(params)
+  ui <- psychTestUI(params)
+}
 
 shinyApp(ui = ui, server = server)

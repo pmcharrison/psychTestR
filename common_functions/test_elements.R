@@ -1,11 +1,17 @@
+library(catR)
+library(shiny)
+
 actionButtonTrigger <- function(inputId, label, icon = NULL, width = NULL, ...) {
   # Version of actionButton that also triggers the next page
-  actionButton(inputId = inputId, label = label,
-               icon = icon, width = width,
-               onclick = paste(sprintf('Shiny.onInputChange("lastBtnPressed", "%s");',
-                                       inputId),
-                               'Shiny.onInputChange("nextPage", performance.now());'),
-               ...)
+  actionButton(
+    inputId = inputId, label = label,
+    icon = icon, width = width,
+    onclick = paste(
+      sprintf('Shiny.onInputChange("lastBtnPressed", "%s");',
+              inputId),
+      "document.getElementById('current_page.ui').style.visibility = 'hidden';",
+      'setTimeout(function() {Shiny.onInputChange("nextPage", performance.now());}, 500);'),
+    ...)
 }
 
 setOldClass("shiny.tag")
@@ -81,11 +87,46 @@ setMethod(
         preload = "auto",
         autoplay = "autoplay",
         onended = if (.Object@wait) {
-          "document.getElementById('response_UI').style.visibility = 'visible';"
+          "document.getElementById('response_UI').style.visibility = 'inherit';"
         } else "null"))
     response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait)
     
     .Object@ui <- div(.Object@prompt, video_ui, response_ui)
+    return(.Object)
+  }
+)
+
+# audio_stimulus shows some content (typically text) with a audio
+# below it and a variable number of forced-choice response options
+setClass("audio_stimulus_NAFC",
+         slots = list(prompt = "shiny.tag",
+                      source = "character",
+                      type = "character",
+                      response_options = "character",
+                      wait = "logical"),
+         contains = "page")
+setMethod(
+  f = "initialize",
+  signature = "audio_stimulus_NAFC",
+  definition = function(.Object, ...) {
+    .Object <- callNextMethod(.Object, ...)
+    .Object@final <- FALSE
+    
+    audio_ui <- tags$div(
+      tags$audio(
+        tags$source(
+          src = .Object@source,
+          type = paste0("audio/", .Object@type)),
+        id = "audio_stimulus",
+        width = "50%",
+        preload = "auto",
+        autoplay = "autoplay",
+        onended = if (.Object@wait) {
+          "document.getElementById('response_UI').style.visibility = 'inherit';"
+        } else "null"))
+    response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait)
+    
+    .Object@ui <- div(.Object@prompt, audio_ui, response_ui)
     return(.Object)
   }
 )
@@ -149,8 +190,116 @@ make_ui_NAFC <- function(response_options, hidden = FALSE) {
   }
   withTags(
     div(id = "response_UI",
-        style = if (hidden) "visibility: hidden" else "visibility: visible",
+        style = if (hidden) "visibility: hidden" else "visibility: inherit",
         mapply(function(id, label) {
           tags$p(actionButtonTrigger(inputId = id, label = label))
         }, response_options, labels, SIMPLIFY = F, USE.NAMES = F)))
 }
+
+setClass("AudioCATParams",
+         # Defines the mutable part of an adaptive test; is stored in the rv$params object.
+         slots = list(
+           audio_root = "character",
+           test_length = "numeric",
+           next_item.criterion = "character",
+           next_item.estimator = "character",
+           results.by_item = "data.frame",
+           results.final = "list"
+         ),
+         prototype = list(
+           audio_root = NULL,
+           test_length = NULL,
+           next_item.criterion = "bOpt",
+           next_item.estimator = "BM",
+           results.by_item = data.frame(),
+           results.final = list()
+         ))
+
+setClass("AudioCAT",
+         # Defines the immutable part of an adaptive test; is a test element.
+         slots = list(
+           itemPar = "matrix",
+           audio_paths = "character",
+           audio_type = "character",
+           response_options = "character",
+           answers = "character",
+           cbControl = "list",
+           cbGroup = "character",
+           intro = "list",
+           params_id = "character",
+           item.prompt = "shiny.tag"),
+         contains = "code_block")
+
+setMethod(
+  f = "initialize",
+  signature = "AudioCAT",
+  definition = function(.Object, itemPar, audio_paths, audio_type, response_options, answers,
+                        cbControl, cbGroup, intro, params_id, item.prompt) {
+    .Object <- callNextMethod(.Object, itemPar = itemPar, audio_paths = audio_paths,
+                              audio_type = audio_type, response_options = response_options,
+                              answers = answers,
+                              cbControl = cbControl, cbGroup = cbGroup, intro = intro,
+                              params_id = params_id, item.prompt = item.prompt)
+    .Object@fun <- function(rv, input) {
+      params_id <- .Object@params_id
+      item_logic <- function() {
+        new("code_block", fun = function(rv, input) {
+          results.by_item <- rv$params[[params_id]]@results.by_item
+          test_length <- rv$params[[params_id]]@test_length
+          if (nrow(results.by_item) < test_length) {
+            next_item <- nextItem(
+              itemBank = .Object@itemPar,
+              theta = if (nrow(results.by_item) == 0) 0 else {
+                results.by_item[nrow(results.by_item),
+                                 paste0("theta_", rv$params[[params_id]]@next_item.estimator)]
+              },
+              out = if (nrow(results.by_item) == 0) NULL else results.by_item[, "item_id"],
+              x = if (nrow(results.by_item) == 0) NULL else results.by_item[, "score"],
+              criterion = rv$params[[params_id]]@next_item.criterion,
+              method = rv$params[[params_id]]@next_item.estimator,
+              cbControl = .Object@cbControl,
+              cbGroup = .Object@cbGroup)
+            pushToTestStack(
+              new("audio_stimulus_NAFC",
+                  prompt = .Object@item.prompt,
+                  source = file.path(rv$params[[params_id]]@audio_root,
+                                     .Object@audio_paths[next_item$item]),
+                  type = .Object@audio_type,
+                  response_options = .Object@response_options,
+                  wait = TRUE,
+                  on_complete = function(rv, input) {
+                    response <- input$lastBtnPressed
+                    correct_answer <- .Object@answers[next_item$item]
+                    score <- response == correct_answer
+                    scores <- c(rv$params[[params_id]]@results.by_item$score, score)
+                    item_ids <- c(rv$params[[params_id]]@results.by_item$item_id, next_item$item)
+                    item_params <- .Object@itemPar[item_ids, , drop = FALSE]
+                    print(next_item)
+                    new_row <- data.frame(num = nrow(results.by_item) + 1,
+                                          item_id = next_item$item,
+                                          discrimination = next_item$par[["discrimination"]],
+                                          difficulty = next_item$par[["difficulty"]],
+                                          guessing = next_item$par[["guessing"]],
+                                          inattention = next_item$par[["inattention"]],
+                                          information = next_item$info,
+                                          criterion = next_item$criterion,
+                                          response = response,
+                                          correct_answer = correct_answer,
+                                          score = score)
+                    for (method in c("ML", "BM", "EAP", "WL")) {
+                      new_row[, paste0("theta_", method)] <- 
+                        thetaEst(item_params, scores, method = method)
+                      new_row[, paste0("theta_", method, "_sem")] <- 
+                        semTheta(thEst = new_row[, paste0("theta_", method)],
+                                 it = item_params, method = method)
+                    }
+                    rv$params[[params_id]]@results.by_item <- rbind(results.by_item, new_row)
+                    print(rv$params[[params_id]]@results.by_item)
+                    print(rv$test_stack)
+                    pushToTestStack(item_logic(), rv)
+                  }),
+              rv
+              )}})}
+      pushToTestStack(item_logic(), rv)}
+    return(.Object)
+  })
