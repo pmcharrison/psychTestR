@@ -56,6 +56,6 @@ nextPage <- function(rv, input) {
 #' Pushes <obj> onto the test stack contained within <rv>.
 #' <obj> can either be a single object (e.g. one page) or a list
 #' of objects (e.g. a list of pages).
-pushToTextStack <- function(obj, rv) {
+pushToTestStack <- function(obj, rv) {
   rv$test_stack <- c(obj, rv$test_stack)
 }
