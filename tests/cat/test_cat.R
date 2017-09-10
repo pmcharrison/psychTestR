@@ -137,8 +137,10 @@ observeEvents <- function(rv, input, session) {
                  } else {
                    shinyjs::alert("Incorrect password.")
                  }),
-    observeEvent(input$admin_logout,
-                 rv$admin <- FALSE)
+    observeEvent(input$admin_logout, {
+      rv$admin <- FALSE
+      updateTextInput(session, "admin_password", value = "")
+    })
   )
 }
 
