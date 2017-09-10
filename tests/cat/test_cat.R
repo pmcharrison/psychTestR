@@ -59,6 +59,7 @@ renderOutputs <- function(rv, input, output) {
     # Get the number of digits that each column should be rounded to
     cols_round_digits <- rv$params$display_options$cols_round_digits
     # Construct the datatable
+    print(df)
     DT::datatable(
       data = df,
       options = list(scrollX = TRUE),
