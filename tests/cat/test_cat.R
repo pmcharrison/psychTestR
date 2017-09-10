@@ -85,6 +85,10 @@ renderOutputs <- function(rv, input, output) {
           h3("Admin panel"),
           align = "center",
           shinyBS::tipify(
+            el = tags$p(actionButton("admin_logout", "Exit admin mode")),
+            title = "Click to sign out of administration mode."
+          ),
+          shinyBS::tipify(
             el = tags$p(actionButton("item_info_trigger", "Show item info")),
             title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
           ),
@@ -132,7 +136,9 @@ observeEvents <- function(rv, input, session) {
                    toggleModal(session, "admin_login_popup", toggle = "close")
                  } else {
                    shinyjs::alert("Incorrect password.")
-                 })
+                 }),
+    observeEvent(input$admin_logout,
+                 rv$admin <- FALSE)
   )
 }
 
