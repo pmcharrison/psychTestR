@@ -5,7 +5,35 @@ title <- "Test CAT"
 display_options <- list(theme = shinytheme("readable"))
 
 renderOutputs <- function(rv, output) {
+  output$item_info <- DT::renderDataTable({
+    rv$current_page # for some reason changes aren't detected in rv$results$piat$items
+    rv$params$cat@results.by_item
+  },
+  server = TRUE,
+  options = list(scrollX = TRUE),
+  rownames = FALSE)
+  output$download_results <- downloadHandler(
+    filename = "results.RDS",
+    content = function(file) {
+      saveRDS(rv$params$cat, file)
+    }
+  )
 }
+
+side_panel_ui <- div(
+  h3("Admin panel"),
+  align = "center",
+  shinyBS::tipify(
+    el = tags$p(actionButton("item_info_trigger", "Show item info")),
+    title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
+  ),
+  shinyBS::bsModal("item_info_popup", "Item info",
+                   "item_info_trigger", size = "large",
+                   wellPanel(DT::dataTableOutput("item_info"))),
+  shinyBS::tipify(
+    el = tags$p(downloadButton("download_results", "Download results")),
+    title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
+  ))
 
 item_bank <- read.csv("/Users/peter/Dropbox/Academic/projects/musical-tests/test-materials/bat-cat/materials/v1/psychometric_data/BAT_pysch_data.csv", stringsAsFactors = FALSE)
 itemPar <- as.matrix(data.frame(discrimination = item_bank$discrimination,
