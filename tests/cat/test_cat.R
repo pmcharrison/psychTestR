@@ -5,6 +5,7 @@ title <- "Test CAT"
 
 admin <- list(state = FALSE,
               password = "ringo")
+admin_mode <- FALSE
 
 display_options <- list(theme = shinytheme("readable"),
                         cols_round_digits = 3,
@@ -37,7 +38,7 @@ display_options <- list(theme = shinytheme("readable"),
                           theta_WL_sem = "Ability SEM (WL)"
                         ))
 
-renderOutputs <- function(rv, output) {
+renderOutputs <- function(rv, input, output) {
   output$item_info <- DT::renderDataTable({
     # Induce a dependency on rv$current_page, because
     # for some reason changes aren't detected in rv$results$piat$items.
@@ -59,10 +60,10 @@ renderOutputs <- function(rv, output) {
     cols_round_digits <- rv$params$display_options$cols_round_digits
     # Construct the datatable
     DT::datatable(
-        data = df,
-        options = list(scrollX = TRUE),
-        rownames = FALSE
-      ) %>%
+      data = df,
+      options = list(scrollX = TRUE),
+      rownames = FALSE
+    ) %>%
       DT::formatRound(table = .,
                       columns = cols_to_round,
                       digits = cols_round_digits)
@@ -75,23 +76,64 @@ renderOutputs <- function(rv, output) {
       saveRDS(rv$params$cat, file)
     }
   )
-  output$admin_side_panel <- renderUI(
+  output$admin_side_panel <- renderUI({
     div(
       id = "admin_side_panel",
-      h3("Admin panel"),
-      align = "center",
-      shinyBS::tipify(
-        el = tags$p(actionButton("item_info_trigger", "Show item info")),
-        title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
-      ),
-      shinyBS::bsModal("item_info_popup", "Item info",
-                       "item_info_trigger", size = "large",
-                       wellPanel(DT::dataTableOutput("item_info"))),
-      shinyBS::tipify(
-        el = tags$p(downloadButton("download_results", "Download results")),
-        title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
-      )
+      # if (rv$params$admin$state) {
+      if (rv$admin) {
+        div(
+          id = "admin_side_panel_active",
+          h3("Admin panel"),
+          align = "center",
+          shinyBS::tipify(
+            el = tags$p(actionButton("item_info_trigger", "Show item info")),
+            title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
+          ),
+          shinyBS::bsModal("item_info_popup", "Item info",
+                           "item_info_trigger", size = "large",
+                           wellPanel(DT::dataTableOutput("item_info"))),
+          shinyBS::tipify(
+            el = tags$p(downloadButton("download_results", "Download results")),
+            title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
+          )
+        )
+      } else {
+        div(
+          id = "admin_side_panel_inactive",
+          shinyBS::tipify(
+            el = tags$p(actionButton("admin_login_trigger", "Admin login")),
+            title = "Click here to enter your administrator credentials."
+          )
+        )
+      }
     )
+  })
+}
+
+renderModals <- function(rv, input, output, session) {
+  output$modals <- renderUI(tags$div(
+    id = "modals",
+    shinyBS::bsModal("admin_login_popup", "Admin login",
+                     "null_trigger", size = "small",
+                     wellPanel(
+                       align = "center",
+                       tags$p(textInput("admin_password", label = "Password",
+                                        placeholder = "Enter your password here")),
+                       tags$p(actionButton(inputId = "submit_admin_password", "Submit"))
+                     ))
+  ))
+}
+
+observeEvents <- function(rv, input, session) {
+  list(
+    observeEvent(input$admin_login_trigger, toggleModal(session, "admin_login_popup", toggle = "open")),
+    observeEvent(input$submit_admin_password,
+                 if (input$admin_password == rv$params$admin$password) {
+                   rv$admin <- TRUE
+                   toggleModal(session, "admin_login_popup", toggle = "close")
+                 } else {
+                   shinyjs::alert("Incorrect password.")
+                 })
   )
 }
 
