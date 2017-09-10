@@ -1,17 +1,33 @@
+library(magrittr)
 library(shinythemes)
 
 title <- "Test CAT"
 
-display_options <- list(theme = shinytheme("readable"))
+display_options <- list(theme = shinytheme("readable"),
+                        cols_round_digits = 3,
+                        cols_to_round = c("discrimination", "difficulty",
+                                          "guessing", "inattention",
+                                          "information",
+                                          "theta_ML", "theta_ML_sem",
+                                          "theta_BM", "theta_BM_sem",
+                                          "theta_EAP", "theta_EAP_sem",
+                                          "theta_WL", "theta_WL_sem"))
 
 renderOutputs <- function(rv, output) {
   output$item_info <- DT::renderDataTable({
     rv$current_page # for some reason changes aren't detected in rv$results$piat$items
-    rv$params$cat@results.by_item
+    rv$params$cat@results.by_item %>%
+      DT::datatable(
+        data = .,
+        options = list(scrollX = TRUE),
+        rownames = FALSE
+      ) %>%
+      DT::formatRound(table = .,
+                      columns = rv$params$display_options$cols_to_round,
+                      digits = rv$params$display_options$cols_round_digits)
   },
-  server = TRUE,
-  options = list(scrollX = TRUE),
-  rownames = FALSE)
+  server = TRUE
+  )
   output$download_results <- downloadHandler(
     filename = "results.RDS",
     content = function(file) {
