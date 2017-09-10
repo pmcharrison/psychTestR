@@ -11,6 +11,8 @@ psychTestServer <- function(params) {
                  nextPage(rv, input))
     # Render outputs
     params$renderOutputs(rv, output)
+    # Observe events
+    params$observeEvents %>% if (is.null(.)) NULL else .(rv, input)
   }
 }
 
