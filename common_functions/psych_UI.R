@@ -5,6 +5,7 @@ psychTestUI  <- function(params) {
   fluidPage(
     theme = params$display_options$theme,
     shinyjs::useShinyjs(),
+    uiOutput("modals"),
     fluidRow(column(12, title_content),
     fluidRow(column(2, tags$div(style = "padding: 10px",
                                 align = "center",

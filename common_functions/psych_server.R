@@ -1,7 +1,7 @@
 #### Top-level function ####
 
 psychTestServer <- function(params) {
-  function(input, output) {
+  function(input, output, session) {
     # rv stores the current test state
     rv <- initialiseRV(params)
     # UI is rendered programmatically
@@ -10,9 +10,11 @@ psychTestServer <- function(params) {
     observeEvent(input$nextPage,
                  nextPage(rv, input))
     # Render outputs
-    params$renderOutputs(rv, output)
+    params$renderOutputs(rv, input, output)
+    # Render modals
+    params$renderModals(rv, input, output, session)
     # Observe events
-    if (is.null(params$observeEvents)) NULL else params$observeEvents(rv, input)
+    if (is.null(params$observeEvents)) NULL else params$observeEvents(rv, input, session)
   }
 }
 
@@ -21,7 +23,8 @@ psychTestServer <- function(params) {
 initialiseRV <- function(params) {
   reactiveValues(test_stack = params$pages[- 1],
                  current_page = params$pages[[1]],
-                 params = params)
+                 params = params,
+                 admin = FALSE)
 }
 
 nextPage <- function(rv, input) {
