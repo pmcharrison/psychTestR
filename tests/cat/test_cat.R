@@ -3,6 +3,9 @@ library(shinythemes)
 
 title <- "Test CAT"
 
+admin <- list(state = FALSE,
+              password = "ringo")
+
 display_options <- list(theme = shinytheme("readable"),
                         cols_round_digits = 3,
                         cols_to_round = c("discrimination", "difficulty",
