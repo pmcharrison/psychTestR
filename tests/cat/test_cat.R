@@ -79,7 +79,6 @@ renderOutputs <- function(rv, input, output) {
   output$admin_side_panel <- renderUI({
     div(
       id = "admin_side_panel",
-      # if (rv$params$admin$state) {
       if (rv$admin) {
         div(
           id = "admin_side_panel_active",
@@ -117,8 +116,8 @@ renderModals <- function(rv, input, output, session) {
                      "null_trigger", size = "small",
                      wellPanel(
                        align = "center",
-                       tags$p(textInput("admin_password", label = "Password",
-                                        placeholder = "Enter your password here")),
+                       tags$p(passwordInput("admin_password", label = "Password",
+                                            placeholder = "Enter your password here")),
                        tags$p(actionButton(inputId = "submit_admin_password", "Submit"))
                      ))
   ))
