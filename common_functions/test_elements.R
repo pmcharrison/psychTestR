@@ -258,7 +258,25 @@ setMethod(
               criterion = rv$params[[params_id]]@next_item.criterion,
               method = rv$params[[params_id]]@next_item.estimator,
               cbControl = .Object@cbControl,
-              cbGroup = .Object@cbGroup)
+              cbGroup = .Object@cbGroup
+            )
+            new_row <- data.frame(
+              num = nrow(results.by_item) + 1,
+              item_id = next_item$item,
+              discrimination = next_item$par[["discrimination"]],
+              difficulty = next_item$par[["difficulty"]],
+              guessing = next_item$par[["guessing"]],
+              inattention = next_item$par[["inattention"]],
+              information = next_item$info,
+              criterion = next_item$criterion,
+              response = NA, correct_answer = NA, score = NA,
+              theta_ML = NA, theta_ML_sem = NA,
+              theta_BM = NA, theta_BM_sem = NA,
+              theta_EAP = NA, theta_EAP_sem = NA,
+              theta_WL = NA, theta_WL_sem = NA
+            )
+            rv$params[[params_id]]@results.by_item <- plyr::rbind.fill(results.by_item, new_row)
+            print(rv$params[[params_id]]@results.by_item)
             pushToTestStack(
               new("audio_stimulus_NAFC",
                   prompt = .Object@item.prompt,
@@ -274,25 +292,23 @@ setMethod(
                     scores <- c(rv$params[[params_id]]@results.by_item$score, score)
                     item_ids <- c(rv$params[[params_id]]@results.by_item$item_id, next_item$item)
                     item_params <- .Object@itemPar[item_ids, , drop = FALSE]
-                    new_row <- data.frame(num = nrow(results.by_item) + 1,
-                                          item_id = next_item$item,
-                                          discrimination = next_item$par[["discrimination"]],
-                                          difficulty = next_item$par[["difficulty"]],
-                                          guessing = next_item$par[["guessing"]],
-                                          inattention = next_item$par[["inattention"]],
-                                          information = next_item$info,
-                                          criterion = next_item$criterion,
-                                          response = response,
-                                          correct_answer = correct_answer,
-                                          score = score)
+                    n <- nrow(rv$params[[params_id]]@results.by_item)
+                    rv$params[[params_id]]@results.by_item$response[n] <-
+                      response
+                    rv$params[[params_id]]@results.by_item$correct_answer[n] <-
+                      correct_answer
+                    rv$params[[params_id]]@results.by_item$score[n] <-
+                      score
                     for (method in c("ML", "BM", "EAP", "WL")) {
-                      new_row[, paste0("theta_", method)] <- 
-                        thetaEst(item_params, scores, method = method)
-                      new_row[, paste0("theta_", method, "_sem")] <- 
-                        semTheta(thEst = new_row[, paste0("theta_", method)],
-                                 it = item_params, method = method)
+                      tmp_theta <- thetaEst(item_params, scores, method = method)
+                      tmp_sem_theta <- semTheta(thEst = tmp_theta,
+                                                it = item_params, method = method)
+                      
+                      rv$params[[params_id]]@results.by_item[n, paste0("theta_", method)] <- 
+                        tmp_theta
+                      rv$params[[params_id]]@results.by_item[n, paste0("theta_", method, "_sem")] <- 
+                        tmp_sem_theta
                     }
-                    rv$params[[params_id]]@results.by_item <- rbind(results.by_item, new_row)
                     pushToTestStack(item_logic(), rv)
                   }),
               rv
