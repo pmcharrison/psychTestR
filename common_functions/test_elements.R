@@ -274,7 +274,6 @@ setMethod(
                     scores <- c(rv$params[[params_id]]@results.by_item$score, score)
                     item_ids <- c(rv$params[[params_id]]@results.by_item$item_id, next_item$item)
                     item_params <- .Object@itemPar[item_ids, , drop = FALSE]
-                    print(next_item)
                     new_row <- data.frame(num = nrow(results.by_item) + 1,
                                           item_id = next_item$item,
                                           discrimination = next_item$par[["discrimination"]],
@@ -294,8 +293,6 @@ setMethod(
                                  it = item_params, method = method)
                     }
                     rv$params[[params_id]]@results.by_item <- rbind(results.by_item, new_row)
-                    print(rv$params[[params_id]]@results.by_item)
-                    print(rv$test_stack)
                     pushToTestStack(item_logic(), rv)
                   }),
               rv
