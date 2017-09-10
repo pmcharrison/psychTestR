@@ -11,20 +11,58 @@ display_options <- list(theme = shinytheme("readable"),
                                           "theta_ML", "theta_ML_sem",
                                           "theta_BM", "theta_BM_sem",
                                           "theta_EAP", "theta_EAP_sem",
-                                          "theta_WL", "theta_WL_sem"))
+                                          "theta_WL", "theta_WL_sem"),
+                        col_labels = c(
+                          num = "Position",
+                          item_id = "Item ID",
+                          discrimination = "Discrimination",
+                          difficulty = "Difficulty",
+                          guessing = "Guessing",
+                          inattention = "Inattention",
+                          information = "Information",
+                          criterion = "Selection criterion",
+                          response = "Response",
+                          correct_answer = "Correct answer",
+                          score = "Score",
+                          theta_ML = "Ability (ML)",
+                          theta_ML_sem = "Ability SEM (ML)",
+                          theta_BM = "Ability (BM)",
+                          theta_BM_sem = "Ability SEM (BM)",
+                          theta_EAP = "Ability (EAP)",
+                          theta_EAP_sem = "Ability SEM (EAP)",
+                          theta_WL = "Ability (WL)",
+                          theta_WL_sem = "Ability SEM (WL)"
+                        ))
 
 renderOutputs <- function(rv, output) {
   output$item_info <- DT::renderDataTable({
-    rv$current_page # for some reason changes aren't detected in rv$results$piat$items
-    rv$params$cat@results.by_item %>%
-      DT::datatable(
-        data = .,
+    # Induce a dependency on rv$current_page, because
+    # for some reason changes aren't detected in rv$results$piat$items.
+    rv$current_page 
+    # Get the data to display
+    df <- rv$params$cat@results.by_item
+    # Rename the dataframe columns
+    names(df) <- 
+      plyr::revalue(names(df),
+                    rv$params$display_options$col_labels,
+                    warn_missing = FALSE)
+    # Identify the columns to round, bearing in mind the new column abels
+    cols_to_round <- 
+      plyr::revalue(rv$params$display_options$cols_to_round,
+                    rv$params$display_options$col_labels,
+                    warn_missing = FALSE) %>%
+      intersect(., names(df))
+    # Get the number of digits that each column should be rounded to
+    cols_round_digits <- rv$params$display_options$cols_round_digits
+    # Construct the datatable
+    DT::datatable(
+        data = df,
         options = list(scrollX = TRUE),
         rownames = FALSE
       ) %>%
       DT::formatRound(table = .,
-                      columns = rv$params$display_options$cols_to_round,
-                      digits = rv$params$display_options$cols_round_digits)
+                      columns = cols_to_round,
+                      digits = cols_round_digits)
   },
   server = TRUE
   )
