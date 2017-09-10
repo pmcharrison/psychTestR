@@ -10,14 +10,14 @@ volume_calibration_source <- file.path(media_dir, "training/Scale_C_ton.mp4")
 side_panel_ui <- div(
   h3("Admin panel"),
   align = "center",
-  tipify(
+  shinyBS::tipify(
     el = tags$p(actionButton("item_info_trigger", "Show item info")),
     title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
   ),
   shinyBS::bsModal("item_info_popup", "Item info",
                    "item_info_trigger", size = "large",
                    wellPanel(DT::dataTableOutput("item_info"))),
-  tipify(
+  shinyBS::tipify(
     el = tags$p(downloadButton("download_results", "Download results")),
     title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
   ))
@@ -25,7 +25,7 @@ side_panel_ui <- div(
 renderOutputs <- function(rv, output) {
   output$item_info <- DT::renderDataTable({
     rv$current_page # for some reason changes aren't detected in rv$results$piat$items
-    rv$results$piat$items
+    rv$params$cat@results.by_item
   },
   server = TRUE,
   options = list(scrollX = TRUE),
@@ -33,7 +33,7 @@ renderOutputs <- function(rv, output) {
   output$download_results <- downloadHandler(
     filename = "results.RDS",
     content = function(file) {
-      saveRDS(rv$results, file)
+      saveRDS(rv$params$cat, file)
     }
   )
 }
