@@ -75,22 +75,29 @@ renderOutputs <- function(rv, output) {
       saveRDS(rv$params$cat, file)
     }
   )
+  output$admin_side_panel <- renderUI(
+    div(
+      id = "admin_side_panel",
+      h3("Admin panel"),
+      align = "center",
+      shinyBS::tipify(
+        el = tags$p(actionButton("item_info_trigger", "Show item info")),
+        title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
+      ),
+      shinyBS::bsModal("item_info_popup", "Item info",
+                       "item_info_trigger", size = "large",
+                       wellPanel(DT::dataTableOutput("item_info"))),
+      shinyBS::tipify(
+        el = tags$p(downloadButton("download_results", "Download results")),
+        title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
+      )
+    )
+  )
 }
 
 side_panel_ui <- div(
-  h3("Admin panel"),
-  align = "center",
-  shinyBS::tipify(
-    el = tags$p(actionButton("item_info_trigger", "Show item info")),
-    title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
-  ),
-  shinyBS::bsModal("item_info_popup", "Item info",
-                   "item_info_trigger", size = "large",
-                   wellPanel(DT::dataTableOutput("item_info"))),
-  shinyBS::tipify(
-    el = tags$p(downloadButton("download_results", "Download results")),
-    title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
-  ))
+  uiOutput("admin_side_panel")
+)
 
 item_bank <- read.csv("/Users/peter/Dropbox/Academic/projects/musical-tests/test-materials/bat-cat/materials/v1/psychometric_data/BAT_pysch_data.csv", stringsAsFactors = FALSE)
 itemPar <- as.matrix(data.frame(discrimination = item_bank$discrimination,
