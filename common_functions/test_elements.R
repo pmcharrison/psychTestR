@@ -276,7 +276,6 @@ setMethod(
               theta_WL = NA, theta_WL_sem = NA
             )
             rv$params[[params_id]]@results.by_item <- plyr::rbind.fill(results.by_item, new_row)
-            print(rv$params[[params_id]]@results.by_item)
             pushToTestStack(
               new("audio_stimulus_NAFC",
                   prompt = .Object@item.prompt,

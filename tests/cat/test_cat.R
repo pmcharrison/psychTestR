@@ -59,7 +59,6 @@ renderOutputs <- function(rv, input, output) {
     # Get the number of digits that each column should be rounded to
     cols_round_digits <- rv$params$display_options$cols_round_digits
     # Construct the datatable
-    print(df)
     DT::datatable(
       data = df,
       options = list(scrollX = TRUE),
@@ -86,7 +85,8 @@ renderOutputs <- function(rv, input, output) {
           h3("Admin panel"),
           align = "center",
           shinyBS::tipify(
-            el = tags$p(actionButton("admin_logout", "Exit admin mode")),
+            el = tags$p(actionButton("admin_logout", "Exit admin mode",
+                                     style = "color: white; background-color: #c62121")),
             title = "Click to sign out of administration mode."
           ),
           shinyBS::tipify(
