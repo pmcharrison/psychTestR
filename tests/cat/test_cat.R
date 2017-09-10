@@ -1,5 +1,6 @@
 library(magrittr)
 library(shinythemes)
+library(shinyWidgets)
 
 title <- "Test CAT"
 
@@ -99,6 +100,14 @@ renderOutputs <- function(rv, input, output) {
           shinyBS::tipify(
             el = tags$p(downloadButton("download_results", "Download results")),
             title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
+          ),
+          shinyBS::tipify(
+            el = wellPanel(
+              style = "padding: 10px",
+              switchInput(inputId = "admin_display_answer", value = FALSE),
+              "Display correct answer"
+            ),
+            title = "Displays the correct answer for the current question at the bottom of the page."
           )
         )
       } else {
@@ -111,6 +120,19 @@ renderOutputs <- function(rv, input, output) {
         )
       }
     )
+  })
+  output$footer <- renderUI({
+    print(input$admin_display_answer)
+    print(rv$params$cat@results.by_item)
+    if (!is.null(input$admin_display_answer) &&
+        input$admin_display_answer &&
+        nrow(rv$params$cat@results.by_item) > 0 &&
+        is.na(rv$params$cat@results.by_item$response[nrow(rv$params$cat@results.by_item)])
+    ) {
+      tags$p(align = "center",
+             sprintf("The correct answer is '%s.'",
+                     rv$params$cat@results.by_item$correct_answer[nrow(rv$params$cat@results.by_item)]))
+    } else NULL
   })
 }
 
