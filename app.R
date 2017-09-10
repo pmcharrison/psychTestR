@@ -5,6 +5,7 @@ if (PIAT) {
   server <- psychTestServer(params)
   ui <- psychTestUI(params)
 } else {
+  library(shinyBS)
   lapply(list.files("common_functions/", pattern = "*\\.R$", full.names = TRUE), source)
   params <- new.env()
   source("tests/cat/test_cat.R", local = params)
