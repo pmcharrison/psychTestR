@@ -4,6 +4,8 @@ library(shinyWidgets)
 
 title <- "Test CAT"
 
+volume_calibration_source <- "http://concerto4tests.gold-msi.org/media/volume_calibration/terminator.mp3"
+
 admin <- list(state = FALSE,
               password = "ringo")
 admin_mode <- FALSE
@@ -196,13 +198,21 @@ test_modules$cat <- new(
 )
 
 cat <- new("AudioCATParams",
-           audio_root = "stimuli_v1",
+           # audio_root = "stimuli_v1",
+           audio_root = "http://concerto4tests.gold-msi.org/media/stimuli/BAT/v1/stimuli_v1",
            test_length = 5,
            next_item.criterion = "bOpt",
            next_item.estimator = "BM")
 
 pages <- list(
   new("one_btn_page", body = tags$p("Welcome to the test CAT!")),
+  new("one_btn_page",
+      body = tags$div(
+        tags$p("When you click 'Next', you will be played some audio. You will be asked to adjust the volume to a comfortable level. Please make sure you are wearing your headphones."))),
+  new("volume_calibration",
+      prompt = tags$p("You should hear some audio playing in the background. Please adjust the computer volume to a comfortable level."),
+      source = volume_calibration_source,
+      type = "mp3"),
   test_modules$cat,
   new("final_page", body = tags$p("You've finished!"))
 )
