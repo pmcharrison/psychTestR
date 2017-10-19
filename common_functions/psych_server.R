@@ -10,9 +10,9 @@ psychTestServer <- function(params) {
     observeEvent(input$nextPage,
                  nextPage(rv, input))
     # Render outputs
-    params$renderOutputs(rv, input, output)
+    if (is.null(params$renderOutputs)) NULL else params$renderOutputs(rv, input, output)
     # Render modals
-    params$renderModals(rv, input, output, session)
+    if (is.null(params$renderModals)) NULL else params$renderModals(rv, input, output, session)
     # Observe events
     if (is.null(params$observeEvents)) NULL else params$observeEvents(rv, input, session)
   }
@@ -33,6 +33,7 @@ nextPage <- function(rv, input) {
   # the current operation.
   if (.hasSlot(rv$current_page, "validate") &&
       !do.call(rv$current_page@validate, list(rv, input))) {
+    shinyjs::runjs("document.getElementById('current_page.ui').style.visibility = 'visible'")
     return(FALSE) # i.e. we escape the nextPage evaluation, forcing input revision
   }
   # Perform the <on_complete> function for the current page, if it exists.
