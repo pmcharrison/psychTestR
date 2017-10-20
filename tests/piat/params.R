@@ -1,4 +1,8 @@
+loadNamespace("GMSIData")
+
 title <- "Music imagery test"
+study_id <- 11
+pilot <- TRUE
 
 display_options <- list(theme = shinytheme("readable"))
 
@@ -22,7 +26,7 @@ side_panel_ui <- div(
     title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
   ))
 
-renderOutputs <- function(rv, output) {
+renderOutputs <- function(rv, input, output) {
   output$item_info <- DT::renderDataTable({
     rv$current_page # for some reason changes aren't detected in rv$results$piat$items
     rv$params$cat@results.by_item
@@ -44,6 +48,17 @@ piat$items <- getStimuli()
 test_modules <- list()
 test_modules$intro <- withTags(
   list(new("one_btn_page",
+           body = tags$div(
+             tags$p("Please enter your participant ID."),
+             textInput("participant_id", label = NULL, placeholder = "e.g. ph93", width = "150px")),
+           on_complete = function(rv, input) rv$participant_id <- input$participant_id,
+           validate = function(rv, input) {
+             if (input$p_id == "") {
+               shinyjs::alert("You must enter a participant ID to continue.")
+               FALSE
+             } else TRUE
+           }),
+       new("one_btn_page",
            body = tags$div(
              tags$p("When you click 'Next', you will be played some audio. You will be asked to adjust the volume to a comfortable level. Please make sure you are wearing your headphones."))),
        new("volume_calibration",
@@ -237,16 +252,28 @@ test_modules$absolute_pitch <-
         rv$results$absolute_pitch <- input$lastBtnPressed
       })
 
+
 test_modules$save_data <- 
   new("code_block",
       fun = function(rv, input) {
-        message("Saving data!!")
+        message("Saving data...")
+        db <- GMSIData::db_connect()
+        session_id <- GMSIData::dbNewParticipant(db = db,
+                                                 participant_id = rv$participant_id,
+                                                 study_id = rv$params$study_id, 
+                                                 pilot = rv$params$pilot)
+        GMSIData::dbUpdateData(db = db,
+                               study_id = rv$params$study_id,
+                               session_id = session_id,
+                               data = rv$results,
+                               finished = TRUE)
+        GMSIData::db_disconnect(db)
         print(rv$results)
       })
 
 test_modules$final <- 
   list(new("final_page",
-           body = p("You completed the test! You may now close the browser window.")))
+           body = p("You completed the test! Your responses have been recorded. You may now close the browser window.")))
 
 pages <- c(
   test_modules$intro,
