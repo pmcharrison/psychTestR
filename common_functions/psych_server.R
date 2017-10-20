@@ -10,11 +10,17 @@ psychTestServer <- function(params) {
     observeEvent(input$nextPage,
                  nextPage(rv, input))
     # Render outputs
-    if (is.null(params$renderOutputs)) NULL else params$renderOutputs(rv, input, output)
+    if (is.null(params$renderOutputs)) NULL else {
+      params$renderOutputs(rv = rv, input = input, output = output)
+    }
     # Render modals
-    if (is.null(params$renderModals)) NULL else params$renderModals(rv, input, output, session)
+    if (is.null(params$renderModals)) NULL else {
+      params$renderModals(rv = rv, input = input, output = output, session = session)
+    }
     # Observe events
-    if (is.null(params$observeEvents)) NULL else params$observeEvents(rv, input, session)
+    if (is.null(params$observeEvents)) NULL else {
+      params$observeEvents(rv = rv, input = input, session = session)
+    }
   }
 }
 
