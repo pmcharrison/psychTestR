@@ -1,4 +1,4 @@
-PIAT <- FALSE
+PIAT <- TRUE
 options(shiny.error = browser)
 if (PIAT) {
   source("tests/piat/load_piat.R")
