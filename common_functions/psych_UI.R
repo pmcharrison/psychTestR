@@ -8,10 +8,12 @@ psychTestUI  <- function(params) {
     shinyjs::useShinyjs(),
     uiOutput("modals"),
     fluidRow(column(12, title_content)),
-    fluidRow(column(2, tags$div(style = "padding: 10px",
-                                align = "center",
-                                uiOutput("side_panel_ui"))),
-             column(8, main_content),
-             column(2)),
+    fluidRow(
+      column(2),
+      column(8, main_content),
+      column(2, tags$div(style = "padding: 10px",
+                         align = "center",
+                         uiOutput("side_panel_ui")))
+    ),
     fluidRow(column(12, footer_content)))
 }
