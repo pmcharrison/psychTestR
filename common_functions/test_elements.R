@@ -99,6 +99,7 @@ setMethod(
         oncanplaythrough = cmd_show_video_btn,
         onplay = "video_played = true;",
         autoplay = "autoplay",
+        style = "min-width: 300px",
         playsinline = "playsinline",
         onplay = cmd_hide_video_btn,
         onended = if (.Object@wait) {
