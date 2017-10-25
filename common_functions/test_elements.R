@@ -187,7 +187,8 @@ setMethod(
         #                 # cmd_hide_play_btn
         #                 ),
         autoplay = "autoplay",
-        loop = "loop")
+        loop = "loop"),
+      tags$p(list(...)$source)
       # if (.Object@mobile_enabled) {
       #   tags$p(tags$strong("Click here to play audio"),
       #          id = "btn_play",
