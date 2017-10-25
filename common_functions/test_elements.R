@@ -81,11 +81,15 @@ setMethod(
     .Object@final <- FALSE
     
     cmd_play_video <- "document.getElementById('video_stimulus').play();"
-    cmd_show_video_btn <- "document.getElementById('btn_play_video').style.visibility='inherit';"
+    cmd_show_video_btn <- 
+      "if (!video_played) {document.getElementById('btn_play_video').style.visibility='inherit'};"
     cmd_hide_video_btn <- "document.getElementById('btn_play_video').style.visibility='hidden';"
     
     video_ui <- tags$div(
       tags$video(
+        tags$head(
+          tags$script(HTML("var video_played = false;"))
+        ),
         tags$source(
           src = .Object@source,
           type = paste0("video/", .Object@type)),
@@ -93,6 +97,7 @@ setMethod(
         width = "50%",
         preload = "auto",
         oncanplaythrough = cmd_show_video_btn,
+        onplay = "video_played = true;",
         autoplay = "autoplay",
         onplay = cmd_hide_video_btn,
         onended = if (.Object@wait) {
