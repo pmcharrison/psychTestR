@@ -53,7 +53,7 @@ test_modules$intro <- withTags(
              textInput("participant_id", label = NULL, placeholder = "e.g. ph93", width = "150px")),
            on_complete = function(rv, input) rv$participant_id <- input$participant_id,
            validate = function(rv, input) {
-             if (input$p_id == "") {
+             if (input$participant_id == "") {
                shinyjs::alert("You must enter a participant ID to continue.")
                FALSE
              } else TRUE
