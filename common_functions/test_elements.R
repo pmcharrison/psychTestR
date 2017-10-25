@@ -183,7 +183,7 @@ setMethod(
         preload = "auto",
         oncanplaythrough = cmd_show_play_btn,
         onplay = paste0("audio_played = true;", cmd_hide_play_btn),
-        autoplay = "autoplay",
+        # autoplay = "autoplay",
         loop = "loop"),
       if (.Object@mobile_enabled) {
         tags$p(tags$strong("Click here to play audio"),
