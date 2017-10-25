@@ -62,7 +62,7 @@ test_modules$intro <- withTags(
            body = tags$div(
              tags$p("When you click 'Next', you will be played some audio. You will be asked to adjust the volume to a comfortable level. Please make sure you are wearing your headphones."))),
        new("volume_calibration",
-           prompt = tags$p("You should hear some audio playing in the background. Please adjust the computer volume to a comfortable level."),
+           prompt = tags$p("Please adjust the volume to a comfortable level."),
            source = volume_calibration_source,
            type = "mp3"),
        new("one_btn_page",
