@@ -4,6 +4,8 @@ title <- "Music imagery"
 study_id <- 11
 pilot <- TRUE
 
+db <- GMSIData::db_connect()
+
 display_options <- list(theme = shinytheme("readable"))
 
 media_dir <- "http://media.gold-msi.org/test_materials/PIAT/stimuli" %>%
@@ -312,7 +314,6 @@ test_modules$save_data <-
   new("code_block",
       fun = function(rv, input) {
         message("Saving data...")
-        db <- GMSIData::db_connect()
         session_id <- GMSIData::dbNewParticipant(db = db,
                                                  participant_id = rv$participant_id,
                                                  study_id = rv$params$study_id, 
@@ -322,7 +323,6 @@ test_modules$save_data <-
                                session_id = session_id,
                                data = rv$results,
                                finished = TRUE)
-        GMSIData::db_disconnect(db)
         print(rv$results)
       })
 
