@@ -169,7 +169,7 @@ setMethod(
     .Object <- callNextMethod(.Object, ...)
     cmd_play <- "document.getElementById('volume_calibration_audio').play();"
     cmd_show_play_btn <- 
-      "if (!audio_played) {document.getElementById('btn_play').style.visibility='inherit'};"
+      "{document.getElementById('btn_play').style.visibility='inherit'};"
     cmd_hide_play_btn <- "document.getElementById('btn_play').style.visibility='hidden';"
     audio_ui <- tags$div(
       tags$head(
@@ -182,7 +182,9 @@ setMethod(
         id = "volume_calibration_audio",
         preload = "auto",
         oncanplaythrough = cmd_show_play_btn,
-        onplay = paste0("audio_played = true;", cmd_hide_play_btn),
+        onplay = paste0("audio_played = true;"
+                        # cmd_hide_play_btn
+                        ),
         # autoplay = "autoplay",
         loop = "loop"),
       if (.Object@mobile_enabled) {
