@@ -167,7 +167,7 @@ setMethod(
   signature = "volume_calibration",
   definition = function(.Object, ...) {
     .Object <- callNextMethod(.Object, ...)
-    cmd_play <- "document.getElementById('volume_calibration_audio').play();"
+    # cmd_play <- "document.getElementById('volume_calibration_audio').play();"
     # cmd_show_play_btn <- 
     #   "{document.getElementById('btn_play').style.visibility='inherit'};"
     # cmd_hide_play_btn <- "document.getElementById('btn_play').style.visibility='hidden';"
@@ -180,19 +180,20 @@ setMethod(
           src = list(...)$source,
           type = paste0("audio/", list(...)$type)),
         id = "volume_calibration_audio",
+        controls = "controls",
         preload = "auto",
         # oncanplaythrough = cmd_show_play_btn,
         # onplay = paste0("audio_played = true;"
         #                 # cmd_hide_play_btn
         #                 ),
         autoplay = "autoplay",
-        loop = "loop"),
-      if (.Object@mobile_enabled) {
-        tags$p(tags$strong("Click here to play audio"),
-               id = "btn_play",
-               # style = "visibility: hidden",
-               onclick = cmd_play)
-      } else NULL
+        loop = "loop")
+      # if (.Object@mobile_enabled) {
+      #   tags$p(tags$strong("Click here to play audio"),
+      #          id = "btn_play",
+      #          # style = "visibility: hidden",
+      #          onclick = cmd_play)
+      # } else NULL
     )
     ui <- tags$div(audio_ui, list(...)$prompt, actionButtonTrigger("next", "Next"))
     .Object@ui <- ui
