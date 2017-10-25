@@ -170,7 +170,7 @@ setMethod(
     .Object <- callNextMethod(.Object, ...)
     cmd_play <- "document.getElementById('volume_calibration_audio').play();"
     cmd_show_play_btn <- 
-      "if (!audio_played) {document.getElementById('btn_play').style.visibility='inherit'};"
+      "if (!audio_played) {document.getElementById('btn_play').style.display='block'};"
     cmd_hide_play_btn <- "document.getElementById('btn_play').style.display='none';"
     audio_ui <- tags$div(
       tags$head(
