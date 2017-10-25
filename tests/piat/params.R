@@ -9,7 +9,7 @@ display_options <- list(theme = shinytheme("readable"))
 media_dir <- "http://media.gold-msi.org/test_materials/PIAT/stimuli" %>%
   gsub("/$", "", .) # just in case someone puts in a trailing slash
 
-volume_calibration_source <- file.path(media_dir, "training/Scale_C_ton.mp4")
+volume_calibration_source <- file.path(media_dir, "volume_calibration.mp3")
 
 side_panel_ui <- div(
   h3("Admin panel"),
