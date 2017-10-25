@@ -1,5 +1,5 @@
 psychTestUI  <- function(params) {
-  title_content <- wellPanel(h2(params$title, align = "center"))
+  title_content <- wellPanel(h3(params$title, align = "center"))
   main_content <- wellPanel(align = "center", uiOutput("ui"))
   footer_content <- uiOutput("footer")
   

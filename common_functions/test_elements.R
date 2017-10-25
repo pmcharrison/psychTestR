@@ -94,12 +94,12 @@ setMethod(
           src = .Object@source,
           type = paste0("video/", .Object@type)),
         id = "video_stimulus",
-        width = "50%",
+        width = "100%",
         preload = "auto",
         oncanplaythrough = cmd_show_video_btn,
         onplay = "video_played = true;",
         autoplay = "autoplay",
-        style = "min-width: 300px",
+        style = "max-width: 500px",
         playsinline = "playsinline",
         onplay = cmd_hide_video_btn,
         onended = if (.Object@wait) {
@@ -171,7 +171,7 @@ setMethod(
     cmd_play <- "document.getElementById('volume_calibration_audio').play();"
     cmd_show_play_btn <- 
       "if (!audio_played) {document.getElementById('btn_play').style.visibility='inherit'};"
-    cmd_hide_play_btn <- "document.getElementById('btn_play').style.visibility='hidden';"
+    cmd_hide_play_btn <- "document.getElementById('btn_play').style.display='none';"
     audio_ui <- tags$div(
       tags$head(
         tags$script(HTML("var audio_played = false;"))
@@ -189,7 +189,7 @@ setMethod(
       if (.Object@mobile_enabled) {
         tags$p(tags$strong("Click here to play audio"),
                id = "btn_play",
-               style = "visibility: hidden",
+               style = "display: none",
                onclick = cmd_play)
       } else NULL
     )

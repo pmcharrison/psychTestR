@@ -1,6 +1,6 @@
 loadNamespace("GMSIData")
 
-title <- "Music imagery test"
+title <- "Music imagery"
 study_id <- 11
 pilot <- TRUE
 
