@@ -29,7 +29,7 @@ side_panel_ui <- div(
 renderOutputs <- function(rv, input, output) {
   output$item_info <- DT::renderDataTable({
     rv$current_page # for some reason changes aren't detected in rv$results$piat$items
-    rv$params$cat@results.by_item
+    rv$results$piat$items
   },
   server = TRUE,
   options = list(scrollX = TRUE),
@@ -37,7 +37,7 @@ renderOutputs <- function(rv, input, output) {
   output$download_results <- downloadHandler(
     filename = "results.RDS",
     content = function(file) {
-      saveRDS(rv$params$cat, file)
+      saveRDS(rv$results$piat$items, file)
     }
   )
 }
