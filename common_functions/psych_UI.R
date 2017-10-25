@@ -10,7 +10,7 @@ psychTestUI  <- function(params) {
     fluidRow(column(12, title_content)),
     fluidRow(column(2, tags$div(style = "padding: 10px",
                                 align = "center",
-                                params$side_panel_ui)),
+                                uiOutput("side_panel_ui"))),
              column(8, main_content),
              column(2)),
     fluidRow(column(12, footer_content)))

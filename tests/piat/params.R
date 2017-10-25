@@ -11,22 +11,43 @@ media_dir <- "http://media.gold-msi.org/test_materials/PIAT/stimuli" %>%
 
 volume_calibration_source <- file.path(media_dir, "volume_calibration.mp3")
 
-side_panel_ui <- div(
-  h3("Admin panel"),
-  align = "center",
-  shinyBS::tipify(
-    el = tags$p(actionButton("item_info_trigger", "Show item info")),
-    title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
-  ),
-  shinyBS::bsModal("item_info_popup", "Item info",
-                   "item_info_trigger", size = "large",
-                   wellPanel(DT::dataTableOutput("item_info"))),
-  shinyBS::tipify(
-    el = tags$p(downloadButton("download_results", "Download results")),
-    title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
-  ))
+admin <- list(state = FALSE,
+              password = "robinhood")
+admin_mode <- FALSE
+
+side_panel_ui_admin_false <- 
+  div(
+    id = "admin_side_panel_inactive",
+    shinyBS::tipify(
+      el = tags$p(actionButton("admin_login_trigger", "Admin login")),
+      title = "Click here to enter your administrator credentials."
+    )
+  )
+
+side_panel_ui_admin_true <- 
+  div(
+    h3("Admin panel"),
+    align = "center",
+    shinyBS::tipify(
+      el = tags$p(actionButton("item_info_trigger", "Show item info")),
+      title = "This popup table describes the items that the participant will take during the testing session, as well as holding the results to the items already administered."
+    ),
+    shinyBS::bsModal("item_info_popup", "Item info",
+                     "item_info_trigger", size = "large",
+                     wellPanel(DT::dataTableOutput("item_info"))),
+    shinyBS::tipify(
+      el = tags$p(downloadButton("download_results", "Download results")),
+      title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
+    ),
+    shinyBS::tipify(
+      el = tags$p(actionButton("admin_logout", "Exit admin mode",
+                               style = "color: white; background-color: #c62121")),
+      title = "Click to sign out of administration mode."
+    )
+  )
 
 renderOutputs <- function(rv, input, output) {
+  # Item info
   output$item_info <- DT::renderDataTable({
     rv$current_page # for some reason changes aren't detected in rv$results$piat$items
     rv$results$piat$items
@@ -34,16 +55,53 @@ renderOutputs <- function(rv, input, output) {
   server = TRUE,
   options = list(scrollX = TRUE),
   rownames = FALSE)
+  # Download results
   output$download_results <- downloadHandler(
     filename = "results.RDS",
     content = function(file) {
       saveRDS(rv$results$piat$items, file)
     }
   )
+  # Admin panel
+  output$side_panel_ui <-
+    renderUI(
+      if (rv$admin) side_panel_ui_admin_true %>% print else side_panel_ui_admin_false %>% print
+    )
+}
+
+renderModals <- function(rv, input, output, session) {
+  output$modals <- renderUI(tags$div(
+    id = "modals",
+    shinyBS::bsModal("admin_login_popup", "Admin login",
+                     "null_trigger", size = "small",
+                     wellPanel(
+                       align = "center",
+                       tags$p(passwordInput("admin_password", label = "Password",
+                                            placeholder = "Enter your password here")),
+                       tags$p(actionButton(inputId = "submit_admin_password", "Submit"))
+                     ))
+  ))
+}
+
+observeEvents <- function(rv, input, session) {
+  list(
+    observeEvent(input$admin_login_trigger, toggleModal(session, "admin_login_popup", toggle = "open")),
+    observeEvent(input$submit_admin_password,
+                 if (input$admin_password == rv$params$admin$password) {
+                   rv$admin <- TRUE
+                   toggleModal(session, "admin_login_popup", toggle = "close")
+                 } else {
+                   shinyjs::alert("Incorrect password.")
+                 }),
+    observeEvent(input$admin_logout, {
+      rv$admin <- FALSE
+      updateTextInput(session, "admin_password", value = "")
+    })
+  )
 }
 
 piat <- list()
-piat$items <- getStimuli()
+piat$items <- getStimuli()[1:3, ]
 
 test_modules <- list()
 test_modules$intro <- withTags(
@@ -188,10 +246,7 @@ test_modules$main_piat <-
                    ParticipantCorrect <- ParticipantResponse == correct_answer
                    rv$results$piat$items$ParticipantResponse[n] <- ParticipantResponse
                    rv$results$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
-                 })}),
-    new("one_btn_page",
-        body = tags$div(tags$p("Congratulations, you finished the main test!"),
-                        tags$p("All that's left is a few questions for you to answer."))))
+                 })}))
 
 test_modules$piat_debrief <- 
   c(
