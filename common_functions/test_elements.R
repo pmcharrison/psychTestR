@@ -68,14 +68,21 @@ setClass("video_stimulus_NAFC",
                       source = "character",
                       type = "character",
                       response_options = "character",
-                      wait = "logical"),
-         contains = "page")
+                      wait = "logical",
+                      mobile_enabled = "logical"),
+         contains = "page",
+         prototype = list(wait = TRUE,
+                          mobile_enabled = TRUE))
 setMethod(
   f = "initialize",
   signature = "video_stimulus_NAFC",
   definition = function(.Object, ...) {
     .Object <- callNextMethod(.Object, ...)
     .Object@final <- FALSE
+    
+    cmd_play_video <- "document.getElementById('video_stimulus').play();"
+    cmd_show_video_btn <- "document.getElementById('btn_play_video').style.visibility='inherit';"
+    cmd_hide_video_btn <- "document.getElementById('btn_play_video').style.visibility='hidden';"
     
     video_ui <- tags$div(
       tags$video(
@@ -85,10 +92,19 @@ setMethod(
         id = "video_stimulus",
         width = "50%",
         preload = "auto",
+        oncanplaythrough = cmd_show_video_btn,
         autoplay = "autoplay",
+        onplay = cmd_hide_video_btn,
         onended = if (.Object@wait) {
           "document.getElementById('response_UI').style.visibility = 'inherit';"
-        } else "null"))
+        } else "null"),
+      if (.Object@mobile_enabled) {
+        tags$p(tags$strong("Click here to play video"),
+               id = "btn_play_video",
+               style = "visibility: hidden",
+               onclick = cmd_play_video)
+      } else NULL
+    )
     response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait)
     
     .Object@ui <- div(.Object@prompt, video_ui, response_ui)
@@ -136,21 +152,40 @@ setMethod(
 setClass("volume_calibration",
          slots = list(prompt = "shiny.tag",
                       source = "character",
-                      type = "character"),
-         contains = "page")
+                      type = "character",
+                      mobile_enabled = "logical"),
+         contains = "page",
+         prototype = list(mobile_enabled = TRUE))
 setMethod(
   f = "initialize",
   signature = "volume_calibration",
   definition = function(.Object, ...) {
     .Object <- callNextMethod(.Object, ...)
-    audio_ui <- tags$audio(
-      tags$source(
-        src = list(...)$source,
-        type = paste0("audio/", list(...)$type)),
-      id = "volume_calibration_audio",
-      preload = "auto",
-      autoplay = "autoplay",
-      loop = "loop")
+    cmd_play <- "document.getElementById('volume_calibration_audio').play();"
+    cmd_show_play_btn <- 
+      "if (!audio_played) {document.getElementById('btn_play').style.visibility='inherit'};"
+    cmd_hide_play_btn <- "document.getElementById('btn_play').style.visibility='hidden';"
+    audio_ui <- tags$div(
+      tags$head(
+        tags$script(HTML("var audio_played = false;"))
+      ),
+      tags$audio(
+        tags$source(
+          src = list(...)$source,
+          type = paste0("audio/", list(...)$type)),
+        id = "volume_calibration_audio",
+        preload = "auto",
+        oncanplaythrough = cmd_show_play_btn,
+        onplay = paste0("audio_played = true;", cmd_hide_play_btn),
+        autoplay = "autoplay",
+        loop = "loop"),
+      if (.Object@mobile_enabled) {
+        tags$p(tags$strong("Click here to play audio"),
+               id = "btn_play",
+               style = "visibility: hidden",
+               onclick = cmd_play)
+      } else NULL
+    )
     ui <- tags$div(audio_ui, list(...)$prompt, actionButtonTrigger("next", "Next"))
     .Object@ui <- ui
     return(.Object)
@@ -251,7 +286,7 @@ setMethod(
               itemBank = .Object@itemPar,
               theta = if (nrow(results.by_item) == 0) 0 else {
                 results.by_item[nrow(results.by_item),
-                                 paste0("theta_", rv$params[[params_id]]@next_item.estimator)]
+                                paste0("theta_", rv$params[[params_id]]@next_item.estimator)]
               },
               out = if (nrow(results.by_item) == 0) NULL else results.by_item[, "item_id"],
               x = if (nrow(results.by_item) == 0) NULL else results.by_item[, "score"],
@@ -311,7 +346,7 @@ setMethod(
                     pushToTestStack(item_logic(), rv)
                   }),
               rv
-              )}})}
+            )}})}
       pushToTestStack(item_logic(), rv)}
     return(.Object)
   })
