@@ -99,6 +99,7 @@ setMethod(
         oncanplaythrough = cmd_show_video_btn,
         onplay = "video_played = true;",
         autoplay = "autoplay",
+        playsinline = "playsinline",
         onplay = cmd_hide_video_btn,
         onended = if (.Object@wait) {
           "document.getElementById('response_UI').style.visibility = 'inherit';"
