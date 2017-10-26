@@ -3,7 +3,7 @@ shuffle <- function(vec) {
              size = length(vec))]
 }
 
-getStimuli <- function(items) {
+getStimuli <- function() {
   item_bank <- suppressMessages(
     readr::read_delim("tests/piat/Stimuli_PIAT_Matrix.txt", 
                       "\t", escape_double = FALSE, trim_ws = TRUE))
