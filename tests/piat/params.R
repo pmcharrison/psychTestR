@@ -152,7 +152,7 @@ test_modules$intro <- withTags(
            response_options = "Next",
            wait = TRUE),
        new("one_btn_page",
-           body = p("To test the accuracy of your imagery, a test tone will be sounded and a white fixation cross will display. The tone will either match the note you are imagining, or will be incorrect. Your task will be to determine which is the case. Press 'Next' for the full example trial and try to respond correctly.")),
+           body = p("To test the accuracy of your imagery, a test tone will be sounded and a white fixation cross will display. The tone will either match the note you are imagining or it won't match. Your task will be to determine which is the case. Press 'Next' for the full example trial and try to respond correctly.")),
        new("video_stimulus_NAFC",
            prompt = p("Here is an example complete trial:"),
            source = file.path(media_dir, "training/Example_Trial_complete.mp4"),
@@ -216,7 +216,7 @@ test_modules$main_piat <-
   c(list(new("code_block",
              fun = function(rv, input) {
                intro <- new("one_btn_page",
-                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might may be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.",
+                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.",
                                                   nrow(rv$params$piat$items))))
                rv$test_stack <- c(list(intro),
                                   rv$test_stack)
@@ -272,8 +272,10 @@ test_modules$piat_debrief <-
           body = tags$p("Different strategies can be used to complete this task. Please rate for each of the following strategies how much of the time you used each strategy whilst completing the task."))),
     lapply(list(list(id = "sang_pitch", 
                      q = "Sang pitch in my head"),
+                list(id = "sang_or_hummed_out_loud",
+                     q = "Sang or hummed out loud"),
                 list(id = "used_intuition",
-                     q = "Used intuition when judging probe"),
+                     q = "Used my gut feeling when judging whether the final note matched or not"),
                 list(id = "imagined_seeing",
                      q = "Imagined seeing something (e.g. staircase or piano keyboard)"),
                 list(id = "heard_sound_in_my_head",

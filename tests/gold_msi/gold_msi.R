@@ -33,7 +33,7 @@ getMusicalTraining <- function() {
                    `6 to 9` = "6",
                    `10 or more` = "7"),
            positive = TRUE),
-      list(q = "At the peak of my interest, I practiced ___ hours per day on my primary instrument.",
+      list(q = "At the peak of my interest, I practised ___ hours per day on my primary instrument.",
            opt = c(`0` = "1",
                    `0.5` = "2",
                    `1` = "3",
