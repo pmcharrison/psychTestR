@@ -68,10 +68,12 @@ setClass("video_stimulus_NAFC",
                       source = "character",
                       type = "character",
                       response_options = "character",
+                      arrange_options_vertically = "logical",
                       wait = "logical",
                       mobile_enabled = "logical"),
          contains = "page",
          prototype = list(wait = TRUE,
+                          arrange_options_vertically = FALSE,
                           mobile_enabled = TRUE))
 setMethod(
   f = "initialize",
@@ -112,7 +114,8 @@ setMethod(
                onclick = cmd_play_video)
       } else NULL
     )
-    response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait)
+    response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait,
+                                arrange_vertically = .Object@arrange_options_vertically)
     
     .Object@ui <- div(.Object@prompt, video_ui, response_ui)
     return(.Object)
@@ -223,19 +226,20 @@ setClass("code_block",
          contains = "test_element",
          prototype = list(fun = function(rv, input) NULL))
 
-make_ui_NAFC <- function(response_options, hidden = FALSE) {
+make_ui_NAFC <- function(response_options, hidden = FALSE,
+                         arrange_vertically = TRUE) {
   assertthat::assert_that(is.character(response_options), is.logical(hidden))
   labels <- if (is.null(names(response_options))) {
     response_options
   } else {
     names(response_options)
   }
-  withTags(
-    div(id = "response_UI",
-        style = if (hidden) "visibility: hidden" else "visibility: inherit",
-        mapply(function(id, label) {
-          tags$p(actionButtonTrigger(inputId = id, label = label))
-        }, response_options, labels, SIMPLIFY = F, USE.NAMES = F)))
+  tags$div(id = "response_UI",
+           style = if (hidden) "visibility: hidden" else "visibility: inherit",
+           mapply(function(id, label) {
+             actionButtonTrigger(inputId = id, label = label)
+           }, response_options, labels, SIMPLIFY = F, USE.NAMES = F) %>%
+             (function(x) if (arrange_vertically) lapply(x, tags$p) else x))
 }
 
 setClass("AudioCATParams",
