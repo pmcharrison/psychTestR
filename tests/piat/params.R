@@ -103,7 +103,7 @@ observeEvents <- function(rv, input, session) {
 }
 
 piat <- list()
-piat$items <- getStimuli()[1:3, ]
+piat$items <- getStimuli()
 
 test_modules <- list()
 test_modules$intro <- withTags(
