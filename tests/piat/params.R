@@ -144,7 +144,7 @@ test_modules$intro <- withTags(
            response_options = "Next",
            wait = TRUE),
        new("one_btn_page",
-           body = p("At some point in the trial, an arrow is shown with no tone heard. Your job is to imagine that exact missing tone. Initially there is one tone to be imagined per trial, but the number of tones to be imagined increases over the task, up to 5 tones. The word “hold” will appear with the last silent arrow of the sequence. Hold in your mind the sound of this last tone as you prepare to hear a test tone. Press 'Next' for an example of a single silent arrow added to our trial example.")),
+           body = p("At some point in the trial, an arrow is shown with no tone heard. Your job is to imagine that exact missing tone. The number of tones to be imagined in each trial will vary from 1 to 5 tones. The word “hold” will appear with the last silent arrow of the sequence. Hold in your mind the sound of this last tone as you prepare to hear a test tone. Press 'Next' for an example of a single silent arrow added to our trial example.")),
        new("video_stimulus_NAFC",
            prompt = p("Here is an example:"),
            source = file.path(media_dir, "training/Example_Trial_all_arr.mp4"),
