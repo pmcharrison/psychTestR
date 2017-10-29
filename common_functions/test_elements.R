@@ -22,12 +22,12 @@ setClass("test_element")
 setClass("page",
          slots = list(ui = "shiny.tag", # page UI
                       final = "logical", # whether page is final page or not
-                      on_complete = "expression", # expression to run on completion
-                      validate = "expression"), # expression to check whether input is valid and progress allowed
+                      on_complete = "function", # function(rv, input) to run on completion
+                      validate = "function"), # function(rv, input) to check whether input is valid and progress allowed
          prototype = list(ui = div(),
                           final = FALSE,
-                          on_complete = expression(),
-                          validate = expression(TRUE)),
+                          on_complete = function(rv, input) NULL,
+                          validate = function(rv, input) TRUE),
          contains = "test_element")
 
 # one_btn_page shows a page with some content and 
@@ -229,7 +229,7 @@ setClass(
   contains = "page",
   prototype = list(
     other_please_state = FALSE,
-    validate = expression(
+    validate = function(rv, input) {
       if (input$dropdown == "Other (please state)" &&
           input$other_please_state == "") {
         shinyjs::alert(
@@ -243,7 +243,7 @@ setClass(
           )
         FALSE
       } else TRUE
-      ),
+           },
            max_pixel_width = 200))
 setMethod(
   f = "initialize",
@@ -277,11 +277,9 @@ setMethod(
 )
 
 setClass("code_block",
-         slots = list(fun = "function",
-                      expr = "expression"),
+         slots = list(fun = "function"),
          contains = "test_element",
-         prototype = list(fun = list,
-                          expr = expression()))
+         prototype = list(fun = function(rv, input) NULL))
 
 make_ui_NAFC <- function(response_options, hidden = FALSE,
                          arrange_vertically = TRUE) {

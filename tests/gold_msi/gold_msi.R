@@ -1,10 +1,10 @@
 getMusicalTraining <- function() {
   c(list(new("one_btn_page",
              body = tags$p("We will now ask you some questions about your musical background. You will be presented with some statements: your task is to say how much you agree with them."),
-             on_complete = expression(
+             on_complete = function(rv, input) {
                rv$results$musical_training <- list(detail = data.frame(),
                                                    total_score = 0)
-             ))),
+             })),
     lapply(list(
       list(q = "I have never been complimented for my talents as a musical performer.",
            opt = c(`Completely Disagree` = "1",
@@ -73,7 +73,7 @@ getMusicalTraining <- function() {
         new("page_NAFC",
             prompt = tags$p(x$q),
             response_options = x$opt,
-            on_complete = expression({
+            on_complete = function(rv, input) {
               answer <- which(vapply(x$opt, function(y) input[[y]] == 1,
                                      logical(1)))
               answer_num <- as.numeric(x$opt[answer])
@@ -89,7 +89,7 @@ getMusicalTraining <- function() {
                                  answer_num_weighted = answer_num_weighted))
               rv$results$musical_training$total_score <- 
                 rv$results$musical_training$total_score + answer_num_weighted
-            }))
+            })
       }))
 }
 
@@ -121,9 +121,9 @@ getGoldMSI <- function(sub_factors = "All", general_factor = FALSE,
   
   prep_pages <- new("one_btn_page",
                     body = tags$p("We will now ask you some questions about your musical background. You will be presented with some statements: your task is to say how much you agree with them."),
-                    on_complete = expression(
-                      rv$results$gold_msi <- list(detail = paramsitems)
-                    ))
+                    on_complete = function(rv, input) {
+                      rv$results$gold_msi <- list(detail = items)
+                    })
   
   item_pages <- mapply(
     function(position, question, 
@@ -148,10 +148,10 @@ getGoldMSI <- function(sub_factors = "All", general_factor = FALSE,
                           btn5_text, btn6_text, btn7_text)
             x
           }),
-          on_complete = expression(
+          on_complete = function(rv, input) {
             rv$results$gold_msi$detail$response[position] <- 
               as.numeric(input$lastBtnPressed)
-          ))
+          })
     },
     seq_len(nrow(items)),
     items$question,
@@ -171,26 +171,26 @@ getGoldMSI <- function(sub_factors = "All", general_factor = FALSE,
           sapply(., Hmisc::capitalize, USE.NAMES = FALSE),
         other_please_state = TRUE,
         max_pixel_width = 200,
-        on_complete = expression(
+        on_complete = function(rv, input) {
           rv$results$gold_msi$best_instrument <- 
             if (input$dropdown == "Other (please state)") {
               input$other_please_state
             } else {
               input$dropdown
             }
-        )
+        }
       )
     } else NULL
   
   final_pages <- new("one_btn_page",
                      body = tags$p("You completed the musical background questionaire."),
-                     on_complete = expression(
+                     on_complete = function(rv, input) {
                        rv$results$gold_msi$scores <- 
                          scoreGoldMSI(rv$results$gold_msi$detail,
                                       sub_factors = sub_factors,
                                       possible_sub_factors = possible_sub_factors,
                                       general_factor = general_factor)
-                     ))
+                     })
   c(prep_pages, item_pages, best_instrument_page, final_pages)
 }
 

@@ -38,19 +38,13 @@ nextPage <- function(rv, input) {
   # Check validity of the current page. If validity check fails, quit
   # the current operation.
   if (.hasSlot(rv$current_page, "validate") &&
-      !(rv$current_page@validate %>%
-        (function (x) {
-          if (is.function(x)) do.call(x, list(rv, input)) else eval(x)
-        }))) {
+      !do.call(rv$current_page@validate, list(rv, input))) {
     shinyjs::runjs("document.getElementById('current_page.ui').style.visibility = 'visible'")
     return(FALSE) # i.e. we escape the nextPage evaluation, forcing input revision
   }
   # Perform the <on_complete> function for the current page, if it exists.
   if (.hasSlot(rv$current_page, "on_complete")) {
-    (rv$current_page@on_complete %>%
-       (function (x) {
-         if (is.function(x)) do.call(x, list(rv, input)) else eval(x)
-       }))
+    do.call(rv$current_page@on_complete, list(rv, input))
   }
   # Deal with the next thing on the stack, whatever it is
   if (is(rv$test_stack[[1]], "code_block")) {
@@ -59,8 +53,8 @@ nextPage <- function(rv, input) {
     # we move to the next page.
     rv$current_page <- rv$test_stack[[1]]
     rv$test_stack <- rv$test_stack[- 1]
-    rv$current_page@fun %>% do.call(., list(rv, input))
-    rv$current_page@expr %>% eval
+    fun <- rv$current_page@fun
+    do.call(fun, list(rv, input))
     nextPage(rv, input)
   } else if (is(rv$test_stack[[1]], "page")) {
     # Next thing on the stack is a test page
