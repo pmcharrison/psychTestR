@@ -216,7 +216,7 @@ scoreGoldMSI <- function(detail, sub_factors,
       detail[detail$factor_label == sub_factor, ] %>%
       sumScores
   }
-  if (general_factor) {
+  if (general_factor || all(possible_sub_factors %in% sub_factors)) {
     res$general <- 
       detail[detail$general_factor, ] %>%
       sumScores
