@@ -1,0 +1,39 @@
+question_number,factor_number,factor_label,general_factor,question,btn1_text,btn2_text,btn3_text,btn4_text,btn5_text,btn6_text,btn7_text,positive_scoring
+1,1,Active Engagement,1,I spend a lot of my free time doing music-related activities.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+2,5,Emotions,0,I sometimes choose music that can trigger shivers down my spine. ,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+3,1,Active Engagement,1,"I enjoy writing about music, for example on blogs and forums.",Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+4,4,Singing Abilities,1,"If somebody starts singing a song I don't know, I can usually join in.",Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+5,2,Perceptual Abilities,0,I am able to judge whether someone is a good singer or not.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+6,2,Perceptual Abilities,0,I usually know when I'm hearing a song for the first time.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+7,4,Singing Abilities,1,I can sing or play music from memory.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+8,1,Active Engagement,0,I'm intrigued by musical styles I'm not familiar with and want to find out more.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+9,5,Emotions,0,Pieces of music rarely evoke emotions for me.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,0
+10,4,Singing Abilities,1,I am able to hit the right notes when I sing along with a recording.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+11,2,Perceptual Abilities,0,I find it difficult to spot mistakes in a performance of a song even if I know the tune.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,0
+12,2,Perceptual Abilities,1,I can compare and discuss differences between two performances or versions of the same piece of music.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+13,2,Perceptual Abilities,0,I have trouble recognizing a familiar song when played in a different way or by a different performer.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,0
+14,3,Musical Training,1,I have never been complimented for my talents as a musical performer.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,0
+15,1,Active Engagement,1,I often read or search the internet for things related to music.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+16,5,Emotions,0,I often pick certain music to motivate or excite me. ,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+17,4,Singing Abilities,1,I am not able to sing in harmony when somebody is singing a familiar tune. ,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,0
+18,2,Perceptual Abilities,0,I can tell when people sing or play out of time with the beat.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+19,5,Emotions,1,I am able to identify what is special about a given musical piece.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+20,5,Emotions,0,I am able to talk about the emotions that a piece of music evokes for me.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+21,1,Active Engagement,0,I don't spend much of my disposable income on music.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,0
+22,2,Perceptual Abilities,0,I can tell when people sing or play out of tune.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+23,2,Perceptual Abilities,1,"When I sing, I have no idea whether I'm in tune or not.",Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,0
+24,1,Active Engagement,1,Music is kind of an addiction for me - I couldn't live without it.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+25,4,Singing Abilities,1,I don't like singing in public because I'm afraid that I would sing wrong notes.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,0
+26,2,Perceptual Abilities,0,When I hear a music I can usually identify its genre.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+27,3,Musical Training,1,I would not consider myself a musician.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,0
+28,1,Active Engagement,0,I keep track of new of music that I come across (e.g. new artists or recordings).,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+29,4,Singing Abilities,1,"After hearing a new song two or three times, I can usually sing it by myself.",Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+30,4,Singing Abilities,0,I only need to hear a new tune once and I can sing it back hours later.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+31,5,Emotions,0,Music can evoke my memories of past people and places.,Completely Disagree,Strongly Disagree,Disagree,Neither Agree nor Disagree,Agree,Strongly Agree,Completely Agree,1
+32,3,Musical Training,1,"I engaged in regular, daily practice of a musical instrument (including voice) for ___ years. ",0,1,2,3,4 to 5,6 to 9,10 or more,1
+33,3,Musical Training,1,"At the peak of my interest, I practised ___ hours per day on my primary instrument.",0,0.5,1,1.5,2,3 to 4,5 or more,1
+34,1,Active Engagement,0,I have attended _ live music events as an audience member in the past twelve months.,0,1,2,3,4 to 6,7 to 10,11 or more,1
+35,3,Musical Training,0,I have had formal training in music theory for __ years,0,0.5,1,2,3,4 to 6,7 or more,1
+36,3,Musical Training,0,I have had __ years of formal training on a musical instrument (including voice) during my lifetime. ,0,0.5,1,2,3 to 5,6 to 9,10 or more,1
+37,3,Musical Training,1,I can play ___ musical instruments,0,1,2,3,4,5,6 or more,1
+38,1,Active Engagement,0,I listen attentively to music for __ per day.,0-15 min.,15-30 min.,30-60 min.,60-90 min.,2 hrs,2-3  hrs,4 hrs or more,1
