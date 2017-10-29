@@ -220,6 +220,61 @@ setMethod(
   }
 )
 
+setClass(
+  "page_dropdown",
+  slots = list(prompt = "shiny.tag",
+               options = "character",
+               other_please_state = "logical",
+               max_pixel_width = "numeric"),
+  contains = "page",
+  prototype = list(
+    other_please_state = FALSE,
+    validate = function(rv, input) {
+      if (input$dropdown == "Other (please state)" &&
+          input$other_please_state == "") {
+        shinyjs::alert(
+          "If you select 'Other (please state)', you must fill in the text box."
+        )
+        FALSE
+      } else if (input$dropdown != "Other (please state)" && 
+                 input$other_please_state != "") {
+        shinyjs::alert(
+          "If you fill in the test box, you must select 'Other (please state)'."
+          )
+        FALSE
+      } else TRUE
+           },
+           max_pixel_width = 200))
+setMethod(
+  f = "initialize",
+  signature = "page_dropdown",
+  definition = function(.Object, ...) {
+    .Object <- callNextMethod(.Object, ...)
+    assertthat::assert_that(
+      assertthat::is.scalar(.Object@other_please_state),
+      assertthat::is.scalar(.Object@max_pixel_width)
+    )
+    response_ui <- tags$div(
+      style = "max-width:%ipx" %>% sprintf(round(.Object@max_pixel_width)),
+      selectizeInput("dropdown",
+                     label = NULL,
+                     choices = c(.Object@options, 
+                                 if (.Object@other_please_state) {
+                                   "Other (please state)"
+                                 } else NULL),
+                     multiple = FALSE),
+      if (.Object@other_please_state) {
+        textInput("other_please_state",
+                  NULL,
+                  placeholder = "Other (please state)")
+      } else NULL,
+      actionButtonTrigger("next", "Next")
+    )
+    .Object@ui <- div(.Object@prompt, response_ui)
+    if (.Object@other_please_state)
+    return(.Object)
+  }
+)
 
 setClass("code_block",
          slots = list(fun = "function"),
