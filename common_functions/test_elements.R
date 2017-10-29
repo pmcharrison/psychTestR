@@ -277,9 +277,11 @@ setMethod(
 )
 
 setClass("code_block",
-         slots = list(fun = "function"),
+         slots = list(fun = "function",
+                      expr = "expression"),
          contains = "test_element",
-         prototype = list(fun = function(rv, input) NULL))
+         prototype = list(fun = list,
+                          expr = expression()))
 
 make_ui_NAFC <- function(response_options, hidden = FALSE,
                          arrange_vertically = TRUE) {

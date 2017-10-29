@@ -3,7 +3,7 @@ study_id <- NA
 pilot <- TRUE
 
 pages <- c(getGoldMSI(sub_factors = "Musical Training",
-                      general_factor = TRUE, ask_best_instrument = TRUE),
+                      general_factor = FALSE, ask_best_instrument = TRUE),
            new("code_block",
                fun = function(rv, input) {
                  print(rv$results)
