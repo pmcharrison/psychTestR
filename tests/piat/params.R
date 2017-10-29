@@ -339,7 +339,7 @@ pages <- c(
   test_modules$piat_debrief,
   test_modules$absolute_pitch,
   getBasicDemographics(),
-  getMusicalTraining(),
+  getGoldMSI(sub_factors = "All", ask_best_instrument = TRUE),
   test_modules$save_data,
   test_modules$final
 )
