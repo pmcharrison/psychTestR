@@ -103,10 +103,9 @@ observeEvents <- function(rv, input, session) {
 }
 
 piat <- list()
-piat$items <- getStimuli()[1, ]
 
 test_modules <- list()
-test_modules$intro <- withTags(
+test_modules$generic_intro <- 
   list(new("one_btn_page",
            body = tags$div(
              tags$p("Please enter your participant ID."),
@@ -124,45 +123,47 @@ test_modules$intro <- withTags(
        new("volume_calibration",
            prompt = tags$p("Please adjust the volume to a comfortable level."),
            source = volume_calibration_source,
-           type = "mp3"),
-       new("one_btn_page",
-           body = p("The Pitch Imagery Arrow Task has been designed to teach you to successfully imagine musical tones from a visual prompt.")),
-       new("one_btn_page",
-           body = p("Each trial starts with the word “Begin” on the screen, and you will hear an ascending major scale, which provides the key or context for that trial. You will then see a dot on the screen and hear a start note. Press 'Next' for an example of this.")),
-       new("video_stimulus_NAFC",
-           prompt = p("Here is an example context:"),
-           source = file.path(media_dir, "training/Scale_C_ton.mp4"),
-           type = "mp4",
-           response_options = "Next",
-           wait = TRUE),
-       new("one_btn_page",
-           body = p("A variable number of up and/or down arrows will then appear in a sequence, with a corresponding tone, that is stepping up or down the scale. Press 'Next' for an example of these arrows appearing after the ascending scale and start note.")),
-       new("video_stimulus_NAFC",
-           prompt = p("Here is an example of arrows appearing after the ascending scale and start note:"),
-           source = file.path(media_dir, "training/Example_Trial_sounded_arr.mp4"),
-           type = "mp4",
-           response_options = "Next",
-           wait = TRUE),
-       new("one_btn_page",
-           body = p("At some point in the trial, an arrow is shown with no tone heard. Your job is to imagine that exact missing tone. The number of tones to be imagined in each trial will vary from 1 to 5 tones. The word “hold” will appear with the last silent arrow of the sequence. Hold in your mind the sound of this last tone as you prepare to hear a test tone. Press 'Next' for an example of a single silent arrow added to our trial example.")),
-       new("video_stimulus_NAFC",
-           prompt = p("Here is an example:"),
-           source = file.path(media_dir, "training/Example_Trial_all_arr.mp4"),
-           type = "mp4",
-           response_options = "Next",
-           wait = TRUE),
-       new("one_btn_page",
-           body = p("To test the accuracy of your imagery, a test tone will be sounded and a white fixation cross will display. The tone will either match the note you are imagining or it won't match. Your task will be to determine which is the case. Press 'Next' for the full example trial and try to respond correctly.")),
-       new("video_stimulus_NAFC",
-           prompt = p("Here is an example complete trial:"),
-           source = file.path(media_dir, "training/Example_Trial_complete.mp4"),
-           type = "mp4",
-           response_options = c("Match", "No match"),
-           wait = TRUE),
-       new("one_btn_page",
-           body = p("We encourage you to just use your imagery to play the missing notes in your head, and don’t hum or move as you imagine. From earlier tests we know that using only your imagery gives the best results on the test.")),
-       new("one_btn_page",
-           body = p("There are 3 practice trials in which you will receive feedback. You are free to attempt these as many times as you wish to familiarise yourself with the task."))))
+           type = "mp3"))
+  
+test_modules$piat_intro <- withTags(list(
+  new("one_btn_page",
+      body = p("The Pitch Imagery Arrow Task has been designed to teach you to successfully imagine musical tones from a visual prompt.")),
+  new("one_btn_page",
+      body = p("Each trial starts with the word “Begin” on the screen, and you will hear an ascending major scale, which provides the key or context for that trial. You will then see a dot on the screen and hear a start note. Press 'Next' for an example of this.")),
+  new("video_stimulus_NAFC",
+      prompt = p("Here is an example context:"),
+      source = file.path(media_dir, "training/Scale_C_ton.mp4"),
+      type = "mp4",
+      response_options = "Next",
+      wait = TRUE),
+  new("one_btn_page",
+      body = p("A variable number of up and/or down arrows will then appear in a sequence, with a corresponding tone, that is stepping up or down the scale. Press 'Next' for an example of these arrows appearing after the ascending scale and start note.")),
+  new("video_stimulus_NAFC",
+      prompt = p("Here is an example of arrows appearing after the ascending scale and start note:"),
+      source = file.path(media_dir, "training/Example_Trial_sounded_arr.mp4"),
+      type = "mp4",
+      response_options = "Next",
+      wait = TRUE),
+  new("one_btn_page",
+      body = p("At some point in the trial, an arrow is shown with no tone heard. Your job is to imagine that exact missing tone. The number of tones to be imagined in each trial will vary from 1 to 5 tones. The word “hold” will appear with the last silent arrow of the sequence. Hold in your mind the sound of this last tone as you prepare to hear a test tone. Press 'Next' for an example of a single silent arrow added to our trial example.")),
+  new("video_stimulus_NAFC",
+      prompt = p("Here is an example:"),
+      source = file.path(media_dir, "training/Example_Trial_all_arr.mp4"),
+      type = "mp4",
+      response_options = "Next",
+      wait = TRUE),
+  new("one_btn_page",
+      body = p("To test the accuracy of your imagery, a test tone will be sounded and a white fixation cross will display. The tone will either match the note you are imagining or it won't match. Your task will be to determine which is the case. Press 'Next' for the full example trial and try to respond correctly.")),
+  new("video_stimulus_NAFC",
+      prompt = p("Here is an example complete trial:"),
+      source = file.path(media_dir, "training/Example_Trial_complete.mp4"),
+      type = "mp4",
+      response_options = c("Match", "No match"),
+      wait = TRUE),
+  new("one_btn_page",
+      body = p("We encourage you to just use your imagery to play the missing notes in your head, and don’t hum or move as you imagine. From earlier tests we know that using only your imagery gives the best results on the test.")),
+  new("one_btn_page",
+      body = p("There are 3 practice trials in which you will receive feedback. You are free to attempt these as many times as you wish to familiarise yourself with the task."))))
 
 test_modules$practice_questions <-
   lapply(
@@ -212,43 +213,55 @@ test_modules$repeatable_practice_questions <-
           }
         }))
 
+makePIATitem <- function(item_position,
+                         items_df) {
+  new("video_stimulus_NAFC",
+      prompt = tags$div(
+        tags$strong(sprintf("Question %i out of %i:",
+                            item_position, nrow(items_df))),
+        tags$p("Did the final tone match the note you were imagining?")),
+      source = file.path(media_dir,
+                         paste0("main/mp4/",
+                                items_df$Filename[item_position], ".mp4")),
+      type = "mp4",
+      response_options = c("Match", "No match"),
+      wait = TRUE,
+      on_complete = function(rv, input) {
+        ParticipantResponse <- if (input$Match == 1) {
+          "Match"
+        } else if (input$`No match` == 1) {
+          "No match"
+        } else stop("This shouldn't happen!")
+        correct_answer <- if (items_df$ProbeAcc[item_position] == 1) {
+          "Match"
+        } else if (items_df$ProbeAcc[item_position] == 0) {
+          "No match"
+        } else stop()
+        ParticipantCorrect <- ParticipantResponse == correct_answer
+        rv$results$piat$items$ParticipantResponse[item_position] <- ParticipantResponse
+        rv$results$piat$items$ParticipantCorrect[item_position] <- ParticipantCorrect
+        if (item_position < nrow(items_df)) {
+          makePIATitem(item_position = item_position + 1,
+                       items_df = items_df) %>% pushToTestStack(., rv)
+        }
+      })
+}
+
 test_modules$main_piat <-
   c(list(new("code_block",
              fun = function(rv, input) {
+               rv$results <- list(piat = list(items = getStimuli()))
                intro <- new("one_btn_page",
                             body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.",
-                                                  nrow(rv$params$piat$items))))
-               rv$test_stack <- c(list(intro),
+                                                  nrow(rv$results$piat$items))))
+               next_item <- makePIATitem(
+                 item_position = 1,
+                 items_df = rv$results$piat$items
+               )
+               rv$test_stack <- c(intro,
+                                  next_item,
                                   rv$test_stack)
-               rv$piat$progress <- 1
-               rv$results <- list(piat = list(items = rv$params$piat$items))
-             })),
-    lapply(seq_len(nrow(piat$items)),
-           function(n) {
-             new("video_stimulus_NAFC",
-                 prompt = tags$div(
-                   tags$strong(sprintf("Question %i out of %i:", n, nrow(piat$items))),
-                   tags$p("Did the final tone match the note you were imagining?")),
-                 source = file.path(media_dir, paste0("main/mp4/",
-                                                      piat$items$Filename[n], ".mp4")),
-                 type = "mp4",
-                 response_options = c("Match", "No match"),
-                 wait = TRUE,
-                 on_complete = function(rv, input) {
-                   ParticipantResponse <- if (input$Match == 1) {
-                     "Match"
-                   } else if (input$`No match` == 1) {
-                     "No match"
-                   } else stop("This shouldn't happen!")
-                   correct_answer <- if (piat$items$ProbeAcc[n] == 1) {
-                     "Match"
-                   } else if (piat$items$ProbeAcc[n] == 0) {
-                     "No match"
-                   } else stop()
-                   ParticipantCorrect <- ParticipantResponse == correct_answer
-                   rv$results$piat$items$ParticipantResponse[n] <- ParticipantResponse
-                   rv$results$piat$items$ParticipantCorrect[n] <- ParticipantCorrect
-                 })}))
+             })))
 
 test_modules$piat_debrief <- 
   c(
@@ -333,13 +346,14 @@ test_modules$final <-
            body = p("You completed the test! Your responses have been recorded. You may now close the browser window.")))
 
 pages <- c(
-  test_modules$intro,
-  test_modules$repeatable_practice_questions,
+  test_modules$generic_intro,
+  # test_modules$piat_intro,
+  # test_modules$repeatable_practice_questions,
   test_modules$main_piat,
-  test_modules$piat_debrief,
-  test_modules$absolute_pitch,
-  getBasicDemographics(),
-  getGoldMSI(sub_factors = "All", ask_best_instrument = TRUE),
+  # test_modules$piat_debrief,
+  # test_modules$absolute_pitch,
+  # getBasicDemographics(),
+  # getGoldMSI(sub_factors = "All", ask_best_instrument = TRUE),
   test_modules$save_data,
   test_modules$final
 )
