@@ -308,7 +308,7 @@ test_modules$piat_debrief <-
           }),
       new("one_btn_page",
           body = tags$p("Different strategies can be used to complete this task. Please rate for each of the following strategies how much of the time you used each strategy whilst completing the task."))),
-    lapply(list(list(id = "sang_pitch", 
+    lapply(list(list(id = "sang_pitch_in_head", 
                      q = "Sang pitch in my head"),
                 list(id = "sang_or_hummed_out_loud",
                      q = "Sang or hummed out loud"),
