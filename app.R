@@ -18,4 +18,6 @@ if (PIAT) {
 server <- psychTestServer(params)
 ui <- psychTestUI(params)
 
-shinyApp(ui = ui, server = server)
+shinyApp(ui = ui, server = server,
+         onStart = function() {
+           onStop(function() params$server_quit_fun)})

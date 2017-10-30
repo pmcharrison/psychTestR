@@ -5,6 +5,7 @@ study_id <- 11
 pilot <- TRUE
 
 db <- GMSIData::db_connect()
+server_quit_fun <- GMSIData::db_disconnect(db)
 
 display_options <- list(theme = shinytheme("readable"))
 
@@ -15,7 +16,11 @@ volume_calibration_source <- file.path(media_dir, "volume_calibration.mp3")
 
 admin <- list(state = FALSE,
               password = "robinhood")
-admin_mode <- FALSE
+
+setup <- function(rv) {
+  rv$admin <- list(logged_in = FALSE,
+                   num_items = 30)
+}
 
 side_panel_ui_admin_false <- 
   div(
@@ -40,6 +45,10 @@ side_panel_ui_admin_true <-
     shinyBS::tipify(
       el = tags$p(downloadButton("download_results", "Download results")),
       title = "Downloaded results can be read into R using the function <em>readRDS()</em>."
+    ),
+    shinyBS::tipify(
+      el = tags$p(uiOutput("admin_num_items_slider", inline = TRUE)),
+      title = "You can set the number of items in the test here. Once the main test has started, changes here will have no effect."
     ),
     shinyBS::tipify(
       el = tags$p(actionButton("admin_logout", "Exit admin mode",
@@ -67,8 +76,14 @@ renderOutputs <- function(rv, input, output) {
   # Admin panel
   output$side_panel_ui <-
     renderUI(
-      if (rv$admin) side_panel_ui_admin_true %>% print else side_panel_ui_admin_false %>% print
+      if (!is.null(rv$admin) && rv$admin$logged_in) side_panel_ui_admin_true else side_panel_ui_admin_false
     )
+  # Num items slider
+  output$admin_num_items_slider <- renderUI(
+    shiny::sliderInput("admin_num_items", "Num. items",
+                       min = 1, max = 30, value = rv$admin$num_items,
+                       step = 1, animate = TRUE, ticks = FALSE) 
+  )
 }
 
 renderModals <- function(rv, input, output, session) {
@@ -90,14 +105,21 @@ observeEvents <- function(rv, input, session) {
     observeEvent(input$admin_login_trigger, toggleModal(session, "admin_login_popup", toggle = "open")),
     observeEvent(input$submit_admin_password,
                  if (input$admin_password == rv$params$admin$password) {
-                   rv$admin <- TRUE
+                   rv$admin$logged_in <- TRUE
                    toggleModal(session, "admin_login_popup", toggle = "close")
                  } else {
                    shinyjs::alert("Incorrect password.")
                  }),
     observeEvent(input$admin_logout, {
-      rv$admin <- FALSE
+      rv$admin$logged_in <- FALSE
       updateTextInput(session, "admin_password", value = "")
+    }),
+    observeEvent(input$admin_num_items, {
+      if (!is.null(input$admin_num_items)) {
+        message("Setting admin_num_items from the slider")
+        assertthat::assert_that(is.numeric(input$admin_num_items))
+        rv$admin$num_items <- input$admin_num_items
+      }
     })
   )
 }
@@ -105,6 +127,7 @@ observeEvents <- function(rv, input, session) {
 piat <- list()
 
 test_modules <- list()
+
 test_modules$generic_intro <- 
   list(new("one_btn_page",
            body = tags$div(
@@ -249,7 +272,7 @@ makePIATitem <- function(item_position,
 test_modules$main_piat <-
   c(list(new("code_block",
              fun = function(rv, input) {
-               rv$results <- list(piat = list(items = getStimuli()))
+               rv$results <- list(piat = list(items = getStimuli(num_items = rv$admin$num_items)))
                intro <- new("one_btn_page",
                             body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.",
                                                   nrow(rv$results$piat$items))))
@@ -345,6 +368,7 @@ test_modules$final <-
            body = p("You completed the test! Your responses have been recorded. You may now close the browser window.")))
 
 pages <- c(
+  test_modules$setup,
   test_modules$generic_intro,
   # test_modules$piat_intro,
   # test_modules$repeatable_practice_questions,

@@ -33,15 +33,18 @@ setClass("page",
 # one_btn_page shows a page with some content and 
 # a 'Next' button.
 setClass("one_btn_page",
-         slots = list(body = "shiny.tag"),
-         contains = "page")
+         slots = list(body = "shiny.tag",
+                      button_text = "character"),
+         contains = "page",
+         prototype = list(body = tags$div(),
+                          button_text = "Next"))
 setMethod(
   f = "initialize",
   signature = "one_btn_page",
   definition = function(.Object, ...) {
     .Object <- callNextMethod(.Object, ...)
     .Object@ui <- div(.Object@body,
-                      actionButtonTrigger("next", "Next"))
+                      actionButtonTrigger("next", .Object@button_text))
     return(.Object)
   }
 )

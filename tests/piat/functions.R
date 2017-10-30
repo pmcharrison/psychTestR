@@ -3,7 +3,13 @@ shuffle <- function(vec) {
              size = length(vec))]
 }
 
-getStimuli <- function() {
+getStimuli <- function(num_items = 30) {
+  num_items <- round(num_items)
+  assertthat::assert_that(
+    is.numeric(num_items),
+    num_items > 0,
+    num_items <= 30
+  )
   item_bank <- suppressMessages(
     readr::read_delim("tests/piat/Stimuli_PIAT_Matrix.txt", 
                       "\t", escape_double = FALSE, trim_ws = TRUE))
@@ -38,7 +44,7 @@ getStimuli <- function() {
   row.names(stimuli) <- NULL
   stimuli <- cbind(data.frame(Position = seq_len(nrow(stimuli))),
                    stimuli)
-  stimuli
+  stimuli[seq_len(num_items), ]
 }
 
 msg <- function(msg) {

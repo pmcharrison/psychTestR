@@ -4,8 +4,23 @@ psychTestServer <- function(params) {
   function(input, output, session) {
     # rv stores the current test state
     rv <- initialiseRV(params)
+    # Run setup
+    observeEvent(TRUE, {
+      rv$params$setup %>% (function(x) if (!is.null(x)) do.call(x, list(rv)))
+    }, once = TRUE)
+    # Go to first page
+    observeEvent(TRUE, {
+      nextPage(rv, input)
+    }, once = TRUE)
     # UI is rendered programmatically
-    output$ui <- renderUI(tags$div(id = "current_page.ui", rv$current_page@ui))
+    output$ui <- renderUI({
+      tags$div(id = "current_page.ui",
+               if (is(rv$current_page, "page")) {
+                 rv$current_page@ui
+                 } else {
+                   tags$div()
+                 })
+    })
     # Watch out for the next page
     observeEvent(input$nextPage,
                  nextPage(rv, input))
@@ -26,14 +41,25 @@ psychTestServer <- function(params) {
 
 #### Helper functions ####
 
-initialiseRV <- function(params) {
-  reactiveValues(test_stack = params$pages[- 1],
-                 current_page = params$pages[[1]],
-                 params = params,
-                 admin = FALSE)
+listToReactiveValues <- function(l) {
+  rv <- reactiveValues()
+  for (i in seq_along(l)) {
+    rv[[names(l)[i]]] <- l[[i]]
+  }
+  rv
 }
 
+initialiseRV <- function(params) {
+  reactiveValues(test_stack = params$pages,
+                 current_page = tags$div(),
+                 # current_page = new("one_btn_page",
+                 #                    button_text = "Start"),
+                 params = params)
+}
+
+# rv can be a reactive values object or a list
 nextPage <- function(rv, input) {
+  sprintf("admin$num_items = %s", format(rv$admin$num_items))
   if (length(rv$test_stack) == 0) stop("No pages left to advance to!")
   # Check validity of the current page. If validity check fails, quit
   # the current operation.
@@ -58,6 +84,7 @@ nextPage <- function(rv, input) {
     nextPage(rv, input)
   } else if (is(rv$test_stack[[1]], "page")) {
     # Next thing on the stack is a test page
+    rv$dep <- Sys.time()
     rv$current_page <- rv$test_stack[[1]]
     rv$test_stack <- rv$test_stack[- 1]
   } else {
