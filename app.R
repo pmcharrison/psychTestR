@@ -1,5 +1,5 @@
-PIAT <- FALSE
-gold_MSI <- TRUE
+PIAT <- TRUE
+gold_MSI <- FALSE
 options(shiny.error = browser)
 if (PIAT) {
   source("tests/piat/load_piat.R")
