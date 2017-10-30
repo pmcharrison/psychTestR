@@ -193,7 +193,6 @@ test_modules$practice_questions <-
                                           "You answered correctly!"
                                         } else "You answered incorrectly."))),
                                rv$test_stack)
-            msg("Just pushed a feedback page.")
           })})
 
 test_modules$repeatable_practice_questions <-
