@@ -5,6 +5,7 @@ psychTestUI  <- function(params) {
   
   fluidPage(
     theme = params$display_options$theme,
+    title = params$title,
     shinyjs::useShinyjs(),
     uiOutput("modals"),
     fluidRow(column(12, title_content)),
