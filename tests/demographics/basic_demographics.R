@@ -36,5 +36,18 @@ getBasicDemographics <- function() {
                                 "Rather not say"),
            on_complete = function(rv, input) {
              rv$results$basic_demographics$occupation <- input$lastBtnPressed
-           }))
+           }),
+       new("page_NAFC",
+           prompt = tags$div(tags$p("What is the highest educational qualification that you have attained?"),
+                             tags$p("(choose the one most appropriate option)")),
+           response_options = c("Postgraduate degree",
+                                "Undergraduate degree or professional qualification",
+                                "Completed second qualification (e.g. A levels/High School)",
+                                "Completed first school qualification at about 16 years (e.g. GCSE/Junior High School)",
+                                "Did not complete any school qualification",
+                                "Rather not say"),
+           on_complete = function(rv, input) {
+             rv$results$basic_demographics$education_highest_achieved <- input$lastBtnPressed
+           })
+  )
 }
