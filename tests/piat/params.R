@@ -4,8 +4,12 @@ title <- "Music imagery"
 study_id <- 11
 pilot <- TRUE
 
+message("Connecting to the GMSI database")
 db <- GMSIData::db_connect()
-server_quit_fun <- GMSIData::db_disconnect(db)
+server_quit_fun <- function() {
+  message("Disconnecting from the GMSI database")
+  GMSIData::db_disconnect(db)
+}
 
 display_options <- list(theme = shinytheme("readable"))
 
@@ -115,7 +119,6 @@ observeEvents <- function(rv, input, session) {
     }),
     observeEvent(input$admin_num_items, {
       if (!is.null(input$admin_num_items)) {
-        message("Setting admin_num_items from the slider")
         assertthat::assert_that(is.numeric(input$admin_num_items))
         rv$admin$num_items <- input$admin_num_items
       }
@@ -369,13 +372,13 @@ test_modules$final <-
 pages <- c(
   test_modules$setup,
   test_modules$generic_intro,
-  # test_modules$piat_intro,
-  # test_modules$repeatable_practice_questions,
+  test_modules$piat_intro,
+  test_modules$repeatable_practice_questions,
   test_modules$main_piat,
-  # test_modules$piat_debrief,
-  # test_modules$absolute_pitch,
-  # getBasicDemographics(),
-  # getGoldMSI(sub_factors = "All", ask_best_instrument = TRUE),
+  test_modules$piat_debrief,
+  test_modules$absolute_pitch,
+  getBasicDemographics(),
+  getGoldMSI(sub_factors = "All", ask_best_instrument = TRUE),
   test_modules$save_data,
   test_modules$final
 )
