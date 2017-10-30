@@ -21,7 +21,7 @@ getBasicDemographics <- function() {
              } else TRUE
            },
            on_complete = function(rv, input) {
-             rv$results$basic_demographics$age <- input$age
+             rv$results$basic_demographics$age <- as.numeric(input$age)
            }),
        new("page_NAFC",
            prompt = tags$div(tags$p("What is your occupational status?"),
