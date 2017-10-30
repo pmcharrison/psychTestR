@@ -297,14 +297,14 @@ test_modules$piat_debrief <-
                         tags$p("All that's left is a few questions for you to answer."))),
       new("code_block",
           fun = function(rv, input) {
-            rv$piat$debrief <- list()
+            rv$results$piat$debrief <- list()
           }),
       new("one_btn_page",
           body = tags$div(
             tags$p("How vivid were the musical images (the sound of the music in your mind) you formed during the task on a scale of 1 – 7 (1 – Not Vivid at all, 7 – Very Vivid)?"),
             sliderInput("slider", label = NULL, value = 4, min = 1, max = 7, step = 1)),
           on_complete = function(rv, input) {
-            rv$piat$debrief$how_vivid <- input$slider
+            rv$results$piat$debrief$how_vivid <- input$slider
           }),
       new("one_btn_page",
           body = tags$p("Different strategies can be used to complete this task. Please rate for each of the following strategies how much of the time you used each strategy whilst completing the task."))),
@@ -329,7 +329,7 @@ test_modules$piat_debrief <-
                    sliderInput("slider", label = NULL, value = 4,
                                min = 1, max = 7, step = 1)),
                  on_complete = function(rv, input) {
-                   rv$piat$debrief[[x$id]] <- input$slider
+                   rv$results$piat$debrief[[x$id]] <- input$slider
                  })
            }),
     list(new("one_btn_page",
@@ -337,7 +337,7 @@ test_modules$piat_debrief <-
                tags$p("Do you have any other comments about your strategy?"),
                textAreaInput("text", label = NULL, width = "80%", height = "100px")),
              on_complete = function(rv, input) {
-               rv$piat$debrief$other_comments <- input$text
+               rv$results$piat$debrief$other_comments <- input$text
              })))
 
 test_modules$absolute_pitch <- 
