@@ -1,6 +1,11 @@
 PIAT <- TRUE
 gold_MSI <- FALSE
 options(shiny.error = browser)
+# Change the debug options if the server is running on Peter's local machine
+if (Sys.info()["nodename"] == "Peters-MacBook-Pro.local") {
+  options(shiny.error = browser) 
+}
+
 if (PIAT) {
   source("tests/piat/load_piat.R")
 } else if (gold_MSI) {
