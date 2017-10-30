@@ -24,6 +24,7 @@ admin <- list(state = FALSE,
 setup <- function(rv) {
   rv$admin <- list(logged_in = FALSE,
                    num_items = 30)
+  rv$results <- list(time_started = Sys.time())
 }
 
 side_panel_ui_admin_false <- 
@@ -274,7 +275,7 @@ makePIATitem <- function(item_position,
 test_modules$main_piat <-
   c(list(new("code_block",
              fun = function(rv, input) {
-               rv$results <- list(piat = list(items = getStimuli(num_items = rv$admin$num_items)))
+               rv$results$piat <- list(items = getStimuli(num_items = rv$admin$num_items))
                intro <- new("one_btn_page",
                             body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.",
                                                   nrow(rv$results$piat$items))))
@@ -353,6 +354,7 @@ test_modules$save_data <-
   new("code_block",
       fun = function(rv, input) {
         message("Saving data...")
+        rv$results$time_finished <- Sys.time()
         session_id <- GMSIData::dbNewParticipant(db = db,
                                                  participant_id = rv$participant_id,
                                                  study_id = rv$params$study_id, 
