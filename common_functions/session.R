@@ -74,14 +74,14 @@ cleanSessionDir <- function(session_dir, timeout_min = 60) {
     is.numeric(timeout_min), assertthat::is.scalar(timeout_min),
     is.character(session_dir), assertthat::is.scalar(session_dir)
   )
-  dirs <- list.dirs(session_dir, recursive = FALSE)
-  for (dir in dirs) {
-    ssuid <- basename(dir)
-    time <- readTimestamp(session_dir, ssuid)
-    if (!is.na(time) && time < Sys.time() - timeout_min * 60) {
-      unlink(dir, recursive = TRUE)
-    }
-  }
+  # dirs <- list.dirs(session_dir, recursive = FALSE)
+  # for (dir in dirs) {
+  #   ssuid <- basename(dir)
+  #   time <- readTimestamp(session_dir, ssuid)
+  #   if (!is.na(time) && time < Sys.time() - timeout_min * 60) {
+  #     unlink(dir, recursive = TRUE)
+  #   }
+  # }
 }
 
 manageSession <- function(save, restore, session = getDefaultReactiveDomain(),
