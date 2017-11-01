@@ -4,5 +4,5 @@
 .Ruserdata
 *.mp4
 rsconnect
-www/*
 config.R
+www/stimuli_v1/*

@@ -7,6 +7,7 @@ psychTestUI  <- function(params) {
     theme = params$display_options$theme,
     title = params$title,
     shinyjs::useShinyjs(),
+    tags$script(src="session.js"), # This line is required for the session ID to appear in the URL
     uiOutput("modals"),
     fluidRow(column(12, title_content)),
     fluidRow(
