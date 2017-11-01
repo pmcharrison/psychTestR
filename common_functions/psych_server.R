@@ -1,8 +1,8 @@
 #### Top-level function ####
 
 files <- list(session_dir = tempdir())
-options <- list(session_timeout_min = 1,
-                clean_sessions_interval_min = 1 / 60)
+options <- list(session_timeout_min = 120,
+                clean_sessions_interval_min = 15)
 
 psychTestServer <- function(params) {
   function(input, output, session) {
