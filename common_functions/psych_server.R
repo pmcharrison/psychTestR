@@ -1,6 +1,6 @@
 #### Top-level function ####
 
-files <- list(session_dir = "sessions")
+files <- list(session_dir = tempdir())
 options <- list(session_timeout_min = 1,
                 clean_sessions_interval_min = 1 / 60)
 
