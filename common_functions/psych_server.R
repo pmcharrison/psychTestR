@@ -2,7 +2,7 @@
 
 files <- list(session_dir = "/var/tmp/piat")
 options <- list(session_timeout_min = 120,
-                clean_sessions_interval_min = 0.1)
+                clean_sessions_interval_min = 15)
 
 psychTestServer <- function(params) {
   function(input, output, session) {
@@ -15,10 +15,12 @@ psychTestServer <- function(params) {
         reactiveValuesToList(rv)
       }),
       restore = function(data) {
-        for (i in seq_along(data)) {
-          rv[[names(data)[i]]] <- data[[i]]
+        if (!is.null(data)) {
+          for (i in seq_along(data)) {
+            rv[[names(data)[i]]] <- data[[i]]
+          }
+          rv$resumed <- TRUE
         }
-        rv$resumed <- TRUE
       },
       files = files
     )

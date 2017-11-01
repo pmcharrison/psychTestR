@@ -9,7 +9,7 @@ saveSession <- function(ssuid, session_data, session_dir) {
     is.character(session_dir), assertthat::is.scalar(session_dir)
   )
   ssuid_dir <- file.path(session_dir, ssuid)
-  assertthat::assert_that(dir.exists(ssuid_dir))
+  R.utils::mkdirs(ssuid_dir)
   data_path <- file.path(ssuid_dir, "data.RDS")
   message("Saving session to path ", data_path)
   message("Current page:")
