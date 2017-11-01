@@ -15,10 +15,12 @@ psychTestServer <- function(params) {
         reactiveValuesToList(rv)
       }),
       restore = function(data) {
-        for (i in seq_along(data)) {
-          rv[[names(data)[i]]] <- data[[i]]
+        if (!is.null(data)) {
+          for (i in seq_along(data)) {
+            rv[[names(data)[i]]] <- data[[i]]
+          }
+          rv$resumed <- TRUE
         }
-        rv$resumed <- TRUE
       },
       files = files
     )
