@@ -1,5 +1,4 @@
 #### Top-level function ####
-
 files <- list(session_dir = "/var/tmp/piat")
 options <- list(session_timeout_min = 120,
                 clean_sessions_interval_min = 15)
@@ -35,28 +34,34 @@ psychTestServer <- function(params) {
     observeEvent(TRUE, {
       if (!rv$resumed) {
         message("Running setup command")
-        rv$params$setup %>% (function(x) if (!is.null(x)) do.call(x, list(rv)))
+        params$setup %>% (function(x) if (!is.null(x)) do.call(x, list(rv)))
       }
     }, once = TRUE)
-    # Go to first page (once at beginning of test)
-    observeEvent(TRUE, {
-      if (!rv$resumed) {
-        message("Advancing to the first page")
-        nextPage(rv, input)
-      }
-    }, once = TRUE)
+    # # Go to first page (once at beginning of test)
+    # observeEvent(TRUE, {
+    #   if (!rv$resumed) {
+    #     message("Advancing to the first page")
+    #     nextPage(rv, input, params)
+    #   }
+    # }, once = TRUE)
     # UI is rendered programmatically
     output$ui <- renderUI({
-      tags$div(id = "current_page.ui",
-               if (is(rv$current_page, "page")) {
-                 rv$current_page@ui
-                 } else {
-                   tags$div()
-                 })
+      params$pages[[rv$page_index]] %>%
+        (function(elt) {
+          if (is(elt, "page")) {
+            elt
+          } else if (is(elt, "reactive_test_element")) {
+            do.call(elt@fun, list(rv))
+          } else stop ("Unrecognised element type")
+        }) %>%
+        (function(page) {
+          tags$div(id = "current_page.ui",
+                   page@ui)
+        })
     })
     # Watch out for the next page
     observeEvent(input$nextPage,
-                 nextPage(rv, input))
+                 nextPage(rv, input, params))
     # Render outputs
     if (is.null(params$renderOutputs)) NULL else {
       params$renderOutputs(rv = rv, input = input, output = output)
@@ -67,7 +72,7 @@ psychTestServer <- function(params) {
     }
     # Observe events
     if (is.null(params$observeEvents)) NULL else {
-      params$observeEvents(rv = rv, input = input, session = session)
+      params$observeEvents(rv = rv, input = input, session = session, params = params)
     }
   }
 }
@@ -84,53 +89,86 @@ listToReactiveValues <- function(l) {
 
 initialiseRV <- function(params) {
   message("Initialising RV")
-  reactiveValues(test_stack = params$pages,
-                 current_page = tags$div(),
-                 # current_page = new("one_btn_page",
-                 #                    button_text = "Start"),
-                 params = params,
+  reactiveValues(page_index = 1,
+                 message = "No message to display",
                  resumed = FALSE)
 }
 
+getElement <- function(rv, params, index) {
+  num_pages <- length(params$pages)
+  message("index = ", index)
+  message("num_pages = ", num_pages)
+  assertthat::assert_that(
+    is.numeric(index),
+    assertthat::is.scalar(index),
+    round(index) == index,
+    index >= 0,
+    index <= num_pages
+  )
+  elt <- params$pages[[index]]
+  if (is(elt, "reactive_test_element")) {
+    do.call(elt@fun, list(rv))
+  } else elt
+}
+
+getCurrentElement <- function(rv, params) {
+  current_index <- rv$page_index
+  getElement(rv, params, current_index)
+}
+
+getNextElement <- function(rv, params) {
+  current_index <- rv$page_index
+  getElement(rv, params, current_index + 1)
+}
+
+incrementPageIndex <- function(rv, by = 1) {
+  assertthat::assert_that(
+    is.numeric(by),
+    assertthat::is.scalar(by),
+    round(by) == by
+  )
+  rv$page_index <- rv$page_index + by
+}
+
+decrementPageIndex <- function(rv, by = 1) {
+  incrementPageIndex(rv, by = - by)
+}
+
+setMessage <- function(rv, message) {
+  rv$message <- message
+}
+
 # rv can be a reactive values object or a list
-nextPage <- function(rv, input) {
-  sprintf("admin$num_items = %s", format(rv$admin$num_items))
-  if (length(rv$test_stack) == 0) stop("No pages left to advance to!")
+nextPage <- function(rv, input, params) {
   # Check validity of the current page. If validity check fails, quit
   # the current operation.
-  if (.hasSlot(rv$current_page, "validate") &&
-      !do.call(rv$current_page@validate, list(rv, input))) {
+  current_elt  <- getCurrentElement(rv, params)
+  message("Running nextPage, with this as the current test element:")
+  print(current_elt)
+  if (.hasSlot(current_elt, "validate") &&
+      !do.call(current_elt@validate, list(rv, input))) {
     shinyjs::runjs("document.getElementById('current_page.ui').style.visibility = 'visible'")
     return(FALSE) # i.e. we escape the nextPage evaluation, forcing input revision
   }
   # Perform the <on_complete> function for the current page, if it exists.
-  if (.hasSlot(rv$current_page, "on_complete")) {
-    do.call(rv$current_page@on_complete, list(rv, input))
+  if (.hasSlot(current_elt, "on_complete")) {
+    do.call(current_elt@on_complete, list(rv, input))
   }
   # Deal with the next thing on the stack, whatever it is
-  if (is(rv$test_stack[[1]], "code_block")) {
+  if (is(getNextElement(rv, params), "code_block")) {
     # Next thing on the stack is a code block.
     # Code blocks are executed immediately, and then 
     # we move to the next page.
-    rv$current_page <- rv$test_stack[[1]]
-    rv$test_stack <- rv$test_stack[- 1]
-    fun <- rv$current_page@fun
+    incrementPageIndex(rv)
+    fun <- getCurrentElement(rv, params)@fun
     do.call(fun, list(rv, input))
-    nextPage(rv, input)
-  } else if (is(rv$test_stack[[1]], "page")) {
+    nextPage(rv, input, params)
+  } else if (is(getNextElement(rv, params), "page") ||
+             is(getNextElement(rv, params), "reactive_test_element")) {
     # Next thing on the stack is a test page
     rv$dep <- Sys.time()
-    rv$current_page <- rv$test_stack[[1]]
-    rv$test_stack <- rv$test_stack[- 1]
+    incrementPageIndex(rv)
   } else {
-    print(rv$test_stack[[1]])
     stop("Don't know how to deal with the next thing on the stack!")
   }
-}
-
-#' Pushes <obj> onto the test stack contained within <rv>.
-#' <obj> can either be a single object (e.g. one page) or a list
-#' of objects (e.g. a list of pages).
-pushToTestStack <- function(obj, rv) {
-  rv$test_stack <- c(obj, rv$test_stack)
 }

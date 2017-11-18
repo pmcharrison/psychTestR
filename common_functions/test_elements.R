@@ -19,6 +19,17 @@ setOldClass("shiny.tag.list")
 
 setClass("test_element")
 
+setClass("reactive_test_element",
+         slots = list(fun = "function"),
+         prototype = list(fun = function(rv) new("page")),
+         contains = "test_element")
+
+setClass("message_page",
+         prototype = list(fun = function(rv) {
+           new("one_btn_page", body = tags$div(rv$message))
+         }),
+         contains = "reactive_test_element")
+
 setClass("page",
          slots = list(ui = "shiny.tag", # page UI
                       final = "logical", # whether page is final page or not

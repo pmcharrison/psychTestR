@@ -25,6 +25,7 @@ setup <- function(rv) {
   rv$admin <- list(logged_in = FALSE,
                    num_items = 30)
   rv$results <- list(time_started = Sys.time())
+  rv$piat_item_index <- 1
 }
 
 side_panel_ui_admin_false <- 
@@ -104,11 +105,11 @@ renderModals <- function(rv, input, output, session) {
   ))
 }
 
-observeEvents <- function(rv, input, session) {
+observeEvents <- function(rv, input, session, params) {
   list(
     observeEvent(input$admin_login_trigger, toggleModal(session, "admin_login_popup", toggle = "open")),
     observeEvent(input$submit_admin_password,
-                 if (input$admin_password == rv$params$admin$password) {
+                 if (input$admin_password == params$admin$password) {
                    rv$admin$logged_in <- TRUE
                    toggleModal(session, "admin_login_popup", toggle = "close")
                  } else {
@@ -150,7 +151,7 @@ test_modules$generic_intro <-
            prompt = tags$p("Please adjust the volume to a comfortable level."),
            source = volume_calibration_source,
            type = "mp3"))
-  
+
 test_modules$piat_intro <- withTags(list(
   new("one_btn_page",
       body = p("The Pitch Imagery Arrow Task has been designed to teach you to successfully imagine musical tones from a visual prompt.")),
@@ -201,25 +202,26 @@ test_modules$practice_questions <-
               answer = "Match")
     ),
     function(x) {
-      new("video_stimulus_NAFC",
-          prompt = tags$p("Did the final tone match the note you were imagining?"),
-          source = file.path(media_dir, paste0("training/", x$id, ".mp4")),
-          type = "mp4",
-          response_options = c("Match", "No match"),
-          wait = TRUE,
-          on_complete = function(rv, input) {
-            answer <- if (input$Match == 1) {
-              "Match"
-            } else if (input$`No match` == 1) {
-              "No match"
-            } else stop("This shouldn't happen!")
-            practice_correct <- answer == x$answer
-            rv$test_stack <- c(list(new("one_btn_page",
-                                        body = tags$p(if (practice_correct) {
-                                          "You answered correctly!"
-                                        } else "You answered incorrectly."))),
-                               rv$test_stack)
-          })})
+      list(
+        new("video_stimulus_NAFC",
+            prompt = tags$p("Did the final tone match the note you were imagining?"),
+            source = file.path(media_dir, paste0("training/", x$id, ".mp4")),
+            type = "mp4",
+            response_options = c("Match", "No match"),
+            wait = TRUE,
+            on_complete = function(rv, input) {
+              answer <- if (input$Match == 1) {
+                "Match"
+              } else if (input$`No match` == 1) {
+                "No match"
+              } else stop("This shouldn't happen!")
+              practice_correct <- answer == x$answer
+              setMessage(rv, tags$p(if (practice_correct) {
+                "You answered correctly!"
+              } else "You answered incorrectly."))
+            }),
+        new("message_page")
+      )}) %>% unlist
 
 test_modules$repeatable_practice_questions <-
   c(test_modules$practice_questions,
@@ -233,60 +235,61 @@ test_modules$repeatable_practice_questions <-
             FALSE
           } else stop()
           if (try_again) {
-            rv$test_stack <- c(test_modules$repeatable_practice_questions,
-                               rv$test_stack)
+            decrementPageIndex(rv, by = 1 + length(test_modules$practice_questions))
           }
         }))
 
-makePIATitem <- function(item_position,
-                         items_df) {
-  new("video_stimulus_NAFC",
-      prompt = tags$div(
-        tags$strong(sprintf("Question %i out of %i:",
-                            item_position, nrow(items_df))),
-        tags$p("Did the final tone match the note you were imagining?")),
-      source = file.path(media_dir,
-                         paste0("main/mp4/",
-                                items_df$Filename[item_position], ".mp4")),
-      type = "mp4",
-      response_options = c("Match", "No match"),
-      wait = TRUE,
-      on_complete = function(rv, input) {
-        ParticipantResponse <- if (input$Match == 1) {
-          "Match"
-        } else if (input$`No match` == 1) {
-          "No match"
-        } else stop("This shouldn't happen!")
-        correct_answer <- if (items_df$ProbeAcc[item_position] == 1) {
-          "Match"
-        } else if (items_df$ProbeAcc[item_position] == 0) {
-          "No match"
-        } else stop()
-        ParticipantCorrect <- ParticipantResponse == correct_answer
-        rv$results$piat$items$ParticipantResponse[item_position] <- ParticipantResponse
-        rv$results$piat$items$ParticipantCorrect[item_position] <- ParticipantCorrect
-        if (item_position < nrow(items_df)) {
-          makePIATitem(item_position = item_position + 1,
-                       items_df = items_df) %>% pushToTestStack(., rv)
-        }
-      })
-}
+PIATitems <- new(
+  "reactive_test_element",
+  fun = function(rv) {
+    items_df <- rv$results$piat$items
+    item_position <- rv$piat_item_index
+    new("video_stimulus_NAFC",
+        prompt = tags$div(
+          tags$strong(sprintf("Question %i out of %i:",
+                              item_position, nrow(items_df))),
+          tags$p("Did the final tone match the note you were imagining?")),
+        source = file.path(media_dir,
+                           paste0("main/mp4/",
+                                  items_df$Filename[item_position], ".mp4")),
+        type = "mp4",
+        response_options = c("Match", "No match"),
+        wait = TRUE,
+        on_complete = function(rv, input) {
+          ParticipantResponse <- if (input$Match == 1) {
+            "Match"
+          } else if (input$`No match` == 1) {
+            "No match"
+          } else stop("This shouldn't happen!")
+          correct_answer <- if (items_df$ProbeAcc[item_position] == 1) {
+            "Match"
+          } else if (items_df$ProbeAcc[item_position] == 0) {
+            "No match"
+          } else stop()
+          ParticipantCorrect <- ParticipantResponse == correct_answer
+          rv$results$piat$items$ParticipantResponse[item_position] <- ParticipantResponse
+          rv$results$piat$items$ParticipantCorrect[item_position] <- ParticipantCorrect
+          if (item_position < nrow(items_df)) {
+            decrementPageIndex(rv)
+            rv$piat_item_index <- rv$piat_item_index + 1
+          }
+        })
+  }
+)
 
-test_modules$main_piat <-
-  c(list(new("code_block",
-             fun = function(rv, input) {
-               rv$results$piat <- list(items = getStimuli(num_items = rv$admin$num_items))
-               intro <- new("one_btn_page",
-                            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.",
-                                                  nrow(rv$results$piat$items))))
-               next_item <- makePIATitem(
-                 item_position = 1,
-                 items_df = rv$results$piat$items
-               )
-               rv$test_stack <- c(intro,
-                                  next_item,
-                                  rv$test_stack)
-             })))
+test_modules$main_piat <- list(
+  new("code_block",
+      fun = function(rv, input) {
+        rv$results$piat <- list(items = getStimuli(num_items = rv$admin$num_items))
+      }),
+  new("reactive_test_element",
+      fun = function(rv) {
+        new("one_btn_page",
+            body = tags$p(sprintf("You are about to proceed to the main test, where you will answer %i questions similar to the ones you just tried. You won't receive any feedback on these questions. Some might be very difficult, but don't worry, you're not expected to get everything right. If you really don't know the answer, just give your best guess.",
+                                  nrow(rv$results$piat$items))))
+      }),
+  PIATitems
+)
 
 test_modules$piat_debrief <- 
   c(
@@ -357,10 +360,10 @@ test_modules$save_data <-
         rv$results$time_finished <- Sys.time()
         session_id <- GMSIData::dbNewParticipant(db = db,
                                                  participant_id = rv$participant_id,
-                                                 study_id = rv$params$study_id, 
-                                                 pilot = rv$params$pilot)
+                                                 study_id = study_id, 
+                                                 pilot = pilot)
         GMSIData::dbUpdateData(db = db,
-                               study_id = rv$params$study_id,
+                               study_id = study_id,
                                session_id = session_id,
                                data = rv$results,
                                finished = TRUE)
