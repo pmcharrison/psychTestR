@@ -95,14 +95,8 @@ manageSession <- function(save, restore, session = getDefaultReactiveDomain(),
       ssuid <- getNewSSUID(files$session_dir)
       message("ssuid = ", format(ssuid))
     } else {
+      shinyjs::alert("Resuming previous user's session. If you want to start a session as a new user, please remove '?SSUID=...' from your URL, and refresh the page.")
       restore(loadSession(ssuid, files$session_dir))
-      showNotification(
-        "Resuming previous test session.",
-        duration = 5, 
-        closeButton = TRUE,
-        type = "default",
-        session = session
-      )
     }
   })
   message("Starting the session")
