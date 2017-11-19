@@ -144,6 +144,13 @@ test_modules$generic_intro <-
                FALSE
              } else TRUE
            }),
+       new("page_NAFC",
+           prompt = tags$p("What kind of device are you using to access this test?"),
+           response_options = c("Desktop computer", "Laptop computer",
+                                "Tablet", "Mobile phone", "Other"),
+           on_complete = function(rv, input) {
+             rv$results$device <- input$lastBtnPressed
+           }),
        new("one_btn_page",
            body = tags$div(
              tags$p("When you click 'Next', you will be played some audio. You will be asked to adjust the volume to a comfortable level. Please make sure you are wearing your headphones."))),
