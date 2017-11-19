@@ -96,6 +96,13 @@ manageSession <- function(save, restore, session = getDefaultReactiveDomain(),
       message("ssuid = ", format(ssuid))
     } else {
       restore(loadSession(ssuid, files$session_dir))
+      showNotification(
+        "Resuming previous test session.",
+        duration = 5, 
+        closeButton = TRUE,
+        type = "default",
+        session = session
+      )
     }
   })
   message("Starting the session")
