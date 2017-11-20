@@ -7,3 +7,4 @@ rsconnect
 config.R
 www/stimuli_v1/*
 sessions/*
+closed.txt
