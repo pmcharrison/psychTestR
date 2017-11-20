@@ -1,7 +1,7 @@
 loadNamespace("GMSIData")
 
 title <- "Music imagery"
-study_id <- 11
+study_id <- 13
 pilot <- TRUE
 
 message("Connecting to the GMSI database")
