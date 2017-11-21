@@ -387,7 +387,7 @@ test_modules$save_data <-
 
 test_modules$final <- 
   list(new("final_page",
-           body = p("You completed the test! Your responses have been recorded. You may now close the browser window.")))
+           body = p("You completed the test! Your responses have been recorded, and, once we verify your data, your Slicethepie account will be credited with your payment. You may now close the browser window.")))
 
 pages <- c(
   test_modules$setup,
