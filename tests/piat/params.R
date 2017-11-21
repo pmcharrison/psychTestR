@@ -1,6 +1,6 @@
 loadNamespace("GMSIData")
 
-title <- "Music imagery"
+title <- "Pitch imagery"
 study_id <- 13
 pilot <- TRUE
 
@@ -135,8 +135,16 @@ test_modules <- list()
 test_modules$generic_intro <- 
   list(new("one_btn_page",
            body = tags$div(
-             tags$p("Please enter your participant ID."),
-             textInput("participant_id", label = NULL, placeholder = "e.g. ph93", width = "150px")),
+             p("Welcome to the pitch imagery test!"),
+             p("This experiment has ethical approval from Goldsmiths, University of London. Please note that participation is voluntary and that you can withdraw from the experiment at any time."),
+             p("On the next page you will be required to enter the ID you have been sent with the invitation for this experiment. Please make sure that you enter this ID correctly, otherwise we cannot credit you with payment for participating."),
+             p("You will only be credited with payment if you complete the entire session, which should last 15-20 minutes."),
+             p("By clicking on Next you agree to the these terms and conditions."))),
+       new("one_btn_page",
+           body = tags$div(
+             tags$p("Please enter your participant ID. You should be able to find this in your experiment invitation."),
+             tags$p("Please make sure to enter it correctly so that the right person gets paid!"),
+             textInput("participant_id", label = NULL, placeholder = "e.g. STP2543231", width = "200px")),
            on_complete = function(rv, input) rv$participant_id <- input$participant_id,
            validate = function(rv, input) {
              if (input$participant_id == "") {
