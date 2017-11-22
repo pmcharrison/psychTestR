@@ -337,7 +337,7 @@ test_modules$piat_debrief <-
                 list(id = "heard_sound_in_my_head",
                      q = "Heard sound in my head"),
                 list(id = "counted_arrows",
-                     q = "Counted arrows and guess probe"),
+                     q = "Counted arrows and guessed probe"),
                 list(id = "music_theory",
                      q = "Used music theory to work it out")),
            function(x) {
