@@ -1,3 +1,13 @@
+initialise_state <- function() {
+  message("Initialising state")
+  x <- reactiveValues(page_index = 1L,
+                      message = "No message to display",
+                      results = initialise_results(),
+                      resumed = FALSE)
+  class(x) <- "state"
+  x
+}
+
 #### Top-level function ####
 files <- list(session_dir = "/var/tmp/piat")
 options <- list(session_timeout_min = 120,
@@ -85,13 +95,6 @@ listToReactiveValues <- function(l) {
     x[[names(l)[i]]] <- l[[i]]
   }
   x
-}
-
-initialise_state <- function(params) {
-  message("Initialising state")
-  reactiveValues(page_index = 1,
-                 message = "No message to display",
-                 resumed = FALSE)
 }
 
 getElement <- function(state, params, index) {
