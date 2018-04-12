@@ -1,0 +1,3 @@
+- what should the workflow be for using psychtest?
+- rename functions
+- automatically write session.js to the project/www directory

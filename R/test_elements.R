@@ -1,19 +1,3 @@
-library(catR)
-library(shiny)
-
-actionButtonTrigger <- function(inputId, label, icon = NULL, width = NULL, ...) {
-  # Version of actionButton that also triggers the next page
-  actionButton(
-    inputId = inputId, label = label,
-    icon = icon, width = width,
-    onclick = paste(
-      sprintf('Shiny.onInputChange("lastBtnPressed", "%s");',
-              inputId),
-      "document.getElementById('current_page.ui').style.visibility = 'hidden';",
-      'setTimeout(function() {Shiny.onInputChange("nextPage", performance.now());}, 500);'),
-    ...)
-}
-
 setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
 
@@ -24,215 +8,262 @@ setClass("reactive_test_element",
          prototype = list(fun = function(rv) new("page")),
          contains = "test_element")
 
-setClass("message_page",
-         prototype = list(fun = function(rv) {
-           new("one_btn_page", body = tags$div(rv$message))
-         }),
-         contains = "reactive_test_element")
+# setClass("message_page",
+#          prototype = list(fun = function(rv) {
+#            new("one_btn_page", body = tags$div(rv$message))
+#          }),
+#          contains = "reactive_test_element")
+
+tagify <- function(x) {
+  stopifnot(is.character(x) || is(x, "shiny.tag"))
+  if (is.character(x)) {
+    stopifnot(is.scalar(x))
+    shiny::p(x)
+  } else x
+}
+
+#' New page
+#'
+#' This is the most general way to create a psychTest page.
+#' @param ui Page UI. Can be either a scalar character (e.g.
+#' "Welcome to the test!") or an object of class "shiny.tag",
+#' e.g. \code{shiny::tags$p("Welcome to the test!")}.
+#' @param final Whether or not the page is the final page in the test.
+#' @param on_complete Optional function to run when page completes.
+#' Should take the following form: function(state, input) ...
+#' where \code{state} is the app's persistent state (a Shiny reactiveValues object)
+#' and \code{input} is the input produced by the page UI.
+#' @param validate Optional validation function.
+#' Should take the same form as \code{on_complete}, and return
+#' \code{TRUE} for a successful validation and \code{FALSE}
+#' for an unsuccessful validation.
+#' If validation fails then the page will be refreshed, usually
+#' to give the user a chance to revise their input.
+#' @export
+page <- function(ui, final = FALSE, on_complete = NULL, validate = NULL) {
+  if (is.null(on_complete)) on_complete <- function(state, input) NULL
+  if (is.null(validate)) validate <- function(state, input) TRUE
+  ui <- tagify(ui)
+  stopifnot(
+    is.scalar.logical(final), is.function(on_complete), is.function(validate))
+  new("page", ui = ui, final = final, on_complete = on_complete, validate = validate)
+}
 
 setClass("page",
-         slots = list(ui = "shiny.tag", # page UI
-                      final = "logical", # whether page is final page or not
-                      on_complete = "function", # function(rv, input) to run on completion
-                      validate = "function"), # function(rv, input) to check whether input is valid and progress allowed
-         prototype = list(ui = div(),
-                          final = FALSE,
-                          on_complete = function(rv, input) NULL,
-                          validate = function(rv, input) TRUE),
+         slots = list(ui = "shiny.tag",
+                      final = "logical",
+                      on_complete = "function",
+                      validate = "function"),
          contains = "test_element")
 
-# one_btn_page shows a page with some content and 
-# a 'Next' button.
-setClass("one_btn_page",
-         slots = list(body = "shiny.tag",
-                      button_text = "character"),
-         contains = "page",
-         prototype = list(body = tags$div(),
-                          button_text = "Next"))
-setMethod(
-  f = "initialize",
-  signature = "one_btn_page",
-  definition = function(.Object, ...) {
-    .Object <- callNextMethod(.Object, ...)
-    .Object@ui <- div(.Object@body,
-                      actionButtonTrigger("next", .Object@button_text))
-    return(.Object)
-  }
+#' New one-button page
+#'
+#' Creates a page with a prompt and one button which, when clicked,
+#' advances to the next page.
+#' This is typically used for giving the participant information
+#' about the test.
+#' @param body Page body. Can be either a scalar character (e.g.
+#' "Welcome to the test!") or an object of class "shiny.tag",
+#' e.g. \code{shiny::tags$p("Welcome to the test!")}.
+#' @param button_text Text to display on the button.
+#' Should be a scalar character vector.
+#' @param ... Further parameters to be passed to \code{\link{page}}.
+one_button_page <- function(body, button_text = "Next", ...) {
+  body <- tagify(body)
+  stopifnot(is.scalar.character(button_text))
+  ui <- shiny::div(body, trigger_button("next", button_text))
+  page(ui = ui, ...)
+}
+
+#' New final page
+#'
+#' Creates a page that concludes the test.
+#' @param body Page body. Can be either a scalar character (e.g.
+#' "Welcome to the test!") or an object of class "shiny.tag",
+#' e.g. \code{shiny::tags$p("Welcome to the test!")}.
+#' @param ... Further parameters to be passed to \code{\link{page}}.
+final_page <- function(body, ....) {
+  body <- tagify(body)
+  page(ui = body, final = TRUE, ...)
+}
+
+#' New NAFC page
+#'
+#' Creates an n-alternative forced-foced choice page.
+#' @param prompt Prompt to be displayed above the response choices.
+#' Can be either a scalar character (e.g. "What is 2 + 2?")
+#' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
+#' @param choices Character vector of choices for the participant.
+#' If unnamed, then these values will be used both for button IDs
+#' and for button labels.
+#' If named, then values will be used for button IDs and names
+#' will be used for button labels.
+#' @param arrange_vertically Whether to arrange the response buttons vertically
+#' (the default) as opposed to horizontally.
+#' @param ... Further parameters to be passed to \code{\link{page}}.
+NAFC_page <- function(prompt, choices, arrange_vertically = TRUE, ...) {
+  promt <- tagify(prompt)
+  stopifnot(is.character(choices), length(choices) > 0L,
+            is.scalar.logical(arrange_vertically))
+  ui <- shiny::div(prompt,
+                   make_ui_NAFC(choices,
+                                arrange_vertically = arrange_vertically))
+  page(ui = ui, ...)
+}
+
+#' Make NAFC buttons
+#'
+#' Creates HTML code for n-alternative forced-choice response options.
+#' @param choices Character vector of choices for the participant.
+#' If unnamed, then these values will be used both for button IDs
+#' and for button labels.
+#' If named, then values will be used for button IDs and names
+#' will be used for button labels.
+#' @param hidden Whether the response buttons should be hidden
+#' (possibly to be shown later).
+#' @param id HTML ID for the div containing the response buttons.
+#' @param arrange_vertically Whether to arrange the response buttons vertically
+#' (the default) as opposed to horizontally.
+make_ui_NAFC <- function(choices, hidden = FALSE,
+                         id = "response_UI", arrange_vertically = TRUE) {
+  stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hidden))
+  labels <- if (is.null(names(choices))) choices else names(choices)
+  tags$div(id = id,
+           style = if (hidden) "visibility: hidden" else "visibility: inherit",
+           mapply(function(id, label) {
+             actionButtonTrigger(inputId = id, label = label)
+           }, choices, labels, SIMPLIFY = F, USE.NAMES = F) %>%
+             (function(x) if (arrange_vertically) lapply(x, tags$p) else x))
+}
+
+#' Make NAFC video page
+#'
+#' Creates an n-alternative forced-foced choice page with a video prompt.
+#' @param prompt Prompt to be displayed above the response choices.
+#' Can be either a scalar character (e.g. "What is 2 + 2?")
+#' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
+#' @param choices Character vector of choices for the participant.
+#' If unnamed, then these values will be used both for button IDs
+#' and for button labels.
+#' If named, then values will be used for button IDs and names
+#' will be used for button labels.
+#' @param url URL to the video.
+#' Can be an absolute URL (e.g. "http://mysite.com/video.mp4")
+#' or a URL relative to the /www directory (e.g. "video.mp4").
+#' @param type Video type (e.g. 'mp4'). Defaults to the provided file extension.
+#' @param video_width Video width, as passed to HTML (e.g. '50px').
+#' @param arrange_choices_vertically Whether to arrange the response buttons vertically
+#' (the default) as opposed to horizontally.
+#' @param wait Whether to wait for the video to finish before displaying
+#' the response buttons.
+#' @param loop Whether the video should loop.
+#' @param ... Further parameters to be passed to \code{\link{page}}.
+video_NAFC_page <- function(prompt, choices, url,
+                            type = tools::file_ext(url),
+                            video_width = "100%",
+                            arrange_choices_vertically = TRUE,
+                            wait = TRUE, loop = FALSE, ...) {
+  prompt <- tagify(prompt)
+  stopifnot(is.character(choices), is.scalar.character(url),
+            is.scalar.character(url), is.scalar.character(video_width),
+            is.scalar.logical(arrange_choices_vertically),
+            is.scalar.logical(wait))
+  video_ui <- tags$div(
+    tags$video(
+      tags$head(tags$script(HTML(media.js$media_not_played))),
+      tags$source(src = url, type = paste0("video/", type)),
+      id = "media", width = video_width, preload = "auto",
+      oncanplaythrough = media.js$show_video_btn,
+      onplay = media.js$media_played,
+      autoplay = "autoplay", style = "max-width: 500px",
+      playsinline = "playsinline", onplay = media.js$hide_media_btn,
+      if (loop) "loop",
+      onended = if (wait) media.js$show_responses else "null"),
+    media_mobile_play_button)
+  response_ui <- make_ui_NAFC(
+    choices, hidden = wait, arrange_vertically = arrange_choices_vertically)
+  page(ui = shiny::div(prompt, video_ui, response_ui), ...)
+}
+
+media.js <- list(
+  media_not_played = "var media_played = false;",
+  media_played = "media_played = true;",
+  play_media = "document.getElementById('media').play();",
+  show_media_btn = paste0("if (!media_played) ",
+                          "{document.getElementById('btn_play_media')",
+                          ".style.visibility='inherit'};"),
+  hide_media_btn = paste0("document.getElementById('btn_play_media')",
+                          ".style.visibility='hidden';"),
+  show_responses = "document.getElementById('response_UI').style.visibility = 'inherit';"
 )
 
-# final_page shows a page with some content and no action buttons
-setClass("final_page",
-         slots = list(body = "shiny.tag"),
-         contains = "page")
-setMethod(
-  f = "initialize",
-  signature = "final_page",
-  definition = function(.Object, body) {
-    .Object@body <- body
-    .Object@ui <- div(body)
-    .Object@final <- TRUE
-    return(.Object)
-  }
-)
+media_mobile_play_button <- tags$p(
+  tags$strong("Click here to play"),
+  id = "btn_play_media",
+  style = "visibility: hidden",
+  onclick = media.js$play_media)
 
-# video_stimulus shows some content (typically text) with a video
-# below it and a variable number of forced-choice response options
-setClass("video_stimulus_NAFC",
-         slots = list(prompt = "shiny.tag",
-                      source = "character",
-                      type = "character",
-                      response_options = "character",
-                      arrange_options_vertically = "logical",
-                      wait = "logical",
-                      mobile_enabled = "logical"),
-         contains = "page",
-         prototype = list(wait = TRUE,
-                          arrange_options_vertically = FALSE,
-                          mobile_enabled = TRUE))
-setMethod(
-  f = "initialize",
-  signature = "video_stimulus_NAFC",
-  definition = function(.Object, ...) {
-    .Object <- callNextMethod(.Object, ...)
-    .Object@final <- FALSE
-    
-    cmd_play_video <- "document.getElementById('video_stimulus').play();"
-    cmd_show_video_btn <- 
-      "if (!video_played) {document.getElementById('btn_play_video').style.visibility='inherit'};"
-    cmd_hide_video_btn <- "document.getElementById('btn_play_video').style.visibility='hidden';"
-    
-    video_ui <- tags$div(
-      tags$video(
-        tags$head(
-          tags$script(HTML("var video_played = false;"))
-        ),
-        tags$source(
-          src = .Object@source,
-          type = paste0("video/", .Object@type)),
-        id = "video_stimulus",
-        width = "100%",
-        preload = "auto",
-        oncanplaythrough = cmd_show_video_btn,
-        onplay = "video_played = true;",
-        autoplay = "autoplay",
-        style = "max-width: 500px",
-        playsinline = "playsinline",
-        onplay = cmd_hide_video_btn,
-        onended = if (.Object@wait) {
-          "document.getElementById('response_UI').style.visibility = 'inherit';"
-        } else "null"),
-      if (.Object@mobile_enabled) {
-        tags$p(tags$strong("Click here to play video"),
-               id = "btn_play_video",
-               style = "visibility: hidden",
-               onclick = cmd_play_video)
-      } else NULL
-    )
-    response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait,
-                                arrange_vertically = .Object@arrange_options_vertically)
-    
-    .Object@ui <- div(.Object@prompt, video_ui, response_ui)
-    return(.Object)
-  }
-)
+#' Make NAFC audio page
+#'
+#' Creates an n-alternative forced-foced choice page with an audio prompt.
+#' @param prompt Prompt to be displayed above the response choices.
+#' Can be either a scalar character (e.g. "What is 2 + 2?")
+#' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
+#' @param choices Character vector of choices for the participant.
+#' If unnamed, then these values will be used both for button IDs
+#' and for button labels.
+#' If named, then values will be used for button IDs and names
+#' will be used for button labels.
+#' @param url URL to the audio
+#' Can be an absolute URL (e.g. "http://mysite.com/audio.mp3")
+#' or a URL relative to the /www directory (e.g. "audio.mp3").
+#' @param type Audio type (e.g. 'mp3'). Defaults to the provided file extension.
+#' @param arrange_choices_vertically Whether to arrange the response buttons vertically
+#' (the default) as opposed to horizontally.
+#' @param wait Whether to wait for the audio to finish before displaying
+#' the response buttons.
+#' @param loop Whether the audio should loop.
+#' @param ... Further parameters to be passed to \code{\link{page}}.
+audio_NAFC_page <- function(prompt, choices, url,
+                            type = tools::file_ext(url),
+                            arrange_choices_vertically = TRUE,
+                            wait = TRUE, loop = FALSE, ...) {
+  prompt <- tagify(prompt)
+  stopifnot(is.character(choices), is.scalar.character(url),
+            is.scalar.character(url),
+            is.scalar.logical(arrange_choices_vertically),
+            is.scalar.logical(wait), is.scalar.logical(loop))
+  audio_ui <- tags$audio(
+    tags$source(src = url, type = paste0("audio/", type)),
+    id = "audio_stimulus", preload = "auto",
+    autoplay = "autoplay",
+    loop = if (loop) "loop",
+    onended = if (wait) media.js$show_responses else "null")
+  response_ui <- make_ui_NAFC(choices, hidden = wait)
+  page(ui = shiny::div(prompt, audio_ui, response_ui), ...)
+}
 
-# audio_stimulus shows some content (typically text) with a audio
-# below it and a variable number of forced-choice response options
-setClass("audio_stimulus_NAFC",
-         slots = list(prompt = "shiny.tag",
-                      source = "character",
-                      type = "character",
-                      response_options = "character",
-                      wait = "logical"),
-         contains = "page")
-setMethod(
-  f = "initialize",
-  signature = "audio_stimulus_NAFC",
-  definition = function(.Object, ...) {
-    .Object <- callNextMethod(.Object, ...)
-    .Object@final <- FALSE
-    
-    audio_ui <- tags$div(
-      tags$audio(
-        tags$source(
-          src = .Object@source,
-          type = paste0("audio/", .Object@type)),
-        id = "audio_stimulus",
-        width = "50%",
-        preload = "auto",
-        autoplay = "autoplay",
-        onended = if (.Object@wait) {
-          "document.getElementById('response_UI').style.visibility = 'inherit';"
-        } else "null"))
-    response_ui <- make_ui_NAFC(.Object@response_options, hidden = .Object@wait)
-    
-    .Object@ui <- div(.Object@prompt, audio_ui, response_ui)
-    return(.Object)
-  }
-)
-
-# volume_calibration is a subclass of one_btn_page that autoplays looping audio
-# in the background.
-setClass("volume_calibration",
-         slots = list(prompt = "shiny.tag",
-                      source = "character",
-                      type = "character",
-                      mobile_enabled = "logical"),
-         contains = "page",
-         prototype = list(mobile_enabled = TRUE))
-setMethod(
-  f = "initialize",
-  signature = "volume_calibration",
-  definition = function(.Object, ...) {
-    .Object <- callNextMethod(.Object, ...)
-    cmd_play <- "document.getElementById('volume_calibration_audio').play();"
-    cmd_show_play_btn <- 
-      "if (!audio_played) {document.getElementById('btn_play').style.display='block'};"
-    cmd_hide_play_btn <- "document.getElementById('btn_play').style.display='none';"
-    audio_ui <- tags$div(
-      tags$head(
-        tags$script(HTML("var audio_played = false;"))
-      ),
-      tags$audio(
-        tags$source(
-          src = list(...)$source,
-          type = paste0("audio/", list(...)$type)),
-        id = "volume_calibration_audio",
-        preload = "auto",
-        oncanplaythrough = cmd_show_play_btn,
-        onplay = paste0("audio_played = true;", cmd_hide_play_btn),
-        autoplay = "autoplay",
-        loop = "loop"),
-      if (.Object@mobile_enabled) {
-        tags$p(tags$strong("Click here to play audio"),
-               id = "btn_play",
-               style = "display: none",
-               onclick = cmd_play)
-      } else NULL
-    )
-    ui <- tags$div(audio_ui, list(...)$prompt, actionButtonTrigger("next", "Next"))
-    .Object@ui <- ui
-    return(.Object)
-  }
-)
-
-setClass("page_NAFC",
-         slots = list(prompt = "shiny.tag",
-                      response_options = "character"),
-         contains = "page")
-setMethod(
-  f = "initialize",
-  signature = "page_NAFC",
-  definition = function(.Object, ...) {
-    .Object <- callNextMethod(.Object, ...)
-    .Object@final <- FALSE
-    
-    response_ui <- make_ui_NAFC(.Object@response_options, hidden = FALSE)
-    
-    .Object@ui <- div(.Object@prompt, response_ui)
-    return(.Object)
-  }
-)
+#' Make volume calibration page
+#'
+#' Creates a page for the participant to calibrate their volume,
+#' using example audio, and the volume controls on their computer.
+#' @param prompt Prompt to be displayed. If left \code{NULL},
+#' a sensible English prompt is provided.
+#' @param url URL to the audio
+#' Can be an absolute URL (e.g. "http://mysite.com/audio.mp3")
+#' or a URL relative to the /www directory (e.g. "audio.mp3").
+#' @param type Audio type (e.g. 'mp3'). Defaults to the provided file extension.
+#' @param ... Further parameters to be passed to \code{\link{page}}.
+volume_calibration_page <- function(url, type = tools::file_ext(url),
+                                    prompt = NULL,
+                                    button_text = "Next", ...) {
+  if (is.null(prompt)) prompt <- paste0(
+    "You should hear some audio playing. ",
+    "Please adjust the volume to a comfortable level before continuing."
+  )
+  audio_NAFC_page(prompt = prompt, choices = button_text,
+                  url = url, type = type, wait = FALSE, loop = TRUE, ...)
+}
 
 setClass(
   "page_dropdown",
@@ -250,15 +281,15 @@ setClass(
           "If you select 'Other (please state)', you must fill in the text box."
         )
         FALSE
-      } else if (input$dropdown != "Other (please state)" && 
+      } else if (input$dropdown != "Other (please state)" &&
                  input$other_please_state != "") {
         shinyjs::alert(
           "If you fill in the test box, you must select 'Other (please state)'."
-          )
+        )
         FALSE
       } else TRUE
-           },
-           max_pixel_width = 200))
+    },
+    max_pixel_width = 200))
 setMethod(
   f = "initialize",
   signature = "page_dropdown",
@@ -272,7 +303,7 @@ setMethod(
       style = "max-width:%ipx" %>% sprintf(round(.Object@max_pixel_width)),
       selectizeInput("dropdown",
                      label = NULL,
-                     choices = c(.Object@options, 
+                     choices = c(.Object@options,
                                  if (.Object@other_please_state) {
                                    "Other (please state)"
                                  } else NULL),
@@ -286,7 +317,7 @@ setMethod(
     )
     .Object@ui <- div(.Object@prompt, response_ui)
     if (.Object@other_please_state)
-    return(.Object)
+      return(.Object)
   }
 )
 
@@ -295,21 +326,7 @@ setClass("code_block",
          contains = "test_element",
          prototype = list(fun = function(rv, input) NULL))
 
-make_ui_NAFC <- function(response_options, hidden = FALSE,
-                         arrange_vertically = TRUE) {
-  assertthat::assert_that(is.character(response_options), is.logical(hidden))
-  labels <- if (is.null(names(response_options))) {
-    response_options
-  } else {
-    names(response_options)
-  }
-  tags$div(id = "response_UI",
-           style = if (hidden) "visibility: hidden" else "visibility: inherit",
-           mapply(function(id, label) {
-             actionButtonTrigger(inputId = id, label = label)
-           }, response_options, labels, SIMPLIFY = F, USE.NAMES = F) %>%
-             (function(x) if (arrange_vertically) lapply(x, tags$p) else x))
-}
+
 
 setClass("AudioCATParams",
          # Defines the mutable part of an adaptive test; is stored in the rv$params object.
@@ -336,7 +353,7 @@ setClass("AudioCAT",
            itemPar = "matrix",
            audio_paths = "character",
            audio_type = "character",
-           response_options = "character",
+           choices = "character",
            answers = "character",
            cbControl = "list",
            cbGroup = "character",
@@ -348,10 +365,10 @@ setClass("AudioCAT",
 setMethod(
   f = "initialize",
   signature = "AudioCAT",
-  definition = function(.Object, itemPar, audio_paths, audio_type, response_options, answers,
+  definition = function(.Object, itemPar, audio_paths, audio_type, choices, answers,
                         cbControl, cbGroup, intro, params_id, item.prompt) {
     .Object <- callNextMethod(.Object, itemPar = itemPar, audio_paths = audio_paths,
-                              audio_type = audio_type, response_options = response_options,
+                              audio_type = audio_type, choices = choices,
                               answers = answers,
                               cbControl = cbControl, cbGroup = cbGroup, intro = intro,
                               params_id = params_id, item.prompt = item.prompt)
@@ -397,7 +414,7 @@ setMethod(
                   source = file.path(rv$params[[params_id]]@audio_root,
                                      .Object@audio_paths[next_item$item]),
                   type = .Object@audio_type,
-                  response_options = .Object@response_options,
+                  choices = .Object@choices,
                   wait = TRUE,
                   on_complete = function(rv, input) {
                     response <- input$lastBtnPressed
@@ -417,10 +434,10 @@ setMethod(
                       tmp_theta <- thetaEst(item_params, scores, method = method)
                       tmp_sem_theta <- semTheta(thEst = tmp_theta,
                                                 it = item_params, method = method)
-                      
-                      rv$params[[params_id]]@results.by_item[n, paste0("theta_", method)] <- 
+
+                      rv$params[[params_id]]@results.by_item[n, paste0("theta_", method)] <-
                         tmp_theta
-                      rv$params[[params_id]]@results.by_item[n, paste0("theta_", method, "_sem")] <- 
+                      rv$params[[params_id]]@results.by_item[n, paste0("theta_", method, "_sem")] <-
                         tmp_sem_theta
                     }
                     pushToTestStack(item_logic(), rv)

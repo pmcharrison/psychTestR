@@ -8,3 +8,6 @@ Description: Framework for delivering psychological tests via Shiny.
 License: Creative Commons Attributeion 4.0
 Encoding: UTF-8
 LazyData: true
+Imports: shiny,
+    catR
+RoxygenNote: 6.0.1
