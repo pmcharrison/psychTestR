@@ -1,3 +1,6 @@
-- what should the workflow be for using psychtest?
+- accumulate a list of results as the test continues
+- first level of the list is test sections (you can start a new section with begin_section())
+- second level is test items, usually each corresponding to one particular test page
+- each test item has a key and a value, which can be arbitrary R objects
 - rename functions
 - automatically write session.js to the project/www directory

@@ -9,5 +9,6 @@ License: Creative Commons Attributeion 4.0
 Encoding: UTF-8
 LazyData: true
 Imports: shiny,
-    catR
+    catR,
+    magrittr
 RoxygenNote: 6.0.1

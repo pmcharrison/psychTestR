@@ -3,24 +3,22 @@ setOldClass("shiny.tag.list")
 
 setClass("test_element")
 
-setClass("reactive_test_element",
-         slots = list(fun = "function"),
-         prototype = list(fun = function(rv) new("page")),
+setClass("page",
+         slots = list(ui = "shiny.tag",
+                      final = "logical",
+                      on_complete = "function",
+                      validate = "function"),
          contains = "test_element")
 
-# setClass("message_page",
-#          prototype = list(fun = function(rv) {
-#            new("one_btn_page", body = tags$div(rv$message))
-#          }),
-#          contains = "reactive_test_element")
+setClass("reactive_page",
+         slots = list(fun = "function"),
+         prototype = list(fun = function(state) new("page")),
+         contains = "test_element")
 
-tagify <- function(x) {
-  stopifnot(is.character(x) || is(x, "shiny.tag"))
-  if (is.character(x)) {
-    stopifnot(is.scalar(x))
-    shiny::p(x)
-  } else x
-}
+setClass("code_block",
+         slots = list(fun = "function"),
+         contains = "test_element",
+         prototype = list(fun = function(state, input) NULL))
 
 #' New page
 #'
@@ -48,13 +46,6 @@ page <- function(ui, final = FALSE, on_complete = NULL, validate = NULL) {
     is.scalar.logical(final), is.function(on_complete), is.function(validate))
   new("page", ui = ui, final = final, on_complete = on_complete, validate = validate)
 }
-
-setClass("page",
-         slots = list(ui = "shiny.tag",
-                      final = "logical",
-                      on_complete = "function",
-                      validate = "function"),
-         contains = "test_element")
 
 #' New one-button page
 #'
@@ -265,185 +256,171 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
                   url = url, type = type, wait = FALSE, loop = TRUE, ...)
 }
 
-setClass(
-  "page_dropdown",
-  slots = list(prompt = "shiny.tag",
-               options = "character",
-               other_please_state = "logical",
-               max_pixel_width = "numeric"),
-  contains = "page",
-  prototype = list(
-    other_please_state = FALSE,
-    validate = function(rv, input) {
-      if (input$dropdown == "Other (please state)" &&
-          input$other_please_state == "") {
-        shinyjs::alert(
-          "If you select 'Other (please state)', you must fill in the text box."
-        )
-        FALSE
-      } else if (input$dropdown != "Other (please state)" &&
-                 input$other_please_state != "") {
-        shinyjs::alert(
-          "If you fill in the test box, you must select 'Other (please state)'."
-        )
-        FALSE
-      } else TRUE
-    },
-    max_pixel_width = 200))
-setMethod(
-  f = "initialize",
-  signature = "page_dropdown",
-  definition = function(.Object, ...) {
-    .Object <- callNextMethod(.Object, ...)
-    assertthat::assert_that(
-      assertthat::is.scalar(.Object@other_please_state),
-      assertthat::is.scalar(.Object@max_pixel_width)
-    )
-    response_ui <- tags$div(
-      style = "max-width:%ipx" %>% sprintf(round(.Object@max_pixel_width)),
-      selectizeInput("dropdown",
-                     label = NULL,
-                     choices = c(.Object@options,
-                                 if (.Object@other_please_state) {
-                                   "Other (please state)"
-                                 } else NULL),
-                     multiple = FALSE),
-      if (.Object@other_please_state) {
-        textInput("other_please_state",
-                  NULL,
-                  placeholder = "Other (please state)")
-      } else NULL,
-      actionButtonTrigger("next", "Next")
-    )
-    .Object@ui <- div(.Object@prompt, response_ui)
-    if (.Object@other_please_state)
-      return(.Object)
-  }
-)
+#' Make dropdown list page
+#'
+#' Creates a page where the response is to be selected from a dropdown list.
+dropdown_page <- function(prompt, choices,
+                          alternative_choice = FALSE,
+                          alternative_text = "Other (please state)",
+                          next_button_text = "Next",
+                          max_width_pixels = 200,
+                          validate = "auto",
+                          ...) {
+  stopifnot(is.character(choices),
+            is.scalar.logical(alternative_choice),
+            is.scalar.character(alternative_text),
+            is.scalar.numeric(max_pixel_width),
+            is.function(validate) || validate == "auto")
+  prompt <- tagify(prompt)
+  validate <- if (validate == "auto" && alternative_choice) {
+    function(state, input) dropdown_page.validate(state, input, alternative_text)
+  } else if (is.function(validate)) validate else function(state, input) TRUE
+  response_ui <- shiny::div(
+    style = sprintf("max-width:%ipx", round(max_pixel_width)),
+    shiny::selectizeInput(
+      "dropdown", label = NULL,
+      choices = c(choices, if (alternative_choice) alternative_text),
+      multiple = FALSE),
+    if (alternative_choice) textInput("other_please_state",
+                                      NULL,
+                                      placeholder = alternative_text),
+    actionButtonTrigger("next", next_button_text)
+  )
+  page(ui = shiny::div(prompt, response_ui))
+}
 
-setClass("code_block",
-         slots = list(fun = "function"),
-         contains = "test_element",
-         prototype = list(fun = function(rv, input) NULL))
+dropdown_page.validate <- function(state, input, alternative_text) {
+  if (input$dropdown == alternative_text &&
+      input$text_alternative == "") {
+    shinyjs::alert(sprintf(
+      "If you select '%s', you must fill in the text box.",
+      alternative_text))
+    FALSE
+  } else if (input$dropdown != alternative_text &&
+             input$other_please_state != "") {
+    shinyjs::alert(sprintf(
+      "If you fill in the test box, you must select '%s'.",
+      alternative_text))
+    FALSE
+  } else TRUE
+}
 
-
-
-setClass("AudioCATParams",
-         # Defines the mutable part of an adaptive test; is stored in the rv$params object.
-         slots = list(
-           audio_root = "character",
-           test_length = "numeric",
-           next_item.criterion = "character",
-           next_item.estimator = "character",
-           results.by_item = "data.frame",
-           results.final = "list"
-         ),
-         prototype = list(
-           audio_root = NULL,
-           test_length = NULL,
-           next_item.criterion = "bOpt",
-           next_item.estimator = "BM",
-           results.by_item = data.frame(),
-           results.final = list()
-         ))
-
-setClass("AudioCAT",
-         # Defines the immutable part of an adaptive test; is a test element.
-         slots = list(
-           itemPar = "matrix",
-           audio_paths = "character",
-           audio_type = "character",
-           choices = "character",
-           answers = "character",
-           cbControl = "list",
-           cbGroup = "character",
-           intro = "list",
-           params_id = "character",
-           item.prompt = "shiny.tag"),
-         contains = "code_block")
-
-setMethod(
-  f = "initialize",
-  signature = "AudioCAT",
-  definition = function(.Object, itemPar, audio_paths, audio_type, choices, answers,
-                        cbControl, cbGroup, intro, params_id, item.prompt) {
-    .Object <- callNextMethod(.Object, itemPar = itemPar, audio_paths = audio_paths,
-                              audio_type = audio_type, choices = choices,
-                              answers = answers,
-                              cbControl = cbControl, cbGroup = cbGroup, intro = intro,
-                              params_id = params_id, item.prompt = item.prompt)
-    .Object@fun <- function(rv, input) {
-      params_id <- .Object@params_id
-      item_logic <- function() {
-        new("code_block", fun = function(rv, input) {
-          results.by_item <- rv$params[[params_id]]@results.by_item
-          test_length <- rv$params[[params_id]]@test_length
-          if (nrow(results.by_item) < test_length) {
-            next_item <- nextItem(
-              itemBank = .Object@itemPar,
-              theta = if (nrow(results.by_item) == 0) 0 else {
-                results.by_item[nrow(results.by_item),
-                                paste0("theta_", rv$params[[params_id]]@next_item.estimator)]
-              },
-              out = if (nrow(results.by_item) == 0) NULL else results.by_item[, "item_id"],
-              x = if (nrow(results.by_item) == 0) NULL else results.by_item[, "score"],
-              criterion = rv$params[[params_id]]@next_item.criterion,
-              method = rv$params[[params_id]]@next_item.estimator,
-              cbControl = .Object@cbControl,
-              cbGroup = .Object@cbGroup
-            )
-            new_row <- data.frame(
-              num = nrow(results.by_item) + 1,
-              item_id = next_item$item,
-              discrimination = next_item$par[["discrimination"]],
-              difficulty = next_item$par[["difficulty"]],
-              guessing = next_item$par[["guessing"]],
-              inattention = next_item$par[["inattention"]],
-              information = next_item$info,
-              criterion = next_item$criterion,
-              response = NA, correct_answer = NA, score = NA,
-              theta_ML = NA, theta_ML_sem = NA,
-              theta_BM = NA, theta_BM_sem = NA,
-              theta_EAP = NA, theta_EAP_sem = NA,
-              theta_WL = NA, theta_WL_sem = NA
-            )
-            rv$params[[params_id]]@results.by_item <- plyr::rbind.fill(results.by_item, new_row)
-            pushToTestStack(
-              new("audio_stimulus_NAFC",
-                  prompt = .Object@item.prompt,
-                  source = file.path(rv$params[[params_id]]@audio_root,
-                                     .Object@audio_paths[next_item$item]),
-                  type = .Object@audio_type,
-                  choices = .Object@choices,
-                  wait = TRUE,
-                  on_complete = function(rv, input) {
-                    response <- input$lastBtnPressed
-                    correct_answer <- .Object@answers[next_item$item]
-                    score <- response == correct_answer
-                    scores <- c(rv$params[[params_id]]@results.by_item$score, score)
-                    item_ids <- c(rv$params[[params_id]]@results.by_item$item_id, next_item$item)
-                    item_params <- .Object@itemPar[item_ids, , drop = FALSE]
-                    n <- nrow(rv$params[[params_id]]@results.by_item)
-                    rv$params[[params_id]]@results.by_item$response[n] <-
-                      response
-                    rv$params[[params_id]]@results.by_item$correct_answer[n] <-
-                      correct_answer
-                    rv$params[[params_id]]@results.by_item$score[n] <-
-                      score
-                    for (method in c("ML", "BM", "EAP", "WL")) {
-                      tmp_theta <- thetaEst(item_params, scores, method = method)
-                      tmp_sem_theta <- semTheta(thEst = tmp_theta,
-                                                it = item_params, method = method)
-
-                      rv$params[[params_id]]@results.by_item[n, paste0("theta_", method)] <-
-                        tmp_theta
-                      rv$params[[params_id]]@results.by_item[n, paste0("theta_", method, "_sem")] <-
-                        tmp_sem_theta
-                    }
-                    pushToTestStack(item_logic(), rv)
-                  }),
-              rv
-            )}})}
-      pushToTestStack(item_logic(), rv)}
-    return(.Object)
-  })
+# setClass("AudioCATParams",
+#          # Defines the mutable part of an adaptive test; is stored in the rv$params object.
+#          slots = list(
+#            audio_root = "character",
+#            test_length = "numeric",
+#            next_item.criterion = "character",
+#            next_item.estimator = "character",
+#            results.by_item = "data.frame",
+#            results.final = "list"
+#          ),
+#          prototype = list(
+#            audio_root = NULL,
+#            test_length = NULL,
+#            next_item.criterion = "bOpt",
+#            next_item.estimator = "BM",
+#            results.by_item = data.frame(),
+#            results.final = list()
+#          ))
+#
+# setClass("AudioCAT",
+#          # Defines the immutable part of an adaptive test; is a test element.
+#          slots = list(
+#            itemPar = "matrix",
+#            audio_paths = "character",
+#            audio_type = "character",
+#            choices = "character",
+#            answers = "character",
+#            cbControl = "list",
+#            cbGroup = "character",
+#            intro = "list",
+#            params_id = "character",
+#            item.prompt = "shiny.tag"),
+#          contains = "code_block")
+#
+# setMethod(
+#   f = "initialize",
+#   signature = "AudioCAT",
+#   definition = function(.Object, itemPar, audio_paths, audio_type, choices, answers,
+#                         cbControl, cbGroup, intro, params_id, item.prompt) {
+#     .Object <- callNextMethod(.Object, itemPar = itemPar, audio_paths = audio_paths,
+#                               audio_type = audio_type, choices = choices,
+#                               answers = answers,
+#                               cbControl = cbControl, cbGroup = cbGroup, intro = intro,
+#                               params_id = params_id, item.prompt = item.prompt)
+#     .Object@fun <- function(rv, input) {
+#       params_id <- .Object@params_id
+#       item_logic <- function() {
+#         new("code_block", fun = function(rv, input) {
+#           results.by_item <- rv$params[[params_id]]@results.by_item
+#           test_length <- rv$params[[params_id]]@test_length
+#           if (nrow(results.by_item) < test_length) {
+#             next_item <- nextItem(
+#               itemBank = .Object@itemPar,
+#               theta = if (nrow(results.by_item) == 0) 0 else {
+#                 results.by_item[nrow(results.by_item),
+#                                 paste0("theta_", rv$params[[params_id]]@next_item.estimator)]
+#               },
+#               out = if (nrow(results.by_item) == 0) NULL else results.by_item[, "item_id"],
+#               x = if (nrow(results.by_item) == 0) NULL else results.by_item[, "score"],
+#               criterion = rv$params[[params_id]]@next_item.criterion,
+#               method = rv$params[[params_id]]@next_item.estimator,
+#               cbControl = .Object@cbControl,
+#               cbGroup = .Object@cbGroup
+#             )
+#             new_row <- data.frame(
+#               num = nrow(results.by_item) + 1,
+#               item_id = next_item$item,
+#               discrimination = next_item$par[["discrimination"]],
+#               difficulty = next_item$par[["difficulty"]],
+#               guessing = next_item$par[["guessing"]],
+#               inattention = next_item$par[["inattention"]],
+#               information = next_item$info,
+#               criterion = next_item$criterion,
+#               response = NA, correct_answer = NA, score = NA,
+#               theta_ML = NA, theta_ML_sem = NA,
+#               theta_BM = NA, theta_BM_sem = NA,
+#               theta_EAP = NA, theta_EAP_sem = NA,
+#               theta_WL = NA, theta_WL_sem = NA
+#             )
+#             rv$params[[params_id]]@results.by_item <- plyr::rbind.fill(results.by_item, new_row)
+#             pushToTestStack(
+#               new("audio_stimulus_NAFC",
+#                   prompt = .Object@item.prompt,
+#                   source = file.path(rv$params[[params_id]]@audio_root,
+#                                      .Object@audio_paths[next_item$item]),
+#                   type = .Object@audio_type,
+#                   choices = .Object@choices,
+#                   wait = TRUE,
+#                   on_complete = function(rv, input) {
+#                     response <- input$lastBtnPressed
+#                     correct_answer <- .Object@answers[next_item$item]
+#                     score <- response == correct_answer
+#                     scores <- c(rv$params[[params_id]]@results.by_item$score, score)
+#                     item_ids <- c(rv$params[[params_id]]@results.by_item$item_id, next_item$item)
+#                     item_params <- .Object@itemPar[item_ids, , drop = FALSE]
+#                     n <- nrow(rv$params[[params_id]]@results.by_item)
+#                     rv$params[[params_id]]@results.by_item$response[n] <-
+#                       response
+#                     rv$params[[params_id]]@results.by_item$correct_answer[n] <-
+#                       correct_answer
+#                     rv$params[[params_id]]@results.by_item$score[n] <-
+#                       score
+#                     for (method in c("ML", "BM", "EAP", "WL")) {
+#                       tmp_theta <- thetaEst(item_params, scores, method = method)
+#                       tmp_sem_theta <- semTheta(thEst = tmp_theta,
+#                                                 it = item_params, method = method)
+#
+#                       rv$params[[params_id]]@results.by_item[n, paste0("theta_", method)] <-
+#                         tmp_theta
+#                       rv$params[[params_id]]@results.by_item[n, paste0("theta_", method, "_sem")] <-
+#                         tmp_sem_theta
+#                     }
+#                     pushToTestStack(item_logic(), rv)
+#                   }),
+#               rv
+#             )}})}
+#       pushToTestStack(item_logic(), rv)}
+#     return(.Object)
+#   })
