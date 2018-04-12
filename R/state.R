@@ -1,0 +1,58 @@
+initialise_state <- function() {
+  message("Initialising state")
+  x <- reactiveValues(elt_index = 1L,
+                      results = initialise_results(),
+                      resumed = FALSE)
+  class(x) <- "state"
+  x
+}
+
+advance_to_first_page <- function(state, elts) {
+  stopifnot(is(state, "state"))
+  current_elt <- get_current_elt(state, elts = elts, eval = FALSE)
+  if (!is(current_elt, "page")) next_page(state)
+}
+
+get_num_elts <- function(elts) {
+  length(elts)
+}
+
+get_current_elt_index <- function(state) {
+  stopifnot(is(state, "state"))
+  state$elt_index
+}
+
+get_elt <- function(state, index, elts, eval = TRUE) {
+  stopifnot(is.numeric.scalar(index), round(index) == index,
+    index >= 0, index <= get_num_elts(elts))
+  elt <- elts[[index]]
+  if (is(elt, "reactive_test_element") && eval) {
+    elt@fun(state)
+  } else elt
+}
+
+get_current_elt <- function(state, elts, eval = TRUE) {
+  current_index <- get_current_elt_index(state)
+  get_elt(state, elts, current_index, eval = eval)
+}
+
+get_next_elt <- function(state, elts, eval = TRUE) {
+  current_index <- get_current_elt_index(state)
+  get_elt(state, elts, current_index + 1L, eval = eval)
+}
+
+increment_elt_index <- function(state, elts, by = 1L) {
+  stopifnot(is.numeric.scalar(by), is.scalar(by), round(by) == by)
+  new_index <- state$elt_index + by
+  if (new_index > get_num_elts(elts)) {
+    error("Tried to advance past the end of the test.")
+  }
+  if (new_index < 1L) {
+    error("Test indices less than 1 are not permitted.")
+  }
+  state$elt_index <- new_index
+}
+
+decrement_index <- function(state, elts, by = 1) {
+  increment_elt_index(state, elts, by = - by)
+}

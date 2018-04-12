@@ -21,3 +21,14 @@ tagify <- function(x) {
     shiny::p(x)
   } else x
 }
+
+is.null.or <- function(x, f) {
+  is.null(x) || f(x)
+}
+
+#' @export
+error <- function(...) {
+  msg <- paste(..., collapse = "")
+  shinyjs::alert(msg)
+  stop(msg)
+}

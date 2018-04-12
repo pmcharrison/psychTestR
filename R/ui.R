@@ -1,11 +1,11 @@
-psychTestUI  <- function(params) {
-  title_content <- wellPanel(h3(params$title, align = "center"))
+ui  <- function(options) {
+  title_content <- wellPanel(h3(options$title, align = "center"))
   main_content <- wellPanel(align = "center", uiOutput("ui"))
   footer_content <- uiOutput("footer")
-  
+
   fluidPage(
-    theme = params$display_options$theme,
-    title = params$title,
+    theme = options$theme,
+    title = options$title,
     shinyjs::useShinyjs(),
     tags$script(src="session.js"), # This line is required for the session ID to appear in the URL
     uiOutput("modals"),

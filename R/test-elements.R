@@ -1,6 +1,7 @@
 setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
 
+
 setClass("test_element")
 
 setClass("page",
@@ -15,10 +16,24 @@ setClass("reactive_page",
          prototype = list(fun = function(state) page),
          contains = "test_element")
 
+#' Careful - function must be idempotent (calling it multiple times should
+#' have the same effect as calling it once).
+#' @export
+reactive_page <- function(fun) {
+  stopifnot(identical(names(formals(fun)), "state"))
+  new("reactive_page", fun = fun)
+}
+
 setClass("code_block",
          slots = list(fun = "function"),
          contains = "test_element",
          prototype = list(fun = function(state, input) NULL))
+
+#' @export
+code_block <- function(fun) {
+  stopifnot(identical(names(formals(fun)), c("state", "input")))
+  new("code_block", fun = fun)
+}
 
 #' New page
 #'
@@ -315,7 +330,7 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
       sprintf('Shiny.onInputChange("lastBtnPressed", "%s");',
               inputId),
       "document.getElementById('current_page.ui').style.visibility = 'hidden';",
-      'setTimeout(function() {Shiny.onInputChange("nextPage", performance.now());}, 500);'),
+      'setTimeout(function() {Shiny.onInputChange("next_page", performance.now());}, 500);'),
     ...)
 }
 
