@@ -12,7 +12,7 @@ setClass("page",
 
 setClass("reactive_page",
          slots = list(fun = "function"),
-         prototype = list(fun = function(state) new("page")),
+         prototype = list(fun = function(state) page),
          contains = "test_element")
 
 setClass("code_block",
@@ -303,6 +303,20 @@ dropdown_page.validate <- function(state, input, alternative_text) {
       alternative_text))
     FALSE
   } else TRUE
+}
+
+# Version of actionButton that also triggers the next page
+#' @export
+trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
+  shiny::actionButton(
+    inputId = inputId, label = label,
+    icon = icon, width = width,
+    onclick = paste(
+      sprintf('Shiny.onInputChange("lastBtnPressed", "%s");',
+              inputId),
+      "document.getElementById('current_page.ui').style.visibility = 'hidden';",
+      'setTimeout(function() {Shiny.onInputChange("nextPage", performance.now());}, 500);'),
+    ...)
 }
 
 # setClass("AudioCATParams",

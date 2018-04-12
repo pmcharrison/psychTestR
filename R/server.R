@@ -5,20 +5,20 @@ options <- list(session_timeout_min = 120,
 
 psychTestServer <- function(params) {
   function(input, output, session) {
-    # rv stores the current test state
-    rv <- initialiseRV(params)
+    # state stores the current test state
+    state <- initialiseRV(params)
     # The call to manageSession starts a new session, but if we are continuing a
     # previous session it first calls restore() with the saved data.
     manageSession(
       save = reactive({
-        reactiveValuesToList(rv)
+        reactiveValuesToList(state)
       }),
       restore = function(data) {
         if (!is.null(data)) {
           for (i in seq_along(data)) {
-            rv[[names(data)[i]]] <- data[[i]]
+            state[[names(data)[i]]] <- data[[i]]
           }
-          rv$resumed <- TRUE
+          state$resumed <- TRUE
         }
       },
       files = files
@@ -32,26 +32,26 @@ psychTestServer <- function(params) {
     })
     # Run setup (once at beginning of test)
     observeEvent(TRUE, {
-      if (!rv$resumed) {
+      if (!state$resumed) {
         message("Running setup command")
-        params$setup %>% (function(x) if (!is.null(x)) do.call(x, list(rv)))
+        params$setup %>% (function(x) if (!is.null(x)) do.call(x, list(state)))
       }
     }, once = TRUE)
     # # Go to first page (once at beginning of test)
     # observeEvent(TRUE, {
-    #   if (!rv$resumed) {
+    #   if (!state$resumed) {
     #     message("Advancing to the first page")
-    #     nextPage(rv, input, params)
+    #     nextPage(state, input, params)
     #   }
     # }, once = TRUE)
     # UI is rendered programmatically
     output$ui <- renderUI({
-      params$pages[[rv$page_index]] %>%
+      params$pages[[state$page_index]] %>%
         (function(elt) {
           if (is(elt, "page")) {
             elt
           } else if (is(elt, "reactive_test_element")) {
-            do.call(elt@fun, list(rv))
+            do.call(elt@fun, list(state))
           } else stop ("Unrecognised element type")
         }) %>%
         (function(page) {
@@ -61,18 +61,18 @@ psychTestServer <- function(params) {
     })
     # Watch out for the next page
     observeEvent(input$nextPage,
-                 nextPage(rv, input, params))
+                 nextPage(state, input, params))
     # Render outputs
     if (is.null(params$renderOutputs)) NULL else {
-      params$renderOutputs(rv = rv, input = input, output = output)
+      params$renderOutputs(state = state, input = input, output = output)
     }
     # Render modals
     if (is.null(params$renderModals)) NULL else {
-      params$renderModals(rv = rv, input = input, output = output, session = session)
+      params$renderModals(state = state, input = input, output = output, session = session)
     }
     # Observe events
     if (is.null(params$observeEvents)) NULL else {
-      params$observeEvents(rv = rv, input = input, session = session, params = params)
+      params$observeEvents(state = state, input = input, session = session, params = params)
     }
   }
 }
@@ -80,21 +80,21 @@ psychTestServer <- function(params) {
 #### Helper functions ####
 
 listToReactiveValues <- function(l) {
-  rv <- reactiveValues()
+  x <- reactiveValues()
   for (i in seq_along(l)) {
-    rv[[names(l)[i]]] <- l[[i]]
+    x[[names(l)[i]]] <- l[[i]]
   }
-  rv
+  x
 }
 
-initialiseRV <- function(params) {
-  message("Initialising RV")
+initialise_state <- function(params) {
+  message("Initialising state")
   reactiveValues(page_index = 1,
                  message = "No message to display",
                  resumed = FALSE)
 }
 
-getElement <- function(rv, params, index) {
+getElement <- function(state, params, index) {
   num_pages <- length(params$pages)
   message("index = ", index)
   message("num_pages = ", num_pages)
@@ -107,67 +107,67 @@ getElement <- function(rv, params, index) {
   )
   elt <- params$pages[[index]]
   if (is(elt, "reactive_test_element")) {
-    do.call(elt@fun, list(rv))
+    do.call(elt@fun, list(state))
   } else elt
 }
 
-getCurrentElement <- function(rv, params) {
-  current_index <- rv$page_index
-  getElement(rv, params, current_index)
+getCurrentElement <- function(state, params) {
+  current_index <- state$page_index
+  getElement(state, params, current_index)
 }
 
-getNextElement <- function(rv, params) {
-  current_index <- rv$page_index
-  getElement(rv, params, current_index + 1)
+getNextElement <- function(state, params) {
+  current_index <- state$page_index
+  getElement(state, params, current_index + 1)
 }
 
-incrementPageIndex <- function(rv, by = 1) {
+incrementPageIndex <- function(state, by = 1) {
   assertthat::assert_that(
     is.numeric(by),
     assertthat::is.scalar(by),
     round(by) == by
   )
-  rv$page_index <- rv$page_index + by
+  state$page_index <- state$page_index + by
 }
 
-decrementPageIndex <- function(rv, by = 1) {
-  incrementPageIndex(rv, by = - by)
+decrementPageIndex <- function(state, by = 1) {
+  incrementPageIndex(state, by = - by)
 }
 
-setMessage <- function(rv, message) {
-  rv$message <- message
+setMessage <- function(state, message) {
+  state$message <- message
 }
 
-# rv can be a reactive values object or a list
-nextPage <- function(rv, input, params) {
+# state can be a reactive values object or a list
+nextPage <- function(state, input, params) {
   # Check validity of the current page. If validity check fails, quit
   # the current operation.
-  current_elt  <- getCurrentElement(rv, params)
+  current_elt  <- getCurrentElement(state, params)
   message("Running nextPage, with this as the current test element:")
   print(current_elt)
   if (.hasSlot(current_elt, "validate") &&
-      !do.call(current_elt@validate, list(rv, input))) {
+      !do.call(current_elt@validate, list(state, input))) {
     shinyjs::runjs("document.getElementById('current_page.ui').style.visibility = 'visible'")
     return(FALSE) # i.e. we escape the nextPage evaluation, forcing input revision
   }
   # Perform the <on_complete> function for the current page, if it exists.
   if (.hasSlot(current_elt, "on_complete")) {
-    do.call(current_elt@on_complete, list(rv, input))
+    do.call(current_elt@on_complete, list(state, input))
   }
   # Deal with the next thing on the stack, whatever it is
-  if (is(getNextElement(rv, params), "code_block")) {
+  if (is(getNextElement(state, params), "code_block")) {
     # Next thing on the stack is a code block.
-    # Code blocks are executed immediately, and then 
+    # Code blocks are executed immediately, and then
     # we move to the next page.
-    incrementPageIndex(rv)
-    fun <- getCurrentElement(rv, params)@fun
-    do.call(fun, list(rv, input))
-    nextPage(rv, input, params)
-  } else if (is(getNextElement(rv, params), "page") ||
-             is(getNextElement(rv, params), "reactive_test_element")) {
+    incrementPageIndex(state)
+    fun <- getCurrentElement(state, params)@fun
+    do.call(fun, list(state, input))
+    nextPage(state, input, params)
+  } else if (is(getNextElement(state, params), "page") ||
+             is(getNextElement(state, params), "reactive_test_element")) {
     # Next thing on the stack is a test page
-    rv$dep <- Sys.time()
-    incrementPageIndex(rv)
+    state$dep <- Sys.time()
+    incrementPageIndex(state)
   } else {
     stop("Don't know how to deal with the next thing on the stack!")
   }

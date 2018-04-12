@@ -1,3 +1,11 @@
+- replace all occurrences of rv with state
+- introduce S3 object for state
+- introduce save_data - a function for saving data within the state object
+- add save_key argument to relevant functions, it can be NULL (don't save result)
+or alternatively any R object that will then be used as key in the data storage
+- add data saving to psych_server
+- refactor psych_server
+- add data upload options to psych_server
 - accumulate a list of results as the test continues
 - first level of the list is test sections (you can start a new section with begin_section())
 - second level is test items, usually each corresponding to one particular test page
