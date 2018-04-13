@@ -376,7 +376,7 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
 #' @export
 new_section <- function(label) {
   stopifnot(is.scalar.character(label))
-  code_block(function(state) new_results_section(state, label))
+  code_block(function(state) prepare_new_results_section(state, label))
 }
 
 # setClass("AudioCATParams",

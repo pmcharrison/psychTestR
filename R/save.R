@@ -44,19 +44,19 @@ as.list.results <- function(x, ...) {
 }
 
 #' @export
-new_results_section <- function(x, label) {
+prepare_new_results_section <- function(x, label) {
   stopifnot(is.null(label) || is.scalar.character(label))
-  UseMethod("new_results_section")
+  UseMethod("prepare_new_results_section")
 }
 
 #' @export
-new_results_section.state <- function(x, label) {
-  results(x) <- new_results_section(results(x), label)
+prepare_new_results_section.state <- function(x, label) {
+  results(x) <- prepare_new_results_section(results(x), label)
   NULL
 }
 
 #' @export
-new_results_section.results <- function(x, label) {
+prepare_new_results_section.results <- function(x, label) {
   attr(x, "new_section") <- label
   x
 }
