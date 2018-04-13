@@ -8,10 +8,10 @@ initialise_results <- function() {
 #' @export
 start_new_results_section <- function(results, label) {
   stopifnot(is(results, "results"), is.scalar.character(label))
-  index <- length(x) + 1L
-  x[[index]] <- list()
-  names(x)[[index]] <- label
-  x
+  index <- length(results) + 1L
+  results[[index]] <- list()
+  names(results)[[index]] <- label
+  results
 }
 
 #' @export
@@ -21,7 +21,7 @@ new_result <- function(key, data) {
   x
 }
 #' @export
-save_result <- UseMethod("save_result")
+save_result <- function(place, result) UseMethod("save_result")
 
 save_result.results <- function(place, result) {
   stopifnot(is(result, "result"))

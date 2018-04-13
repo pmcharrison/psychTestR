@@ -11,4 +11,7 @@ or alternatively any R object that will then be used as key in the data storage
 - second level is test items, usually each corresponding to one particular test page
 - each test item has a key and a value, which can be arbitrary R objects
 - rename functions
+- add default admin panel
+- generalise audio_nafc logic
+- differentiate prompts from response_ui
 - automatically write session.js to the project/www directory

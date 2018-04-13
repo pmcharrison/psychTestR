@@ -1,3 +1,4 @@
+#' @export
 side_panel <- function(password = "sleepfuriously",
                        render_ui = NULL,
                        render_outputs = NULL,
@@ -8,8 +9,7 @@ side_panel <- function(password = "sleepfuriously",
     if (is.null(get(f))) assign(f, function(state, input, output, session) NULL)
   }
   for (f in list(render_ui, render_outputs, render_modals, observe_events)) {
-    if(is.null.or(f, is.function) ||
-       identical(names(formals(f)), c("state", "input", "output", "session"))) {
+    if(!identical(names(formals(f)), c("state", "input", "output", "session"))) {
       stop("Arguments render_ui, render_outputs, render_modals, and ",
            "observe_events should be either NULL or functions ",
            "with the arguments 'state', 'input', 'output', and 'session', ",

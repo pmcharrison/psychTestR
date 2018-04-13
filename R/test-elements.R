@@ -74,6 +74,7 @@ page <- function(ui, final = FALSE, on_complete = NULL, validate = NULL) {
 #' @param button_text Text to display on the button.
 #' Should be a scalar character vector.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
+#' @export
 one_button_page <- function(body, button_text = "Next", ...) {
   body <- tagify(body)
   stopifnot(is.scalar.character(button_text))
@@ -88,7 +89,8 @@ one_button_page <- function(body, button_text = "Next", ...) {
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
-final_page <- function(body, ....) {
+#' @export
+final_page <- function(body, ...) {
   body <- tagify(body)
   page(ui = body, final = TRUE, ...)
 }
@@ -107,8 +109,9 @@ final_page <- function(body, ....) {
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
+#' @export
 NAFC_page <- function(prompt, choices, arrange_vertically = TRUE, ...) {
-  promt <- tagify(prompt)
+  prompt <- tagify(prompt)
   stopifnot(is.character(choices), length(choices) > 0L,
             is.scalar.logical(arrange_vertically))
   ui <- shiny::div(prompt,
@@ -130,16 +133,17 @@ NAFC_page <- function(prompt, choices, arrange_vertically = TRUE, ...) {
 #' @param id HTML ID for the div containing the response buttons.
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
+#' @export
 make_ui_NAFC <- function(choices, hidden = FALSE,
                          id = "response_UI", arrange_vertically = TRUE) {
   stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hidden))
   labels <- if (is.null(names(choices))) choices else names(choices)
-  tags$div(id = id,
-           style = if (hidden) "visibility: hidden" else "visibility: inherit",
-           mapply(function(id, label) {
-             actionButtonTrigger(inputId = id, label = label)
-           }, choices, labels, SIMPLIFY = F, USE.NAMES = F) %>%
-             (function(x) if (arrange_vertically) lapply(x, tags$p) else x))
+  shiny::tags$div(id = id,
+                  style = if (hidden) "visibility: hidden" else "visibility: inherit",
+                  mapply(function(id, label) {
+                    trigger_button(inputId = id, label = label)
+                  }, choices, labels, SIMPLIFY = F, USE.NAMES = F) %>%
+                    (function(x) if (arrange_vertically) lapply(x, shiny::tags$p) else x))
 }
 
 #' Make NAFC video page
@@ -164,6 +168,7 @@ make_ui_NAFC <- function(choices, hidden = FALSE,
 #' the response buttons.
 #' @param loop Whether the video should loop.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
+#' @export
 video_NAFC_page <- function(prompt, choices, url,
                             type = tools::file_ext(url),
                             video_width = "100%",
@@ -174,10 +179,10 @@ video_NAFC_page <- function(prompt, choices, url,
             is.scalar.character(url), is.scalar.character(video_width),
             is.scalar.logical(arrange_choices_vertically),
             is.scalar.logical(wait))
-  video_ui <- tags$div(
-    tags$video(
-      tags$head(tags$script(HTML(media.js$media_not_played))),
-      tags$source(src = url, type = paste0("video/", type)),
+  video_ui <- shiny::tags$div(
+    shiny::tags$video(
+      shiny::tags$head(shiny::tags$script(shiny::HTML(media.js$media_not_played))),
+      shiny::tags$source(src = url, type = paste0("video/", type)),
       id = "media", width = video_width, preload = "auto",
       oncanplaythrough = media.js$show_video_btn,
       onplay = media.js$media_played,
@@ -203,8 +208,8 @@ media.js <- list(
   show_responses = "document.getElementById('response_UI').style.visibility = 'inherit';"
 )
 
-media_mobile_play_button <- tags$p(
-  tags$strong("Click here to play"),
+media_mobile_play_button <- shiny::tags$p(
+  shiny::tags$strong("Click here to play"),
   id = "btn_play_media",
   style = "visibility: hidden",
   onclick = media.js$play_media)
@@ -230,6 +235,7 @@ media_mobile_play_button <- tags$p(
 #' the response buttons.
 #' @param loop Whether the audio should loop.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
+#' @export
 audio_NAFC_page <- function(prompt, choices, url,
                             type = tools::file_ext(url),
                             arrange_choices_vertically = TRUE,
@@ -239,8 +245,8 @@ audio_NAFC_page <- function(prompt, choices, url,
             is.scalar.character(url),
             is.scalar.logical(arrange_choices_vertically),
             is.scalar.logical(wait), is.scalar.logical(loop))
-  audio_ui <- tags$audio(
-    tags$source(src = url, type = paste0("audio/", type)),
+  audio_ui <- shiny::tags$audio(
+    shiny::tags$source(src = url, type = paste0("audio/", type)),
     id = "audio_stimulus", preload = "auto",
     autoplay = "autoplay",
     loop = if (loop) "loop",
@@ -260,6 +266,7 @@ audio_NAFC_page <- function(prompt, choices, url,
 #' or a URL relative to the /www directory (e.g. "audio.mp3").
 #' @param type Audio type (e.g. 'mp3'). Defaults to the provided file extension.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
+#' @export
 volume_calibration_page <- function(url, type = tools::file_ext(url),
                                     prompt = NULL,
                                     button_text = "Next", ...) {
@@ -284,22 +291,22 @@ dropdown_page <- function(prompt, choices,
   stopifnot(is.character(choices),
             is.scalar.logical(alternative_choice),
             is.scalar.character(alternative_text),
-            is.scalar.numeric(max_pixel_width),
+            is.scalar.numeric(max_width_pixels),
             is.function(validate) || validate == "auto")
   prompt <- tagify(prompt)
   validate <- if (validate == "auto" && alternative_choice) {
     function(state, input) dropdown_page.validate(state, input, alternative_text)
   } else if (is.function(validate)) validate else function(state, input) TRUE
   response_ui <- shiny::div(
-    style = sprintf("max-width:%ipx", round(max_pixel_width)),
+    style = sprintf("max-width:%ipx", round(max_width_pixels)),
     shiny::selectizeInput(
       "dropdown", label = NULL,
       choices = c(choices, if (alternative_choice) alternative_text),
       multiple = FALSE),
-    if (alternative_choice) textInput("other_please_state",
-                                      NULL,
-                                      placeholder = alternative_text),
-    actionButtonTrigger("next", next_button_text)
+    if (alternative_choice) shiny::textInput("other_please_state",
+                                             NULL,
+                                             placeholder = alternative_text),
+    trigger_button("next", next_button_text)
   )
   page(ui = shiny::div(prompt, response_ui))
 }

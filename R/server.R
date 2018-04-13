@@ -1,10 +1,11 @@
 server <- function(elts, side_panel, options) {
   check_elts(elts)
+  stopifnot(is(side_panel, "side_panel"))
   function(input, output, session) {
     state <- initialise_state()
-    advance_to_first_page(stage, elts)
+    advance_to_first_page(state, elts)
     output$ui <- render_ui(state)
-    observeEvent(input$next_page, next_page(state, input, elts))
+    shiny::observeEvent(input$next_page, next_page(state, input, elts))
     side_panel_server(side_panel, state, input, output, session)
   }
 }
@@ -32,7 +33,7 @@ check_elts <- function(elts) {
 }
 
 render_ui <- function(state, elts) {
-  renderUI({
+  shiny::renderUI({
     elt <- get_current_elt(state, elts)
     if (!is(elt, "page")) error("Cannot display the current test element.")
     shiny::div(id = "current_page.ui", elt@ui)
@@ -51,7 +52,7 @@ perform_on_complete_function <- function(elt, state, input) {
   elt@on_complete(state, input)
 }
 
-execute_code_block(elt, state) {
+execute_code_block <- function(elt, state) {
   stopifnot(is(elt, "code_block"))
   elt@fun(state)
 }

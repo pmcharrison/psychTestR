@@ -5,11 +5,15 @@ Version: 0.1.0
 Author: Peter M. C. Harrison
 Maintainer: Peter M. C. Harrison <pmc.harrison@gmail.com>
 Description: Framework for delivering psychological tests via Shiny.
-License: Creative Commons Attributeion 4.0
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Imports: shiny,
     catR,
     magrittr,
-    shinyjs
+    shinyjs,
+    R.utils,
+    assertthat,
+    methods
 RoxygenNote: 6.0.1
+Suggests: testthat

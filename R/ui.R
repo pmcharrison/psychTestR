@@ -1,21 +1,21 @@
 ui  <- function(options) {
-  title_content <- wellPanel(h3(options$title, align = "center"))
-  main_content <- wellPanel(align = "center", uiOutput("ui"))
-  footer_content <- uiOutput("footer")
+  title_content <- shiny::wellPanel(shiny::h3(options$title, align = "center"))
+  main_content <- shiny::wellPanel(align = "center", shiny::uiOutput("ui"))
+  footer_content <- shiny::uiOutput("footer")
 
-  fluidPage(
+  shiny::fluidPage(
     theme = options$theme,
     title = options$title,
     shinyjs::useShinyjs(),
-    tags$script(src="session.js"), # This line is required for the session ID to appear in the URL
-    uiOutput("modals"),
-    fluidRow(column(12, title_content)),
-    fluidRow(
-      column(2),
-      column(8, main_content),
-      column(2, tags$div(style = "padding: 10px",
-                         align = "center",
-                         uiOutput("side_panel_ui")))
+    shiny::tags$script(src="session.js"), # This line is required for the session ID to appear in the URL
+    shiny::uiOutput("modals"),
+    shiny::fluidRow(shiny::column(12, title_content)),
+    shiny::fluidRow(
+      shiny::column(2),
+      shiny::column(8, main_content),
+      shiny::column(2, shiny::tags$div(style = "padding: 10px",
+                                       align = "center",
+                                       shiny::uiOutput("side_panel_ui")))
     ),
-    fluidRow(column(12, footer_content)))
+    shiny::fluidRow(shiny::column(12, footer_content)))
 }

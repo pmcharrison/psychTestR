@@ -1,9 +1,9 @@
 initialise_state <- function() {
   message("Initialising state")
-  x <- reactiveValues(elt_index = 1L,
-                      results = initialise_results(),
-                      resumed = FALSE)
-  class(x) <- "state"
+  x <- shiny::reactiveValues(elt_index = 1L,
+                             results = initialise_results(),
+                             resumed = FALSE)
+  class(x) <- c(class(x), "state")
   x
 }
 
@@ -23,8 +23,9 @@ get_current_elt_index <- function(state) {
 }
 
 get_elt <- function(state, index, elts, eval = TRUE) {
-  stopifnot(is.numeric.scalar(index), round(index) == index,
-    index >= 0, index <= get_num_elts(elts))
+  browser()
+  stopifnot(is.scalar.numeric(index), round(index) == index,
+            index >= 0, index <= get_num_elts(elts))
   elt <- elts[[index]]
   if (is(elt, "reactive_test_element") && eval) {
     elt@fun(state)
@@ -33,16 +34,18 @@ get_elt <- function(state, index, elts, eval = TRUE) {
 
 get_current_elt <- function(state, elts, eval = TRUE) {
   current_index <- get_current_elt_index(state)
-  get_elt(state, elts, current_index, eval = eval)
+  get_elt(state = state, index = current_index,
+          elts = elts, eval = eval)
 }
 
 get_next_elt <- function(state, elts, eval = TRUE) {
   current_index <- get_current_elt_index(state)
-  get_elt(state, elts, current_index + 1L, eval = eval)
+  get_elt(state, index = current_index + 1L,
+          elts = elts, eval = eval)
 }
 
 increment_elt_index <- function(state, elts, by = 1L) {
-  stopifnot(is.numeric.scalar(by), is.scalar(by), round(by) == by)
+  stopifnot(is.scalar.numeric(by), is.scalar(by), round(by) == by)
   new_index <- state$elt_index + by
   if (new_index > get_num_elts(elts)) {
     error("Tried to advance past the end of the test.")
