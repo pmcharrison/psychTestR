@@ -1,4 +1,3 @@
-- combine nafc items
 - introduce save_data - a function for saving data within the state object
 - add save_key argument to relevant functions, it can be NULL (don't save result)
 or alternatively any R object that will then be used as key in the data storage

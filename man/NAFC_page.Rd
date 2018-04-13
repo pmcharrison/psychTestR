@@ -5,7 +5,7 @@
 \title{New NAFC page}
 \usage{
 NAFC_page(prompt, choices, set_global = NULL, arrange_vertically = TRUE,
-  ...)
+  hide_response_ui = FALSE, response_ui_id = "response_ui", ...)
 }
 \arguments{
 \item{prompt}{Prompt to be displayed above the response choices.

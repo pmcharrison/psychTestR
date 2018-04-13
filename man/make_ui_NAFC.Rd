@@ -4,8 +4,8 @@
 \alias{make_ui_NAFC}
 \title{Make NAFC buttons}
 \usage{
-make_ui_NAFC(choices, hidden = FALSE, id = "response_UI",
-  arrange_vertically = TRUE)
+make_ui_NAFC(choices, hide = FALSE, arrange_vertically = TRUE,
+  id = "response_ui")
 }
 \arguments{
 \item{choices}{Character vector of choices for the participant.
@@ -14,13 +14,13 @@ and for button labels.
 If named, then values will be used for button IDs and names
 will be used for button labels.}
 
-\item{hidden}{Whether the response buttons should be hidden
+\item{hide}{Whether the response buttons should be hidden
 (possibly to be shown later).}
-
-\item{id}{HTML ID for the div containing the response buttons.}
 
 \item{arrange_vertically}{Whether to arrange the response buttons vertically
 (the default) as opposed to horizontally.}
+
+\item{id}{HTML ID for the div containing the response buttons.}
 }
 \description{
 Creates HTML code for n-alternative forced-choice response options.
