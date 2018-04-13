@@ -110,14 +110,20 @@ final_page <- function(body, ...) {
 #' (the default) as opposed to horizontally.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
-NAFC_page <- function(prompt, choices, arrange_vertically = TRUE, ...) {
+NAFC_page <- function(prompt, choices, set_global = NULL, arrange_vertically = TRUE, ...) {
   prompt <- tagify(prompt)
   stopifnot(is.character(choices), length(choices) > 0L,
-            is.scalar.logical(arrange_vertically))
+            is.scalar.logical(arrange_vertically),
+            is.null(set_global) || is.scalar.character(set_global))
   ui <- shiny::div(prompt,
                    make_ui_NAFC(choices,
                                 arrange_vertically = arrange_vertically))
-  page(ui = ui, ...)
+  on_complete <- if (is.character(set_global)) {
+    function(state, input) {
+      set_global(key = set_global, value = input$lastBtnPressed, state = state)
+    }
+  }
+  page(ui = ui, on_complete = on_complete, final = FALSE, ...)
 }
 
 #' Make NAFC buttons
@@ -193,7 +199,7 @@ video_NAFC_page <- function(prompt, choices, url,
     media_mobile_play_button)
   response_ui <- make_ui_NAFC(
     choices, hidden = wait, arrange_vertically = arrange_choices_vertically)
-  page(ui = shiny::div(prompt, video_ui, response_ui), ...)
+  page(ui = shiny::div(prompt, video_ui, response_ui), final = FALSE, ...)
 }
 
 media.js <- list(
@@ -252,7 +258,7 @@ audio_NAFC_page <- function(prompt, choices, url,
     loop = if (loop) "loop",
     onended = if (wait) media.js$show_responses else "null")
   response_ui <- make_ui_NAFC(choices, hidden = wait)
-  page(ui = shiny::div(prompt, audio_ui, response_ui), ...)
+  page(ui = shiny::div(prompt, audio_ui, response_ui), final = FALSE, ...)
 }
 
 #' Make volume calibration page
@@ -308,7 +314,7 @@ dropdown_page <- function(prompt, choices,
                                              placeholder = alternative_text),
     trigger_button("next", next_button_text)
   )
-  page(ui = shiny::div(prompt, response_ui))
+  page(ui = shiny::div(prompt, response_ui), final = FALSE, ...)
 }
 
 dropdown_page.validate <- function(state, input, alternative_text) {

@@ -1,17 +1,15 @@
-- try example test without data saving
+- combine nafc items
 - introduce save_data - a function for saving data within the state object
 - add save_key argument to relevant functions, it can be NULL (don't save result)
 or alternatively any R object that will then be used as key in the data storage
-- add data saving to psych_server
-- define reactiveValuesToList
-- explore Shiny's built in bookmarking
-- add data upload options to psych_server
 - accumulate a list of results as the test continues
 - first level of the list is test sections (you can start a new section with begin_section())
 - second level is test items, usually each corresponding to one particular test page
 - each test item has a key and a value, which can be arbitrary R objects
-- rename functions
+- add data saving to psych_server
+- explore Shiny's built in bookmarking
+- define reactiveValuesToList
+- add data upload options to psych_server
 - add default admin panel
-- generalise audio_nafc logic
 - differentiate prompts from response_ui
 - automatically write session.js to the project/www directory

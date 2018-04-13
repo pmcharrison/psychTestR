@@ -4,7 +4,8 @@
 \alias{NAFC_page}
 \title{New NAFC page}
 \usage{
-NAFC_page(prompt, choices, arrange_vertically = TRUE, ...)
+NAFC_page(prompt, choices, set_global = NULL, arrange_vertically = TRUE,
+  ...)
 }
 \arguments{
 \item{prompt}{Prompt to be displayed above the response choices.

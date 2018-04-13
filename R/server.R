@@ -21,17 +21,38 @@ setup_session <- function(state, elts) {
 
 next_page <- function(state, input, elts) {
   elt  <- get_current_elt(state, elts, eval = TRUE)
+  success <- FALSE
   if (is(elt, "page")) {
-    if (!validate_elt(elt, state, input)) {
-      return(make_current_page_visible())
-    }
-    perform_on_complete_function(elt, state, input)
+    success <- try_finalise_page(elt, state, input)
+    if (!success) make_current_page_visible()
   } else if (is(elt, "code_block")) {
     elt@fun(state)
+    success <- TRUE
   }
-  increment_elt_index(state, elts)
-  new_elt <- get_current_elt(state, elts, eval = FALSE)
-  if (is(new_elt, "code_block")) return(next_page(state, input, elts))
+  if (success) {
+    increment_elt_index(state, elts)
+    new_elt <- get_current_elt(state, elts, eval = FALSE)
+    if (is(new_elt, "code_block")) return(next_page(state, input, elts))
+  }
+}
+
+try_finalise_page <- function(elt, state, input) {
+  stopifnot(is(elt, "page"), is(state, "state"))
+  if (elt@final) {
+    shinyjs::alert("Cannot advance on a 'final' page!")
+    FALSE
+  } else if (!validate_elt(elt, state, input)) {
+    message("Input validation failed.")
+    FALSE
+  } else {
+    perform_on_complete_function(elt, state, input)
+    TRUE
+  }
+}
+
+execute_code_block <- function(elt, state) {
+  stopifnot(is(elt, "code_block"))
+  elt@fun(state)
 }
 
 check_elts <- function(elts) {
@@ -39,12 +60,16 @@ check_elts <- function(elts) {
   if (!is(last_elt, "page")) {
     stop("The last element in <elts> must be a test page.")
   }
+  if (!last_elt@final) {
+    stop("The last element in <elts> must be marked 'final' ",
+         "(try setting final = TRUE in the last test page).")
+  }
 }
 
 render_ui <- function(state, elts) {
   shiny::renderUI({
-    elt <- get_current_elt(state, elts)
-    if (!is(elt, "page")) error("Cannot display the current test element.")
+    elt <- get_current_elt(state, elts, eval = TRUE)
+    if (!is(elt, "page")) error("Cannot display element of class ", class(elt))
     shiny::div(id = "current_page.ui", elt@ui)
   })
 }
@@ -59,11 +84,6 @@ make_current_page_visible <- function() {
 
 perform_on_complete_function <- function(elt, state, input) {
   elt@on_complete(state, input)
-}
-
-execute_code_block <- function(elt, state) {
-  stopifnot(is(elt, "code_block"))
-  elt@fun(state)
 }
 
 # listToReactiveValues <- function(l) {

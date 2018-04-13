@@ -1,6 +1,5 @@
 ui  <- function(title, options) {
   stopifnot(is.scalar.character(title))
-  browser()
   title_content <- shiny::wellPanel(shiny::h3(title, align = "center"))
   main_content <- shiny::wellPanel(align = "center", shiny::uiOutput("ui"))
   footer_content <- shiny::uiOutput("footer")

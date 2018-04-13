@@ -1,9 +1,22 @@
 initialise_state <- function() {
   x <- shiny::reactiveValues(elt_index = 1L,
                              results = initialise_results(),
-                             setup_complete = FALSE)
+                             setup_complete = FALSE,
+                             globals = list())
   class(x) <- c(class(x), "state")
   x
+}
+
+#' @export
+get_global <- function(key, state) {
+  stopifnot(is.scalar.character(key), is(state, "state"))
+  state$globals[[key]]
+}
+
+#' @export
+set_global <- function(key, value, state) {
+  stopifnot(is.scalar.character(key), is(state, "state"))
+  state$globals[[key]] <- value
 }
 
 setup_complete <- function(state) {
@@ -35,7 +48,7 @@ get_elt <- function(state, index, elts, eval = TRUE) {
   stopifnot(is.scalar.numeric(index), round(index) == index,
             index >= 0, index <= get_num_elts(elts))
   elt <- elts[[index]]
-  if (is(elt, "reactive_test_element") && eval) {
+  if (is(elt, "reactive_page") && eval) {
     elt@fun(state)
   } else elt
 }
