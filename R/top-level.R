@@ -4,6 +4,6 @@ make_test <- function(elts, title,
                       side_panel = side_panel()) {
   stopifnot(is.scalar.character(title), is.list(options))
   shiny::shinyApp(
-    ui = ui(options = options),
+    ui = ui(title = title, options = options),
     server = server(elts = elts, side_panel = side_panel, options = options))
 }
