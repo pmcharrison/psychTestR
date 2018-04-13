@@ -27,11 +27,11 @@ reactive_page <- function(fun) {
 setClass("code_block",
          slots = list(fun = "function"),
          contains = "test_element",
-         prototype = list(fun = function(state, input) NULL))
+         prototype = list(fun = function(state) NULL))
 
 #' @export
 code_block <- function(fun) {
-  stopifnot(identical(names(formals(fun)), c("state", "input")))
+  stopifnot(identical(names(formals(fun)), "state"))
   new("code_block", fun = fun)
 }
 
@@ -110,7 +110,7 @@ final_page <- function(body, ...) {
 #' (the default) as opposed to horizontally.
 #' @export
 NAFC_page <- function(prompt, choices,
-                      save_options = save_options(),
+                      save_options = get_save_options(),
                       arrange_vertically = TRUE,
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui") {
@@ -183,7 +183,7 @@ make_ui_NAFC <- function(choices, hide = FALSE, arrange_vertically = TRUE,
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
 video_NAFC_page <- function(prompt, choices, url,
-                            set_global = NULL,
+                            save_options = get_save_options(),
                             type = tools::file_ext(url),
                             video_width = "100%",
                             arrange_choices_vertically = TRUE,
@@ -207,7 +207,7 @@ video_NAFC_page <- function(prompt, choices, url,
       onended = if (wait) media.js$show_responses else "null"),
     media_mobile_play_button)
   prompt2 <- shiny::div(prompt, video_ui)
-  NAFC_page(prompt = prompt2, choices = choices, set_global = set_global,
+  NAFC_page(prompt = prompt2, choices = choices, save_options = save_options,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
 }
@@ -252,7 +252,8 @@ media_mobile_play_button <- shiny::tags$p(
 #' @param loop Whether the audio should loop.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
-audio_NAFC_page <- function(prompt, choices, url, set_global = NULL,
+audio_NAFC_page <- function(prompt, choices, url,
+                            save_options = get_save_options(),
                             type = tools::file_ext(url),
                             arrange_choices_vertically = TRUE,
                             wait = TRUE, loop = FALSE, ...) {
@@ -268,7 +269,7 @@ audio_NAFC_page <- function(prompt, choices, url, set_global = NULL,
     loop = if (loop) "loop",
     onended = if (wait) media.js$show_responses else "null")
   prompt2 <- shiny::div(prompt, audio_ui)
-  NAFC_page(prompt = prompt2, choices = choices, set_global = set_global,
+  NAFC_page(prompt = prompt2, choices = choices, save_options = save_options,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
 }
@@ -370,6 +371,12 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
       "document.getElementById('current_page.ui').style.visibility = 'hidden';",
       'setTimeout(function() {Shiny.onInputChange("next_page", performance.now());}, 500);'),
     ...)
+}
+
+#' @export
+new_section <- function(label) {
+  stopifnot(is.scalar.character(label))
+  code_block(function(state) new_results_section(state, label))
 }
 
 # setClass("AudioCATParams",

@@ -4,7 +4,7 @@
 \alias{save_data}
 \title{export}
 \usage{
-save_data(state, value, context = NULL, options = save_options())
+save_data(state, value, context = NULL, options = get_save_options())
 }
 \description{
 export

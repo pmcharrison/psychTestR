@@ -1,7 +1,9 @@
-- pretty show method for results
 - explore Shiny's built in bookmarking
 - define reactiveValuesToList
 - add data upload options to psych_server
 - add default admin panel
-- differentiate prompts from response_ui
+- prevent hack to skip page
+- jspsych integration
+
+
 - automatically write session.js to the project/www directory

@@ -4,7 +4,7 @@
 \alias{audio_NAFC_page}
 \title{Make NAFC audio page}
 \usage{
-audio_NAFC_page(prompt, choices, url, set_global = NULL,
+audio_NAFC_page(prompt, choices, url, save_options = get_save_options(),
   type = tools::file_ext(url), arrange_choices_vertically = TRUE,
   wait = TRUE, loop = FALSE, ...)
 }

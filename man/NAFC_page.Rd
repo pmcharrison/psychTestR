@@ -4,7 +4,7 @@
 \alias{NAFC_page}
 \title{New NAFC page}
 \usage{
-NAFC_page(prompt, choices, save_options = save_options(),
+NAFC_page(prompt, choices, save_options = get_save_options(),
   arrange_vertically = TRUE, hide_response_ui = FALSE,
   response_ui_id = "response_ui")
 }

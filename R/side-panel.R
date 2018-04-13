@@ -1,9 +1,9 @@
 #' @export
-side_panel <- function(password = "sleepfuriously",
-                       render_ui = NULL,
-                       render_outputs = NULL,
-                       render_modals = NULL,
-                       observe_events = NULL) {
+new_side_panel <- function(password = "sleepfuriously",
+                           render_ui = NULL,
+                           render_outputs = NULL,
+                           render_modals = NULL,
+                           observe_events = NULL) {
   stopifnot(is.scalar.character(password))
   for (f in c("render_ui", "render_outputs", "render_modals", "observe_events")) {
     if (is.null(get(f))) assign(f, function(state, input, output, session) NULL)
