@@ -1,10 +1,19 @@
 initialise_state <- function() {
-  message("Initialising state")
   x <- shiny::reactiveValues(elt_index = 1L,
                              results = initialise_results(),
-                             resumed = FALSE)
+                             setup_complete = FALSE)
   class(x) <- c(class(x), "state")
   x
+}
+
+setup_complete <- function(state) {
+  stopifnot(is(state, "state"))
+  state$setup_complete
+}
+
+`setup_complete<-` <- function(state, value) {
+  stopifnot(is(state, "state"), is.scalar.logical(value))
+  state$setup_complete <- value
 }
 
 advance_to_first_page <- function(state, elts) {
@@ -23,7 +32,6 @@ get_current_elt_index <- function(state) {
 }
 
 get_elt <- function(state, index, elts, eval = TRUE) {
-  browser()
   stopifnot(is.scalar.numeric(index), round(index) == index,
             index >= 0, index <= get_num_elts(elts))
   elt <- elts[[index]]
