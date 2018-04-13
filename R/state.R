@@ -1,8 +1,8 @@
 initialise_state <- function() {
   x <- shiny::reactiveValues(elt_index = 1L,
-                             results = initialise_results(),
                              setup_complete = FALSE,
-                             globals = list())
+                             globals = list(),
+                             results = initialise_results())
   class(x) <- c(class(x), "state")
   x
 }

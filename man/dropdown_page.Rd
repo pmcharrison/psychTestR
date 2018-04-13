@@ -4,10 +4,9 @@
 \alias{dropdown_page}
 \title{Make dropdown list page}
 \usage{
-dropdown_page(prompt, choices, set_global = NULL,
+dropdown_page(prompt, choices, save_options = get_save_options(),
   alternative_choice = FALSE, alternative_text = "Other (please state)",
-  next_button_text = "Next", max_width_pixels = 200, validate = "auto",
-  ...)
+  next_button_text = "Next", max_width_pixels = 200, validate = "auto")
 }
 \description{
 Creates a page where the response is to be selected from a dropdown list.

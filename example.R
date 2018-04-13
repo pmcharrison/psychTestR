@@ -6,7 +6,7 @@ options(shiny.error = browser)
 colour <- list(
   NAFC_page("What's your favourite colour?",
             choices = c("Red", "Green", "Blue"),
-            set_global = "colour"),
+            save_options = save_options(global_key = "colour")),
   reactive_page(function(state) {
     prompt <- sprintf("Your favourite colour is %s.",
                       get_global("colour", state))
@@ -18,7 +18,8 @@ simpsons <- list(
   dropdown_page("Who's your favourite Simpsons character?",
                 choices = c("Marge", "Homer", "Bart", "Lisa"),
                 alternative_choice = TRUE,
-                set_global = "simpsons"),
+                save_options = save_options(result_key = "Favourite Simpsons",
+                                            global_key = "simpsons")),
   reactive_page(function(state) {
     prompt <- sprintf("Your favourite Simpsons character is %s.",
                       get_global("simpsons", state))

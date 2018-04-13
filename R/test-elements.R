@@ -108,26 +108,29 @@ final_page <- function(body, ...) {
 #' will be used for button labels.
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
-#' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
-NAFC_page <- function(prompt, choices, set_global = NULL, arrange_vertically = TRUE,
-                      hide_response_ui = FALSE, response_ui_id = "response_ui",
-                      ...) {
+NAFC_page <- function(prompt, choices,
+                      save_options = save_options(),
+                      arrange_vertically = TRUE,
+                      hide_response_ui = FALSE,
+                      response_ui_id = "response_ui") {
   prompt <- tagify(prompt)
   stopifnot(is.character(choices), length(choices) > 0L,
             is.scalar.logical(arrange_vertically),
-            is.null(set_global) || is.scalar.character(set_global))
+            is(save_options, "save_options"))
   ui <- shiny::div(
     prompt, make_ui_NAFC(choices,
                          hide = hide_response_ui,
                          arrange_vertically = arrange_vertically,
                          id = response_ui_id))
-  on_complete <- if (is.character(set_global)) {
-    function(state, input) {
-      set_global(key = set_global, value = input$lastBtnPressed, state = state)
-    }
-  }
-  page(ui = ui, on_complete = on_complete, final = FALSE, ...)
+  page_summary <- list(type = "NAFC_page", prompt = prompt, choices = choices)
+  on_complete <-
+    function(state, input) save_data(state = state,
+                                     value = input$lastBtnPressed,
+                                     context = page_summary,
+                                     options = save_options)
+
+  page(ui = ui, on_complete = on_complete, final = FALSE)
 }
 
 #' Make NAFC buttons
@@ -297,19 +300,19 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 #'
 #' Creates a page where the response is to be selected from a dropdown list.
 #' @export
-dropdown_page <- function(prompt, choices, set_global = NULL,
+dropdown_page <- function(prompt, choices,
+                          save_options = get_save_options(),
                           alternative_choice = FALSE,
                           alternative_text = "Other (please state)",
                           next_button_text = "Next",
                           max_width_pixels = 200,
-                          validate = "auto",
-                          ...) {
+                          validate = "auto") {
   stopifnot(is.character(choices),
             is.scalar.logical(alternative_choice),
             is.scalar.character(alternative_text),
             is.scalar.numeric(max_width_pixels),
             is.function(validate) || validate == "auto",
-            is.null(set_global) || is.scalar.character(set_global))
+            is(save_options, "save_options"))
   prompt <- tagify(prompt)
   response_ui <- shiny::div(
     style = sprintf("max-width:%ipx", round(max_width_pixels)),
@@ -324,18 +327,19 @@ dropdown_page <- function(prompt, choices, set_global = NULL,
   validate <- if (validate == "auto" && alternative_choice) {
     function(state, input) dropdown_page.validate(state, input, alternative_text)
   } else if (is.function(validate)) validate else function(state, input) TRUE
-  on_complete <- if (is.character(set_global)) {
-    function(state, input) {
-      res <- if (input$dropdown == alternative_text) {
-        input$text_alternative
-      } else input$dropdown
-      set_global(key = set_global, value = res, state = state)
-    }
+  on_complete <- function(state, input) {
+    value <- if (input$dropdown == alternative_text) {
+      input$text_alternative
+    } else input$dropdown
+    save_data(state = state,
+              value = value,
+              context = page_summary,
+              options = save_options)
   }
   page(ui = shiny::div(prompt, response_ui),
        on_complete = on_complete,
        validate = validate,
-       final = FALSE, ...)
+       final = FALSE)
 }
 
 dropdown_page.validate <- function(state, input, alternative_text) {
