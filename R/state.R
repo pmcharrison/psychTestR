@@ -8,6 +8,24 @@ initialise_state <- function() {
 }
 
 #' @export
+as.list.state <- function(x, ...) {
+  shiny::reactiveValuesToList(x)
+}
+
+#' @export
+update_state_from_list <- function(state, list) {
+  stopifnot(is(state, "state"), is.list(list))
+  keys <- names(list)
+  values <- unname(list)
+  for (i in seq_along(list)) {
+    key_i <- keys[[i]]
+    value_i <- values[[i]]
+    state[[key_i]] <- value_i
+  }
+  invisible(TRUE)
+}
+
+#' @export
 get_global <- function(key, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
   state$globals[[key]]

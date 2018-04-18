@@ -1,6 +1,8 @@
 library(shiny)
 library(psychTest)
 
+options(shiny.error = browser)
+
 elts <- list(
   one_button_page(
     tags$div(
@@ -23,7 +25,7 @@ elts <- list(
     "Do you like this chord?",
     choices = c("Yes", "No"),
     url = "http://research.pmcharrison.com/studies/HarmonyDissonance/chords/piano/48_66/48_66.mp3"),
-  final_page("You finished the test!", final = TRUE)
+  final_page("You finished the test!")
 )
 
 test <- make_test(

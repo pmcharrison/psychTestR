@@ -5,5 +5,6 @@ make_test <- function(elts, title,
   stopifnot(is.scalar.character(title), is.list(options))
   shiny::shinyApp(
     ui = ui(title = title, options = options),
-    server = server(elts = elts, side_panel = side_panel, options = options))
+    server = server(elts = elts, side_panel = side_panel, options = options),
+    enableBookmarking = "server")
 }
