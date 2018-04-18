@@ -30,6 +30,7 @@ elts <- list(
 
 test <- make_test(
   elts = elts,
-  title = "Maddy's test"
+  title = "Maddy's test",
+  options = psychTest_options(enable_resume_session = FALSE)
 )
 runApp(test)

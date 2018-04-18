@@ -52,7 +52,6 @@ next_page <- function(state, input, elts, session) {
     new_elt <- get_current_elt(state, elts, eval = FALSE)
     if (is(new_elt, "code_block")) return(next_page(state, input, elts, session))
   }
-  # session$doBookmark()
 }
 
 try_finalise_page <- function(elt, state, input) {

@@ -2,9 +2,11 @@ manage_sessions <- function(state,
                             options,
                             session = shiny::getDefaultReactiveDomain()) {
   stopifnot(is.scalar.character(options$session_dir))
-  ssuid <- start_session(state, session, session_dir = options$session_dir)
-  list(save_session(ssuid, state, session_dir = options$session_dir),
-       clean_session_dir(session = session, options = options))
+  if (options$enable_resume_session) {
+    ssuid <- start_session(state, session, session_dir = options$session_dir)
+    list(save_session(ssuid, state, session_dir = options$session_dir),
+         clean_session_dir(session = session, options = options))
+  }
 }
 
 start_session <- function(state, session, session_dir) {
@@ -86,7 +88,7 @@ clean_session_dir <- function(session, options) {
     dirs <- list.dirs(options$session_dir, recursive = FALSE)
     for (dir in dirs) {
       ssuid <- basename(dir)
-      time <- read_timestamp(session_dir, ssuid)
+      time <- read_timestamp(options$session_dir, ssuid)
       if (!is.na(time) && time < Sys.time() - options$session_timeout_min * 60) {
         unlink(dir, recursive = TRUE)
       }}})}

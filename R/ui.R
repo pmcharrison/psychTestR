@@ -19,6 +19,7 @@ ui  <- function(title, options) {
       shiny::uiOutput("modals"),
       shiny::fluidRow(shiny::column(12, title_content)),
       shiny::fluidRow(
+        shiny::column(2),
         shiny::column(8, main_content),
         shiny::column(2, shiny::tags$div(style = "padding: 10px",
                                          align = "center",
