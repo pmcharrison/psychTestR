@@ -1,45 +1,33 @@
-closed <- file.exists("closed.txt") # Make a text file called closed.txt to close the test
-PIAT <- TRUE
-gold_MSI <- FALSE
-options(shiny.error = browser)
-# Change the debug options if the server is running on Peter's local machine
-if (Sys.info()["nodename"] == "Peters-MacBook-Pro.local") {
-  options(shiny.error = browser) 
-}
-
 library(shiny)
-if (closed) {
-  shinyApp(
-    ui = fluidPage(
-      title = "Test closed",
-      div(
-        h2("Test closed"),
-        p("Sorry, this test is no longer available to participate in.")
+library(psychTest)
+
+elts <- list(
+  one_button_page(
+    tags$div(
+      tags$h2("Hello hello hello"),
+      tags$p(
+        "Welcome to the test, ",
+        tags$strong("Maddy!")
       )
-    ),
-    server = function(input, output, session) {
-      output$test <- renderText("Nothing")
-    }
-  )
-} else {
-  if (PIAT) {
-    source("tests/piat/load_piat.R")
-  } else if (gold_MSI) {
-    lapply(list.files("common_functions/", pattern = "*\\.R$", full.names = TRUE), source)
-    source("tests/gold_msi/gold_msi.R")
-    params <- new.env()
-    source("tests/gold_msi/params.R", local = params)
-  } else {
-    library(shinyBS)
-    library(shinyWidgets)
-    lapply(list.files("common_functions/", pattern = "*\\.R$", full.names = TRUE), source)
-    params <- new.env()
-    source("tests/cat/test_cat.R", local = params)
-  }
-  server <- psychTestServer(params)
-  ui <- psychTestUI(params)
-  
-  shinyApp(ui = ui, server = server,
-           onStart = function() {
-             onStop(function() params$server_quit_fun())})
-}
+    )
+  ),
+  one_button_page("You will answer some questions."),
+  NAFC_page("What's your favourite colour?",
+            choices = c("Orange", "Green", "Blue"),
+            save_options = get_save_options(global_key = "colour")),
+  reactive_page(function(state) {
+    one_button_page(sprintf("Your favourite colour is %s.",
+                            get_global("colour", state)))
+  }),
+  audio_NAFC_page(
+    "Do you like this chord?",
+    choices = c("Yes", "No"),
+    url = "http://research.pmcharrison.com/studies/HarmonyDissonance/chords/piano/48_66/48_66.mp3"),
+  final_page("You finished the test!", final = TRUE)
+)
+
+test <- make_test(
+  elts = elts,
+  title = "Maddy's test"
+)
+runApp(test)
