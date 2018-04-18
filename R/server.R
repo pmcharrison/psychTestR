@@ -1,3 +1,6 @@
+options <- list(session_timeout_min = 120,
+                clean_sessions_interval_min = 15)
+
 server <- function(elts, side_panel, options) {
   check_elts(elts)
   stopifnot(is(side_panel, "side_panel"))
@@ -7,26 +10,26 @@ server <- function(elts, side_panel, options) {
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page, next_page(state, input, elts, session))
     side_panel_server(side_panel, state, input, output, session)
-    manage_sessions(state)
+    manage_sessions(state, options = options, session = session)
   }
 }
 
-manage_sessions <- function(state) {
-  list(
-    shiny::onBookmark(function(x) {
-      x$values$state <- shiny::reactiveValuesToList(state)
-    }),
-    shiny::onRestore(function(x) {
-      update_state_from_list(state, x$values$state)
-    }),
-    onBookmarked(function(url) {
-      updateQueryString(url)
-    })
-  )
-}
+# manage_sessions <- function(state) {
+#   list(
+#     shiny::onBookmark(function(x) {
+#       x$values$state <- shiny::reactiveValuesToList(state)
+#     }),
+#     shiny::onRestore(function(x) {
+#       update_state_from_list(state, x$values$state)
+#     }),
+#     onBookmarked(function(url) {
+#       updateQueryString(url)
+#     })
+#   )
+# }
 
 setup_session <- function(state, elts) {
-  observeEvent(TRUE, {
+  shiny::observeEvent(TRUE, {
     if (!setup_complete(state)) {
       advance_to_first_page(state, elts)
       setup_complete(state) <- TRUE
@@ -47,9 +50,9 @@ next_page <- function(state, input, elts, session) {
   if (success) {
     increment_elt_index(state, elts)
     new_elt <- get_current_elt(state, elts, eval = FALSE)
-    if (is(new_elt, "code_block")) return(next_page(state, input, elts))
+    if (is(new_elt, "code_block")) return(next_page(state, input, elts, session))
   }
-  session$doBookmark()
+  # session$doBookmark()
 }
 
 try_finalise_page <- function(elt, state, input) {

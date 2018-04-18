@@ -328,6 +328,9 @@ dropdown_page <- function(prompt, choices,
   validate <- if (validate == "auto" && alternative_choice) {
     function(state, input) dropdown_page.validate(state, input, alternative_text)
   } else if (is.function(validate)) validate else function(state, input) TRUE
+  page_summary <- list(type = "dropdown_page", prompt = prompt, choices = choices,
+                       alternative_choice = alternative_choice,
+                       alternative_text = alternative_text)
   on_complete <- function(state, input) {
     value <- if (input$dropdown == alternative_text) {
       input$text_alternative

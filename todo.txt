@@ -1,5 +1,5 @@
-- explore Shiny's built in bookmarking
-- define reactiveValuesToList
+- refactor session code
+- 'as.list.reactivevalues' is deprecated. Use reactiveValuesToList instead.
 - add data upload options to psych_server
 - add default admin panel
 - prevent hack to skip page
