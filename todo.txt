@@ -1,8 +1,4 @@
-- refactor session code
 - add data upload options to psych_server
 - add default admin panel
 - prevent hack to skip page
 - jspsych integration
-
-
-- automatically write session.js to the project/www directory
