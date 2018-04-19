@@ -17,12 +17,12 @@ server <- function(elts, side_panel, options) {
 }
 
 setup_session <- function(state, input, elts, session) {
-  shiny::observeEvent(TRUE, {
+  shiny::isolate({
     if (!setup_complete(state)) {
       advance_to_first_page(state, input, elts, session)
       setup_complete(state) <- TRUE
     }
-  }, once = TRUE)
+  })
 }
 
 next_page <- function(state, input, elts, session, options) {
