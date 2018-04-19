@@ -1,15 +1,18 @@
 #' @export
 psychTest_options <- function(theme = shinythemes::shinytheme("readable"),
+                              auto_p_id = TRUE,
                               enable_resume_session = TRUE,
                               session_dir = NULL,
                               session_timeout_min = 120,
                               clean_sessions_interval_min = 15) {
   stopifnot(is.scalar.numeric(session_timeout_min),
             is.scalar.numeric(clean_sessions_interval_min),
-            is.scalar.logical(enable_resume_session))
+            is.scalar.logical(enable_resume_session),
+            is.scalar.logical(auto_p_id))
   if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   list(theme = theme,
+       auto_p_id = auto_p_id,
        enable_resume_session = enable_resume_session,
        session_dir = session_dir,
        session_timeout_min = session_timeout_min,

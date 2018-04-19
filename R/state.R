@@ -1,10 +1,18 @@
-initialise_state <- function() {
-  x <- shiny::reactiveValues(elt_index = 1L,
-                             p_id = NULL,
-                             setup_complete = FALSE,
-                             globals = list(),
-                             results = new_results())
+new_state <- function() {
+  x <- shiny::reactiveValues()
   class(x) <- c(class(x), "state")
+  initialise_state(x)
+  x
+}
+
+initialise_state <- function(x) {
+  stopifnot(is(x, "state"))
+  x$elt_index <- 1L
+  x$p_id <- NULL
+  x$setup_complete <- FALSE
+  x$globals <- list()
+  x$results <- new_results()
+  invisible(TRUE)
   x
 }
 
@@ -50,8 +58,9 @@ p_id <- function(state) {
 }
 
 #' @export
-`p_id<-` <- function(state, value) {
-  state$p_id <- value
+`p_id<-` <- function(x, value) {
+  x$p_id <- value
+  return(x)
 }
 
 setup_complete <- function(state) {

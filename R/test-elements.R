@@ -54,8 +54,8 @@ code_block <- function(fun) {
 #' to give the user a chance to revise their input.
 #' @export
 page <- function(ui, final = FALSE, on_complete = NULL, validate = NULL) {
-  if (is.null(on_complete)) on_complete <- function(state, input) NULL
-  if (is.null(validate)) validate <- function(state, input) TRUE
+  if (is.null(on_complete)) on_complete <- function(...) NULL
+  if (is.null(validate)) validate <- function(...) TRUE
   ui <- tagify(ui)
   stopifnot(
     is.scalar.logical(final), is.function(on_complete), is.function(validate))
@@ -95,6 +95,49 @@ final_page <- function(body, ...) {
   page(ui = body, final = TRUE, ...)
 }
 
+#' @export
+get_p_id_page <- function(prompt = "Please enter your participant ID.",
+                          placeholder = "e.g. 10492817",
+                          button_text = "Next",
+                          width = "300px",
+                          validate = "auto") {
+  validate_2 <- get_p_id_page.validate(validate)
+  on_complete <- get_p_id_page.on_complete
+  text_input <- shiny::textInput("p_id", label = NULL,
+                                 placeholder = placeholder,
+                                 width = width)
+  body = shiny::tags$div(tagify(prompt), text_input)
+  one_button_page(body = body, button_text = button_text,
+                  validate = validate_2, on_complete = on_complete)
+}
+
+get_p_id_page.on_complete <- function(state, input, session, options) {
+  p_id <- input$p_id
+  p_id(state) <- p_id
+  loaded <- safe_load_session_data(p_id, input)
+  session$sendCustomMessage("push_p_id_to_url", p_id)
+  if (is.null(loaded)) {
+    shiny::showNotification("Starting new session.")
+  } else {
+    shiny::showNotification("Resuming previous session.")
+    update_state_from_list(state, loaded)
+  }
+}
+
+get_p_id_page.validate <- function(validate) {
+  if (is.function(validate)) {
+    validate
+  } else if (identical(validate, "auto")) {
+    function(state, input) {
+      valid <- nchar(input$p_id) > 0L
+      if (valid) TRUE else {
+        shinyjs::alert("Please enter your participant ID before proceeding.")
+        FALSE
+      }
+    }
+  } else stop("Unrecognised validation method.")
+}
+
 #' New NAFC page
 #'
 #' Creates an n-alternative forced-foced choice page.
@@ -127,7 +170,7 @@ NAFC_page <- function(prompt, choices,
 }
 
 NAFC_page.autosave <- function(prompt) {
-  function(state, input) {
+  function(state, input, ...) {
     value <- list(type = "NAFC",
                   prompt = prompt,
                   answer = input$last_btn_pressed)
@@ -214,7 +257,7 @@ video_NAFC_page <- function(prompt, choices, url,
 }
 
 video_NAFC_page.autosave <- function(prompt, url) {
-  function(state, input) {
+  function(state, input, ...) {
     value <- list(type = "video_NAFC",
                   prompt = prompt,
                   url = url,
@@ -286,7 +329,7 @@ audio_NAFC_page <- function(prompt, choices, url,
 }
 
 audio_NAFC_page.autosave <- function(prompt, url) {
-  function(state, input) {
+  function(state, input, ...) {
     value <- list(type = "audio_NAFC",
                   prompt = prompt,
                   url = url,
@@ -373,7 +416,7 @@ dropdown_page.validate <- function(alternative_choice, alternative_text) {
 }
 
 dropdown_page.autosave <- function(prompt, alternative_text) {
-  function(state, input) {
+  function(state, input, ...) {
     alt <- input$dropdown == alternative_text
     answer <- if (alt) input$text_alternative else input$dropdown
     value <- list(type = "dropdown_page", prompt = prompt, answer = answer)

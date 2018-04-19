@@ -1,4 +1,4 @@
-Shiny.addCustomMessageHandler("session_start", function(data) {
+Shiny.addCustomMessageHandler("push_p_id_to_url", function(data) {
   var search = location.search;
 
   // ""

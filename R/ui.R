@@ -11,7 +11,7 @@ ui  <- function(title, options) {
       shinyjs::useShinyjs(),
       shiny::includeScript(system.file("js/session.js",
                                        package = "psychTest")),
-      shiny::includeScript(system.file("js/request-new-session.js",
+      shiny::includeScript(system.file("js/reset-p-id-and-refresh-browser.js",
                                        package = "psychTest")),
       shiny::includeScript(system.file("js/confirm-resume-session.js",
                                        package = "psychTest")),

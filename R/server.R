@@ -5,10 +5,14 @@ server <- function(elts, side_panel, options) {
   check_elts(elts)
   stopifnot(is(side_panel, "side_panel"))
   function(input, output, session) {
-    state <- initialise_state()
+    state <- new_state()
     setup_session(state, input, elts, session)
     output$ui <- render_ui(state, elts)
-    shiny::observeEvent(input$next_page, next_page(state, input, elts, session))
+    shiny::observeEvent(input$next_page, next_page(state, input, elts, session,
+                                                   options))
+    shiny::observeEvent(input$reset_session, {
+      reset_session(state, retain_p_id = options$p_id != "auto")
+    })
     side_panel_server(side_panel, state, input, output, session)
     manage_sessions(state, options = options, session = session)
   }
@@ -37,11 +41,11 @@ setup_session <- function(state, input, elts, session) {
   }, once = TRUE)
 }
 
-next_page <- function(state, input, elts, session) {
+next_page <- function(state, input, elts, session, options) {
   elt  <- get_current_elt(state, elts, eval = TRUE)
   success <- FALSE
   if (is(elt, "page")) {
-    success <- try_finalise_page(elt, state, input)
+    success <- try_finalise_page(elt, state, input, session, options)
     if (!success) make_current_page_visible()
   } else if (is(elt, "code_block")) {
     elt@fun(state)
@@ -50,11 +54,13 @@ next_page <- function(state, input, elts, session) {
   if (success) {
     increment_elt_index(state, elts)
     new_elt <- get_current_elt(state, elts, eval = FALSE)
-    if (is(new_elt, "code_block")) return(next_page(state, input, elts, session))
+    if (is(new_elt, "code_block")) return(next_page(state, input = input,
+                                                    elts = elts, session = session,
+                                                    options = options))
   }
 }
 
-try_finalise_page <- function(elt, state, input) {
+try_finalise_page <- function(elt, state, input, session, options) {
   stopifnot(is(elt, "page"), is(state, "state"))
   if (elt@final) {
     shinyjs::alert("Cannot advance on a 'final' page!")
@@ -63,7 +69,7 @@ try_finalise_page <- function(elt, state, input) {
     message("Input validation failed.")
     FALSE
   } else {
-    perform_on_complete_function(elt, state, input)
+    perform_on_complete_function(elt, state, input, session, options)
     TRUE
   }
 }
@@ -93,15 +99,16 @@ render_ui <- function(state, elts) {
 }
 
 validate_elt <- function(elt, state, input) {
-  elt@validate(state, input)
+  elt@validate(state = state, input = input)
 }
 
 make_current_page_visible <- function() {
   shinyjs::runjs("document.getElementById('current_page.ui').style.visibility = 'visible'")
 }
 
-perform_on_complete_function <- function(elt, state, input) {
-  elt@on_complete(state, input)
+perform_on_complete_function <- function(elt, state, input, session, options) {
+  elt@on_complete(state = state, input = input, session = session,
+                  options = options)
 }
 
 # listToReactiveValues <- function(l) {

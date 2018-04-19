@@ -2,6 +2,10 @@
 - implement p_id, either generated manually, or just equivalent to SSUID
 - add data upload options to psych_server
 - dropbox + aws.s3
+- remove ... from test_elemnts
+
+p_id must be set at the beginning of the test
+
 * alternatively, the user can provide a custom function
 (e.g. aws.s3, or drop_upload)
 * alternatively, the user can write a code block
