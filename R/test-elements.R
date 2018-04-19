@@ -144,12 +144,14 @@ get_p_id_page.validate <- function(validate) {
 #' will be used for button labels.
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
+#' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
 NAFC_page <- function(prompt, choices,
                       on_complete = NAFC_page.autosave(prompt),
                       arrange_vertically = TRUE,
                       hide_response_ui = FALSE,
-                      response_ui_id = "response_ui") {
+                      response_ui_id = "response_ui",
+                      ...) {
   prompt <- (prompt)
   stopifnot(is.character(choices), length(choices) > 0L,
             is.scalar.logical(arrange_vertically))
@@ -358,6 +360,7 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 #' Make dropdown list page
 #'
 #' Creates a page where the response is to be selected from a dropdown list.
+#' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
 dropdown_page <- function(prompt, choices,
                           alternative_choice = FALSE,
@@ -367,7 +370,8 @@ dropdown_page <- function(prompt, choices,
                           validate = dropdown_page.validate(alternative_choice,
                                                             alternative_text),
                           next_button_text = "Next",
-                          max_width_pixels = 200) {
+                          max_width_pixels = 200,
+                          ...) {
   stopifnot(is.character(choices),
             is.scalar.logical(alternative_choice),
             is.scalar.character(alternative_text),
