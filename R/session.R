@@ -46,7 +46,7 @@ save_session <- function(ssuid, state, session_dir) {
   path.data <- file.path(path.ssuid, "data.RDS")
   shiny::observe({
     R.utils::mkdirs(path.ssuid)
-    saveRDS(reactiveValuesToList(state), path.data)
+    saveRDS(shiny::reactiveValuesToList(state), path.data)
     save_timestamp(session_dir, ssuid)
   })
 }

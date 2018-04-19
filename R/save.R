@@ -1,27 +1,6 @@
-#' export
-save_data <- function(state, value, context = NULL, options = get_save_options()) {
-  stopifnot(is(options, "save_options"))
-  if (!is.null(options$global_key)) set_global(options$global_key, value, state)
-  if (options$save_result) {
-    key <- if (is.null(options$result_key)) context else options$result_key
-    save_result(place = state, key = key, value = value)
-  }
-}
+# Classes ####
 
-#' @export
-get_save_options <- function(result_key = NULL,
-                             save_result = TRUE,
-                             global_key = NULL) {
-  stopifnot(is.scalar.logical(save_result),
-            is.null(global_key) || is.scalar.character(global_key))
-  x <- list(result_key = result_key,
-            save_result = save_result,
-            global_key = global_key)
-  class(x) <- "save_options"
-  x
-}
-
-initialise_results <- function() {
+new_results <- function() {
   x <- list()
   class(x) <- "results"
   x
@@ -43,28 +22,56 @@ as.list.results <- function(x, ...) {
   x
 }
 
+# as.data.frame.results <- function(x, ...) {
+#   l <- as.list(x)
+#   m <- sapply(l, function(section) {
+#     lapply(section, function(entry) {
+#       o <- unlist(entry, recursive = FALSE)
+#       p <- lapply(o, list)
+#       as.data.frame(lapply(p, I))
+#     })
+#   }, simplify = FALSE)
+#   stop()
+# }
+
+# Accessing results ####
+
 #' @export
-prepare_new_results_section <- function(x, label) {
-  stopifnot(is.null(label) || is.scalar.character(label))
-  UseMethod("prepare_new_results_section")
+results <- function(state) {
+  state$results
 }
 
 #' @export
-prepare_new_results_section.state <- function(x, label) {
-  results(x) <- prepare_new_results_section(results(x), label)
+`results<-` <- function(state, value) {
+  state$results <- value
+}
+
+# Register next results section ####
+
+#' @export
+register_next_results_section <- function(x, label) {
+  stopifnot(is.null(label) || is.scalar.character(label))
+  UseMethod("register_next_results_section")
+}
+
+#' @export
+register_next_results_section.state <- function(x, label) {
+  results(x) <- register_next_results_section(results(x), label)
   NULL
 }
 
 #' @export
-prepare_new_results_section.results <- function(x, label) {
+register_next_results_section.results <- function(x, label) {
   attr(x, "new_section") <- label
   x
 }
 
-#' @export
-save_result <- function(place, key, value) UseMethod("save_result")
+# Saving results ####
 
-save_result.results <- function(place, key, value) {
+#' @export
+save_result <- function(place, value) UseMethod("save_result")
+
+save_result.results <- function(place, value) {
   num_sections <- length(place)
   new_section <- num_sections == 0L || !is.null(attr(place, "new_section"))
   index_1 <- if (new_section) num_sections + 1L else num_sections
@@ -75,22 +82,12 @@ save_result.results <- function(place, key, value) {
     if (!is.null(new_section_label)) names(place)[index_1] <- new_section_label
     attr(place, "new_section") <- NULL
   }
-  place[[index_1]][[index_2]] <- list(key = key, value = value)
+  place[[index_1]][[index_2]] <- value
   place
 }
 
 #' @export
-save_result.state <- function(place, key, value) {
-  place$results <- save_result.results(place$results, key, value)
+save_result.state <- function(place, value) {
+  place$results <- save_result.results(place$results, value)
   place
-}
-
-#' @export
-results <- function(state) {
-  state$results
-}
-
-#' @export
-`results<-` <- function(state, value) {
-  state$results <- value
 }

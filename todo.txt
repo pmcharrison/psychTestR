@@ -1,4 +1,17 @@
+- specialise the result key object: make it simpler for e..g audio items,
+and allow the user to specify a custom key
+- implement as.data.frame.results
+- implement p_id
 - add data upload options to psych_server
+* automatic option: saves data locally to an RDS file
+* check that the data save location is writable
+* file format: {completion_number}-{SSUID}.rds
+* alternatively, the user can provide a custom function
+(e.g. aws.s3, or drop_upload)
+* alternatively, the user can write a code block
+
 - add default admin panel
 - prevent hack to skip page
 - jspsych integration
+- error handling
+- error handling for data saving

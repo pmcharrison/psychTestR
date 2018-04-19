@@ -110,27 +110,28 @@ final_page <- function(body, ...) {
 #' (the default) as opposed to horizontally.
 #' @export
 NAFC_page <- function(prompt, choices,
-                      save_options = get_save_options(),
+                      on_complete = NAFC_page.autosave(prompt),
                       arrange_vertically = TRUE,
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui") {
   prompt <- tagify(prompt)
   stopifnot(is.character(choices), length(choices) > 0L,
-            is.scalar.logical(arrange_vertically),
-            is(save_options, "save_options"))
+            is.scalar.logical(arrange_vertically))
   ui <- shiny::div(
     prompt, make_ui_NAFC(choices,
                          hide = hide_response_ui,
                          arrange_vertically = arrange_vertically,
                          id = response_ui_id))
-  page_summary <- list(type = "NAFC_page", prompt = prompt, choices = choices)
-  on_complete <-
-    function(state, input) save_data(state = state,
-                                     value = input$lastBtnPressed,
-                                     context = page_summary,
-                                     options = save_options)
-
   page(ui = ui, on_complete = on_complete, final = FALSE)
+}
+
+NAFC_page.autosave <- function(prompt) {
+  function(state, input) {
+    value <- list(type = "NAFC",
+                  prompt = prompt,
+                  answer = input$last_btn_pressed)
+    save_result(place = state, value = value)
+  }
 }
 
 #' Make NAFC buttons
@@ -183,7 +184,7 @@ make_ui_NAFC <- function(choices, hide = FALSE, arrange_vertically = TRUE,
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
 video_NAFC_page <- function(prompt, choices, url,
-                            save_options = get_save_options(),
+                            on_complete = video_NAFC_page.autosave(prompt, url),
                             type = tools::file_ext(url),
                             video_width = "100%",
                             arrange_choices_vertically = TRUE,
@@ -207,10 +208,21 @@ video_NAFC_page <- function(prompt, choices, url,
       onended = if (wait) media.js$show_responses else "null"),
     media_mobile_play_button)
   prompt2 <- shiny::div(prompt, video_ui)
-  NAFC_page(prompt = prompt2, choices = choices, save_options = save_options,
+  NAFC_page(prompt = prompt2, choices = choices, on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
 }
+
+video_NAFC_page.autosave <- function(prompt, url) {
+  function(state, input) {
+    value <- list(type = "video_NAFC",
+                  prompt = prompt,
+                  url = url,
+                  answer = input$last_btn_pressed)
+    save_result(place = state, value = value)
+  }
+}
+
 
 media.js <- list(
   media_not_played = "var media_played = false;",
@@ -253,8 +265,8 @@ media_mobile_play_button <- shiny::tags$p(
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
 audio_NAFC_page <- function(prompt, choices, url,
-                            save_options = get_save_options(),
                             type = tools::file_ext(url),
+                            on_complete = audio_NAFC_page.autosave(prompt, url),
                             arrange_choices_vertically = TRUE,
                             wait = TRUE, loop = FALSE, ...) {
   prompt <- tagify(prompt)
@@ -269,9 +281,19 @@ audio_NAFC_page <- function(prompt, choices, url,
     loop = if (loop) "loop",
     onended = if (wait) media.js$show_responses else "null")
   prompt2 <- shiny::div(prompt, audio_ui)
-  NAFC_page(prompt = prompt2, choices = choices, save_options = save_options,
+  NAFC_page(prompt = prompt2, choices = choices, on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
+}
+
+audio_NAFC_page.autosave <- function(prompt, url) {
+  function(state, input) {
+    value <- list(type = "audio_NAFC",
+                  prompt = prompt,
+                  url = url,
+                  answer = input$last_btn_pressed)
+    save_result(place = state, value = value)
+  }
 }
 
 #' Make volume calibration page
@@ -294,7 +316,8 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
     "Please adjust the volume to a comfortable level before continuing."
   )
   audio_NAFC_page(prompt = prompt, choices = button_text,
-                  url = url, type = type, wait = FALSE, loop = TRUE, ...)
+                  url = url, type = type, on_complete = NULL,
+                  wait = FALSE, loop = TRUE, ...)
 }
 
 #' Make dropdown list page
@@ -302,64 +325,61 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 #' Creates a page where the response is to be selected from a dropdown list.
 #' @export
 dropdown_page <- function(prompt, choices,
-                          save_options = get_save_options(),
                           alternative_choice = FALSE,
                           alternative_text = "Other (please state)",
+                          on_complete = dropdown_page.autosave(
+                            prompt, alternative_text),
+                          validate = dropdown_page.validate(alternative_choice,
+                                                            alternative_text),
                           next_button_text = "Next",
-                          max_width_pixels = 200,
-                          validate = "auto") {
+                          max_width_pixels = 200) {
   stopifnot(is.character(choices),
             is.scalar.logical(alternative_choice),
             is.scalar.character(alternative_text),
             is.scalar.numeric(max_width_pixels),
-            is.function(validate) || validate == "auto",
-            is(save_options, "save_options"))
+            is.null.or(on_complete, is.function),
+            is.null.or(validate, is.function))
   prompt <- tagify(prompt)
-  response_ui <- shiny::div(
-    style = sprintf("max-width:%ipx", round(max_width_pixels)),
-    shiny::selectizeInput(
-      "dropdown", label = NULL,
-      choices = c(choices, if (alternative_choice) alternative_text),
-      multiple = FALSE),
-    if (alternative_choice) shiny::textInput("text_alternative",
-                                             NULL,
-                                             placeholder = alternative_text),
-    trigger_button("next", next_button_text))
-  validate <- if (validate == "auto" && alternative_choice) {
-    function(state, input) dropdown_page.validate(state, input, alternative_text)
-  } else if (is.function(validate)) validate else function(state, input) TRUE
-  page_summary <- list(type = "dropdown_page", prompt = prompt, choices = choices,
-                       alternative_choice = alternative_choice,
-                       alternative_text = alternative_text)
-  on_complete <- function(state, input) {
-    value <- if (input$dropdown == alternative_text) {
-      input$text_alternative
-    } else input$dropdown
-    save_data(state = state,
-              value = value,
-              context = page_summary,
-              options = save_options)
+  style <- sprintf("max-width:%ipx", round(max_width_pixels))
+  choices <- c(choices, if (alternative_choice) alternative_text)
+  dropdown <- shiny::selectizeInput("dropdown", label = NULL,
+                                    choices = choices, multiple = FALSE)
+  text_box <- if (alternative_choice) {
+    shiny::textInput("text_alternative", NULL, placeholder = alternative_text)
   }
-  page(ui = shiny::div(prompt, response_ui),
-       on_complete = on_complete,
-       validate = validate,
-       final = FALSE)
+  button <- trigger_button("next", next_button_text)
+  response_ui <- shiny::div(style = style, choices, dropdown, text_box, button)
+  ui <- shiny::div(prompt, response_ui)
+  page(ui = ui, on_complete = on_complete, validate = validate, final = FALSE)
 }
 
-dropdown_page.validate <- function(state, input, alternative_text) {
-  if (input$dropdown == alternative_text &&
-      input$text_alternative == "") {
-    shinyjs::alert(sprintf(
-      "If you select '%s', you must fill in the text box.",
-      alternative_text))
-    FALSE
-  } else if (input$dropdown != alternative_text &&
-             input$text_alternative != "") {
-    shinyjs::alert(sprintf(
-      "If you fill in the test box, you must select '%s'.",
-      alternative_text))
-    FALSE
-  } else TRUE
+dropdown_page.validate <- function(alternative_choice, alternative_text) {
+  if (alternative_choice) {
+    function(state, input) {
+      if (input$dropdown == alternative_text &&
+          input$text_alternative == "") {
+        shinyjs::alert(sprintf(
+          "If you select '%s', you must fill in the text box.",
+          alternative_text))
+        FALSE
+      } else if (input$dropdown != alternative_text &&
+                 input$text_alternative != "") {
+        shinyjs::alert(sprintf(
+          "If you fill in the test box, you must select '%s'.",
+          alternative_text))
+        FALSE
+      } else TRUE
+    }
+  }
+}
+
+dropdown_page.autosave <- function(prompt, alternative_text) {
+  function(state, input) {
+    alt <- input$dropdown == alternative_text
+    answer <- if (alt) input$text_alternative else input$dropdown
+    value <- list(type = "dropdown_page", prompt = prompt, answer = answer)
+    save_result(place = state, value = value)
+  }
 }
 
 # Version of actionButton that also triggers the next page
@@ -369,7 +389,7 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
     inputId = inputId, label = label,
     icon = icon, width = width,
     onclick = paste(
-      sprintf('Shiny.onInputChange("lastBtnPressed", "%s");',
+      sprintf('Shiny.onInputChange("last_btn_pressed", "%s");',
               inputId),
       "document.getElementById('current_page.ui').style.visibility = 'hidden';",
       'setTimeout(function() {Shiny.onInputChange("next_page", performance.now());}, 500);'),
@@ -379,8 +399,30 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
 #' @export
 new_section <- function(label) {
   stopifnot(is.scalar.character(label))
-  code_block(function(state) prepare_new_results_section(state, label))
+  code_block(function(state) register_next_results_section(state, label))
 }
+
+
+# code_block.save_data <- function(mode = "local")
+
+#' @export
+save_data_locally <- function(dir = "results") {
+  code_block(function(state) {
+    R.utils::mkdirs(dir)
+    if (!test_permissions(dir)) {
+      stop("Insufficient permissions to write to directory ", dir, ".")
+    }
+    n <- length(list.files(dir)) + 1L
+    p_id <- p_id(state)
+    filename <- paste0(format(n, scientific = FALSE), "-", format(p_id), ".rds")
+    path <- file.path(dir, filename)
+    saveRDS(get_results(state), path)
+  })
+}
+
+# save_data.dropbox
+#
+# save_data.aws
 
 # setClass("AudioCATParams",
 #          # Defines the mutable part of an adaptive test; is stored in the rv$params object.

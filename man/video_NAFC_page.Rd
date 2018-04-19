@@ -4,7 +4,8 @@
 \alias{video_NAFC_page}
 \title{Make NAFC video page}
 \usage{
-video_NAFC_page(prompt, choices, url, save_options = get_save_options(),
+video_NAFC_page(prompt, choices, url,
+  on_complete = video_NAFC_page.autosave(prompt, url),
   type = tools::file_ext(url), video_width = "100\%",
   arrange_choices_vertically = TRUE, wait = TRUE, loop = FALSE, ...)
 }

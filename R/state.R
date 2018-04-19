@@ -1,8 +1,9 @@
 initialise_state <- function() {
   x <- shiny::reactiveValues(elt_index = 1L,
+                             p_id = NULL,
                              setup_complete = FALSE,
                              globals = list(),
-                             results = initialise_results())
+                             results = new_results())
   class(x) <- c(class(x), "state")
   x
 }
@@ -26,6 +27,12 @@ update_state_from_list <- function(state, list) {
 }
 
 #' @export
+get_results <- function(state) {
+  stopifnot(is(state, "state"))
+  state$results
+}
+
+#' @export
 get_global <- function(key, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
   state$globals[[key]]
@@ -35,6 +42,16 @@ get_global <- function(key, state) {
 set_global <- function(key, value, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
   state$globals[[key]] <- value
+}
+
+#' @export
+p_id <- function(state) {
+  state$p_id
+}
+
+#' @export
+`p_id<-` <- function(state, value) {
+  state$p_id <- value
 }
 
 setup_complete <- function(state) {

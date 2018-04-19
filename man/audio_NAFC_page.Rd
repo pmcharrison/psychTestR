@@ -4,9 +4,9 @@
 \alias{audio_NAFC_page}
 \title{Make NAFC audio page}
 \usage{
-audio_NAFC_page(prompt, choices, url, save_options = get_save_options(),
-  type = tools::file_ext(url), arrange_choices_vertically = TRUE,
-  wait = TRUE, loop = FALSE, ...)
+audio_NAFC_page(prompt, choices, url, type = tools::file_ext(url),
+  on_complete = audio_NAFC_page.autosave(prompt, url),
+  arrange_choices_vertically = TRUE, wait = TRUE, loop = FALSE, ...)
 }
 \arguments{
 \item{prompt}{Prompt to be displayed above the response choices.
