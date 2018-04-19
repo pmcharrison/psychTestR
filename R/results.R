@@ -3,6 +3,7 @@
 new_results <- function() {
   x <- list()
   class(x) <- "results"
+  # attr(x, "metadata") <- list()
   x
 }
 
@@ -89,6 +90,27 @@ register_next_results_section.results <- function(x, label) {
   x
 }
 
+#' #' @export
+#' get_next_results_section <- function(x) {
+#'   UseMethod("get_next_results_section")
+#' }
+
+#' #' @export
+#' get_next_results_section.state <- function(x) {
+#'   get_next_results_section(results(x))
+#' }
+#'
+#' get_next_results_section.results <- function(x) {
+#'   y <- attr(x, "new_section")
+#'   z <- names(results)
+#'   if (!is.null(y)) return(y)
+#'   if (length(z) > 0) return(z[length(z)])
+#' stop()
+#'   else {
+#'     names(results)
+#'   }
+#' }
+
 # Saving results ####
 
 #' @export
@@ -114,4 +136,23 @@ save_result.results <- function(place, value) {
 save_result.state <- function(place, value) {
   place$results <- save_result.results(place$results, value)
   place
+}
+
+#' @export
+save_metadata <- function(place, value) UseMethod("save_metadata")
+
+#' @export
+save_metadata.state <- function(place, key, value) {
+  results(place) <- save_metadata.results(results(state), key, value)
+  place
+}
+
+save_metadata.results <- function(place, key, value) {
+  # stopifnot(is.scalar.character(key))
+  # att <- attr(place, "metadata")
+  # att[[key]] <- value
+  if (is.null(place$metadata)) place <- c(metadata = list(), place)
+  if (length(place) == 1L) register_next_results_section(place, "main")
+  l <- length(place$metadata)
+  place$metadata[[l + 1L]] <- value
 }

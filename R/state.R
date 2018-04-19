@@ -61,6 +61,7 @@ p_id <- function(state) {
 `p_id<-` <- function(state, value) {
   stopifnot(is(state, "state"))
   state$p_id <- value
+  save_metadata(state, "p_id", value)
   return(state)
 }
 
