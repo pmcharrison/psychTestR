@@ -6,7 +6,7 @@ server <- function(elts, side_panel, options) {
   stopifnot(is(side_panel, "side_panel"))
   function(input, output, session) {
     state <- initialise_state()
-    setup_session(state, elts)
+    setup_session(state, input, elts, session)
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page, next_page(state, input, elts, session))
     side_panel_server(side_panel, state, input, output, session)
@@ -28,10 +28,10 @@ server <- function(elts, side_panel, options) {
 #   )
 # }
 
-setup_session <- function(state, elts) {
+setup_session <- function(state, input, elts, session) {
   shiny::observeEvent(TRUE, {
     if (!setup_complete(state)) {
-      advance_to_first_page(state, elts)
+      advance_to_first_page(state, input, elts, session)
       setup_complete(state) <- TRUE
     }
   }, once = TRUE)

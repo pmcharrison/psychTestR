@@ -12,7 +12,8 @@ print.results <- function(x, ...) {
   num_results <- sum(vapply(x, length, integer(1)))
   cat(sprintf("psychTest results list (%i result%s in %s section%s)\n",
               num_results, if (num_results != 1L) "s" else "",
-              num_sections, if (num_sections != 1L) "s" else ""))
+              num_sections, if (num_sections != 1L) "s" else ""),
+      "(visualise with as.list() or as.data.frame())\n")
 }
 
 #' @export
@@ -22,17 +23,39 @@ as.list.results <- function(x, ...) {
   x
 }
 
-# as.data.frame.results <- function(x, ...) {
-#   l <- as.list(x)
-#   m <- sapply(l, function(section) {
-#     lapply(section, function(entry) {
-#       o <- unlist(entry, recursive = FALSE)
-#       p <- lapply(o, list)
-#       as.data.frame(lapply(p, I))
-#     })
-#   }, simplify = FALSE)
-#   stop()
-# }
+#' @export
+as.data.frame.results <- function(x, ...) {
+  sections <- as.list(x)
+  section_labels <- names(x)
+  if (is.null(section_labels)) section_labels <- rep(as.character(NA),
+                                                     times = length(sections))
+  section_dfs <- mapply(convert_section_to_df, sections, section_labels,
+                        SIMPLIFY = FALSE)
+  do.call(plyr::rbind.fill, section_dfs)
+}
+
+convert_section_to_df <- function(section, section_label) {
+  stopifnot(is.list(section), is.scalar.character(section_label))
+  dfs <- lapply(section, convert_result_to_df)
+  res <- do.call(plyr::rbind.fill, dfs)
+  res <- res[, order(names(res))]
+  res <- cbind(section = section_label, res)
+  res
+}
+
+convert_result_to_df <- function(result) {
+  if (is.list(result)) {
+    elt_lengths <- vapply(result, length, integer(1))
+    for (i in seq_along(elt_lengths)) {
+      elt_length <- elt_lengths[[i]]
+      if (elt_length == 0L) result[[i]] <- NA
+      if (elt_length > 1L) result[[i]] <- list(result[[i]])
+    }
+  } else {
+    result <- list(result = result)
+  }
+  as.data.frame(lapply(result, I))
+}
 
 # Accessing results ####
 
@@ -72,6 +95,7 @@ register_next_results_section.results <- function(x, label) {
 save_result <- function(place, value) UseMethod("save_result")
 
 save_result.results <- function(place, value) {
+  if (!is.list(value)) value <- list(result = value)
   num_sections <- length(place)
   new_section <- num_sections == 0L || !is.null(attr(place, "new_section"))
   index_1 <- if (new_section) num_sections + 1L else num_sections

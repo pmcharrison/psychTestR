@@ -1,35 +1,17 @@
 library(shiny)
 library(psychTest)
-
 options(shiny.error = browser)
 
 elts <- list(
-  one_button_page(
-    tags$div(
-      tags$h2("Hello hello hello"),
-      tags$p(
-        "Welcome to the test, ",
-        tags$strong("Maddy!")
-      )
-    )
-  ),
-  one_button_page("You will answer some questions."),
+  one_button_page("Welcome to the test!"),
   NAFC_page("What's your favourite colour?",
-            choices = c("Orange", "Green", "Blue")),
-  # reactive_page(function(state) {
-  #   one_button_page(sprintf("Your favourite colour is %s.",
-  #                           get_global("colour", state)))
-  # }),
-  audio_NAFC_page(
-    "Do you like this chord?",
-    choices = c("Yes", "No"),
-    url = "http://research.pmcharrison.com/studies/HarmonyDissonance/chords/piano/48_66/48_66.mp3"),
+            choices = c("Yellow", "Red", "Green")),
+  audio_NAFC_page("Do you like this chord?",
+                  url = "http://research.pmcharrison.com/studies/HarmonyDissonance/chords/piano/48_66/48_66.mp3",
+                  choices = c("Yes", "No")),
   save_data_locally(),
   final_page("You finished the test!")
 )
 
-test <- make_test(
-  elts = elts,
-  title = "Maddy's test"
-)
+test <- make_test(elts, title = "Daniel and Klaus's test")
 runApp(test)

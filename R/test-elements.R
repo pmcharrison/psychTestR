@@ -114,14 +114,15 @@ NAFC_page <- function(prompt, choices,
                       arrange_vertically = TRUE,
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui") {
-  prompt <- tagify(prompt)
+  prompt <- (prompt)
   stopifnot(is.character(choices), length(choices) > 0L,
             is.scalar.logical(arrange_vertically))
   ui <- shiny::div(
-    prompt, make_ui_NAFC(choices,
-                         hide = hide_response_ui,
-                         arrange_vertically = arrange_vertically,
-                         id = response_ui_id))
+    tagify(prompt),
+    make_ui_NAFC(choices,
+                 hide = hide_response_ui,
+                 arrange_vertically = arrange_vertically,
+                 id = response_ui_id))
   page(ui = ui, on_complete = on_complete, final = FALSE)
 }
 
@@ -190,7 +191,6 @@ video_NAFC_page <- function(prompt, choices, url,
                             arrange_choices_vertically = TRUE,
                             wait = TRUE, loop = FALSE,
                             ...) {
-  prompt <- tagify(prompt)
   stopifnot(is.character(choices), is.scalar.character(url),
             is.scalar.character(url), is.scalar.character(video_width),
             is.scalar.logical(arrange_choices_vertically),
@@ -207,7 +207,7 @@ video_NAFC_page <- function(prompt, choices, url,
       if (loop) "loop",
       onended = if (wait) media.js$show_responses else "null"),
     media_mobile_play_button)
-  prompt2 <- shiny::div(prompt, video_ui)
+  prompt2 <- shiny::div(tagify(prompt), video_ui)
   NAFC_page(prompt = prompt2, choices = choices, on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
@@ -269,7 +269,6 @@ audio_NAFC_page <- function(prompt, choices, url,
                             on_complete = audio_NAFC_page.autosave(prompt, url),
                             arrange_choices_vertically = TRUE,
                             wait = TRUE, loop = FALSE, ...) {
-  prompt <- tagify(prompt)
   stopifnot(is.character(choices), is.scalar.character(url),
             is.scalar.character(url),
             is.scalar.logical(arrange_choices_vertically),
@@ -280,7 +279,7 @@ audio_NAFC_page <- function(prompt, choices, url,
     autoplay = "autoplay",
     loop = if (loop) "loop",
     onended = if (wait) media.js$show_responses else "null")
-  prompt2 <- shiny::div(prompt, audio_ui)
+  prompt2 <- shiny::div(tagify(prompt), audio_ui)
   NAFC_page(prompt = prompt2, choices = choices, on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)

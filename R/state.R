@@ -64,10 +64,10 @@ setup_complete <- function(state) {
   state$setup_complete <- value
 }
 
-advance_to_first_page <- function(state, elts) {
+advance_to_first_page <- function(state, input, elts, session) {
   stopifnot(is(state, "state"))
   current_elt <- get_current_elt(state, elts = elts, eval = FALSE)
-  if (!is(current_elt, "page")) next_page(state)
+  if (!is(current_elt, "page")) next_page(state, input, elts, session)
 }
 
 get_num_elts <- function(elts) {

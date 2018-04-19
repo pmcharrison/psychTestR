@@ -1,7 +1,5 @@
-- specialise the result key object: make it simpler for e..g audio items,
-and allow the user to specify a custom key
-- implement as.data.frame.results
-- implement p_id
+- test initialises with entry to results list containing ssuid and time started
+- implement p_id, either generated manually, or just equivalent to SSUID
 - add data upload options to psych_server
 * automatic option: saves data locally to an RDS file
 * check that the data save location is writable
@@ -11,7 +9,7 @@ and allow the user to specify a custom key
 * alternatively, the user can write a code block
 
 - add default admin panel
-- prevent hack to skip page
+- prevent hack to skip page and crash server
 - jspsych integration
 - error handling
 - error handling for data saving
