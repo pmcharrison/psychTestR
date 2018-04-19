@@ -9,21 +9,24 @@ ui  <- function(title, options) {
       theme = options$theme,
       title = title,
       shinyjs::useShinyjs(),
-      shiny::includeScript(system.file("js/push-p-id-to-url.js",
-                                       package = "psychTest")),
-      shiny::includeScript(system.file("js/reset-p-id-and-refresh-browser.js",
-                                       package = "psychTest")),
-      shiny::includeScript(system.file("js/confirm-resume-session.js",
-                                       package = "psychTest")),
       shiny::uiOutput("modals"),
       shiny::fluidRow(shiny::column(12, title_content)),
       shiny::fluidRow(
+        id = "content",
         shiny::column(2),
         shiny::column(8, main_content),
         shiny::column(2, shiny::tags$div(style = "padding: 10px",
                                          align = "center",
                                          shiny::uiOutput("side_panel_ui")))
       ),
-      shiny::fluidRow(shiny::column(12, footer_content)))
+      shiny::fluidRow(shiny::column(12, footer_content)),
+      shiny::includeScript(system.file("js/push-p-id-to-url.js",
+                                       package = "psychTest")),
+      shiny::includeScript(system.file("js/reset-p-id-and-refresh-browser.js",
+                                       package = "psychTest")),
+      shiny::includeScript(system.file("js/confirm-resume-session.js",
+                                       package = "psychTest")),
+      shiny::includeScript(system.file("js/hide-content.js",
+                                       package = "psychTest")))
   }
 }

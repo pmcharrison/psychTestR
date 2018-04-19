@@ -4,6 +4,7 @@ confirm_resume_session = function() {
                "or click 'Cancel' to restart as a new user.")) {
     return(true);
   } else {
-    return(reset_p_id_and_refresh_browser());
+    hide_content();
+    reset_p_id_and_refresh_browser();
   }
 };

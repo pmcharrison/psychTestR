@@ -3,41 +3,49 @@ manage_sessions <- function(state,
                             session = shiny::getDefaultReactiveDomain()) {
   stopifnot(is.scalar.character(options$session_dir))
   if (options$enable_resume_session) {
-    # Runs once on session load
-    shiny::isolate({
-      p_id_url = shiny::parseQueryString(session$clientData$url_search)$p_id
-      if (!is.null(p_id_url)) {
-        try_resume_session(p_id = p_id_url, session, options,
-                           ask_to_confirm_resume = TRUE,
-                           reset_if_resume_fails = TRUE)
-      } else {
-        # ... otherwise make a new p_id, if "auto" p_id mode is selected.
-        if (options$auto_p_id) {
-          p_id(state) <- get_new_p_id(options$session_dir)
-          session$sendCustomMessage("push_p_id_to_url", p_id(state))
-        }
-      }
-    })
+    initialise_session(state, session, options)
     list(save_session(state, session_dir = options$session_dir),
          clean_session_dir(session = session, options = options))
   }
+}
+
+initialise_session <- function(state, session, options) {
+  shiny::isolate({
+    p_id_url = shiny::parseQueryString(session$clientData$url_search)$p_id
+    if (!is.null(p_id_url)) {
+      try_resume_session(p_id = p_id_url, state, session, options,
+                         ask_to_confirm_resume = TRUE,
+                         reset_if_resume_fails = TRUE)
+    } else {
+      # ... otherwise make a new p_id, if "auto" p_id mode is selected.
+      if (options$auto_p_id) {
+        p_id(state) <- get_new_p_id(options$session_dir)
+        session$sendCustomMessage("push_p_id_to_url", p_id(state))
+      }
+    }
+  })
 }
 
 push_p_id_to_url <- function(p_id, session) {
   session$sendCustomMessage("push_p_id_to_url", p_id)
 }
 
-try_resume_session <- function(p_id, session, options,
+try_resume_session <- function(p_id, state, session, options,
                                ask_to_confirm_resume,
                                reset_if_resume_fails) {
   stopifnot(is.scalar.character(p_id),
             is.scalar.logical(ask_to_confirm_resume),
             is.scalar.logical(reset_if_resume_fails))
+  p_id(state) <- p_id
   push_p_id_to_url(p_id, session)
-  data <- safe_load_session_data(p_id_url, options)
+  data <- safe_load_session_data(p_id, options)
   success <- !is.null(data)
   if (success) {
-    if (ask_to_confirm_resume) shinyjs::runjs("confirm_resume_session();")
+    if (ask_to_confirm_resume) {
+      shinyjs::runjs("confirm_resume_session();")
+    } else {
+      shiny::showNotification("Resuming previous session.")
+    }
     update_state_from_list(state, data)
   } else {
     if (reset_if_resume_fails) {

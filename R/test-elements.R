@@ -113,15 +113,9 @@ get_p_id_page <- function(prompt = "Please enter your participant ID.",
 
 get_p_id_page.on_complete <- function(state, input, session, options) {
   p_id <- input$p_id
-  p_id(state) <- p_id
-  loaded <- safe_load_session_data(p_id, input)
-  session$sendCustomMessage("push_p_id_to_url", p_id)
-  if (is.null(loaded)) {
-    shiny::showNotification("Starting new session.")
-  } else {
-    shiny::showNotification("Resuming previous session.")
-    update_state_from_list(state, loaded)
-  }
+  try_resume_session(p_id, state, session, options,
+                     ask_to_confirm_resume = FALSE,
+                     reset_if_resume_fails = FALSE)
 }
 
 get_p_id_page.validate <- function(validate) {
