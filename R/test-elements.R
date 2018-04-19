@@ -27,11 +27,10 @@ reactive_page <- function(fun) {
 setClass("code_block",
          slots = list(fun = "function"),
          contains = "test_element",
-         prototype = list(fun = function(state) NULL))
+         prototype = list(fun = function(...) NULL))
 
 #' @export
 code_block <- function(fun) {
-  stopifnot(identical(names(formals(fun)), "state"))
   new("code_block", fun = fun)
 }
 
@@ -442,8 +441,9 @@ new_section <- function(label) {
 # code_block.save_data <- function(mode = "local")
 
 #' @export
-save_data_locally <- function(dir = "results") {
-  code_block(function(state) {
+save_data_locally <- function() {
+  code_block(function(state, options, ...) {
+    dir <- options$results_dir
     R.utils::mkdirs(dir)
     if (!test_permissions(dir)) {
       stop("Insufficient permissions to write to directory ", dir, ".")

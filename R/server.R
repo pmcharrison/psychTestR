@@ -32,7 +32,7 @@ next_page <- function(state, input, elts, session, options) {
     success <- try_finalise_page(elt, state, input, session, options)
     if (!success) make_current_page_visible()
   } else if (is(elt, "code_block")) {
-    elt@fun(state)
+    execute_code_block(elt, state, options)
     success <- TRUE
   }
   if (success) {
@@ -58,9 +58,9 @@ try_finalise_page <- function(elt, state, input, session, options) {
   }
 }
 
-execute_code_block <- function(elt, state) {
+execute_code_block <- function(elt, state, options) {
   stopifnot(is(elt, "code_block"))
-  elt@fun(state)
+  elt@fun(state = state, options = options)
 }
 
 check_elts <- function(elts) {
