@@ -10,28 +10,11 @@ server <- function(elts, side_panel, options) {
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page, next_page(state, input, elts, session,
                                                    options))
-    # shiny::observeEvent(input$reset_session, {
-    #   reset_session(state, retain_p_id = options$p_id != "auto")
-    # })
 
     side_panel_server(side_panel, state, input, output, session)
     manage_sessions(state, options = options, session = session)
   }
 }
-
-# manage_sessions <- function(state) {
-#   list(
-#     shiny::onBookmark(function(x) {
-#       x$values$state <- shiny::reactiveValuesToList(state)
-#     }),
-#     shiny::onRestore(function(x) {
-#       update_state_from_list(state, x$values$state)
-#     }),
-#     onBookmarked(function(url) {
-#       updateQueryString(url)
-#     })
-#   )
-# }
 
 setup_session <- function(state, input, elts, session) {
   shiny::observeEvent(TRUE, {
@@ -111,15 +94,3 @@ perform_on_complete_function <- function(elt, state, input, session, options) {
   elt@on_complete(state = state, input = input, session = session,
                   options = options)
 }
-
-# listToReactiveValues <- function(l) {
-#   x <- reactiveValues()
-#   for (i in seq_along(l)) {
-#     x[[names(l)[i]]] <- l[[i]]
-#   }
-#   x
-# }
-
-# setMessage <- function(state, message) {
-#   state$message <- message
-# }
