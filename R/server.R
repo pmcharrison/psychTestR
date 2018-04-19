@@ -18,10 +18,7 @@ server <- function(elts, side_panel, options) {
 
 setup_session <- function(state, input, elts, session) {
   shiny::isolate({
-    if (!setup_complete(state)) {
-      advance_to_first_page(state, input, elts, session)
-      setup_complete(state) <- TRUE
-    }
+    advance_to_first_page(state, input, elts, session)
   })
 }
 

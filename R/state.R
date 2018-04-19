@@ -9,7 +9,6 @@ initialise_state <- function(x) {
   stopifnot(is(x, "state"))
   x$elt_index <- 1L
   x$p_id <- NULL
-  x$setup_complete <- FALSE
   x$globals <- list()
   x$results <- new_results()
   invisible(TRUE)
@@ -63,16 +62,6 @@ p_id <- function(state) {
   stopifnot(is(state, "state"))
   state$p_id <- value
   return(state)
-}
-
-setup_complete <- function(state) {
-  stopifnot(is(state, "state"))
-  state$setup_complete
-}
-
-`setup_complete<-` <- function(state, value) {
-  stopifnot(is(state, "state"), is.scalar.logical(value))
-  state$setup_complete <- value
 }
 
 advance_to_first_page <- function(state, input, elts, session) {
