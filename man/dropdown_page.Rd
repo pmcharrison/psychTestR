@@ -8,7 +8,10 @@ dropdown_page(prompt, choices, alternative_choice = FALSE,
   alternative_text = "Other (please state)",
   on_complete = dropdown_page.autosave(prompt, alternative_text),
   validate = dropdown_page.validate(alternative_choice, alternative_text),
-  next_button_text = "Next", max_width_pixels = 200)
+  next_button_text = "Next", max_width_pixels = 200, ...)
+}
+\arguments{
+\item{...}{Further parameters to be passed to \code{\link{page}}.}
 }
 \description{
 Creates a page where the response is to be selected from a dropdown list.

@@ -15,5 +15,6 @@ Imports: shiny,
     R.utils,
     assertthat,
     methods
+Depends: shinyBS
 RoxygenNote: 6.0.1
 Suggests: testthat

@@ -1,15 +1,10 @@
-- test
-
 - add default admin panel
-- admin panel should let you download data
+- download data
+
+- close test after x participants
 
 - prevent hack to skip page and crash server
 - jspsych integration
 
 - error handling
 - error handling for data saving
-
-* alternatively, the user can provide a custom function
-(e.g. aws.s3, or drop_upload) - actually don't do this, because
-external data saving would make the system very slow
-* alternatively, the user can write a code block

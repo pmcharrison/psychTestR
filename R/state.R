@@ -13,7 +13,27 @@ initialise_state <- function(x) {
   x$results <- new_results()
   x$time_started <- Sys.time()
   x$num_restarts <- 0L
+  x$admin <- FALSE
   invisible(TRUE)
+}
+
+admin <- function(state) {
+  stopifnot(is(state, "state"))
+  state$admin
+}
+
+`admin<-` <- function(state, value) {
+  stopifnot(is(state, "state"), is.scalar.logical(value))
+  state$admin <- value
+  state
+}
+
+admin_enable <- function(state) {
+  state$admin <- TRUE
+}
+
+admin_disable <- function(state) {
+  state$admin <- FALSE
 }
 
 #' @export
