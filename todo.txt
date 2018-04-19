@@ -1,9 +1,7 @@
 - test initialises with entry to results list containing ssuid and time started
 - implement p_id, either generated manually, or just equivalent to SSUID
 - add data upload options to psych_server
-* automatic option: saves data locally to an RDS file
-* check that the data save location is writable
-* file format: {completion_number}-{SSUID}.rds
+- dropbox + aws.s3
 * alternatively, the user can provide a custom function
 (e.g. aws.s3, or drop_upload)
 * alternatively, the user can write a code block

@@ -3,21 +3,21 @@ Shiny.addCustomMessageHandler("session_start", function(data) {
 
   // ""
   // "?"
-  // "?SSUID=x"
-  // "?SSUID=x&foo=bar"
-  // "?foo=bar&SSUID=x"
-  // "?foo=bar&SSUID=x&baz=quux"
+  // "?p_id=x"
+  // "?p_id=x&foo=bar"
+  // "?foo=bar&p_id=x"
+  // "?foo=bar&p_id=x&baz=quux"
   // "?foo=bar"
   // "?foo=bar&baz=quux"
-  var reSSUID = /([?&])SSUID=[^&]*&?/g;
+  var rep_id = /([?&])p_id=[^&]*&?/g;
 
   if (search.length == 0) {
-    search = "?SSUID=" + encodeURIComponent(data);
-  } else if (reSSUID.test(search)) {
-    search = search.replace(reSSUID, "$1");
+    search = "?p_id=" + encodeURIComponent(data);
+  } else if (rep_id.test(search)) {
+    search = search.replace(rep_id, "$1");
     if (!/[?&]$/.test(search))
       search += "&";
-    search += "SSUID=" + encodeURIComponent(data);
+    search += "p_id=" + encodeURIComponent(data);
   }
 
   // Work around ShinyApps.io/SSP/RSC base href silliness
