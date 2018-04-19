@@ -138,21 +138,21 @@ save_result.state <- function(place, value) {
   place
 }
 
-#' @export
-save_metadata <- function(place, value) UseMethod("save_metadata")
-
-#' @export
-save_metadata.state <- function(place, key, value) {
-  results(place) <- save_metadata.results(results(state), key, value)
-  place
-}
-
-save_metadata.results <- function(place, key, value) {
-  # stopifnot(is.scalar.character(key))
-  # att <- attr(place, "metadata")
-  # att[[key]] <- value
-  if (is.null(place$metadata)) place <- c(metadata = list(), place)
-  if (length(place) == 1L) register_next_results_section(place, "main")
-  l <- length(place$metadata)
-  place$metadata[[l + 1L]] <- value
-}
+#' #'
+#' save_metadata <- function(place, key, value) UseMethod("save_metadata")
+#'
+#' #'
+#' save_metadata.state <- function(place, key, value) {
+#'   results(place) <- save_metadata.results(results(state), key, value)
+#'   place
+#' }
+#'
+#' save_metadata.results <- function(place, key, value) {
+#'   # stopifnot(is.scalar.character(key))
+#'   # att <- attr(place, "metadata")
+#'   # att[[key]] <- value
+#'   if (is.null(place$metadata)) place <- c(metadata = list(), place)
+#'   if (length(place) == 1L) register_next_results_section(place, "main")
+#'   l <- length(place$metadata)
+#'   place$metadata[[l + 1L]] <- value
+#' }

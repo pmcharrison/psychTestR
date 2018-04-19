@@ -11,8 +11,25 @@ initialise_state <- function(x) {
   x$p_id <- NULL
   x$globals <- list()
   x$results <- new_results()
+  x$time_started <- Sys.time()
+  x$num_restarts <- 0L
   invisible(TRUE)
-  x
+}
+
+#' @export
+get_session_info <- function(state) {
+  stopifnot(is(state, "state"))
+  list(
+    p_id = state$p_id,
+    time_started = state$time_started,
+    current_time = Sys.time(),
+    num_restarts = state$num_restarts
+  )
+}
+
+#' @export
+increment_num_restarts <- function(state) {
+  state$num_restarts <- state$num_restarts + 1L
 }
 
 #' @export
@@ -61,7 +78,6 @@ p_id <- function(state) {
 `p_id<-` <- function(state, value) {
   stopifnot(is(state, "state"))
   state$p_id <- value
-  save_metadata(state, "p_id", value)
   return(state)
 }
 
@@ -111,8 +127,4 @@ increment_elt_index <- function(state, elts, by = 1L) {
     error("Test indices less than 1 are not permitted.")
   }
   state$elt_index <- new_index
-}
-
-decrement_index <- function(state, elts, by = 1) {
-  increment_elt_index(state, elts, by = - by)
 }

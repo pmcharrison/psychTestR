@@ -50,6 +50,7 @@ try_resume_session <- function(p_id, state, session, options,
       shiny::showNotification("Resuming previous session.")
     }
     update_state_from_list(state, data)
+    increment_num_restarts(state)
   } else {
     if (reset_if_resume_fails) {
       shinyjs::alert(paste0("Couldn't find this user's testing session.\n",

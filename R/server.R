@@ -18,7 +18,6 @@ server <- function(elts, side_panel, options) {
 
 setup_session <- function(state, input, elts, session) {
   shiny::isolate({
-    save_metadata(state, "time_started", Sys.time())
     advance_to_first_page(state, input, elts, session)
   })
 }

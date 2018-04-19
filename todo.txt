@@ -1,4 +1,3 @@
-- save p_id and time started where possible
 - remove ... from test_elements
 
 - test

@@ -9,7 +9,7 @@ elts <- list(
             choices = c("Yellow", "Red", "Green")),
   audio_NAFC_page("Do you like this chord?",
                   url = "http://research.pmcharrison.com/studies/HarmonyDissonance/chords/piano/48_66/48_66.mp3",
-                  choices = c("Yes", "No")),
+                  choices = c("Yes", "No"), wait = FALSE),
   save_data_locally(),
   final_page("You finished the test!")
 )
