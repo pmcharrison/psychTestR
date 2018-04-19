@@ -17,7 +17,7 @@ initialise_session <- function(state, session, options) {
                          reset_if_resume_fails = TRUE)
     } else {
       if (options$auto_p_id) {
-        p_id <- generate_new_p_id(options$session_dir)
+        p_id <- generate_new_p_id(options)
         p_id(state) <- p_id
         session$sendCustomMessage("push_p_id_to_url", p_id)
       }
@@ -125,7 +125,7 @@ clean_session_dir <- function(session, options) {
     dirs <- list.dirs(options$session_dir, recursive = FALSE)
     for (dir in dirs) {
       p_id <- basename(dir)
-      time <- read_timestamp(options$session_dir, p_id)
+      time <- read_timestamp(options, p_id)
       if (!is.na(time) && time < Sys.time() - options$session_timeout_min * 60) {
         unlink(dir, recursive = TRUE)
       }}})}

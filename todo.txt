@@ -1,4 +1,3 @@
-- check that results folder is writable at beginning of test
 - save p_id and time started where possible
 - remove ... from test_elements
 

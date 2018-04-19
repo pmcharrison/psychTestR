@@ -54,13 +54,15 @@ set_global <- function(key, value, state) {
 
 #' @export
 p_id <- function(state) {
+  stopifnot(is(state, "state"))
   state$p_id
 }
 
 #' @export
-`p_id<-` <- function(x, value) {
-  x$p_id <- value
-  return(x)
+`p_id<-` <- function(state, value) {
+  stopifnot(is(state, "state"))
+  state$p_id <- value
+  return(state)
 }
 
 setup_complete <- function(state) {
