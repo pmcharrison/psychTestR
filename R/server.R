@@ -10,9 +10,10 @@ server <- function(elts, side_panel, options) {
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page, next_page(state, input, elts, session,
                                                    options))
-    shiny::observeEvent(input$reset_session, {
-      reset_session(state, retain_p_id = options$p_id != "auto")
-    })
+    # shiny::observeEvent(input$reset_session, {
+    #   reset_session(state, retain_p_id = options$p_id != "auto")
+    # })
+
     side_panel_server(side_panel, state, input, output, session)
     manage_sessions(state, options = options, session = session)
   }
