@@ -28,7 +28,7 @@ get_new_p_id <- function(session_dir) {
   p_id <- NA
   R.utils::mkdirs(session_dir)
   while (is.na(p_id)) {
-    candidate <- shiny:::createUniqueId(16)
+    candidate <- shiny:::createUniqueId(32)
     is_unique <- dir.create(file.path(session_dir, candidate),
                             showWarnings = FALSE)
     if (is_unique) {
