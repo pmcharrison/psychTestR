@@ -3,7 +3,7 @@ library(psychTest)
 # options(shiny.error = browser)
 
 elts <- list(
-  one_button_page("Welcome to the test!")
+  one_button_page("Welcome to the test!"),
                   # on_complete = function(state, ...) stop("An error occurred.")),
   # get_p_id_page(),
   NAFC_page("What's your favourite colour?",

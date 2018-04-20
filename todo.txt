@@ -1,2 +1,1 @@
-- error handling
-- error handling for data saving
+close test via admin panel
