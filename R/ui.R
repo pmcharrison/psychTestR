@@ -16,13 +16,15 @@ ui  <- function(title, options) {
         shiny::column(8, main_content),
         shiny::column(2)
       ),
-      shiny::fluidRow(shiny::column(12,
-                                    shiny::tags$div(
-                                      style = "padding: 10px",
-                                      align = "center",
-                                      shiny::uiOutput("admin_panel.ui"),
-                                      admin_panel.modals
-                                    ))),
+      shiny::fluidRow(
+        shiny::column(12,
+                      shiny::tags$div(
+                        style = "padding: 10px",
+                        align = "center",
+                        shiny::uiOutput("admin_panel.ui"),
+                        admin_panel.modals,
+                        shiny::p(htmltools::htmlEscape(options$problems_info, FALSE))
+                      ))),
       shiny::includeScript(system.file("js/push-p-id-to-url.js",
                                        package = "psychTest")),
       shiny::includeScript(system.file("js/reset-p-id-and-refresh-browser.js",

@@ -8,8 +8,8 @@ server <- function(elts, side_panel, options) {
     state <- new_state()
     setup_session(state, input, elts, session, options)
     output$ui <- render_ui(state, elts)
-    shiny::observeEvent(input$next_page, next_page(state, input, elts, session,
-                                                   options))
+    shiny::observeEvent(input$next_page,
+                        next_page(state, input, elts, session, options))
     side_panel_server(side_panel, state, input, output, session)
     admin_panel.server(state, input, output, session, options)
     manage_sessions(state, options = options, session = session)
@@ -26,6 +26,13 @@ setup_session <- function(state, input, elts, session, options) {
     advance_to_first_page(state, input, elts, session)
   })
 }
+
+# safe.next_page <- function(...) {
+#   tryCatch(
+#     next_page(...),
+#     error = function(e) {
+#       error(state) <- "An error occurred when trying to advance to the next page."
+#     })}
 
 next_page <- function(state, input, elts, session, options) {
   if (is.null(input$last_btn_pressed)) {
