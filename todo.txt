@@ -1,5 +1,2 @@
-
-- jspsych integration
-
 - error handling
 - error handling for data saving
