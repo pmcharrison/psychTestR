@@ -27,7 +27,7 @@ is.null.or <- function(x, f) {
 }
 
 #' @export
-error <- function(...) {
+display_error <- function(...) {
   msg <- paste(..., collapse = "")
   shinyjs::alert(msg)
   stop(msg)

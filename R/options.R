@@ -1,5 +1,7 @@
 #' @export
-psychTest_options <- function(theme = shinythemes::shinytheme("readable"),
+psychTest_options <- function(max_num_participants = NULL,
+                              max_participants_msg = NULL,
+                              theme = shinythemes::shinytheme("readable"),
                               auto_p_id = TRUE,
                               enable_resume_session = TRUE,
                               enable_admin_panel = TRUE,
@@ -15,10 +17,21 @@ psychTest_options <- function(theme = shinythemes::shinytheme("readable"),
             is.scalar.logical(auto_p_id),
             is.scalar.character(output_dir),
             is.scalar.character(results_dir),
-            is.scalar.character(session_dir))
+            is.scalar.character(session_dir),
+            is.null.or(max_num_participants, is.scalar.numeric),
+            is.null.or(max_participants_msg, is.scalar.character))
   if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
-  list(theme = theme,
+  if (is.null(max_participants_msg)) {
+    max_participants_msg <- paste0(
+      "Thank you for your interest in this test. ",
+      "Unfortunately the participant quota has now been reached, ",
+      "so testing has now finished.")
+  }
+
+  list(max_num_participants = max_num_participants,
+       max_participants_msg = max_participants_msg,
+       theme = theme,
        auto_p_id = auto_p_id,
        enable_resume_session = enable_resume_session,
        enable_admin_panel = enable_admin_panel,

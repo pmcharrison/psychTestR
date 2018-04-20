@@ -15,5 +15,6 @@ elts <- list(
 )
 
 test <- make_test(elts, title = "Daniel and Klaus's test",
-                  options = psychTest_options(auto_p_id = TRUE))
+                  options = psychTest_options(auto_p_id = TRUE,
+                                              max_num_participants = 7))
 runApp(test)

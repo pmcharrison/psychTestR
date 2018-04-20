@@ -6,7 +6,7 @@ server <- function(elts, side_panel, options) {
   stopifnot(is(side_panel, "side_panel"))
   function(input, output, session) {
     state <- new_state()
-    setup_session(state, input, elts, session)
+    setup_session(state, input, elts, session, options)
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page, next_page(state, input, elts, session,
                                                    options))
@@ -16,8 +16,13 @@ server <- function(elts, side_panel, options) {
   }
 }
 
-setup_session <- function(state, input, elts, session) {
+setup_session <- function(state, input, elts, session, options) {
   shiny::isolate({
+    max <- options$max_num_participants
+    if (!is.null(max)) {
+      count <- count_participants(options$results_dir)
+      if (count + 1L > max) error(state) <- options$max_participants_msg
+    }
     advance_to_first_page(state, input, elts, session)
   })
 }
@@ -73,8 +78,12 @@ check_elts <- function(elts) {
 
 render_ui <- function(state, elts) {
   shiny::renderUI({
-    elt <- get_current_elt(state, elts, eval = TRUE)
-    if (!is(elt, "page")) error("Cannot display element of class ", class(elt))
+    elt <- if (!is.null(error(state))) {
+      final_page(error(state))
+    } else {
+      get_current_elt(state, elts, eval = TRUE)
+    }
+    if (!is(elt, "page")) display_error("Cannot display element of class ", class(elt))
     shiny::div(id = "current_page.ui", elt@ui)
   })
 }

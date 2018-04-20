@@ -138,6 +138,11 @@ save_result.state <- function(place, value) {
   place
 }
 
+#' @export
+count_participants <- function(results_dir) {
+  length(list.files(results_dir, pattern = "\\.rds$"))
+}
+
 #' #'
 #' save_metadata <- function(place, key, value) UseMethod("save_metadata")
 #'
