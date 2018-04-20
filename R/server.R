@@ -69,7 +69,7 @@ try_finalise_page <- function(elt, state, input, session, options) {
   if (elt@final) {
     shinyjs::alert("Cannot advance on a 'final' page!")
     FALSE
-  } else if (!validate_elt(elt, state, input)) {
+  } else if (!validate_elt(elt, state, input, session, options)) {
     message("Input validation failed.")
     FALSE
   } else {
@@ -106,8 +106,8 @@ render_ui <- function(state, elts) {
   })
 }
 
-validate_elt <- function(elt, state, input) {
-  elt@validate(state = state, input = input)
+validate_elt <- function(elt, state, input, session, options) {
+  elt@validate(state = state, input = input, session = session, options = options)
 }
 
 make_current_page_visible <- function() {
@@ -115,7 +115,9 @@ make_current_page_visible <- function() {
 }
 
 perform_on_complete_function <- function(elt, state, input, session, options) {
-  elt@on_complete(state = state, input = input, session = session,
+  elt@on_complete(state = state,
+                  input = input,
+                  session = session,
                   options = options)
 }
 

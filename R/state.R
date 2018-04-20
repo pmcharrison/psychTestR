@@ -1,4 +1,4 @@
-new_state <- function() {
+new_state <- function(input, output, session) {
   x <- shiny::reactiveValues()
   class(x) <- c(class(x), "state")
   initialise_state(x)
