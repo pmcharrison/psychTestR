@@ -1,1 +1,5 @@
-reimplement harmony perception study using the new package
+- reimplement harmony perception study using the new package
+- data collection
+- any revisions
+- documentation
+- github release
