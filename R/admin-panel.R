@@ -12,13 +12,13 @@ admin_panel.ui.logged_in <-
     align = "center",
     # shinyBS::tipify(el = shiny::div(shiny::actionButton("test", "Hello")), title = "Download current participant&#39;s results.")
     shinyBS::tipify(
-      el = shiny::p(shiny::actionButton("download_current_results", "Download current results")),
+      el = shiny::p(shiny::downloadButton("admin_panel.download_current_results", "Download current results")),
       title = paste0("Download current participant&#39;s results. ",
                      "Downloaded results can be read into R using the ",
                      "function readRDS().")
     ),
     shinyBS::tipify(
-      el = shiny::p(shiny::downloadButton("download_all_results", "Download all results")),
+      el = shiny::p(shiny::downloadButton("admin_panel.download_all_results", "Download all results")),
       title = paste0("Download all participants&#39; results as a zip file. ",
                      "Individual participant&#39;s files can then be read into R ",
                      "using the function <em>readRDS()</em>.")),
@@ -80,10 +80,38 @@ admin_panel.observers <- function(state, input, session, options) {
   )
 }
 
+admin_panel.handle_downloads <- function(state, output, options) {
+  admin_panel.handle_downloads.current_results(state, output)
+  admin_panel.handle_downloads.all_results(state, output, options)
+}
+
+admin_panel.handle_downloads.current_results <- function(state, output) {
+  output$admin_panel.download_current_results <- shiny::downloadHandler(
+    filename = "results.rds",
+    content = function(file) saveRDS(get_results(state, add_session_info = TRUE),
+                                     file = file)
+  )
+}
+
+admin_panel.handle_downloads.all_results <- function(state, output, options) {
+  output$admin_panel.download_all_results <- shiny::downloadHandler(
+    filename = "output.zip",
+    content = function(file) zip_all_results(file, options$results_dir)
+  )
+}
+
+zip_all_results <- function(output_file, results_dir) {
+  utils::zip(zipfile = output_file, files = results_dir)
+}
+
 admin_panel.server <- function(state, input, output, session, options) {
   if (options$enable_admin_panel) {
     admin_panel.render_ui(state, output)
-    # admin_panel.render_modals(output)
+    admin_panel.handle_downloads(state, output, options)
     admin_panel.observers(state, input, session, options)
   }
 }
+
+
+
+# admin_panel.download_all_results

@@ -71,9 +71,14 @@ update_state_from_list <- function(state, list) {
 }
 
 #' @export
-get_results <- function(state) {
+get_results <- function(state, add_session_info = FALSE) {
   stopifnot(is(state, "state"))
-  state$results
+  results <- state$results
+  if (add_session_info) {
+    results <- register_next_results_section(results, "session_info")
+    results <- save_result(results, get_session_info(state))
+  }
+  results
 }
 
 #' @export

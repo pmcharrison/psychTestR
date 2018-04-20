@@ -1,5 +1,4 @@
-- add default admin panel
-- download data
+- make download data buttons work
 
 - close test after x participants
 

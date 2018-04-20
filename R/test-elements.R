@@ -456,9 +456,7 @@ save_data_locally <- function() {
     p_id <- p_id(state)
     filename <- paste0(format(n, scientific = FALSE), "-", format(p_id), ".rds")
     path <- file.path(dir, filename)
-    results <- get_results(state)
-    results <- register_next_results_section(results, "session_info")
-    results <- save_result(results, get_session_info(state))
+    results <- get_results(state, add_session_info = TRUE)
     saveRDS(results, path)
   })
 }
