@@ -1,6 +1,4 @@
-- close test after x participants
 
-- prevent hack to skip page and crash server
 - jspsych integration
 
 - error handling

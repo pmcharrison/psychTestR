@@ -28,6 +28,10 @@ setup_session <- function(state, input, elts, session, options) {
 }
 
 next_page <- function(state, input, elts, session, options) {
+  if (is.null(input$last_btn_pressed)) {
+    error(state) <- "An unexpected error occurred."
+    return()
+  }
   elt  <- get_current_elt(state, elts, eval = TRUE)
   success <- FALSE
   if (is(elt, "page")) {
