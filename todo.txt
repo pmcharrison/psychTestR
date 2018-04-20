@@ -1,1 +1,1 @@
-close test via admin panel
+reimplement harmony perception study using the new package

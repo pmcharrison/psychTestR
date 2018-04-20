@@ -1,6 +1,7 @@
 #' @export
 psychTest_options <- function(max_num_participants = NULL,
                               max_participants_msg = NULL,
+                              server_closed_msg = NULL,
                               problems_info = NULL,
                               theme = shinythemes::shinytheme("readable"),
                               auto_p_id = TRUE,
@@ -21,6 +22,7 @@ psychTest_options <- function(max_num_participants = NULL,
             is.scalar.character(session_dir),
             is.null.or(max_num_participants, is.scalar.numeric),
             is.null.or(max_participants_msg, is.scalar.character),
+            is.null.or(server_closed_msg, is.scalar.character),
             is.null.or(problems_info, is.scalar.character))
   if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
@@ -36,8 +38,15 @@ psychTest_options <- function(max_num_participants = NULL,
       "Problems? Contact p.m.c.harrison@qmul.ac.uk with a link to this page.")
   }
 
+  if (is.null(server_closed_msg)) {
+    server_closed_msg <- paste0(
+      "Thank you for your interest in this test. ",
+      "Unfortunately, however, participation is now closed.")
+  }
+
   list(max_num_participants = max_num_participants,
        max_participants_msg = max_participants_msg,
+       server_closed_msg = server_closed_msg,
        problems_info = problems_info,
        theme = theme,
        auto_p_id = auto_p_id,

@@ -18,10 +18,17 @@ server <- function(elts, side_panel, options) {
 
 setup_session <- function(state, input, elts, session, options) {
   shiny::isolate({
+    if (is_test_closed()) {
+      error(state) <- options$server_closed_msg
+      return(NULL)
+    }
     max <- options$max_num_participants
     if (!is.null(max)) {
       count <- count_participants(options$results_dir)
-      if (count + 1L > max) error(state) <- options$max_participants_msg
+      if (count + 1L > max) {
+        error(state) <- options$max_participants_msg
+       return(NULL)
+      }
     }
     advance_to_first_page(state, input, elts, session)
   })
@@ -110,4 +117,39 @@ make_current_page_visible <- function() {
 perform_on_complete_function <- function(elt, state, input, session, options) {
   elt@on_complete(state = state, input = input, session = session,
                   options = options)
+}
+
+#' @export
+close_test <- function() {
+  closed <- file.exists("closed.txt")
+  if (closed) {
+    shiny::showNotification("Test is already closed.")
+  } else {
+    success <- file.create("closed.txt")
+    if (success) {
+      shiny::showNotification("Test successfully closed.")
+    } else {
+      shiny::showNotification("Failed to close test.")
+    }
+  }
+}
+
+#' @export
+open_test <- function() {
+  closed <- file.exists("closed.txt")
+  if (!closed) {
+    shiny::showNotification("Test is already open.")
+  } else {
+    success <- file.remove("closed.txt")
+    if (success) {
+      shiny::showNotification("Test successfully opened.")
+    } else {
+      shiny::showNotification("Failed to open test.")
+    }
+  }
+}
+
+#' @export
+is_test_closed <- function() {
+  file.exists("closed.txt")
 }

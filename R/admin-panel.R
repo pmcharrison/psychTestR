@@ -26,7 +26,10 @@ admin_panel.ui.logged_in <-
       el = shiny::p(shiny::actionButton("admin_logout", "Exit admin mode",
                                              style = "color: white; background-color: #c62121")),
       title = "Click to sign out of administration mode."
-    )
+    ),
+    # shiny::p("The test is currently ", shiny::em(shiny::textOutput("admin_panel.text_closed")), "."),
+    shiny::p(shiny::actionButton("admin_panel.close_test", "Close test")),
+    shiny::p(shiny::actionButton("admin_panel.open_test", "Open test"))
   )
 
 admin_panel.render_ui <- function(state, output) {
@@ -76,7 +79,15 @@ admin_panel.observers <- function(state, input, session, options) {
   list(
     admin_panel.observe.admin_login_trigger(input, session),
     admin_panel.observe.submit_admin_password(state, input, session, options),
-    admin_panel.observe.admin_logout(state, input, session)
+    admin_panel.observe.admin_logout(state, input, session),
+    admin_panel.observe_open_close_buttons(input)
+  )
+}
+
+admin_panel.observe_open_close_buttons <- function(input) {
+  list(
+    shiny::observeEvent(input$admin_panel.close_test, close_test()),
+    shiny::observeEvent(input$admin_panel.open_test, open_test())
   )
 }
 
@@ -111,7 +122,5 @@ admin_panel.server <- function(state, input, output, session, options) {
     admin_panel.observers(state, input, session, options)
   }
 }
-
-
 
 # admin_panel.download_all_results

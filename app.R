@@ -1,6 +1,6 @@
 library(shiny)
 library(psychTest)
-# options(shiny.error = browser)
+options(shiny.error = browser)
 
 elts <- list(
   one_button_page("Welcome to the test!"),
