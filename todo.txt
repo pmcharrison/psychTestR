@@ -3,3 +3,7 @@
 - any revisions
 - documentation
 - github release
+
+- test page with feedback
+- slider page
+- examples of extensions

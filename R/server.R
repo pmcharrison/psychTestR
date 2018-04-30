@@ -9,7 +9,7 @@ server <- function(elts, side_panel, options) {
     setup_session(state, input, elts, session, options)
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page,
-                        next_page(state, input, elts, session, options))
+                        next_page(state, input, output, elts, session, options))
     side_panel_server(side_panel, state, input, output, session)
     admin_panel.server(state, input, output, session, options)
     manage_sessions(state, options = options, session = session)
@@ -41,7 +41,7 @@ setup_session <- function(state, input, elts, session, options) {
 #       error(state) <- "An error occurred when trying to advance to the next page."
 #     })}
 
-next_page <- function(state, input, elts, session, options) {
+next_page <- function(state, input, output, elts, session, options) {
   if (is.null(input$last_btn_pressed)) {
     error(state) <- "An unexpected error occurred."
     return()
@@ -52,19 +52,26 @@ next_page <- function(state, input, elts, session, options) {
     success <- try_finalise_page(elt, state, input, session, options)
     if (!success) make_current_page_visible()
   } else if (is(elt, "code_block")) {
-    execute_code_block(elt, state, options)
+    execute_code_block(elt, state = state, elts = elts,
+                       input = input, output = output,
+                       session = session, options = options)
     success <- TRUE
   }
   if (success) {
-    increment_elt_index(state, elts)
+    increment_elt_index(state)
     new_elt <- get_current_elt(state, elts, eval = FALSE)
     if (is(new_elt, "code_block")) {
-      return(next_page(state, input = input,
+      return(next_page(state, input = input, output = output,
                        elts = elts, session = session,
                        options = options))
     }
     # } else stop("Unrecognised test element: '", class(new_elt), "'")
   }
+}
+
+#' Intended to be called within e.g. code blocks to skip pages
+skip_n_pages <- function(state, elts, n) {
+  increment_elt_index(state, by = n)
 }
 
 try_finalise_page <- function(elt, state, input, session, options) {
@@ -81,9 +88,11 @@ try_finalise_page <- function(elt, state, input, session, options) {
   }
 }
 
-execute_code_block <- function(elt, state, options) {
+execute_code_block <- function(elt, state, elts, input, output,
+                               session, options) {
   stopifnot(is(elt, "code_block"))
-  elt@fun(state = state, options = options)
+  elt@fun(state = state, elts = elts, input = input, output = output,
+          session = session, options = options)
 }
 
 check_elts <- function(elts) {

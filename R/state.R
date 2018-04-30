@@ -170,12 +170,10 @@ get_next_elt <- function(state, elts, eval = TRUE) {
           elts = elts, eval = eval)
 }
 
-increment_elt_index <- function(state, elts, by = 1L) {
+#' Low-level setter, see skip_n_pages for skipping pages in general
+increment_elt_index <- function(state, by = 1L) {
   stopifnot(is.scalar.numeric(by), is.scalar(by), round(by) == by)
   new_index <- state$elt_index + by
-  if (new_index > get_num_elts(elts)) {
-    display_error("Tried to advance past the end of the test.")
-  }
   if (new_index < 1L) {
     display_error("Test indices less than 1 are not permitted.")
   }

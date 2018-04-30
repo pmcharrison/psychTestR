@@ -594,3 +594,22 @@ save_data_locally <- function() {
 #       pushToTestStack(item_logic(), rv)}
 #     return(.Object)
 #   })
+
+#' @export
+loop_while <- function(fun, logic) {
+  if (!is.function(fun)) stop("<fun> must be a function")
+  if (!is.list(logic) || is(logic, "test_element")) {
+    stop("<logic> must be either a test element or a list")
+  }
+  if (!is.list(logic)) logic <- list(logic)
+  if (length(logic) == 0L) stop("<logic> may not be empty")
+  n <- length(logic)
+  elt <- code_block(function(state, elts, input, output, session, options) {
+    test <- fun(state = state, input = input, output = output,
+                session = session, options = options)
+    if (!is.scalar.logical(test)) stop("<loop_while> did not return a ",
+                                       "scalar logical")
+    if (!test) skip_n_pages(state, elts, - (n + 1L))
+  })
+  c(logic, elt)
+}
