@@ -58,9 +58,13 @@ next_page <- function(state, input, elts, session, options) {
   if (success) {
     increment_elt_index(state, elts)
     new_elt <- get_current_elt(state, elts, eval = FALSE)
-    if (is(new_elt, "code_block")) return(next_page(state, input = input,
-                                                    elts = elts, session = session,
-                                                    options = options))
+    if (is(new_elt, "code_block")) {
+      return(next_page(state, input = input,
+                       elts = elts, session = session,
+                       options = options))
+    } else if (is(new_elt, "page")) {
+      answer(state) <- NULL
+    } else stop("Unrecognised test element: '", class(new_elt), "'")
   }
 }
 

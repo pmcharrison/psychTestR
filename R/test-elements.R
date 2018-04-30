@@ -170,6 +170,7 @@ NAFC_page.autosave <- function(prompt) {
                   prompt = prompt,
                   answer = input$last_btn_pressed)
     save_result(place = state, value = value)
+    answer(state) <- value
   }
 }
 
@@ -227,7 +228,8 @@ video_NAFC_page <- function(prompt, choices, url,
                             type = tools::file_ext(url),
                             video_width = "100%",
                             arrange_choices_vertically = TRUE,
-                            wait = TRUE, loop = FALSE,
+                            wait = TRUE,
+                            loop = FALSE,
                             ...) {
   stopifnot(is.character(choices), is.scalar.character(url),
             is.scalar.character(url), is.scalar.character(video_width),
@@ -258,6 +260,7 @@ video_NAFC_page.autosave <- function(prompt, url) {
                   url = url,
                   answer = input$last_btn_pressed)
     save_result(place = state, value = value)
+    answer(state) <- value
   }
 }
 
@@ -330,6 +333,7 @@ audio_NAFC_page.autosave <- function(prompt, url) {
                   url = url,
                   answer = input$last_btn_pressed)
     save_result(place = state, value = value)
+    answer(state) <- value
   }
 }
 
@@ -418,6 +422,7 @@ dropdown_page.autosave <- function(prompt, alternative_text) {
     answer <- if (alt) input$text_alternative else input$dropdown
     value <- list(type = "dropdown_page", prompt = prompt, answer = answer)
     save_result(place = state, value = value)
+    answer(state) <- value
   }
 }
 

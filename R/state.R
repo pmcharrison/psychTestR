@@ -15,7 +15,21 @@ initialise_state <- function(x) {
   x$num_restarts <- 0L
   x$admin <- FALSE
   x$error <- NULL
+  x$answer <- NULL
   invisible(TRUE)
+}
+
+#' @export
+answer <- function(state) {
+  stopifnot(is(state, "state"))
+  state$answer
+}
+
+#' @export
+`answer<-` <- function(state, value) {
+  stopifnot(is(state, "state"))
+  state$answer <- value
+  state
 }
 
 #' @export
