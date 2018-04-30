@@ -1,3 +1,11 @@
+admin_panel.statistics.ui <- shinyBS::bsModal(
+  "admin_panel.statistics.ui",
+  title = "Statistics",
+  trigger = "admin_panel.statistics.open",
+  shiny::uiOutput("admin_panel.statistics.num_participants"),
+  shiny::actionButton("admin_panel.statistics.refresh", "Refresh")
+)
+
 admin_panel.ui.logged_out <- shiny::tags$div(
   id = "admin_panel.ui.logged_out",
   shinyBS::tipify(
@@ -10,7 +18,7 @@ admin_panel.ui.logged_in <-
   shiny::div(
     shiny::h3("Admin"),
     align = "center",
-    # shinyBS::tipify(el = shiny::div(shiny::actionButton("test", "Hello")), title = "Download current participant&#39;s results.")
+    admin_panel.statistics.ui,
     shiny::fluidRow(
       shiny::column(
         3,
@@ -27,12 +35,16 @@ admin_panel.ui.logged_in <-
                          "using the function <em>readRDS()</em>."))
       ),
       shiny::column(
-        3,
+        2,
+        shiny::p(shiny::actionButton("admin_panel.statistics.open", "Statistics"))
+      ),
+      shiny::column(
+        2,
         shiny::p(shiny::actionButton("admin_panel.close_test", "Close test")),
         shiny::p(shiny::actionButton("admin_panel.open_test", "Open test"))
       ),
       shiny::column(
-        3,
+        2,
         shinyBS::tipify(
           shiny::p(shiny::actionButton("admin_panel.delete_results",
                                        "Delete results",
@@ -58,7 +70,7 @@ admin_panel.ui.logged_in <-
                                             style = "color: white; background-color: #c62121")),
           title = "Click to sign out of administration mode."
         )
-      ),
+      )
     )
   )
 
@@ -105,15 +117,45 @@ admin_panel.observe.admin_logout <- function(state, input, session) {
   })
 }
 
-admin_panel.observers <- function(state, input, session, options) {
+admin_panel.observers <- function(state, input, output, session, options) {
   list(
     admin_panel.observe.admin_login_trigger(input, session),
     admin_panel.observe.submit_admin_password(state, input, session, options),
     admin_panel.observe.admin_logout(state, input, session),
     admin_panel.observe_open_close_buttons(input),
     admin_panel.delete_results.observers(input, options),
-    admin_panel.clear_sessions.observers(input, options)
+    admin_panel.clear_sessions.observers(input, options),
+    admin_panel.statistics.num_participants(input, output, options),
+    admin_panel.statistics.open(input, session)
   )
+}
+
+admin_panel.statistics.open <- function(input, session) {
+  shiny::observeEvent(input$admin_panel.statistics.open,
+                      shinyBS::toggleModal(session,
+                                           "admin_panel.statistics.ui",
+                                           toggle = "open"))
+}
+
+admin_panel.statistics.num_participants <- function(input, output, options) {
+  output$admin_panel.statistics.num_participants <- shiny::renderUI({
+    input$admin_panel.statistics.refresh
+    shiny::showNotification("Counting participants...")
+    n_complete <- length(list.files(options$results_dir,
+                                    pattern = "final=true\\.rds$"))
+    n_part_complete <- length(list.files(options$results_dir,
+                                         pattern = "final=false\\.rds$"))
+    shiny::p(
+      "The output directory contains results for ",
+      shiny::strong(format(n_complete, scientific = FALSE)),
+      " completed ",
+      ngettext(n_complete, "session", "sessions"),
+      " and ",
+      shiny::strong(format(n_part_complete, scientific = FALSE)),
+      " partly completed ",
+      ngettext(n_part_complete, "session.", "sessions.")
+    )
+  })
 }
 
 admin_panel.delete_results.observers <- function(input, options) {
@@ -205,7 +247,7 @@ admin_panel.server <- function(state, input, output, session, options) {
   if (options$enable_admin_panel) {
     admin_panel.render_ui(state, output)
     admin_panel.handle_downloads(state, output, options)
-    admin_panel.observers(state, input, session, options)
+    admin_panel.observers(state, input, output, session, options)
   }
 }
 
