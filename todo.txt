@@ -1,7 +1,5 @@
 - profile start-up
 
-cursor jump to password box
-
 - reimplement harmony perception study using the new package
 - data collection
 - any revisions

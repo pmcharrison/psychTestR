@@ -94,6 +94,7 @@ admin_panel.modals <- shinyBS::bsModal(
 admin_panel.observe.admin_login_trigger <- function(input, session) {
   shiny::observeEvent(input$admin_login_trigger, {
     shinyBS::toggleModal(session, "admin_login_popup", toggle = "open")
+    # shinyjs::runjs('document.getElementById("admin_password").focus();')
   })
 }
 
