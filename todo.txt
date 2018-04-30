@@ -1,5 +1,3 @@
-- profile start-up
-
 - reimplement harmony perception study using the new package
 - data collection
 - any revisions
