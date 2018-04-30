@@ -1,7 +1,5 @@
 - profile start-up
 
-- admin panel aesthetics
-
 - let admin panel check number of participants (finished and not-finished)
 
 - reimplement harmony perception study using the new package

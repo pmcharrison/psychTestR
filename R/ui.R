@@ -19,9 +19,9 @@ ui <- function(title, options) {
                     shiny::tags$div(
                       style = "padding: 10px",
                       align = "center",
+                      shiny::p(htmltools::htmlEscape(options$problems_info, FALSE)),
                       shiny::uiOutput("admin_panel.ui"),
-                      admin_panel.modals,
-                      shiny::p(htmltools::htmlEscape(options$problems_info, FALSE))
+                      admin_panel.modals
                     ))),
     shiny::includeScript(system.file("js/push-p-id-to-url.js",
                                      package = "psychTest")),

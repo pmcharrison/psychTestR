@@ -11,42 +11,56 @@ admin_panel.ui.logged_in <-
     shiny::h3("Admin"),
     align = "center",
     # shinyBS::tipify(el = shiny::div(shiny::actionButton("test", "Hello")), title = "Download current participant&#39;s results.")
-    shinyBS::tipify(
-      el = shiny::p(shiny::downloadButton("admin_panel.download_current_results", "Download current results")),
-      title = paste0("Download current participant&#39;s results. ",
-                     "Downloaded results can be read into R using the ",
-                     "function readRDS().")
-    ),
-    shinyBS::tipify(
-      el = shiny::p(shiny::downloadButton("admin_panel.download_all_results", "Download all results")),
-      title = paste0("Download all participants&#39; results as a zip file. ",
-                     "Individual participant&#39;s files can then be read into R ",
-                     "using the function <em>readRDS()</em>.")),
-    shinyBS::tipify(
-      el = shiny::p(shiny::actionButton("admin_logout", "Exit admin mode",
-                                        style = "color: white; background-color: #c62121")),
-      title = "Click to sign out of administration mode."
-    ),
-    # shiny::p("The test is currently ", shiny::em(shiny::textOutput("admin_panel.text_closed")), "."),
-    shiny::p(shiny::actionButton("admin_panel.close_test", "Close test")),
-    shiny::p(shiny::actionButton("admin_panel.open_test", "Open test")),
-    shinyBS::tipify(
-      shiny::p(shiny::actionButton("admin_panel.delete_results",
-                                   "Delete results",
-                                   onclick = "confirm_delete_results();")),
-      title = "Backs up and then deletes all results."
-    ),
-    shinyBS::tipify(
-      shiny::p(shiny::actionButton("admin_panel.clear_sessions",
-                                   "Clear sessions",
-                                   onclick = "confirm_clear_sessions();")),
-      placement = "top",
-      title = paste0("Clears session files. ",
-                     "Current testing sessions will not be interrupted. ",
-                     "However, participants will be not be able to use URLs ",
-                     "to resume testing sessions last active ",
-                     "before session clearing.")
-    ))
+    shiny::fluidRow(
+      shiny::column(
+        3,
+        shinyBS::tipify(
+          el = shiny::p(shiny::downloadButton("admin_panel.download_current_results", "Download current results")),
+          title = paste0("Download current participant&#39;s results. ",
+                         "Downloaded results can be read into R using the ",
+                         "function readRDS().")
+        ),
+        shinyBS::tipify(
+          el = shiny::p(shiny::downloadButton("admin_panel.download_all_results", "Download all results")),
+          title = paste0("Download all participants&#39; results as a zip file. ",
+                         "Individual participant&#39;s files can then be read into R ",
+                         "using the function <em>readRDS()</em>."))
+      ),
+      shiny::column(
+        3,
+        shiny::p(shiny::actionButton("admin_panel.close_test", "Close test")),
+        shiny::p(shiny::actionButton("admin_panel.open_test", "Open test"))
+      ),
+      shiny::column(
+        3,
+        shinyBS::tipify(
+          shiny::p(shiny::actionButton("admin_panel.delete_results",
+                                       "Delete results",
+                                       onclick = "confirm_delete_results();")),
+          title = "Backs up and then deletes all results."
+        ),
+        shinyBS::tipify(
+          shiny::p(shiny::actionButton("admin_panel.clear_sessions",
+                                       "Clear sessions",
+                                       onclick = "confirm_clear_sessions();")),
+          placement = "top",
+          title = paste0("Clears session files. ",
+                         "Current testing sessions will not be interrupted. ",
+                         "However, participants will be not be able to use URLs ",
+                         "to resume testing sessions last active ",
+                         "before session clearing.")
+        )
+      ),
+      shiny::column(
+        3,
+        shinyBS::tipify(
+          el = shiny::p(shiny::actionButton("admin_logout", "Exit admin mode",
+                                            style = "color: white; background-color: #c62121")),
+          title = "Click to sign out of administration mode."
+        )
+      ),
+    )
+  )
 
 admin_panel.render_ui <- function(state, output) {
   output$admin_panel.ui <- shiny::renderUI({
