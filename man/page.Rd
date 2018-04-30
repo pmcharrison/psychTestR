@@ -4,7 +4,8 @@
 \alias{page}
 \title{New page}
 \usage{
-page(ui, final = FALSE, on_complete = NULL, validate = NULL)
+page(ui, final = FALSE, get_answer = NULL, on_complete = NULL,
+  validate = NULL)
 }
 \arguments{
 \item{ui}{Page UI. Can be either a scalar character (e.g.

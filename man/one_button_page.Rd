@@ -4,7 +4,7 @@
 \alias{one_button_page}
 \title{New one-button page}
 \usage{
-one_button_page(body, button_text = "Next", ...)
+one_button_page(body, button_text = "Next")
 }
 \arguments{
 \item{body}{Page body. Can be either a scalar character (e.g.
@@ -13,8 +13,6 @@ e.g. \code{shiny::tags$p("Welcome to the test!")}.}
 
 \item{button_text}{Text to display on the button.
 Should be a scalar character vector.}
-
-\item{...}{Further parameters to be passed to \code{\link{page}}.}
 }
 \description{
 Creates a page with a prompt and one button which, when clicked,

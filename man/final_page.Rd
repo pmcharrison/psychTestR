@@ -4,14 +4,12 @@
 \alias{final_page}
 \title{New final page}
 \usage{
-final_page(body, ...)
+final_page(body)
 }
 \arguments{
 \item{body}{Page body. Can be either a scalar character (e.g.
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. \code{shiny::tags$p("Welcome to the test!")}.}
-
-\item{...}{Further parameters to be passed to \code{\link{page}}.}
 }
 \description{
 Creates a page that concludes the test.

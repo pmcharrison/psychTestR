@@ -7,6 +7,7 @@ setClass("test_element")
 setClass("page",
          slots = list(ui = "shiny.tag",
                       final = "logical",
+                      get_answer = "function",
                       on_complete = "function",
                       validate = "function"),
          contains = "test_element")
@@ -52,13 +53,16 @@ code_block <- function(fun) {
 #' If validation fails then the page will be refreshed, usually
 #' to give the user a chance to revise their input.
 #' @export
-page <- function(ui, final = FALSE, on_complete = NULL, validate = NULL) {
+page <- function(ui, final = FALSE, get_answer = NULL, on_complete = NULL,
+                 validate = NULL) {
+  if (is.null(get_answer)) get_answer <- function(...) NULL
   if (is.null(on_complete)) on_complete <- function(...) NULL
   if (is.null(validate)) validate <- function(...) TRUE
   ui <- tagify(ui)
   stopifnot(
     is.scalar.logical(final), is.function(on_complete), is.function(validate))
-  new("page", ui = ui, final = final, on_complete = on_complete, validate = validate)
+  new("page", ui = ui, final = final, get_answer = get_answer,
+      on_complete = on_complete, validate = validate)
 }
 
 #' New one-button page
@@ -72,13 +76,12 @@ page <- function(ui, final = FALSE, on_complete = NULL, validate = NULL) {
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
 #' @param button_text Text to display on the button.
 #' Should be a scalar character vector.
-#' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
-one_button_page <- function(body, button_text = "Next", ...) {
+one_button_page <- function(body, button_text = "Next") {
   body <- tagify(body)
   stopifnot(is.scalar.character(button_text))
   ui <- shiny::div(body, trigger_button("next", button_text))
-  page(ui = ui, ...)
+  page(ui = ui)
 }
 
 #' New final page
@@ -87,11 +90,10 @@ one_button_page <- function(body, button_text = "Next", ...) {
 #' @param body Page body. Can be either a scalar character (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
-#' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
-final_page <- function(body, ...) {
+final_page <- function(body) {
   body <- tagify(body)
-  page(ui = body, final = TRUE, ...)
+  page(ui = body, final = TRUE)
 }
 
 #' @export
@@ -101,13 +103,16 @@ get_p_id_page <- function(prompt = "Please enter your participant ID.",
                           width = "300px",
                           validate = "auto") {
   validate_2 <- get_p_id_page.validate(validate)
+  get_answer <- function(input, ...) input$p_id
   on_complete <- get_p_id_page.on_complete
   text_input <- shiny::textInput("p_id", label = NULL,
                                  placeholder = placeholder,
                                  width = width)
-  body = shiny::tags$div(tagify(prompt), text_input)
-  one_button_page(body = body, button_text = button_text,
-                  validate = validate_2, on_complete = on_complete)
+  body = shiny::div(tagify(prompt), text_input)
+  ui <- shiny::div(body, trigger_button("next", button_text))
+  page(ui = ui, get_answer = get_answer,
+       validate = validate_2,
+       on_complete = on_complete)
 }
 
 get_p_id_page.on_complete <- function(state, input, session, options) {
@@ -162,18 +167,16 @@ NAFC_page <- function(label, prompt, choices,
                  hide = hide_response_ui,
                  arrange_vertically = arrange_vertically,
                  id = response_ui_id))
-  page(ui = ui, on_complete = on_complete, final = FALSE)
+  get_answer <- function(input, ...) input$last_btn_pressed
+  page(ui = ui, get_answer = get_answer, on_complete = on_complete,
+       final = FALSE)
 }
 
 NAFC_page.autosave <- function(label, prompt) {
-  function(state, input, ...) {
-    answer <- input$last_btn_pressed
-    answer(state) <- answer
-    data <- list(label = label,
-                 type = "NAFC",
-                 prompt = prompt,
-                 answer = input$last_btn_pressed)
-    save_result(place = state, value = data)
+  function(state, ...) {
+    metadata <- list(type = "NAFC", prompt = prompt)
+    save_result(place = state, label = label, value = answer(state),
+                metadata = metadata)
   }
 }
 
@@ -258,19 +261,12 @@ video_NAFC_page <- function(label, prompt, choices, url,
 }
 
 video_NAFC_page.autosave <- function(label, prompt, url) {
-  function(state, input, ...) {
-    answer <- input$last_btn_pressed
-    answer(state) <- answer
-    data <- list(label = label,
-                 type = "video_NAFC",
-                 prompt = prompt,
-                 url = url,
-                 answer = input$last_btn_pressed)
-    save_result(place = state, value = data)
-    answer(state) <- value
+  function(state, ...) {
+    metadata <- list(type = "video_NAFC", prompt = prompt, url = url)
+    save_result(place = state, label = label, value = answer(state),
+                metadata = metadata)
   }
 }
-
 
 media.js <- list(
   media_not_played = "var media_played = false;",
@@ -335,16 +331,10 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 }
 
 audio_NAFC_page.autosave <- function(label, prompt, url) {
-  function(state, input, ...) {
-    answer <- input$last_btn_pressed
-    answer(state) <- answer
-    data <- list(label = label,
-                 type = "audio_NAFC",
-                 prompt = prompt,
-                 url = url,
-                 answer = answer)
-    save_result(place = state, value = data)
-    answer(state) <- value
+  function(state, ...) {
+    metadata <- list(type = "audio_NAFC", prompt = prompt, url = url)
+    save_result(place = state, label = label, value = answer(state),
+                metadata = metadata)
   }
 }
 
@@ -405,7 +395,9 @@ dropdown_page <- function(label, prompt, choices,
   button <- trigger_button("next", next_button_text)
   response_ui <- shiny::div(style = style, choices, dropdown, text_box, button)
   ui <- shiny::div(prompt, response_ui)
-  page(ui = ui, on_complete = on_complete, validate = validate, final = FALSE)
+  get_answer <- dropdown_page.get_answer(alternative_text)
+  page(ui = ui, get_answer = get_answer, on_complete = on_complete,
+       validate = validate, final = FALSE)
 }
 
 dropdown_page.validate <- function(alternative_choice, alternative_text) {
@@ -428,14 +420,16 @@ dropdown_page.validate <- function(alternative_choice, alternative_text) {
   }
 }
 
+dropdown_page.get_answer <- function(alternative_text) {
+  function(input, ...) {
+    if (input$dropdown == alternative_text) input$text_alternative else input$dropdown
+  }
+}
+
 dropdown_page.autosave <- function(label, prompt, alternative_text) {
   function(state, input, ...) {
-    alt <- input$dropdown == alternative_text
-    answer <- if (alt) input$text_alternative else input$dropdown
-    answer(state) <- answer
-    data <- list(label = label, type = "dropdown_page",
-                 prompt = prompt, answer = answer)
-    save_result(place = state, value = data)
+    metadata <- list(type = "dropdown_page", prompt = prompt)
+    save_result(place = state, label = label, value = data, metadata = metadata)
   }
 }
 

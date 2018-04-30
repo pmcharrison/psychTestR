@@ -11,7 +11,7 @@ get_next_results_section.state <- function(x) {
   get_next_results_section(results(x))
 }}
 \usage{
-save_result(place, value)
+save_result(place, label, value, metadata)
 }
 \description{
 get_next_results_section.results <- function(x) {

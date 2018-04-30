@@ -83,9 +83,15 @@ try_finalise_page <- function(elt, state, input, session, options) {
     message("Input validation failed.")
     FALSE
   } else {
+    perform_get_answer_function(elt, state, input, session, options)
     perform_on_complete_function(elt, state, input, session, options)
     TRUE
   }
+}
+
+perform_get_answer_function <- function(elt, state, input, session, options) {
+  answer(state) <- elt@get_answer(state = state, input = input,
+                                  session = session, options = options)
 }
 
 execute_code_block <- function(elt, state, elts, input, output,
