@@ -24,17 +24,22 @@ admin_panel.ui.logged_in <-
                      "using the function <em>readRDS()</em>.")),
     shinyBS::tipify(
       el = shiny::p(shiny::actionButton("admin_logout", "Exit admin mode",
-                                             style = "color: white; background-color: #c62121")),
+                                        style = "color: white; background-color: #c62121")),
       title = "Click to sign out of administration mode."
     ),
     # shiny::p("The test is currently ", shiny::em(shiny::textOutput("admin_panel.text_closed")), "."),
     shiny::p(shiny::actionButton("admin_panel.close_test", "Close test")),
     shiny::p(shiny::actionButton("admin_panel.open_test", "Open test")),
-    shiny::p(shiny::actionButton("admin_panel.delete_results",
-                                 "Delete results",
-                                 onclick = "confirm_delete_results();")),
-    shiny::p(shiny::actionButton("admin_panel.clear_sessions", "Clear sessions"))
-  )
+    shinyBS::tipify(
+      shiny::p(shiny::actionButton("admin_panel.delete_results",
+                                   "Delete results",
+                                   onclick = "confirm_delete_results();")),
+      title = "Backs up and then deletes all results."
+    ),
+    shinyBS::tipify(
+      shiny::p(shiny::actionButton("admin_panel.clear_sessions", "Clear sessions")),
+      title = "Clears files that allow users to resume test sessions by URL."
+    ))
 
 admin_panel.render_ui <- function(state, output) {
   output$admin_panel.ui <- shiny::renderUI({
@@ -95,8 +100,8 @@ admin_panel.delete_results.observers <- function(input, options) {
   #     print("hi")
   #     shinyjs::runjs("confirm_archive_results;")
   #   }),
-    shiny::observeEvent(input$admin_panel.confirm_delete_results,
-                        admin_panel.delete_results.actual(options))
+  shiny::observeEvent(input$admin_panel.confirm_delete_results,
+                      admin_panel.delete_results.actual(options))
   # )
 }
 
