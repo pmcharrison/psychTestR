@@ -1,4 +1,7 @@
-- add delete all data button (maybe just archive it)
+- profile start-up
+
+- add delete all data button (maybe just archive data)
+- let admin panel check number of participants (finished and not-finished)
 
 - reimplement harmony perception study using the new package
 - data collection

@@ -457,19 +457,29 @@ new_section <- function(label) {
 # code_block.save_data <- function(mode = "local")
 
 #' @export
-save_data_locally <- function() {
+save_results_to_disk <- function(final) {
+  stopifnot(is.scalar(final))
   code_block(function(state, options, ...) {
     dir <- options$results_dir
     R.utils::mkdirs(dir)
     if (!test_permissions(dir)) {
       stop("Insufficient permissions to write to directory ", dir, ".")
     }
-    n <- length(list.files(dir)) + 1L
+    id <- length(list.files(dir)) + 1L
     p_id <- p_id(state)
-    filename <- paste0(format(n, scientific = FALSE), "-", format(p_id), ".rds")
+    save_id <- save_id(state)
+    previous_save_path <- previous_save_path(state)
+    if (!is.null(previous_save_path)) unlink(previous_save_path)
+    filename <- sprintf("id=%s&p_id=%s&save_id=%s&final=%s.rds",
+                        format(id, scientific = FALSE),
+                        format(p_id),
+                        format(save_id, scientific = FALSE),
+                        tolower(final))
     path <- file.path(dir, filename)
     results <- get_results(state, add_session_info = TRUE)
     saveRDS(results, path)
+    previous_save_path(state) <- path
+    save_id(state) <- save_id(state) + 1L
   })
 }
 

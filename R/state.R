@@ -13,6 +13,8 @@ initialise_state <- function(x) {
   x$results <- new_results()
   x$time_started <- Sys.time()
   x$num_restarts <- 0L
+  x$save_id <- 1L
+  x$previous_save_path <- NULL
   x$admin <- FALSE
   x$error <- NULL
   x$answer <- NULL
@@ -29,6 +31,34 @@ answer <- function(state) {
 `answer<-` <- function(state, value) {
   stopifnot(is(state, "state"))
   state$answer <- value
+  state
+}
+
+#' @export
+save_id <- function(state) {
+  stopifnot(is(state, "state"))
+  state$save_id
+}
+
+#' @export
+`save_id<-` <- function(state, value) {
+  stopifnot(is(state, "state"),
+            is.integer(value))
+  state$save_id <- value
+  state
+}
+
+#' @export
+previous_save_path <- function(state) {
+  stopifnot(is(state, "state"))
+  state$previous_save_path
+}
+
+#' @export
+`previous_save_path<-` <- function(state, value) {
+  stopifnot(is(state, "state"),
+            is.scalar.character(value))
+  state$previous_save_path <- value
   state
 }
 
