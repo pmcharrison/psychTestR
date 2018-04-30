@@ -465,7 +465,7 @@ save_results_to_disk <- function(final) {
     if (!test_permissions(dir)) {
       stop("Insufficient permissions to write to directory ", dir, ".")
     }
-    id <- length(list.files(dir)) + 1L
+    id <- length(list.files(dir, pattern = "\\.rds$")) + 1L
     p_id <- p_id(state)
     save_id <- save_id(state)
     previous_save_path <- previous_save_path(state)
