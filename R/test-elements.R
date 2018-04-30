@@ -146,14 +146,15 @@ get_p_id_page.validate <- function(validate) {
 #' (the default) as opposed to horizontally.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
-NAFC_page <- function(prompt, choices,
-                      on_complete = NAFC_page.autosave(prompt),
+NAFC_page <- function(label, prompt, choices,
+                      on_complete = NAFC_page.autosave(label, prompt),
                       arrange_vertically = TRUE,
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui",
                       ...) {
   prompt <- (prompt)
-  stopifnot(is.character(choices), length(choices) > 0L,
+  stopifnot(is.scalar.character(label),
+            is.character(choices), length(choices) > 0L,
             is.scalar.logical(arrange_vertically))
   ui <- shiny::div(
     tagify(prompt),
@@ -164,11 +165,12 @@ NAFC_page <- function(prompt, choices,
   page(ui = ui, on_complete = on_complete, final = FALSE)
 }
 
-NAFC_page.autosave <- function(prompt) {
+NAFC_page.autosave <- function(label, prompt) {
   function(state, input, ...) {
     answer <- input$last_btn_pressed
     answer(state) <- answer
-    data <- list(type = "NAFC",
+    data <- list(label = label,
+                 type = "NAFC",
                  prompt = prompt,
                  answer = input$last_btn_pressed)
     save_result(place = state, value = data)
@@ -224,15 +226,16 @@ make_ui_NAFC <- function(choices, hide = FALSE, arrange_vertically = TRUE,
 #' @param loop Whether the video should loop.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
-video_NAFC_page <- function(prompt, choices, url,
-                            on_complete = video_NAFC_page.autosave(prompt, url),
+video_NAFC_page <- function(label, prompt, choices, url,
+                            on_complete = video_NAFC_page.autosave(label, prompt, url),
                             type = tools::file_ext(url),
                             video_width = "100%",
                             arrange_choices_vertically = TRUE,
                             wait = TRUE,
                             loop = FALSE,
                             ...) {
-  stopifnot(is.character(choices), is.scalar.character(url),
+  stopifnot(is.scalar.character(label),
+            is.character(choices), is.scalar.character(url),
             is.scalar.character(url), is.scalar.character(video_width),
             is.scalar.logical(arrange_choices_vertically),
             is.scalar.logical(wait))
@@ -254,11 +257,12 @@ video_NAFC_page <- function(prompt, choices, url,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
 }
 
-video_NAFC_page.autosave <- function(prompt, url) {
+video_NAFC_page.autosave <- function(label, prompt, url) {
   function(state, input, ...) {
     answer <- input$last_btn_pressed
     answer(state) <- answer
-    data <- list(type = "video_NAFC",
+    data <- list(label = label,
+                 type = "video_NAFC",
                  prompt = prompt,
                  url = url,
                  answer = input$last_btn_pressed)
@@ -308,12 +312,13 @@ media_mobile_play_button <- shiny::tags$p(
 #' @param loop Whether the audio should loop.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
-audio_NAFC_page <- function(prompt, choices, url,
+audio_NAFC_page <- function(label, prompt, choices, url,
                             type = tools::file_ext(url),
-                            on_complete = audio_NAFC_page.autosave(prompt, url),
+                            on_complete = audio_NAFC_page.autosave(label, prompt, url),
                             arrange_choices_vertically = TRUE,
                             wait = TRUE, loop = FALSE, ...) {
-  stopifnot(is.character(choices), is.scalar.character(url),
+  stopifnot(is.scalar.character(label),
+            is.character(choices), is.scalar.character(url),
             is.scalar.character(url),
             is.scalar.logical(arrange_choices_vertically),
             is.scalar.logical(wait), is.scalar.logical(loop))
@@ -329,11 +334,12 @@ audio_NAFC_page <- function(prompt, choices, url,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
 }
 
-audio_NAFC_page.autosave <- function(prompt, url) {
+audio_NAFC_page.autosave <- function(label, prompt, url) {
   function(state, input, ...) {
     answer <- input$last_btn_pressed
     answer(state) <- answer
-    data <- list(type = "audio_NAFC",
+    data <- list(label = label,
+                 type = "audio_NAFC",
                  prompt = prompt,
                  url = url,
                  answer = answer)
@@ -371,17 +377,18 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 #' Creates a page where the response is to be selected from a dropdown list.
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
-dropdown_page <- function(prompt, choices,
+dropdown_page <- function(label, prompt, choices,
                           alternative_choice = FALSE,
                           alternative_text = "Other (please state)",
                           on_complete = dropdown_page.autosave(
-                            prompt, alternative_text),
+                            label, prompt, alternative_text),
                           validate = dropdown_page.validate(alternative_choice,
                                                             alternative_text),
                           next_button_text = "Next",
                           max_width_pixels = 200,
                           ...) {
-  stopifnot(is.character(choices),
+  stopifnot(is.scalar.character(label),
+            is.character(choices),
             is.scalar.logical(alternative_choice),
             is.scalar.character(alternative_text),
             is.scalar.numeric(max_width_pixels),
@@ -421,12 +428,13 @@ dropdown_page.validate <- function(alternative_choice, alternative_text) {
   }
 }
 
-dropdown_page.autosave <- function(prompt, alternative_text) {
+dropdown_page.autosave <- function(label, prompt, alternative_text) {
   function(state, input, ...) {
     alt <- input$dropdown == alternative_text
     answer <- if (alt) input$text_alternative else input$dropdown
     answer(state) <- answer
-    data <- list(type = "dropdown_page", prompt = prompt, answer = answer)
+    data <- list(label = label, type = "dropdown_page",
+                 prompt = prompt, answer = answer)
     save_result(place = state, value = data)
   }
 }
