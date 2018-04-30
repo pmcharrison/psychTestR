@@ -79,11 +79,12 @@ try_finalise_page <- function(elt, state, input, session, options) {
   if (elt@final) {
     shinyjs::alert("Cannot advance on a 'final' page!")
     FALSE
-  } else if (!validate_elt(elt, state, input, session, options)) {
+  }
+  perform_get_answer_function(elt, state, input, session, options)
+  if (!validate_elt(elt, state, input, session, options)) {
     message("Input validation failed.")
     FALSE
   } else {
-    perform_get_answer_function(elt, state, input, session, options)
     perform_on_complete_function(elt, state, input, session, options)
     TRUE
   }
@@ -125,7 +126,16 @@ render_ui <- function(state, elts) {
 }
 
 validate_elt <- function(elt, state, input, session, options) {
-  elt@validate(state = state, input = input, session = session, options = options)
+  res <- elt@validate(state = state, input = input,
+                      session = session, options = options)
+  if (is.null(res)) TRUE else {
+    if (!is.scalar.character(res)) {
+      stop("validation function must either return NULL for success or ",
+           "a scalar character error message for failure")
+    }
+    shinyjs::alert(res)
+    FALSE
+  }
 }
 
 make_current_page_visible <- function() {

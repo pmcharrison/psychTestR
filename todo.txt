@@ -1,3 +1,5 @@
+- porting generic questionnaires
+
 - reimplement harmony perception study using the new package
 - data collection
 - any revisions

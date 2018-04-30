@@ -97,6 +97,22 @@ final_page <- function(body) {
 }
 
 #' @export
+text_input_page <- function(label, prompt,
+                            placeholder = NULL,
+                            button_text = "Next",
+                            width = "300px",
+                            validate = NULL) {
+  stopifnot(is.scalar.character(label))
+  text_input <- shiny::textInput("text_input", label = NULL,
+                                 placeholder = placeholder,
+                                 width = width)
+  get_answer <- function(input, ...) input$text_input
+  body = shiny::div(tagify(prompt), text_input)
+  ui <- shiny::div(body, trigger_button("next", button_text))
+  page(ui = ui, get_answer = get_answer, validate = validate)
+}
+
+#' @export
 get_p_id_page <- function(prompt = "Please enter your participant ID.",
                           placeholder = "e.g. 10492817",
                           button_text = "Next",
@@ -157,7 +173,6 @@ NAFC_page <- function(label, prompt, choices,
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui",
                       ...) {
-  prompt <- (prompt)
   stopifnot(is.scalar.character(label),
             is.character(choices), length(choices) > 0L,
             is.scalar.logical(arrange_vertically))
