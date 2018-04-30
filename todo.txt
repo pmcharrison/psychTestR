@@ -1,6 +1,6 @@
 - profile start-up
 
-- let admin panel check number of participants (finished and not-finished)
+cursor jump to password box
 
 - reimplement harmony perception study using the new package
 - data collection
