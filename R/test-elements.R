@@ -166,11 +166,12 @@ NAFC_page <- function(prompt, choices,
 
 NAFC_page.autosave <- function(prompt) {
   function(state, input, ...) {
-    value <- list(type = "NAFC",
-                  prompt = prompt,
-                  answer = input$last_btn_pressed)
-    save_result(place = state, value = value)
-    answer(state) <- value
+    answer <- input$last_btn_pressed
+    answer(state) <- answer
+    data <- list(type = "NAFC",
+                 prompt = prompt,
+                 answer = input$last_btn_pressed)
+    save_result(place = state, value = data)
   }
 }
 
@@ -255,11 +256,13 @@ video_NAFC_page <- function(prompt, choices, url,
 
 video_NAFC_page.autosave <- function(prompt, url) {
   function(state, input, ...) {
-    value <- list(type = "video_NAFC",
-                  prompt = prompt,
-                  url = url,
-                  answer = input$last_btn_pressed)
-    save_result(place = state, value = value)
+    answer <- input$last_btn_pressed
+    answer(state) <- answer
+    data <- list(type = "video_NAFC",
+                 prompt = prompt,
+                 url = url,
+                 answer = input$last_btn_pressed)
+    save_result(place = state, value = data)
     answer(state) <- value
   }
 }
@@ -328,11 +331,13 @@ audio_NAFC_page <- function(prompt, choices, url,
 
 audio_NAFC_page.autosave <- function(prompt, url) {
   function(state, input, ...) {
-    value <- list(type = "audio_NAFC",
-                  prompt = prompt,
-                  url = url,
-                  answer = input$last_btn_pressed)
-    save_result(place = state, value = value)
+    answer <- input$last_btn_pressed
+    answer(state) <- answer
+    data <- list(type = "audio_NAFC",
+                 prompt = prompt,
+                 url = url,
+                 answer = answer)
+    save_result(place = state, value = data)
     answer(state) <- value
   }
 }
@@ -420,9 +425,9 @@ dropdown_page.autosave <- function(prompt, alternative_text) {
   function(state, input, ...) {
     alt <- input$dropdown == alternative_text
     answer <- if (alt) input$text_alternative else input$dropdown
-    value <- list(type = "dropdown_page", prompt = prompt, answer = answer)
-    save_result(place = state, value = value)
-    answer(state) <- value
+    answer(state) <- answer
+    data <- list(type = "dropdown_page", prompt = prompt, answer = answer)
+    save_result(place = state, value = data)
   }
 }
 
