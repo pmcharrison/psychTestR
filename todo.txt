@@ -1,10 +1,7 @@
 - profile start-up
 
-- tipify for admin panel
 - admin panel aesthetics
 
-- add delete all data button (maybe just archive data)
-- add delete all sessions button
 - let admin panel check number of participants (finished and not-finished)
 
 - reimplement harmony perception study using the new package

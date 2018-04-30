@@ -31,6 +31,8 @@ ui <- function(title, options) {
                                      package = "psychTest")),
     shiny::includeScript(system.file("js/confirm-delete-results.js",
                                      package = "psychTest")),
+    shiny::includeScript(system.file("js/confirm-clear-sessions.js",
+                                     package = "psychTest")),
     shiny::includeScript(system.file("js/hide-content.js",
                                      package = "psychTest")))
 }
