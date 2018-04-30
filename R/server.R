@@ -1,16 +1,16 @@
 options <- list(session_timeout_min = 120,
                 clean_sessions_interval_min = 15)
 
-server <- function(elts, side_panel, options) {
+server <- function(elts, options) {
   check_elts(elts)
-  stopifnot(is(side_panel, "side_panel"))
+  # stopifnot(is(side_panel, "side_panel"))
   function(input, output, session) {
     state <- new_state()
     setup_session(state, input, elts, session, options)
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page,
                         next_page(state, input, output, elts, session, options))
-    side_panel_server(side_panel, state, input, output, session)
+    # side_panel_server(side_panel, state, input, output, session)
     admin_panel.server(state, input, output, session, options)
     manage_sessions(state, options = options, session = session)
   }
