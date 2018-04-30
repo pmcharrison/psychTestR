@@ -27,37 +27,44 @@ as.list.results <- function(x, ...) {
 
 #' @export
 as.data.frame.results <- function(x, ...) {
-  sections <- as.list(x)
-  section_labels <- names(x)
-  if (is.null(section_labels)) section_labels <- rep(as.character(NA),
-                                                     times = length(sections))
-  section_dfs <- mapply(convert_section_to_df, sections, section_labels,
-                        SIMPLIFY = FALSE)
-  do.call(plyr::rbind.fill, section_dfs)
-}
-
-convert_section_to_df <- function(section, section_label) {
-  stopifnot(is.list(section), is.scalar.character(section_label))
-  dfs <- lapply(section, convert_result_to_df)
-  res <- do.call(plyr::rbind.fill, dfs)
-  res <- res[, order(names(res))]
-  res <- cbind(section = section_label, res)
-  res
-}
-
-convert_result_to_df <- function(result) {
-  if (is.list(result)) {
-    elt_lengths <- vapply(result, length, integer(1))
-    for (i in seq_along(elt_lengths)) {
-      elt_length <- elt_lengths[[i]]
-      if (elt_length == 0L) result[[i]] <- NA
-      if (elt_length > 1L) result[[i]] <- list(result[[i]])
-    }
-  } else {
-    result <- list(result = result)
+  y <- unlist(as.list(x), recursive = FALSE)
+  if (!all(sapply(y, is.atomic))) {
+    stop("cannot coerce to data.frame when the results object contains ",
+         "non-atomic elements")
   }
-  as.data.frame(lapply(result, I))
+  as.data.frame(y, check.names = FALSE, ...)
 }
+
+# sections <- as.list(x)
+# section_labels <- names(x)
+# if (is.null(section_labels)) section_labels <- rep(as.character(NA),
+#                                                    times = length(sections))
+# section_dfs <- mapply(convert_section_to_df, sections, section_labels,
+#                       SIMPLIFY = FALSE)
+# do.call(plyr::rbind.fill, section_dfs)
+
+# convert_section_to_df <- function(section, section_label) {
+#   stopifnot(is.list(section), is.scalar.character(section_label))
+#   dfs <- lapply(section, convert_result_to_df)
+#   res <- do.call(plyr::rbind.fill, dfs)
+#   res <- res[, order(names(res))]
+#   res <- cbind(section = section_label, res)
+#   res
+# }
+#
+# convert_result_to_df <- function(result) {
+#   if (is.list(result)) {
+#     elt_lengths <- vapply(result, length, integer(1))
+#     for (i in seq_along(elt_lengths)) {
+#       elt_length <- elt_lengths[[i]]
+#       if (elt_length == 0L) result[[i]] <- NA
+#       if (elt_length > 1L) result[[i]] <- list(result[[i]])
+#     }
+#   } else {
+#     result <- list(result = result)
+#   }
+#   as.data.frame(lapply(result, I))
+# }
 
 # Accessing results ####
 

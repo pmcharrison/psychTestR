@@ -1,3 +1,5 @@
+- add delete all data button (maybe just archive it)
+
 - reimplement harmony perception study using the new package
 - data collection
 - any revisions
