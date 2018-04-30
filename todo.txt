@@ -1,5 +1,7 @@
 - profile start-up
 
+- tipify for admin panel
+- admin panel aesthetics
 - add regex to list.files for results
 
 - add delete all data button (maybe just archive data)

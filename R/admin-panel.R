@@ -30,9 +30,9 @@ admin_panel.ui.logged_in <-
     # shiny::p("The test is currently ", shiny::em(shiny::textOutput("admin_panel.text_closed")), "."),
     shiny::p(shiny::actionButton("admin_panel.close_test", "Close test")),
     shiny::p(shiny::actionButton("admin_panel.open_test", "Open test")),
-    shiny::p(shiny::actionButton("admin_panel.archive_results",
-                                 "Archive results",
-                                 onclick = "confirm_archive_results();")),
+    shiny::p(shiny::actionButton("admin_panel.delete_results",
+                                 "Delete results",
+                                 onclick = "confirm_delete_results();")),
     shiny::p(shiny::actionButton("admin_panel.clear_sessions", "Clear sessions"))
   )
 
@@ -85,38 +85,39 @@ admin_panel.observers <- function(state, input, session, options) {
     admin_panel.observe.submit_admin_password(state, input, session, options),
     admin_panel.observe.admin_logout(state, input, session),
     admin_panel.observe_open_close_buttons(input),
-    admin_panel.archive_results.observers(input, options)
+    admin_panel.delete_results.observers(input, options)
   )
 }
 
-admin_panel.archive_results.observers <- function(input, options) {
+admin_panel.delete_results.observers <- function(input, options) {
   # list(
   #   shiny::observeEvent(input$admin_panel.archive_results, {
   #     print("hi")
   #     shinyjs::runjs("confirm_archive_results;")
   #   }),
-    shiny::observeEvent(input$admin_panel.confirm_archive_results,
-                        admin_panel.archive_results.actual(options))
+    shiny::observeEvent(input$admin_panel.confirm_delete_results,
+                        admin_panel.delete_results.actual(options))
   # )
 }
 
-admin_panel.archive_results.actual <- function(options) {
+admin_panel.delete_results.actual <- function(options) {
   dir <- options$results_archive_dir
   R.utils::mkdirs(dir)
   file <- paste0(format(Sys.time(),
                         format = "date=%Y-%m-%d&time=%H-%M-%S&tz=%Z"),
                  ".zip")
   path <- file.path(dir, file)
-  shiny::showNotification("Creating results archive...")
+  shiny::showNotification("Creating results backup...")
   zip_all_results(output_file = path, results_dir = options$results_dir)
   if (file.exists(path)) {
-    shiny::showNotification("Archive created.")
+    shiny::showNotification("Backup created.")
     unlink(options$results_dir, recursive = TRUE)
     Sys.sleep(0.01)
     dir.create(options$results_dir)
-    shiny::showNotification("Results directory cleared.")
+    shiny::showNotification("Deleted results.")
   } else {
-    shiny::showNotification("Failed to create archive.")
+    shiny::showNotification(
+      "Backup failed, deleting cancelled.")
   }
 }
 

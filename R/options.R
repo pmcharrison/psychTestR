@@ -42,7 +42,7 @@ psychTest_options <- function(max_num_participants = NULL,
 
   results_dir <- file.path(output_dir, "results")
   session_dir <- file.path(output_dir, "sessions")
-  results_archive_dir <- file.path(output_dir, "results-archive")
+  results_archive_dir <- file.path(output_dir, "deleted-results")
 
   list(max_num_participants = max_num_participants,
        max_participants_msg = max_participants_msg,
