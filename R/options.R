@@ -8,8 +8,6 @@ psychTest_options <- function(max_num_participants = NULL,
                               enable_resume_session = TRUE,
                               enable_admin_panel = TRUE,
                               output_dir = "output",
-                              results_dir = file.path(output_dir, "results"),
-                              session_dir = file.path(output_dir, "sessions"),
                               session_timeout_min = 120,
                               clean_sessions_interval_min = 15) {
   stopifnot(is.scalar.numeric(session_timeout_min),
@@ -18,13 +16,11 @@ psychTest_options <- function(max_num_participants = NULL,
             is.scalar.logical(enable_admin_panel),
             is.scalar.logical(auto_p_id),
             is.scalar.character(output_dir),
-            is.scalar.character(results_dir),
-            is.scalar.character(session_dir),
             is.null.or(max_num_participants, is.scalar.numeric),
             is.null.or(max_participants_msg, is.scalar.character),
             is.null.or(server_closed_msg, is.scalar.character),
             is.null.or(problems_info, is.scalar.character))
-  if (is.null(session_dir)) session_dir <- get_default_session_dir()
+  # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   if (is.null(max_participants_msg)) {
     max_participants_msg <- paste0(
@@ -44,6 +40,10 @@ psychTest_options <- function(max_num_participants = NULL,
       "Unfortunately, however, participation is now closed.")
   }
 
+  results_dir <- file.path(output_dir, "results")
+  session_dir <- file.path(output_dir, "sessions")
+  results_archive_dir <- file.path(output_dir, "results-archive")
+
   list(max_num_participants = max_num_participants,
        max_participants_msg = max_participants_msg,
        server_closed_msg = server_closed_msg,
@@ -56,26 +56,27 @@ psychTest_options <- function(max_num_participants = NULL,
        output_dir = output_dir,
        results_dir = results_dir,
        session_dir = session_dir,
+       results_archive_dir = results_archive_dir,
        session_timeout_min = session_timeout_min,
        clean_sessions_interval_min = clean_sessions_interval_min)
 }
 
-default_session_dirs <- c("shiny-sessions", "/var/tmp/shiny-sessions")
+# default_session_dirs <- c("shiny-sessions", "/var/tmp/shiny-sessions")
 
-get_default_session_dir <- function() {
-  for (dir in default_session_dirs) {
-    R.utils::mkdirs(dir)
-    if (test_permissions(dir)) return(dir)
-  }
-  tempdir()
-}
+# get_default_session_dir <- function() {
+#   for (dir in default_session_dirs) {
+#     R.utils::mkdirs(dir)
+#     if (test_permissions(dir)) return(dir)
+#   }
+#   tempdir()
+# }
 
-#' @export
-delete_default_session_dirs <- function() {
-  for (dir in default_session_dirs) {
-    unlink(dir, recursive = TRUE)
-  }
-}
+#' #' @export
+#' delete_default_session_dirs <- function() {
+#'   for (dir in default_session_dirs) {
+#'     unlink(dir, recursive = TRUE)
+#'   }
+#' }
 
 #' @export
 test_permissions <- function(dir) {

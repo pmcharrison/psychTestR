@@ -29,7 +29,11 @@ admin_panel.ui.logged_in <-
     ),
     # shiny::p("The test is currently ", shiny::em(shiny::textOutput("admin_panel.text_closed")), "."),
     shiny::p(shiny::actionButton("admin_panel.close_test", "Close test")),
-    shiny::p(shiny::actionButton("admin_panel.open_test", "Open test"))
+    shiny::p(shiny::actionButton("admin_panel.open_test", "Open test")),
+    shiny::p(shiny::actionButton("admin_panel.archive_results",
+                                 "Archive results",
+                                 onclick = "confirm_archive_results();")),
+    shiny::p(shiny::actionButton("admin_panel.clear_sessions", "Clear sessions"))
   )
 
 admin_panel.render_ui <- function(state, output) {
@@ -80,8 +84,40 @@ admin_panel.observers <- function(state, input, session, options) {
     admin_panel.observe.admin_login_trigger(input, session),
     admin_panel.observe.submit_admin_password(state, input, session, options),
     admin_panel.observe.admin_logout(state, input, session),
-    admin_panel.observe_open_close_buttons(input)
+    admin_panel.observe_open_close_buttons(input),
+    admin_panel.archive_results.observers(input, options)
   )
+}
+
+admin_panel.archive_results.observers <- function(input, options) {
+  # list(
+  #   shiny::observeEvent(input$admin_panel.archive_results, {
+  #     print("hi")
+  #     shinyjs::runjs("confirm_archive_results;")
+  #   }),
+    shiny::observeEvent(input$admin_panel.confirm_archive_results,
+                        admin_panel.archive_results.actual(options))
+  # )
+}
+
+admin_panel.archive_results.actual <- function(options) {
+  dir <- options$results_archive_dir
+  R.utils::mkdirs(dir)
+  file <- paste0(format(Sys.time(),
+                        format = "date=%Y-%m-%d&time=%H-%M-%S&tz=%Z"),
+                 ".zip")
+  path <- file.path(dir, file)
+  shiny::showNotification("Creating results archive...")
+  zip_all_results(output_file = path, results_dir = options$results_dir)
+  if (file.exists(path)) {
+    shiny::showNotification("Archive created.")
+    unlink(options$results_dir, recursive = TRUE)
+    Sys.sleep(0.01)
+    dir.create(options$results_dir)
+    shiny::showNotification("Results directory cleared.")
+  } else {
+    shiny::showNotification("Failed to create archive.")
+  }
 }
 
 admin_panel.observe_open_close_buttons <- function(input) {
@@ -112,7 +148,22 @@ admin_panel.handle_downloads.all_results <- function(state, output, options) {
 }
 
 zip_all_results <- function(output_file, results_dir) {
-  utils::zip(zipfile = output_file, files = results_dir)
+  if (!dir.exists(results_dir)) stop("<results_dir> doesn't exist")
+  old_wd <- getwd()
+  results_dir <- gsub("/$", "", results_dir)
+  results_dir_parent <- dirname(results_dir)
+  results_dir_name <- basename(results_dir)
+  output_full_path <- file.path(normalizePath(dirname(output_file)),
+                                basename(output_file))
+  tryCatch({
+    setwd(results_dir_parent)
+    utils::zip(zipfile = output_full_path, files = results_dir_name)
+    setwd(old_wd)
+  }, error = function(e) {
+    setwd(old_wd)
+    shinyjs::alert("failed to create zip file")
+  }
+  )
 }
 
 admin_panel.server <- function(state, input, output, session, options) {
