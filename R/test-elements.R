@@ -416,7 +416,7 @@ dropdown_page <- function(label, prompt, choices,
     shiny::textInput("text_alternative", NULL, placeholder = alternative_text)
   }
   button <- trigger_button("next", next_button_text)
-  response_ui <- shiny::div(style = style, choices, dropdown, text_box, button)
+  response_ui <- shiny::div(style = style, dropdown, text_box, button)
   ui <- shiny::div(prompt, response_ui)
   get_answer <- dropdown_page.get_answer(alternative_text)
   page(ui = ui, get_answer = get_answer, on_complete = on_complete,

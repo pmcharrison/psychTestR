@@ -2,14 +2,14 @@ options <- list(session_timeout_min = 120,
                 clean_sessions_interval_min = 15)
 
 server <- function(elts, options) {
-  check_elts(elts)
   # stopifnot(is(side_panel, "side_panel"))
   function(input, output, session) {
     state <- new_state()
     setup_session(state, input, elts, session, options)
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page,
-                        next_page(state, input, output, elts, session, options))
+                        next_page(state, input, output, elts, session, options,
+                                  triggered_by_front_end = TRUE))
     shiny::observe(demo(state) <- if (admin(state)) TRUE else options$demo)
     admin_panel.server(state, input, output, session, options)
     manage_sessions(state, options = options, session = session)
@@ -41,8 +41,10 @@ setup_session <- function(state, input, elts, session, options) {
 #       error(state) <- "An error occurred when trying to advance to the next page."
 #     })}
 
-next_page <- function(state, input, output, elts, session, options) {
-  if (is.null(input$last_btn_pressed)) {
+next_page <- function(state, input, output, elts, session, options,
+                      triggered_by_front_end = FALSE) {
+  stopifnot(is.scalar.logical(triggered_by_front_end))
+  if (triggered_by_front_end && is.null(input$last_btn_pressed)) {
     error(state) <- "An unexpected error occurred."
     return()
   }
@@ -103,6 +105,13 @@ execute_code_block <- function(elt, state, elts, input, output,
 }
 
 check_elts <- function(elts) {
+  if (length(elts) == 0L) {
+    stop("<elts> cannot have length 0")
+  }
+  first_elt <- elts[[1]]
+  if (!is(first_elt, "page")) {
+    stop("The first element in <elts> must be a test page.")
+  }
   last_elt <- elts[[length(elts)]]
   if (!is(last_elt, "page")) {
     stop("The last element in <elts> must be a test page.")

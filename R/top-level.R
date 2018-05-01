@@ -5,6 +5,7 @@ make_test <- function(elts, title,
                       ) {
   stopifnot(is.scalar.character(title), is.list(options))
   check_dirs(options)
+  check_elts(elts)
   shiny::shinyApp(
     ui = ui(title = title, options = options),
     server = server(elts = elts, options = options))
