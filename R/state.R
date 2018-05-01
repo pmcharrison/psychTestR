@@ -16,6 +16,7 @@ initialise_state <- function(x) {
   x$save_id <- 1L
   x$previous_save_path <- NULL
   x$admin <- FALSE
+  x$demo <- FALSE
   x$error <- NULL
   x$answer <- NULL
   invisible(TRUE)
@@ -83,6 +84,17 @@ admin <- function(state) {
 `admin<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
   state$admin <- value
+  state
+}
+
+demo <- function(state) {
+  stopifnot(is(state, "state"))
+  state$demo
+}
+
+`demo<-` <- function(state, value) {
+  stopifnot(is(state, "state"), is.scalar.logical(value))
+  state$demo <- value
   state
 }
 

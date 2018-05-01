@@ -146,7 +146,7 @@ adapt_test.select_next_item <- function(item_bank, opt) {
           "Failed to select new item, terminating adaptive procedure.")
         test_state$terminate_test <- TRUE
         skip_n_pages(state, n = 2L)
-      } else if (admin(state)) {
+      } else if (demo(state)) {
         msg <- shiny::p("New item difficulty: ",
                         shiny::strong(format(next_item$par[2],
                                              digits = 3,
@@ -218,7 +218,7 @@ adapt_test.save_result <- function(item_bank, opt) {
                                              "_sem")] <- tmp_ability_sem
       }
 
-      if (admin(state)) {
+      if (demo(state)) {
         msg <- shiny::div(
           shiny::p(shiny::strong(if (score) "Correct" else "Incorrect"),
                    " answer."),

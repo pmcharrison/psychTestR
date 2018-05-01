@@ -1,5 +1,6 @@
 #' @export
 pt_options <- function(admin_password,
+                       demo = FALSE,
                        max_num_participants = NULL,
                        max_participants_msg = NULL,
                        server_closed_msg = NULL,
@@ -13,6 +14,7 @@ pt_options <- function(admin_password,
                        clean_sessions_interval_min = 15) {
   stopifnot(!missing(admin_password),
             is.scalar.character(admin_password),
+            is.scalar.logical(demo),
             is.scalar.numeric(session_timeout_min),
             is.scalar.numeric(clean_sessions_interval_min),
             is.scalar.logical(enable_resume_session),
@@ -47,7 +49,9 @@ pt_options <- function(admin_password,
   session_dir <- file.path(output_dir, "sessions")
   results_archive_dir <- file.path(output_dir, "deleted-results")
 
-  list(max_num_participants = max_num_participants,
+  list(admin_password = admin_password,
+       demo = demo,
+       max_num_participants = max_num_participants,
        max_participants_msg = max_participants_msg,
        server_closed_msg = server_closed_msg,
        problems_info = problems_info,
@@ -55,7 +59,6 @@ pt_options <- function(admin_password,
        auto_p_id = auto_p_id,
        enable_resume_session = enable_resume_session,
        enable_admin_panel = enable_admin_panel,
-       admin_password = admin_password,
        output_dir = output_dir,
        results_dir = results_dir,
        session_dir = session_dir,

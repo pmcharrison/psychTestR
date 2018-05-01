@@ -10,7 +10,7 @@ server <- function(elts, options) {
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page,
                         next_page(state, input, output, elts, session, options))
-    # side_panel_server(side_panel, state, input, output, session)
+    shiny::observe(demo(state) <- if (admin(state)) TRUE else options$demo)
     admin_panel.server(state, input, output, session, options)
     manage_sessions(state, options = options, session = session)
   }
