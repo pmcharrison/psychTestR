@@ -504,130 +504,6 @@ save_results_to_disk <- function(final) {
   })
 }
 
-# save_data.dropbox
-#
-# save_data.aws
-
-# setClass("AudioCATParams",
-#          # Defines the mutable part of an adaptive test; is stored in the rv$params object.
-#          slots = list(
-#            audio_root = "character",
-#            test_length = "numeric",
-#            next_item.criterion = "character",
-#            next_item.estimator = "character",
-#            results.by_item = "data.frame",
-#            results.final = "list"
-#          ),
-#          prototype = list(
-#            audio_root = NULL,
-#            test_length = NULL,
-#            next_item.criterion = "bOpt",
-#            next_item.estimator = "BM",
-#            results.by_item = data.frame(),
-#            results.final = list()
-#          ))
-#
-# setClass("AudioCAT",
-#          # Defines the immutable part of an adaptive test; is a test element.
-#          slots = list(
-#            itemPar = "matrix",
-#            audio_paths = "character",
-#            audio_type = "character",
-#            choices = "character",
-#            answers = "character",
-#            cbControl = "list",
-#            cbGroup = "character",
-#            intro = "list",
-#            params_id = "character",
-#            item.prompt = "shiny.tag"),
-#          contains = "code_block")
-#
-# setMethod(
-#   f = "initialize",
-#   signature = "AudioCAT",
-#   definition = function(.Object, itemPar, audio_paths, audio_type, choices, answers,
-#                         cbControl, cbGroup, intro, params_id, item.prompt) {
-#     .Object <- callNextMethod(.Object, itemPar = itemPar, audio_paths = audio_paths,
-#                               audio_type = audio_type, choices = choices,
-#                               answers = answers,
-#                               cbControl = cbControl, cbGroup = cbGroup, intro = intro,
-#                               params_id = params_id, item.prompt = item.prompt)
-#     .Object@fun <- function(rv, input) {
-#       params_id <- .Object@params_id
-#       item_logic <- function() {
-#         new("code_block", fun = function(rv, input) {
-#           results.by_item <- rv$params[[params_id]]@results.by_item
-#           test_length <- rv$params[[params_id]]@test_length
-#           if (nrow(results.by_item) < test_length) {
-#             next_item <- nextItem(
-#               itemBank = .Object@itemPar,
-#               theta = if (nrow(results.by_item) == 0) 0 else {
-#                 results.by_item[nrow(results.by_item),
-#                                 paste0("theta_", rv$params[[params_id]]@next_item.estimator)]
-#               },
-#               out = if (nrow(results.by_item) == 0) NULL else results.by_item[, "item_id"],
-#               x = if (nrow(results.by_item) == 0) NULL else results.by_item[, "score"],
-#               criterion = rv$params[[params_id]]@next_item.criterion,
-#               method = rv$params[[params_id]]@next_item.estimator,
-#               cbControl = .Object@cbControl,
-#               cbGroup = .Object@cbGroup
-#             )
-#             new_row <- data.frame(
-#               num = nrow(results.by_item) + 1,
-#               item_id = next_item$item,
-#               discrimination = next_item$par[["discrimination"]],
-#               difficulty = next_item$par[["difficulty"]],
-#               guessing = next_item$par[["guessing"]],
-#               inattention = next_item$par[["inattention"]],
-#               information = next_item$info,
-#               criterion = next_item$criterion,
-#               response = NA, correct_answer = NA, score = NA,
-#               theta_ML = NA, theta_ML_sem = NA,
-#               theta_BM = NA, theta_BM_sem = NA,
-#               theta_EAP = NA, theta_EAP_sem = NA,
-#               theta_WL = NA, theta_WL_sem = NA
-#             )
-#             rv$params[[params_id]]@results.by_item <- plyr::rbind.fill(results.by_item, new_row)
-#             pushToTestStack(
-#               new("audio_stimulus_NAFC",
-#                   prompt = .Object@item.prompt,
-#                   source = file.path(rv$params[[params_id]]@audio_root,
-#                                      .Object@audio_paths[next_item$item]),
-#                   type = .Object@audio_type,
-#                   choices = .Object@choices,
-#                   wait = TRUE,
-#                   on_complete = function(rv, input) {
-#                     response <- input$lastBtnPressed
-#                     correct_answer <- .Object@answers[next_item$item]
-#                     score <- response == correct_answer
-#                     scores <- c(rv$params[[params_id]]@results.by_item$score, score)
-#                     item_ids <- c(rv$params[[params_id]]@results.by_item$item_id, next_item$item)
-#                     item_params <- .Object@itemPar[item_ids, , drop = FALSE]
-#                     n <- nrow(rv$params[[params_id]]@results.by_item)
-#                     rv$params[[params_id]]@results.by_item$response[n] <-
-#                       response
-#                     rv$params[[params_id]]@results.by_item$correct_answer[n] <-
-#                       correct_answer
-#                     rv$params[[params_id]]@results.by_item$score[n] <-
-#                       score
-#                     for (method in c("ML", "BM", "EAP", "WL")) {
-#                       tmp_theta <- thetaEst(item_params, scores, method = method)
-#                       tmp_sem_theta <- semTheta(thEst = tmp_theta,
-#                                                 it = item_params, method = method)
-#
-#                       rv$params[[params_id]]@results.by_item[n, paste0("theta_", method)] <-
-#                         tmp_theta
-#                       rv$params[[params_id]]@results.by_item[n, paste0("theta_", method, "_sem")] <-
-#                         tmp_sem_theta
-#                     }
-#                     pushToTestStack(item_logic(), rv)
-#                   }),
-#               rv
-#             )}})}
-#       pushToTestStack(item_logic(), rv)}
-#     return(.Object)
-#   })
-
 #' @export
 loop_while <- function(fun, logic) {
   if (!is.function(fun)) stop("<fun> must be a function")
@@ -642,7 +518,7 @@ loop_while <- function(fun, logic) {
                 session = session, options = options)
     if (!is.scalar.logical(test)) stop("<loop_while> did not return a ",
                                        "scalar logical")
-    if (!test) skip_n_pages(state, elts, - (n + 1L))
+    if (!test) skip_n_pages(state, - (n + 1L))
   })
   c(logic, elt)
 }

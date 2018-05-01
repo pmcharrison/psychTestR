@@ -32,3 +32,11 @@ display_error <- function(...) {
   shinyjs::alert(msg)
   stop(msg)
 }
+
+#' @export
+assert_global_is_null <- function(key, state) {
+  stopifnot(is.scalar.character(key), is(state, "state"))
+  if (is.null(get_global(key, state))) TRUE else {
+    stop("global variable <", key, "> in <state> was not NULL")
+  }
+}

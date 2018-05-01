@@ -1,4 +1,5 @@
 - check cases when the researcher doesn't elect to save the test
+- new_section label shouldn't have spaces
 
 - reimplement harmony perception study using the new package
 - data collection

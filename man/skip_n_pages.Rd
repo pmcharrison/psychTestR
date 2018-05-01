@@ -4,7 +4,7 @@
 \alias{skip_n_pages}
 \title{Intended to be called within e.g. code blocks to skip pages}
 \usage{
-skip_n_pages(state, elts, n)
+skip_n_pages(state, n)
 }
 \description{
 Intended to be called within e.g. code blocks to skip pages
