@@ -128,9 +128,10 @@ render_ui <- function(state, elts) {
 validate_elt <- function(elt, state, input, session, options) {
   res <- elt@validate(state = state, input = input,
                       session = session, options = options)
-  if (is.null(res)) TRUE else {
+  if (isTRUE(res)) TRUE else {
     if (!is.scalar.character(res)) {
-      stop("validation function must either return NULL for success or ",
+      print(res)
+      stop("validation function must either return TRUE for success or ",
            "a scalar character error message for failure")
     }
     shinyjs::alert(res)

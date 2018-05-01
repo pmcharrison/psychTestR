@@ -1,4 +1,4 @@
-- porting generic questionnaires
+- check cases when the researcher doesn't elect to save the test
 
 - reimplement harmony perception study using the new package
 - data collection

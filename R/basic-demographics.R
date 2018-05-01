@@ -1,3 +1,4 @@
+#' @export
 get_basic_demographics <- function() {
   c(
     new_section("demographics"),
@@ -9,21 +10,25 @@ get_basic_demographics <- function() {
   )
 }
 
-get_basic_demographics.gender() <-
+get_basic_demographics.gender <- function() {
   NAFC_page("gender", prompt = "How do you describe your gender?",
             choices = c("Female", "Male", "Other", "Prefer not to answer"))
+}
 
-get_basic_demographics.age() <-
+get_basic_demographics.age <- function() {
   text_input_page("age", prompt = "What is your age in years?",
+                  width = "100px",
                   validate = function(state, ...) {
                     x <- answer(state)
-                    if (is.na(as.numeric(x)) || x < 0) {
+                    if (is.na(suppressWarnings(as.numeric(x))) ||
+                        x < 0) {
                       paste0("Please ensure that age is entered correctly. ",
                              "Your answer should be numeric.")
-                    }
+                    } else TRUE
                   })
+}
 
-get_basic_demographics.occupation() <-
+get_basic_demographics.occupation <- function() {
   NAFC_page("occupation",
             prompt = shiny::div(shiny::p("What is your occupational status?"),
                                 shiny::p("(choose the one most appropriate option)")),
@@ -35,8 +40,9 @@ get_basic_demographics.occupation() <-
                         "Unemployed",
                         "Retired",
                         "Rather not say"))
+}
 
-get_basic_demographics.education_highest_achieved() <-
+get_basic_demographics.education_highest_achieved <- function() {
   NAFC_page(
     "education_highest_achieved",
     prompt = shiny::div(
@@ -49,3 +55,4 @@ get_basic_demographics.education_highest_achieved() <-
       "Completed first school qualification at about 16 years (e.g. GCSE/Junior High School)",
       "Did not complete any school qualification",
       "Rather not say"))
+}

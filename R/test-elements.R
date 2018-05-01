@@ -101,7 +101,8 @@ text_input_page <- function(label, prompt,
                             placeholder = NULL,
                             button_text = "Next",
                             width = "300px",
-                            validate = NULL) {
+                            validate = NULL,
+                            on_complete = text_input_page.autosave(label, prompt)) {
   stopifnot(is.scalar.character(label))
   text_input <- shiny::textInput("text_input", label = NULL,
                                  placeholder = placeholder,
@@ -109,7 +110,17 @@ text_input_page <- function(label, prompt,
   get_answer <- function(input, ...) input$text_input
   body = shiny::div(tagify(prompt), text_input)
   ui <- shiny::div(body, trigger_button("next", button_text))
-  page(ui = ui, get_answer = get_answer, validate = validate)
+  page(ui = ui, get_answer = get_answer, validate = validate,
+       on_complete = on_complete)
+}
+
+#' @export
+text_input_page.autosave <- function(label, prompt) {
+  function(state, ...) {
+    metadata <- list(type = "text_input_page", prompt = prompt)
+    save_result(place = state, label = label, value = answer(state),
+                metadata = metadata)
+  }
 }
 
 #' @export
@@ -144,10 +155,7 @@ get_p_id_page.validate <- function(validate) {
   } else if (identical(validate, "auto")) {
     function(state, input) {
       valid <- nchar(input$p_id) > 0L
-      if (valid) TRUE else {
-        shinyjs::alert("Please enter your participant ID before proceeding.")
-        FALSE
-      }
+      if (valid) TRUE else "Please enter your participant ID before proceeding."
     }
   } else stop("Unrecognised validation method.")
 }
@@ -420,16 +428,14 @@ dropdown_page.validate <- function(alternative_choice, alternative_text) {
     function(state, input) {
       if (input$dropdown == alternative_text &&
           input$text_alternative == "") {
-        shinyjs::alert(sprintf(
+        sprintf(
           "If you select '%s', you must fill in the text box.",
-          alternative_text))
-        FALSE
+          alternative_text)
       } else if (input$dropdown != alternative_text &&
                  input$text_alternative != "") {
-        shinyjs::alert(sprintf(
+        sprintf(
           "If you fill in the test box, you must select '%s'.",
-          alternative_text))
-        FALSE
+          alternative_text)
       } else TRUE
     }
   }
@@ -465,7 +471,7 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
 #' @export
 new_section <- function(label) {
   stopifnot(is.scalar.character(label))
-  code_block(function(state) register_next_results_section(state, label))
+  code_block(function(state, ...) register_next_results_section(state, label))
 }
 
 
