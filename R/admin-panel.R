@@ -24,13 +24,15 @@ admin_panel.ui.logged_in <-
       shiny::column(
         3,
         shinyBS::tipify(
-          el = shiny::p(shiny::downloadButton("admin_panel.download_current_results", "Download current results")),
+          el = shiny::p(shiny::downloadButton("admin_panel.download_current_results.rds",
+                                              "Current results (RDS)")),
           title = paste0("Download current participant&#39;s results. ",
                          "Downloaded results can be read into R using the ",
                          "function readRDS().")
         ),
         shinyBS::tipify(
-          el = shiny::p(shiny::downloadButton("admin_panel.download_all_results", "Download all results")),
+          el = shiny::p(shiny::downloadButton("admin_panel.download_all_results.rds",
+                                              "All results (RDS)")),
           title = paste0("Download all participants&#39; results as a zip file. ",
                          "Individual participant&#39;s files can then be read into R ",
                          "using the function <em>readRDS()</em>."))
@@ -232,20 +234,20 @@ admin_panel.observe_open_close_buttons <- function(input) {
 }
 
 admin_panel.handle_downloads <- function(state, output, options) {
-  admin_panel.handle_downloads.current_results(state, output)
-  admin_panel.handle_downloads.all_results(state, output, options)
+  admin_panel.handle_downloads.current_results.rds(state, output)
+  admin_panel.handle_downloads.all_results.rds(state, output, options)
 }
 
-admin_panel.handle_downloads.current_results <- function(state, output) {
-  output$admin_panel.download_current_results <- shiny::downloadHandler(
+admin_panel.handle_downloads.current_results.rds <- function(state, output) {
+  output$admin_panel.download_current_results.rds <- shiny::downloadHandler(
     filename = "results.rds",
     content = function(file) saveRDS(get_results(state, add_session_info = TRUE),
                                      file = file)
   )
 }
 
-admin_panel.handle_downloads.all_results <- function(state, output, options) {
-  output$admin_panel.download_all_results <- shiny::downloadHandler(
+admin_panel.handle_downloads.all_results.rds <- function(state, output, options) {
+  output$admin_panel.download_all_results.rds <- shiny::downloadHandler(
     filename = "output.zip",
     content = function(file) zip_all_results(file, options$results_dir)
   )
