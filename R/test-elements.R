@@ -425,7 +425,7 @@ dropdown_page <- function(label, prompt, choices,
 
 dropdown_page.validate <- function(alternative_choice, alternative_text) {
   if (alternative_choice) {
-    function(state, input) {
+    function(state, input, ...) {
       if (input$dropdown == alternative_text &&
           input$text_alternative == "") {
         sprintf(
