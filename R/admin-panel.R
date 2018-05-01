@@ -22,20 +22,36 @@ admin_panel.ui.logged_in <-
     admin_panel.statistics.ui,
     shiny::fluidRow(
       shiny::column(
-        3,
+        2,
         shinyBS::tipify(
           el = shiny::p(shiny::downloadButton("admin_panel.download_current_results.rds",
-                                              "Current results (RDS)")),
-          title = paste0("Download current participant&#39;s results. ",
+                                              "Current (RDS)")),
+          title = paste0("Download current participant&#39;s results as an RDS file. ",
                          "Downloaded results can be read into R using the ",
                          "function readRDS().")
         ),
         shinyBS::tipify(
           el = shiny::p(shiny::downloadButton("admin_panel.download_all_results.rds",
-                                              "All results (RDS)")),
-          title = paste0("Download all participants&#39; results as a zip file. ",
+                                              "All (RDS)")),
+          title = paste0("Download all participants&#39; results as a zip file of RDS files. ",
                          "Individual participant&#39;s files can then be read into R ",
                          "using the function <em>readRDS()</em>."))
+      ),
+      shiny::column(
+        2,
+        shinyBS::tipify(
+          el = shiny::p(shiny::downloadButton("admin_panel.download_current_results.csv",
+                                              "Current (CSV)")),
+          title = paste0("Download current participant&#39;s results as a CSV file. ",
+                         "CSV files will typically contain less detailed results ",
+                         "than equivalent RDS files.")
+        ),
+        shinyBS::tipify(
+          el = shiny::p(shiny::downloadButton("admin_panel.download_all_results.csv",
+                                              "All (CSV)")),
+          title = paste0("Download all participants&#39; results as a single CSV file. ",
+                         "CSV files will typically contain less detailed results ",
+                         "than equivalent RDS files."))
       ),
       shiny::column(
         2,
@@ -67,7 +83,7 @@ admin_panel.ui.logged_in <-
         )
       ),
       shiny::column(
-        3,
+        2,
         shinyBS::tipify(
           el = shiny::p(shiny::actionButton("admin_logout", "Exit admin mode",
                                             style = "color: white; background-color: #c62121")),
@@ -236,6 +252,8 @@ admin_panel.observe_open_close_buttons <- function(input) {
 admin_panel.handle_downloads <- function(state, output, options) {
   admin_panel.handle_downloads.current_results.rds(state, output)
   admin_panel.handle_downloads.all_results.rds(state, output, options)
+  admin_panel.handle_downloads.current_results.csv(state, output)
+  admin_panel.handle_downloads.all_results.csv(state, output, options)
 }
 
 admin_panel.handle_downloads.current_results.rds <- function(state, output) {
@@ -246,10 +264,43 @@ admin_panel.handle_downloads.current_results.rds <- function(state, output) {
   )
 }
 
+admin_panel.handle_downloads.current_results.csv <- function(state, output) {
+  output$admin_panel.download_current_results.csv <- shiny::downloadHandler(
+    filename = "results.csv",
+    content = function(file) {
+      df <- tryCatch({
+        as.data.frame(get_results(state, add_session_info = TRUE))
+      }, error = function(e) {
+        msg <- "Failed to create csv file. Try saving an RDS file instead."
+        shiny::showNotification(msg, type = "error")
+        data.frame(result = msg)
+      })
+      write.csv(df, file, row.names = FALSE)
+    }
+  )
+}
+
 admin_panel.handle_downloads.all_results.rds <- function(state, output, options) {
   output$admin_panel.download_all_results.rds <- shiny::downloadHandler(
-    filename = "output.zip",
+    filename = "results.zip",
     content = function(file) zip_all_results(file, options$results_dir)
+  )
+}
+
+admin_panel.handle_downloads.all_results.csv <- function(state, output, options) {
+  output$admin_panel.download_all_results.csv <- shiny::downloadHandler(
+    filename = "results.csv",
+    content = function(file) {
+      df <- tryCatch({
+        df_all_results(options$results_dir)
+      }, error = function(e) {
+        print(e)
+        msg <- "Failed to create csv file. Try saving an RDS file instead."
+        shiny::showNotification(msg, type = "error")
+        data.frame(result = msg)
+      })
+      write.csv(df, file, row.names = FALSE)
+    }
   )
 }
 
@@ -270,6 +321,21 @@ zip_all_results <- function(output_file, results_dir) {
     shinyjs::alert("failed to create zip file")
   }
   )
+}
+
+df_all_results <- function(results_dir) {
+  files <- list.files(results_dir, pattern = "\\.rds", full.names = TRUE)
+  data <- lapply(files, readRDS)
+  data_df <- lapply(data, as.data.frame)
+  any_cols_duplicated <- any(vapply(data_df,
+                                    function(df) anyDuplicated(names(df)),
+                                    integer(1)) > 0L)
+  if (any_cols_duplicated) {
+    msg <- "CSV export cannot cope with duplicated fields in results objects."
+    shiny::showNotification(msg, type = "error")
+    stop(msg)
+  }
+  do.call(plyr::rbind.fill, data_df)
 }
 
 admin_panel.server <- function(state, input, output, session, options) {
