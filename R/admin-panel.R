@@ -218,7 +218,7 @@ admin_panel.statistics.num_participants <- function(input, output, options) {
   output$admin_panel.statistics.num_participants <- shiny::renderUI({
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
-    shiny::showNotification("Counting participants...")
+    shiny::showNotification("Refreshing statistics...")
     n_complete <- length(list.files(options$results_dir,
                                     pattern = "final=true\\.rds$"))
     n_part_complete <- length(list.files(options$results_dir,
@@ -250,8 +250,13 @@ admin_panel.statistics.latest_results <- function(input, output, options) {
       latest_data <- readRDS(latest_path)
       latest_time <- as.list(latest_data)$session$current_time
       if (!is.null(latest_time)) {
+        time_diff <- Sys.time() - latest_time
+        time_diff_formatted <- sprintf("(%s %s ago)",
+                                       format(as.numeric(time_diff), digits = 3),
+                                       units(time_diff))
         shiny::p("Last data saved at: ",
-                 shiny::strong(format(latest_time)))
+                 shiny::strong(format(latest_time, format = "%Y-%m-%d %H:%M:%S %Z")),
+                 time_diff_formatted)
       }
     }
   })
