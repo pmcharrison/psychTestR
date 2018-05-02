@@ -1,13 +1,19 @@
 #' @export
-get_basic_demographics <- function() {
+get_basic_demographics <- function(intro = basic_demographics_default_intro()) {
+  stopifnot(is.null(intro) || is(intro, "page"))
   c(
     new_section("demographics"),
-    one_button_page("We will now ask you some questions about your personal background."),
+    intro,
     get_basic_demographics.gender(),
     get_basic_demographics.age(),
     get_basic_demographics.occupation(),
     get_basic_demographics.education_highest_achieved()
   )
+}
+
+#' @export
+basic_demographics_default_intro <- function() {
+  one_button_page("We will now ask you some questions about your personal background.")
 }
 
 get_basic_demographics.gender <- function() {
