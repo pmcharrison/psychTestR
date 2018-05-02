@@ -52,7 +52,7 @@ get_basic_demographics.education_highest_achieved <- function() {
   NAFC_page(
     "education_qualification_highest",
     prompt = shiny::div(
-      shiny::p("What is the highest educational qualification that you have attained?"),
+      shiny::p("What is the highest educational qualification that you have completed?"),
       shiny::p("(choose the one most appropriate option)")),
     choices = c(
       `Postgraduate degree` = "postgraduate",
