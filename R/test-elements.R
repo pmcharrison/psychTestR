@@ -460,12 +460,7 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
   shiny::actionButton(
     inputId = inputId, label = label,
     icon = icon, width = width,
-    onclick = paste(
-      sprintf('Shiny.onInputChange("last_btn_pressed", "%s");',
-              inputId),
-      "document.getElementById('current_page.ui').style.visibility = 'hidden';",
-      'setTimeout(function() {Shiny.onInputChange("next_page", performance.now());}, 500);'),
-    ...)
+    onclick = "trigger_button(this.id);")
 }
 
 #' @export

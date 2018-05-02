@@ -34,5 +34,7 @@ ui <- function(title, options) {
     shiny::includeScript(system.file("js/confirm-clear-sessions.js",
                                      package = "psychTest")),
     shiny::includeScript(system.file("js/hide-content.js",
+                                     package = "psychTest")),
+    shiny::includeScript(system.file("js/trigger-button.js",
                                      package = "psychTest")))
 }
