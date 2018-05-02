@@ -13,6 +13,22 @@ setClass("page",
                       validate = "function_or_null"),
          contains = "test_element")
 
+setMethod(
+  "show",
+  signature(object = "page"),
+  definition = function(object) {
+    cat("\npsychTest page\n")
+    htmltools::html_print(shiny::div(
+      shiny::includeCSS(system.file(shinythemes::shinytheme("readable"),
+                                    package = "shinythemes")),
+      shiny::fluidRow(shiny::wellPanel(shiny::h3("<App title>", align = "center"))),
+      shiny::fluidRow(
+        id = "content",
+        shiny::column(2),
+        shiny::column(8, shiny::wellPanel(align = "center", object@ui)),
+        shiny::column(2)
+      )))})
+
 setClass("reactive_page",
          slots = list(fun = "function"),
          prototype = list(fun = function(state) page),
