@@ -456,6 +456,7 @@ dropdown_page.autosave <- function(label, prompt, alternative_text) {
 # Version of actionButton that also triggers the next page
 #' @export
 trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
+  inputId <- htmltools::htmlEscape(inputId, attribute = TRUE)
   shiny::actionButton(
     inputId = inputId, label = label,
     icon = icon, width = width,
