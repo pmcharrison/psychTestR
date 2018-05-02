@@ -3,6 +3,7 @@ admin_panel.statistics.ui <- shinyBS::bsModal(
   title = "Statistics",
   trigger = "admin_panel.statistics.open",
   shiny::uiOutput("admin_panel.statistics.num_participants"),
+  shiny::uiOutput("admin_panel.statistics.average_time"),
   shiny::uiOutput("admin_panel.statistics.latest_results"),
   shiny::actionButton("admin_panel.statistics.refresh", "Refresh")
 )
@@ -164,6 +165,7 @@ admin_panel.observers <- function(state, input, output, session, options) {
     admin_panel.clear_sessions.observers(input, options),
     admin_panel.statistics.num_participants(input, output, options),
     admin_panel.statistics.latest_results(input, output, options),
+    admin_panel.statistics.average_time(input, output, options),
     admin_panel.statistics.open(input, session),
     admin_panel.observe.pilot_mode(state, input, output, session)
   )
@@ -215,7 +217,6 @@ admin_panel.statistics.open <- function(input, session) {
 admin_panel.statistics.num_participants <- function(input, output, options) {
   output$admin_panel.statistics.num_participants <- shiny::renderUI({
     input$admin_panel.statistics.refresh
-    # input$admin_panel.delete_results
     input$admin_panel.statistics.open
     shiny::showNotification("Counting participants...")
     n_complete <- length(list.files(options$results_dir,
@@ -238,7 +239,6 @@ admin_panel.statistics.num_participants <- function(input, output, options) {
 admin_panel.statistics.latest_results <- function(input, output, options) {
   output$admin_panel.statistics.latest_results <- shiny::renderUI({
     input$admin_panel.statistics.refresh
-    # input$admin_panel.delete_results
     input$admin_panel.statistics.open
     files <- list.files(options$results_dir, pattern = "\\.rds$")
     if (length(files) > 0L) {
@@ -253,6 +253,27 @@ admin_panel.statistics.latest_results <- function(input, output, options) {
         shiny::p("Last data saved at: ",
                  shiny::strong(format(latest_time)))
       }
+    }
+  })
+}
+
+admin_panel.statistics.average_time <- function(input, output, options) {
+  output$admin_panel.statistics.average_time <- shiny::renderUI({
+    input$admin_panel.statistics.refresh
+    input$admin_panel.statistics.open
+    files <- list.files(options$results_dir, pattern = "final=true\\.rds$",
+                        full.names = TRUE)
+    if (length(files) > 0L) {
+      data <- lapply(files, readRDS)
+      time_taken <- vapply(data, function(x) {
+        with(x$session, difftime(current_time, time_started, units = "mins"))
+      }, numeric(1))
+      M <- mean(time_taken)
+      SD <- sd(time_taken)
+      shiny::p(shiny::HTML(sprintf(
+        "Mean completion time: <strong>%s</strong> min. (SD = <strong>%s</strong>)",
+        format(M, digits = 3L),
+        format(SD, digits = 3L))))
     }
   })
 }
