@@ -17,6 +17,7 @@ initialise_state <- function(x) {
   x$previous_save_path <- NULL
   x$admin <- FALSE
   x$demo <- FALSE
+  x$pilot <- FALSE
   x$error <- NULL
   x$answer <- NULL
   invisible(TRUE)
@@ -87,6 +88,17 @@ admin <- function(state) {
   state
 }
 
+pilot <- function(state) {
+  stopifnot(is(state, "state"))
+  state$pilot
+}
+
+`pilot<-` <- function(state, value) {
+  stopifnot(is(state, "state"), is.scalar.logical(value))
+  state$pilot <- value
+  state
+}
+
 #' @export
 demo <- function(state) {
   stopifnot(is(state, "state"))
@@ -100,19 +112,12 @@ demo <- function(state) {
   state
 }
 
-admin_enable <- function(state) {
-  state$admin <- TRUE
-}
-
-admin_disable <- function(state) {
-  state$admin <- FALSE
-}
-
 #' @export
 get_session_info <- function(state) {
   stopifnot(is(state, "state"))
   list(
     p_id = state$p_id,
+    pilot = state$pilot,
     time_started = state$time_started,
     current_time = Sys.time(),
     num_restarts = state$num_restarts

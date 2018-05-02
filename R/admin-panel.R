@@ -26,41 +26,52 @@ admin_panel.ui.logged_in <-
         shinyBS::tipify(
           el = shiny::p(shiny::downloadButton("admin_panel.download_current_results.rds",
                                               "Current (RDS)")),
-          title = paste0("Download current participant&#39;s results as an RDS file. ",
+          title = paste0("Downloads current participant&#39;s results as an RDS file. ",
                          "Downloaded results can be read into R using the ",
-                         "function readRDS().")
+                         "function readRDS()."),
+          placement = "top"
         ),
         shinyBS::tipify(
           el = shiny::p(shiny::downloadButton("admin_panel.download_all_results.rds",
                                               "All (RDS)")),
-          title = paste0("Download all participants&#39; results as a zip file of RDS files. ",
+          title = paste0("Downloads all participants&#39; results as a zip file of RDS files. ",
                          "Individual participant&#39;s files can then be read into R ",
-                         "using the function <em>readRDS()</em>."))
+                         "using the function <em>readRDS()</em>."),
+          placement = "top")
       ),
       shiny::column(
         2,
         shinyBS::tipify(
           el = shiny::p(shiny::downloadButton("admin_panel.download_current_results.csv",
                                               "Current (CSV)")),
-          title = paste0("Download current participant&#39;s results as a CSV file. ",
+          title = paste0("Downloads current participant&#39;s results as a CSV file. ",
                          "CSV files will typically contain less detailed results ",
-                         "than equivalent RDS files.")
+                         "than equivalent RDS files."),
+          placement = "top"
         ),
         shinyBS::tipify(
           el = shiny::p(shiny::downloadButton("admin_panel.download_all_results.csv",
                                               "All (CSV)")),
-          title = paste0("Download all participants&#39; results as a single CSV file. ",
+          title = paste0("Downloads all participants&#39; results as a single CSV file. ",
                          "CSV files will typically contain less detailed results ",
-                         "than equivalent RDS files."))
+                         "than equivalent RDS files."),
+          placement = "top")
       ),
       shiny::column(
         2,
-        shiny::p(shiny::actionButton("admin_panel.statistics.open", "Statistics"))
+        shinyBS::tipify(
+          # periods in the uiOutput label seem to break shinyBS
+          el = shiny::tags$div(shiny::uiOutput("admin_panel_pilot_ui")),
+          title = paste0("Pilot mode affects only the current participant. ",
+                         "In pilot mode, testing proceeds as normal, ",
+                         "but the saved results are marked as pilot results."),
+          placement = "top"
+        )
       ),
       shiny::column(
         2,
-        shiny::p(shiny::actionButton("admin_panel.close_test", "Close test")),
-        shiny::p(shiny::actionButton("admin_panel.open_test", "Open test"))
+        # periods in the uiOutput label seem to break shinyBS
+        shiny::uiOutput("admin_panel_open_close_buttons")
       ),
       shiny::column(
         2,
@@ -68,7 +79,8 @@ admin_panel.ui.logged_in <-
           shiny::p(shiny::actionButton("admin_panel.delete_results",
                                        "Delete results",
                                        onclick = "confirm_delete_results();")),
-          title = "Backs up and then deletes all results."
+          title = "Backs up and then deletes all results.",
+          placement = "top"
         ),
         shinyBS::tipify(
           shiny::p(shiny::actionButton("admin_panel.clear_sessions",
@@ -85,9 +97,14 @@ admin_panel.ui.logged_in <-
       shiny::column(
         2,
         shinyBS::tipify(
+          el = shiny::p(shiny::actionButton("admin_panel.statistics.open", "Statistics")),
+          title = "Displays participation statistics."
+        ),
+        shinyBS::tipify(
           el = shiny::p(shiny::actionButton("admin_logout", "Exit admin mode",
                                             style = "color: white; background-color: #c62121")),
-          title = "Click to sign out of administration mode."
+          title = "Signs out of administration mode.",
+          placement = "top"
         )
       )
     )
@@ -142,12 +159,49 @@ admin_panel.observers <- function(state, input, output, session, options) {
     admin_panel.observe.admin_login_trigger(input, session),
     admin_panel.observe.submit_admin_password(state, input, session, options),
     admin_panel.observe.admin_logout(state, input, session),
-    admin_panel.observe_open_close_buttons(input),
+    admin_panel.observe_open_close_buttons(input, output, session),
     admin_panel.delete_results.observers(input, options),
     admin_panel.clear_sessions.observers(input, options),
     admin_panel.statistics.num_participants(input, output, options),
     admin_panel.statistics.latest_results(input, output, options),
-    admin_panel.statistics.open(input, session)
+    admin_panel.statistics.open(input, session),
+    admin_panel.observe.pilot_mode(state, input, output, session)
+  )
+}
+
+admin_panel.observe.pilot_mode <- function(state, input, output, session) {
+  output$admin_panel_pilot_ui <- shiny::renderUI({
+    state$pilot
+    pilot <- pilot(state)
+
+    highlight_style <- "color: white; background-color: #c62121"
+
+    btn.pilot <- shiny::actionButton("admin_panel.pilot_mode", "Pilot",
+                                     style = if (pilot) highlight_style)
+    btn.live <- shiny::actionButton("admin_panel.live_mode", "Live",
+                                    style = if (!pilot) highlight_style)
+
+    shiny::div(
+      shiny::p(btn.pilot), shiny::p(btn.live)
+    )
+  })
+  list(
+    shiny::observeEvent(input$admin_panel.pilot_mode, {
+      if (pilot(state)) {
+        shiny::showNotification("Already in pilot mode.", type = "warning")
+      } else {
+        pilot(state) <- TRUE
+        shiny::showNotification("Entering pilot mode.", type = "message")
+      }
+    }),
+    shiny::observeEvent(input$admin_panel.live_mode, {
+      if (!pilot(state)) {
+        shiny::showNotification("Already in live mode.", type = "warning")
+      } else {
+        pilot(state) <- FALSE
+        shiny::showNotification("Entering live mode.", type = "message")
+      }
+    })
   )
 }
 
@@ -242,7 +296,37 @@ admin_panel.clear_sessions.actual <- function(options) {
   shiny::showNotification("Successfully cleared session files.")
 }
 
-admin_panel.observe_open_close_buttons <- function(input) {
+admin_panel.observe_open_close_buttons <- function(input, output, session) {
+  output$admin_panel_open_close_buttons <- shiny::renderUI({
+    shiny::invalidateLater(500, session)
+    input$admin_panel.close_test
+    input$admin_panel.open_test
+
+    highlight_style <- "color: white; background-color: #c62121"
+
+    closed <- is_test_closed()
+
+    btn.open <- shiny::actionButton("admin_panel.open_test", "Open test",
+                                    style = if (!closed) highlight_style)
+    btn.close <- shiny::actionButton("admin_panel.close_test", "Close test",
+                                     style = if (closed) highlight_style)
+
+    btn.open <- shinyBS::tipify(
+      el = btn.open,
+      title = "Allows new participants to take the test.",
+      placement = "top"
+    )
+
+    btn.close <- shinyBS::tipify(
+      el = btn.close,
+      title = "Prevents new participants from starting the test.",
+      placement = "top"
+    )
+
+    shiny::div(shiny::p(btn.open),
+               shiny::p(btn.close))
+  })
+
   list(
     shiny::observeEvent(input$admin_panel.close_test, close_test()),
     shiny::observeEvent(input$admin_panel.open_test, open_test())

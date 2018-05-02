@@ -163,30 +163,30 @@ perform_on_complete_function <- function(elt, state, input, session, options) {
 
 #' @export
 close_test <- function() {
-  closed <- file.exists("closed.txt")
+  closed <- is_test_closed()
   if (closed) {
-    shiny::showNotification("Test is already closed.")
+    shiny::showNotification("Test is already closed.", type = "warning")
   } else {
     success <- file.create("closed.txt")
     if (success) {
-      shiny::showNotification("Test successfully closed.")
+      shiny::showNotification("Test successfully closed.", type = "message")
     } else {
-      shiny::showNotification("Failed to close test.")
+      shiny::showNotification("Failed to close test.", type = "error")
     }
   }
 }
 
 #' @export
 open_test <- function() {
-  closed <- file.exists("closed.txt")
+  closed <- is_test_closed()
   if (!closed) {
-    shiny::showNotification("Test is already open.")
+    shiny::showNotification("Test is already open.", type = "warning")
   } else {
     success <- file.remove("closed.txt")
     if (success) {
-      shiny::showNotification("Test successfully opened.")
+      shiny::showNotification("Test successfully opened.", type = "message")
     } else {
-      shiny::showNotification("Failed to open test.")
+      shiny::showNotification("Failed to open test.", type = "error")
     }
   }
 }
