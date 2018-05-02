@@ -21,7 +21,6 @@ setClass("reactive_page",
 #' have the same effect as calling it once).
 #' @export
 reactive_page <- function(fun) {
-  stopifnot(identical(names(formals(fun)), "state"))
   new("reactive_page", fun = fun)
 }
 
@@ -278,7 +277,7 @@ video_NAFC_page <- function(label, prompt, choices, url,
       onended = if (wait) media.js$show_responses else "null"),
     media_mobile_play_button)
   prompt2 <- shiny::div(tagify(prompt), video_ui)
-  NAFC_page(prompt = prompt2, choices = choices, on_complete = on_complete,
+  NAFC_page(label = label, prompt = prompt2, choices = choices, on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
 }
@@ -348,7 +347,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     loop = if (loop) "loop",
     onended = if (wait) media.js$show_responses else "null")
   prompt2 <- shiny::div(tagify(prompt), audio_ui)
-  NAFC_page(prompt = prompt2, choices = choices, on_complete = on_complete,
+  NAFC_page(label = label, prompt = prompt2, choices = choices, on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
 }
@@ -450,7 +449,7 @@ dropdown_page.get_answer <- function(alternative_text) {
 dropdown_page.autosave <- function(label, prompt, alternative_text) {
   function(state, input, ...) {
     metadata <- list(type = "dropdown_page", prompt = prompt)
-    save_result(place = state, label = label, value = data, metadata = metadata)
+    save_result(place = state, label = label, value = answer(state), metadata = metadata)
   }
 }
 

@@ -87,11 +87,13 @@ admin <- function(state) {
   state
 }
 
+#' @export
 demo <- function(state) {
   stopifnot(is(state, "state"))
   state$demo
 }
 
+#' @export
 `demo<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
   state$demo <- value

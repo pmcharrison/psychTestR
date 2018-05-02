@@ -72,6 +72,7 @@ next_page <- function(state, input, output, elts, session, options,
 }
 
 #' Intended to be called within e.g. code blocks to skip pages
+#' @export
 skip_n_pages <- function(state, n) {
   increment_elt_index(state, by = n)
 }
