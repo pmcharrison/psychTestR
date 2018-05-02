@@ -1,15 +1,16 @@
 setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
 
-
 setClass("test_element")
+
+setClassUnion("function_or_null", members = c("function", "NULL"))
 
 setClass("page",
          slots = list(ui = "shiny.tag",
                       final = "logical",
-                      get_answer = "function",
-                      on_complete = "function",
-                      validate = "function"),
+                      get_answer = "function_or_null",
+                      on_complete = "function_or_null",
+                      validate = "function_or_null"),
          contains = "test_element")
 
 setClass("reactive_page",
@@ -54,12 +55,12 @@ code_block <- function(fun) {
 #' @export
 page <- function(ui, final = FALSE, get_answer = NULL, on_complete = NULL,
                  validate = NULL) {
-  if (is.null(get_answer)) get_answer <- function(...) NULL
-  if (is.null(on_complete)) on_complete <- function(...) NULL
-  if (is.null(validate)) validate <- function(...) TRUE
   ui <- tagify(ui)
   stopifnot(
-    is.scalar.logical(final), is.function(on_complete), is.function(validate))
+    is.scalar.logical(final),
+    is.null.or(get_answer, is.function),
+    is.null.or(on_complete, is.function),
+    is.null.or(validate, is.function))
   new("page", ui = ui, final = final, get_answer = get_answer,
       on_complete = on_complete, validate = validate)
 }

@@ -94,8 +94,9 @@ try_finalise_page <- function(elt, state, input, session, options) {
 }
 
 perform_get_answer_function <- function(elt, state, input, session, options) {
-  answer(state) <- elt@get_answer(state = state, input = input,
-                                  session = session, options = options)
+  f <-  elt@get_answer
+  answer(state) <- if (!is.null(f)) f(
+    state = state, input = input, session = session, options = options)
 }
 
 execute_code_block <- function(elt, state, elts, input, output,
@@ -136,8 +137,9 @@ render_ui <- function(state, elts) {
 }
 
 validate_elt <- function(elt, state, input, session, options) {
-  res <- elt@validate(state = state, input = input,
-                      session = session, options = options)
+  f <- elt@validate
+  res <- if (is.null(f)) TRUE else f(
+    state = state, input = input, session = session, options = options)
   if (isTRUE(res)) TRUE else {
     if (!is.scalar.character(res)) {
       print(res)
@@ -154,10 +156,9 @@ make_current_page_visible <- function() {
 }
 
 perform_on_complete_function <- function(elt, state, input, session, options) {
-  elt@on_complete(state = state,
-                  input = input,
-                  session = session,
-                  options = options)
+  f <- elt@on_complete
+  if (!is.null(f)) f(
+    state = state, input = input, session = session, options = options)
 }
 
 #' @export
