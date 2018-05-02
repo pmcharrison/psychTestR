@@ -50,15 +50,15 @@ get_basic_demographics.occupation <- function() {
 
 get_basic_demographics.education_highest_achieved <- function() {
   NAFC_page(
-    "education_highest_achieved",
+    "education_qualification_highest",
     prompt = shiny::div(
       shiny::p("What is the highest educational qualification that you have attained?"),
       shiny::p("(choose the one most appropriate option)")),
     choices = c(
-      "Postgraduate degree",
-      "Undergraduate degree or professional qualification",
-      "Completed second qualification (e.g. A levels/High School)",
-      "Completed first school qualification at about 16 years (e.g. GCSE/Junior High School)",
-      "Did not complete any school qualification",
-      "Rather not say"))
+      `Postgraduate degree` = "postgraduate",
+      `Undergraduate degree or professional qualification` = "undergraduate",
+      `Completed second qualification (e.g. A levels/High School)` = "senior_school",
+      `Completed first school qualification at about 16 years (e.g. GCSE/Junior High School)` = "middle_school",
+      `Did not complete any school qualification` = "none",
+      `Rather not say` = "rather_not_say"))
 }
