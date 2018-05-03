@@ -116,13 +116,15 @@ demo <- function(state) {
 #' @export
 get_session_info <- function(state) {
   stopifnot(is(state, "state"))
-  list(
+  res <- list(
     p_id = state$p_id,
     pilot = state$pilot,
     time_started = state$time_started,
     current_time = Sys.time(),
     num_restarts = state$num_restarts
   )
+  attr(res, "server") <- sessionInfo()
+  res
 }
 
 #' @export
