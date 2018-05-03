@@ -10,6 +10,7 @@ initialise_state <- function(x) {
   x$elt_index <- 1L
   x$p_id <- NULL
   x$globals <- list()
+  x$parent_globals <- list()
   x$results <- new_results()
   x$time_started <- Sys.time()
   x$num_restarts <- 0L
@@ -174,6 +175,19 @@ get_global <- function(key, state) {
 set_global <- function(key, value, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
   state$globals[[key]] <- value
+}
+
+enter_local_environment <- function(state) {
+  stopifnot(is(state, "state"))
+  ind <- length(state$parent_globals) + 1L
+  state$parent_globals[[ind]] <- state$globals
+  state$globals <- list()
+}
+
+leave_local_environment <- function(state) {
+  stopifnot(is(state, "state"))
+  ind <- length(state$parent_globals)
+  state$globals <- state$parent_globals[[ind]]
 }
 
 #' @export

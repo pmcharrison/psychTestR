@@ -158,7 +158,7 @@ get_p_id_page <- function(prompt = "Please enter your participant ID.",
        on_complete = on_complete)
 }
 
-get_p_id_page.on_complete <- function(state, input, session, options) {
+get_p_id_page.on_complete <- function(state, input, session, options, ...) {
   p_id <- input$p_id
   try_resume_session(p_id, state, session, options,
                      ask_to_confirm_resume = FALSE,
@@ -169,7 +169,7 @@ get_p_id_page.validate <- function(validate) {
   if (is.function(validate)) {
     validate
   } else if (identical(validate, "auto")) {
-    function(state, input) {
+    function(state, input, ...) {
       valid <- nchar(input$p_id) > 0L
       if (valid) TRUE else "Please enter your participant ID before proceeding."
     }
@@ -533,4 +533,18 @@ loop_while <- function(fun, logic) {
     if (!test) skip_n_pages(state, - (n + 1L))
   })
   c(logic, elt)
+}
+
+#' @export
+begin_module <- function() {
+  code_block(function(state, ...) {
+    enter_local_environment(state)
+  })
+}
+
+#' @export
+end_module <- function() {
+  code_block(function(state, ...) {
+    leave_local_environment(state)
+  })
 }
