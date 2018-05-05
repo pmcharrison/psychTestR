@@ -517,8 +517,8 @@ save_results_to_disk <- function(final) {
 }
 
 #' @export
-loop_while <- function(fun, logic) {
-  if (!is.function(fun)) stop("<fun> must be a function")
+loop_while <- function(test, logic) {
+  if (!is.function(test)) stop("<test> must be a function")
   if (!is.list(logic) || is(logic, "test_element")) {
     stop("<logic> must be either a test element or a list")
   }
@@ -526,11 +526,11 @@ loop_while <- function(fun, logic) {
   if (length(logic) == 0L) stop("<logic> may not be empty")
   n <- length(logic)
   elt <- code_block(function(state, elts, input, output, session, options) {
-    test <- fun(state = state, input = input, output = output,
+    res <- test(state = state, input = input, output = output,
                 session = session, options = options)
-    if (!is.scalar.logical(test)) stop("<loop_while> did not return a ",
-                                       "scalar logical")
-    if (!test) skip_n_pages(state, - (n + 1L))
+    if (!is.scalar.logical(res)) stop("<test> did not return a ",
+                                      "scalar logical")
+    if (!res) skip_n_pages(state, - (n + 1L))
   })
   c(logic, elt)
 }
