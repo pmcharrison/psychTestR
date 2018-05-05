@@ -481,7 +481,7 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
 }
 
 #' @export
-new_section <- function(label) {
+new_results_section <- function(label) {
   stopifnot(is.scalar.character(label))
   code_block(function(state, ...) register_next_results_section(state, label))
 }
