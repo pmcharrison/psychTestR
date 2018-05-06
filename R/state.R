@@ -78,6 +78,7 @@ error <- function(state) {
   state
 }
 
+#' @export
 admin <- function(state) {
   stopifnot(is(state, "state"))
   state$admin
