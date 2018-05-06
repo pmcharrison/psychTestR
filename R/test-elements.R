@@ -519,7 +519,7 @@ save_results_to_disk <- function(final) {
 #' @export
 loop_while <- function(test, logic) {
   if (!is.function(test)) stop("<test> must be a function")
-  if (!is.list(logic) || is(logic, "test_element")) {
+  if (!is.list(logic) || !is(logic, "test_element")) {
     stop("<logic> must be either a test element or a list")
   }
   if (!is.list(logic)) logic <- list(logic)
