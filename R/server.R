@@ -118,7 +118,7 @@ check_elts <- function(elts) {
   if (!(is(last_elt, "page") || is(last_elt, "reactive_page"))) {
     stop("The last element in <elts> must be a (possibly reactive) test page.")
   }
-  if (!last_elt@final) {
+  if (is(last_elt, "page") && !last_elt@final) {
     stop("The last element in <elts> must be marked 'final' ",
          "(try setting final = TRUE in the last test page).")
   }
