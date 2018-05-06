@@ -111,12 +111,12 @@ check_elts <- function(elts) {
     stop("<elts> cannot have length 0")
   }
   first_elt <- elts[[1]]
-  if (!is(first_elt, "page")) {
-    stop("The first element in <elts> must be a test page.")
+  if (!(is(first_elt, "page") || is(first_elt, "reactive_page"))) {
+    stop("The first element in <elts> must be a (possibly reactive) test page.")
   }
   last_elt <- elts[[length(elts)]]
-  if (!is(last_elt, "page")) {
-    stop("The last element in <elts> must be a test page.")
+  if (!(is(last_elt, "page") || is(last_elt, "reactive_page"))) {
+    stop("The last element in <elts> must be a (possibly reactive) test page.")
   }
   if (!last_elt@final) {
     stop("The last element in <elts> must be marked 'final' ",
