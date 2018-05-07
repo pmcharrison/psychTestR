@@ -13,22 +13,6 @@ setClass("page",
                       validate = "function_or_null"),
          contains = "test_element")
 
-setMethod(
-  "show",
-  signature(object = "page"),
-  definition = function(object) {
-    cat("\npsychTest page\n")
-    htmltools::html_print(shiny::div(
-      shiny::includeCSS(system.file(shinythemes::shinytheme("readable"),
-                                    package = "shinythemes")),
-      shiny::fluidRow(shiny::wellPanel(shiny::h3("<App title>", align = "center"))),
-      shiny::fluidRow(
-        id = "content",
-        shiny::column(2),
-        shiny::column(8, shiny::wellPanel(align = "center", object@ui)),
-        shiny::column(2)
-      )))})
-
 setClass("reactive_page",
          slots = list(fun = "function"),
          prototype = list(fun = function(state) page),
@@ -50,6 +34,41 @@ setClass("code_block",
 code_block <- function(fun) {
   new("code_block", fun = fun)
 }
+
+setMethod(
+  "show",
+  signature(object = "page"),
+  definition = function(object) {
+    cat("psychTest page\n")
+    htmltools::html_print(shiny::div(
+      shiny::includeCSS(system.file(shinythemes::shinytheme("readable"),
+                                    package = "shinythemes")),
+      shiny::fluidRow(shiny::wellPanel(shiny::h3("<App title>", align = "center"))),
+      shiny::fluidRow(
+        id = "content",
+        shiny::column(2),
+        shiny::column(8, shiny::wellPanel(align = "center", object@ui)),
+        shiny::column(2)
+      )))})
+
+setMethod(
+  "show",
+  signature(object = "code_block"),
+  definition = function(object) {
+    cat("psychTest code block\n")
+    print(object@fun)
+  }
+)
+
+setMethod(
+  "show",
+  signature(object = "reactive_page"),
+  definition = function(object) {
+    cat("psychTest reactive page\n")
+    print(object@fun)
+    print(final_page(shiny::em("reactive page")))
+  }
+)
 
 #' New page
 #'
@@ -388,11 +407,22 @@ audio_NAFC_page.autosave <- function(label, prompt, url) {
 volume_calibration_page <- function(url, type = tools::file_ext(url),
                                     prompt = NULL,
                                     button_text = "Next", ...) {
-  if (is.null(prompt)) prompt <- paste0(
-    "You should hear some audio playing. ",
-    "Please adjust the volume to a comfortable level before continuing."
+  if (is.null(prompt)) prompt <- shiny::div(
+    shiny::p(
+      "You should hear some audio playing.",
+      "Please adjust the volume to a comfortable level before continuing."
+    ),
+    shiny::p(
+      "If you cannot make the audio play at a comfortable level,",
+      "please do not continue, but instead ask the researcher for help."
+    )
   )
-  audio_NAFC_page(prompt = prompt, choices = button_text,
+
+      paste0(
+
+  )
+  audio_NAFC_page(label = "volume_calibration",
+                  prompt = prompt, choices = button_text,
                   url = url, type = type, on_complete = NULL,
                   wait = FALSE, loop = TRUE, ...)
 }
