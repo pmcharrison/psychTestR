@@ -33,7 +33,7 @@ as.data.frame.results <- function(x, ...) {
          "non-atomic elements")
   }
   df <- as.data.frame(y, check.names = FALSE, ...)
-  session_info_cols <- grepl("$session\\.", names(df))
+  session_info_cols <- grepl("^session\\.", names(df))
   cbind(df[, session_info_cols],
         df[, !session_info_cols])
 }
