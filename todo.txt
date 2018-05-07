@@ -1,5 +1,6 @@
 - tests don't work when you don't use library(psychTest) (this is because of shinyBS)
 - stop audio on next when wait is FALSE
+- check that every element of elts is a test element
 
 - check cases when the researcher doesn't elect to save the test
 - new_section label shouldn't have spaces
