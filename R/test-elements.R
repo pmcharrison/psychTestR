@@ -532,9 +532,11 @@ loop_while <- function(test, logic) {
 }
 
 #' @export
-begin_module <- function() {
+begin_module <- function(label) {
+  stopifnot(is.scalar.character(label))
   code_block(function(state, ...) {
     enter_local_environment(state)
+    register_next_results_section(state, label)
   })
 }
 
@@ -542,5 +544,6 @@ begin_module <- function() {
 end_module <- function() {
   code_block(function(state, ...) {
     leave_local_environment(state)
+    register_next_results_section(state, "results")
   })
 }
