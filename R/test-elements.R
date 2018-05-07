@@ -488,7 +488,7 @@ new_results_section <- function(label) {
 #' @export
 #' @param complete Whether the participant completed the test.
 save_results_to_disk <- function(complete) {
-  stopifnot(is.scalar.character(complete))
+  stopifnot(is.scalar.logical(complete))
   code_block(function(state, options, ...) {
     dir <- options$results_dir
     R.utils::mkdirs(dir)
