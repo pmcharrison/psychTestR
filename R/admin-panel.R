@@ -446,7 +446,9 @@ df_all_results <- function(results_dir) {
     shiny::showNotification(msg, type = "error")
     stop(msg)
   }
-  do.call(plyr::rbind.fill, data_df)
+  df <- do.call(plyr::rbind.fill, data_df)
+  df <- df[order(df$session.current_time, decreasing = FALSE), ]
+  df
 }
 
 admin_panel.server <- function(state, input, output, session, options) {
