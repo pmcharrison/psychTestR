@@ -133,9 +133,8 @@ text_input_page <- function(label, prompt,
 #' @export
 text_input_page.autosave <- function(label, prompt) {
   function(state, ...) {
-    metadata <- list(type = "text_input_page", prompt = prompt)
-    save_result(place = state, label = label, value = answer(state),
-                metadata = metadata)
+    # metadata <- list(type = "text_input_page", prompt = prompt)
+    save_result(place = state, label = label, value = answer(state))
   }
 }
 
@@ -213,9 +212,8 @@ NAFC_page <- function(label, prompt, choices,
 
 NAFC_page.autosave <- function(label, prompt) {
   function(state, ...) {
-    metadata <- list(type = "NAFC", prompt = prompt)
-    save_result(place = state, label = label, value = answer(state),
-                metadata = metadata)
+    # metadata <- list(type = "NAFC", prompt = prompt)
+    save_result(place = state, label = label, value = answer(state))
   }
 }
 
@@ -301,9 +299,8 @@ video_NAFC_page <- function(label, prompt, choices, url,
 
 video_NAFC_page.autosave <- function(label, prompt, url) {
   function(state, ...) {
-    metadata <- list(type = "video_NAFC", prompt = prompt, url = url)
-    save_result(place = state, label = label, value = answer(state),
-                metadata = metadata)
+    # metadata <- list(type = "video_NAFC", prompt = prompt, url = url)
+    save_result(place = state, label = label, value = answer(state))
   }
 }
 
@@ -371,9 +368,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 
 audio_NAFC_page.autosave <- function(label, prompt, url) {
   function(state, ...) {
-    metadata <- list(type = "audio_NAFC", prompt = prompt, url = url)
-    save_result(place = state, label = label, value = answer(state),
-                metadata = metadata)
+    # metadata <- list(type = "audio_NAFC", prompt = prompt, url = url)
+    save_result(place = state, label = label, value = answer(state))
   }
 }
 
@@ -465,8 +461,8 @@ dropdown_page.get_answer <- function(alternative_text) {
 
 dropdown_page.autosave <- function(label, prompt, alternative_text) {
   function(state, input, ...) {
-    metadata <- list(type = "dropdown_page", prompt = prompt)
-    save_result(place = state, label = label, value = answer(state), metadata = metadata)
+    # metadata <- list(type = "dropdown_page", prompt = prompt)
+    save_result(place = state, label = label, value = answer(state))
   }
 }
 

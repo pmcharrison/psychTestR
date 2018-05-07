@@ -122,12 +122,10 @@ register_next_results_section.results <- function(x, label) {
 # Saving results ####
 
 #' @export
-save_result <- function(place, label, value, metadata) UseMethod("save_result")
+save_result <- function(place, label, value) UseMethod("save_result")
 
-save_result.results <- function(place, label, value, metadata) {
+save_result.results <- function(place, label, value) {
   stopifnot(is.scalar.character(label))
-  attr(value, "metadata") <- metadata
-  # if (!is.list(value)) value <- list(result = value)
   num_sections <- length(place)
   new_section <- num_sections == 0L || !is.null(attr(place, "new_section"))
   index_1 <- if (new_section) num_sections + 1L else num_sections
@@ -144,9 +142,9 @@ save_result.results <- function(place, label, value, metadata) {
 }
 
 #' @export
-save_result.state <- function(place, label, value, metadata) {
+save_result.state <- function(place, label, value) {
   stopifnot(is.scalar.character(label))
-  place$results <- save_result.results(place$results, label, value, metadata)
+  place$results <- save_result.results(place$results, label, value)
   place
 }
 
@@ -154,22 +152,3 @@ save_result.state <- function(place, label, value, metadata) {
 count_participants <- function(results_dir) {
   length(list.files(results_dir, pattern = "\\.rds$"))
 }
-
-#' #'
-#' save_metadata <- function(place, key, value) UseMethod("save_metadata")
-#'
-#' #'
-#' save_metadata.state <- function(place, key, value) {
-#'   results(place) <- save_metadata.results(results(state), key, value)
-#'   place
-#' }
-#'
-#' save_metadata.results <- function(place, key, value) {
-#'   # stopifnot(is.scalar.character(key))
-#'   # att <- attr(place, "metadata")
-#'   # att[[key]] <- value
-#'   if (is.null(place$metadata)) place <- c(metadata = list(), place)
-#'   if (length(place) == 1L) register_next_results_section(place, "main")
-#'   l <- length(place$metadata)
-#'   place$metadata[[l + 1L]] <- value
-#' }
