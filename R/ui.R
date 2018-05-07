@@ -4,7 +4,7 @@ ui <- function(options) {
 
   shiny::fluidPage(
     theme = options$theme,
-    title = title,
+    title = options$title,
     shinyjs::useShinyjs(),
     shiny::fluidRow(shiny::column(12, title_content)),
     shiny::fluidRow(
@@ -35,5 +35,7 @@ ui <- function(options) {
     shiny::includeScript(system.file("js/hide-content.js",
                                      package = "psychTest")),
     shiny::includeScript(system.file("js/trigger-button.js",
+                                     package = "psychTest")),
+    shiny::includeScript(system.file("js/next-page.js",
                                      package = "psychTest")))
 }

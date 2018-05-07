@@ -417,10 +417,6 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
       "please do not continue, but instead ask the researcher for help."
     )
   )
-
-      paste0(
-
-  )
   audio_NAFC_page(label = "volume_calibration",
                   prompt = prompt, choices = button_text,
                   url = url, type = type, on_complete = NULL,
