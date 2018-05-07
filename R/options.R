@@ -1,5 +1,5 @@
 #' @export
-pt_options <- function(admin_password, researcher_email,
+pt_options <- function(title, admin_password, researcher_email,
                        demo = FALSE,
                        max_num_participants = NULL,
                        max_participants_msg = NULL,
@@ -12,9 +12,8 @@ pt_options <- function(admin_password, researcher_email,
                        output_dir = "output",
                        session_timeout_min = 120,
                        clean_sessions_interval_min = 15) {
-  stopifnot(!missing(admin_password),
+  stopifnot(is.scalar.character(title),
             is.scalar.character(admin_password),
-            !missing(researcher_email),
             is.scalar.character(researcher_email),
             is.scalar.logical(demo),
             is.scalar.numeric(session_timeout_min),
@@ -51,7 +50,8 @@ pt_options <- function(admin_password, researcher_email,
   session_dir <- file.path(output_dir, "sessions")
   results_archive_dir <- file.path(output_dir, "deleted-results")
 
-  list(admin_password = admin_password,
+  list(title = title,
+       admin_password = admin_password,
        researcher_email = researcher_email,
        demo = demo,
        max_num_participants = max_num_participants,

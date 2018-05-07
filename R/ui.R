@@ -1,6 +1,5 @@
-ui <- function(title, options) {
-  stopifnot(is.scalar.character(title))
-  title_content <- shiny::wellPanel(shiny::h3(title, align = "center"))
+ui <- function(options) {
+  title_content <- shiny::wellPanel(shiny::h3(options$title, align = "center"))
   main_content <- shiny::wellPanel(align = "center", shiny::uiOutput("ui"))
 
   shiny::fluidPage(
