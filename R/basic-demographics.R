@@ -2,12 +2,13 @@
 get_basic_demographics <- function(intro = basic_demographics_default_intro()) {
   stopifnot(is.null(intro) || is(intro, "page"))
   c(
-    new_results_section("demographics"),
+    begin_module("demographics"),
     intro,
     get_basic_demographics.gender(),
     get_basic_demographics.age(),
     get_basic_demographics.occupation(),
-    get_basic_demographics.education_highest_achieved()
+    get_basic_demographics.education_highest_achieved(),
+    end_module()
   )
 }
 
