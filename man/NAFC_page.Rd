@@ -4,8 +4,8 @@
 \alias{NAFC_page}
 \title{New NAFC page}
 \usage{
-NAFC_page(label, prompt, choices, on_complete = NAFC_page.autosave(label,
-  prompt), arrange_vertically = TRUE, hide_response_ui = FALSE,
+NAFC_page(label, prompt, choices, save_answer = TRUE,
+  arrange_vertically = TRUE, hide_response_ui = FALSE,
   response_ui_id = "response_ui", ...)
 }
 \arguments{

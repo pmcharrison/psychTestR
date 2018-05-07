@@ -4,12 +4,14 @@ setOldClass("shiny.tag.list")
 setClass("test_element")
 
 setClassUnion("function_or_null", members = c("function", "NULL"))
+setClassUnion("character_or_null", members = c("function", "NULL"))
 
 setClass("page",
          slots = list(ui = "shiny.tag",
+                      label = "character_or_null",
                       final = "logical",
                       get_answer = "function_or_null",
-                      on_complete = "function_or_null",
+                      save_answer = "logical",
                       validate = "function_or_null"),
          contains = "test_element")
 
@@ -77,27 +79,29 @@ setMethod(
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
 #' @param final Whether or not the page is the final page in the test.
-#' @param on_complete Optional function to run when page completes.
 #' Should take the following form: function(state, input) ...
 #' where \code{state} is the app's persistent state (a Shiny reactiveValues object)
 #' and \code{input} is the input produced by the page UI.
 #' @param validate Optional validation function.
-#' Should take the same form as \code{on_complete}, and return
-#' \code{TRUE} for a successful validation and \code{FALSE}
+#' Should return \code{TRUE} for a successful validation and \code{FALSE}
 #' for an unsuccessful validation.
 #' If validation fails then the page will be refreshed, usually
 #' to give the user a chance to revise their input.
 #' @export
-page <- function(ui, final = FALSE, get_answer = NULL, on_complete = NULL,
-                 validate = NULL) {
+page <- function(ui, label = NULL, final = FALSE, get_answer = NULL,
+                 save_answer = FALSE, validate = NULL) {
   ui <- tagify(ui)
   stopifnot(
+    is.null.or(label, is.scalar.character),
     is.scalar.logical(final),
     is.null.or(get_answer, is.function),
-    is.null.or(on_complete, is.function),
+    is.scalar.character(save_answer),
     is.null.or(validate, is.function))
-  new("page", ui = ui, final = final, get_answer = get_answer,
-      on_complete = on_complete, validate = validate)
+  if (save_answer && !is.scalar.character(label))
+    stop("if save_answer is TRUE then a scalar character label ",
+         "must be provided")
+  new("page", ui = ui, label = label, final = final, get_answer = get_answer,
+      save_answer = save_answer, validate = validate)
 }
 
 #' New one-button page
@@ -133,11 +137,11 @@ final_page <- function(body) {
 
 #' @export
 text_input_page <- function(label, prompt,
+                            save_answer = TRUE,
                             placeholder = NULL,
                             button_text = "Next",
                             width = "300px",
-                            validate = NULL,
-                            on_complete = text_input_page.autosave(label, prompt)) {
+                            validate = NULL) {
   stopifnot(is.scalar.character(label))
   text_input <- shiny::textInput("text_input", label = NULL,
                                  placeholder = placeholder,
@@ -145,39 +149,32 @@ text_input_page <- function(label, prompt,
   get_answer <- function(input, ...) input$text_input
   body = shiny::div(tagify(prompt), text_input)
   ui <- shiny::div(body, trigger_button("next", button_text))
-  page(ui = ui, get_answer = get_answer, validate = validate,
-       on_complete = on_complete)
+  page(ui = ui, get_answer = get_answer, save_answer = save_answer,
+       validate = validate)
 }
 
 #' @export
-text_input_page.autosave <- function(label, prompt) {
-  function(state, ...) {
-    # metadata <- list(type = "text_input_page", prompt = prompt)
-    save_result(place = state, label = label, value = answer(state))
-  }
-}
-
-#' @export
-get_p_id_page <- function(prompt = "Please enter your participant ID.",
-                          placeholder = "e.g. 10492817",
-                          button_text = "Next",
-                          width = "300px",
-                          validate = "auto") {
-  validate_2 <- get_p_id_page.validate(validate)
+get_p_id <- function(prompt = "Please enter your participant ID.",
+                     placeholder = "e.g. 10492817",
+                     button_text = "Next",
+                     width = "300px",
+                     validate = "auto") {
+  validate_2 <- get_p_id.validate(validate)
   get_answer <- function(input, ...) input$p_id
-  on_complete <- get_p_id_page.on_complete
   text_input <- shiny::textInput("p_id", label = NULL,
                                  placeholder = placeholder,
                                  width = width)
   body = shiny::div(tagify(prompt), text_input)
   ui <- shiny::div(body, trigger_button("next", button_text))
-  page(ui = ui, get_answer = get_answer,
-       validate = validate_2,
-       on_complete = on_complete)
+  c(
+    page(ui = ui, get_answer = get_answer, save_answer = FALSE,
+         validate = validate_2),
+    code_block(get_p_id.on_complete)
+  )
 }
 
-get_p_id_page.on_complete <- function(state, input, session, options, ...) {
-  p_id <- input$p_id
+get_p_id.on_complete <- function(state, input, session, options, ...) {
+  p_id <- psychTest::answer(state)
   try_resume_session(p_id, state, session, options,
                      ask_to_confirm_resume = FALSE,
                      reset_if_resume_fails = FALSE)
@@ -187,8 +184,8 @@ get_p_id_page.validate <- function(validate) {
   if (is.function(validate)) {
     validate
   } else if (identical(validate, "auto")) {
-    function(state, input, ...) {
-      valid <- nchar(input$p_id) > 0L
+    function(answer, ...) {
+      valid <- nchar(answer) > 0L
       if (valid) TRUE else "Please enter your participant ID before proceeding."
     }
   } else stop("Unrecognised validation method.")
@@ -210,7 +207,7 @@ get_p_id_page.validate <- function(validate) {
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
 NAFC_page <- function(label, prompt, choices,
-                      on_complete = NAFC_page.autosave(label, prompt),
+                      save_answer = TRUE,
                       arrange_vertically = TRUE,
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui",
@@ -225,15 +222,9 @@ NAFC_page <- function(label, prompt, choices,
                  arrange_vertically = arrange_vertically,
                  id = response_ui_id))
   get_answer <- function(input, ...) input$last_btn_pressed
-  page(ui = ui, get_answer = get_answer, on_complete = on_complete,
-       final = FALSE)
-}
-
-NAFC_page.autosave <- function(label, prompt) {
-  function(state, ...) {
-    # metadata <- list(type = "NAFC", prompt = prompt)
-    save_result(place = state, label = label, value = answer(state))
-  }
+  validate <- function(answer, ...) !is.null(answer)
+  page(ui = ui, get_answer = get_answer, save_answer = save_answer,
+       validate = validate, final = FALSE)
 }
 
 #' Make NAFC buttons
@@ -286,8 +277,8 @@ make_ui_NAFC <- function(choices, hide = FALSE, arrange_vertically = TRUE,
 #' @param ... Further parameters to be passed to \code{\link{page}}.
 #' @export
 video_NAFC_page <- function(label, prompt, choices, url,
-                            on_complete = video_NAFC_page.autosave(label, prompt, url),
                             type = tools::file_ext(url),
+                            save_answer = TRUE,
                             video_width = "100%",
                             arrange_choices_vertically = TRUE,
                             wait = TRUE,
@@ -311,16 +302,10 @@ video_NAFC_page <- function(label, prompt, choices, url,
       onended = if (wait) media.js$show_responses else "null"),
     media_mobile_play_button)
   prompt2 <- shiny::div(tagify(prompt), video_ui)
-  NAFC_page(label = label, prompt = prompt2, choices = choices, on_complete = on_complete,
+  NAFC_page(label = label, prompt = prompt2, choices = choices,
+            save_answer = save_answer,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
-}
-
-video_NAFC_page.autosave <- function(label, prompt, url) {
-  function(state, ...) {
-    # metadata <- list(type = "video_NAFC", prompt = prompt, url = url)
-    save_result(place = state, label = label, value = answer(state))
-  }
 }
 
 media.js <- list(
@@ -365,7 +350,7 @@ media_mobile_play_button <- shiny::tags$p(
 #' @export
 audio_NAFC_page <- function(label, prompt, choices, url,
                             type = tools::file_ext(url),
-                            on_complete = audio_NAFC_page.autosave(label, prompt, url),
+                            save_answer = TRUE,
                             arrange_choices_vertically = TRUE,
                             wait = TRUE, loop = FALSE, ...) {
   stopifnot(is.scalar.character(label),
@@ -380,16 +365,10 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     loop = if (loop) "loop",
     onended = if (wait) media.js$show_responses else "null")
   prompt2 <- shiny::div(tagify(prompt), audio_ui)
-  NAFC_page(label = label, prompt = prompt2, choices = choices, on_complete = on_complete,
+  NAFC_page(label = label, prompt = prompt2, choices = choices,
+            save_answer = save_answer,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui", ...)
-}
-
-audio_NAFC_page.autosave <- function(label, prompt, url) {
-  function(state, ...) {
-    # metadata <- list(type = "audio_NAFC", prompt = prompt, url = url)
-    save_result(place = state, label = label, value = answer(state))
-  }
 }
 
 #' Make volume calibration page
@@ -419,7 +398,8 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
   )
   audio_NAFC_page(label = "volume_calibration",
                   prompt = prompt, choices = button_text,
-                  url = url, type = type, on_complete = NULL,
+                  save_answer = FALSE,
+                  url = url, type = type,
                   wait = FALSE, loop = TRUE, ...)
 }
 
@@ -431,8 +411,7 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 dropdown_page <- function(label, prompt, choices,
                           alternative_choice = FALSE,
                           alternative_text = "Other (please state)",
-                          on_complete = dropdown_page.autosave(
-                            label, prompt, alternative_text),
+                          save_answer = TRUE,
                           validate = dropdown_page.validate(alternative_choice,
                                                             alternative_text),
                           next_button_text = "Next",
@@ -443,7 +422,6 @@ dropdown_page <- function(label, prompt, choices,
             is.scalar.logical(alternative_choice),
             is.scalar.character(alternative_text),
             is.scalar.numeric(max_width_pixels),
-            is.null.or(on_complete, is.function),
             is.null.or(validate, is.function))
   prompt <- tagify(prompt)
   style <- sprintf("max-width:%ipx", round(max_width_pixels))
@@ -457,7 +435,7 @@ dropdown_page <- function(label, prompt, choices,
   response_ui <- shiny::div(style = style, dropdown, text_box, button)
   ui <- shiny::div(prompt, response_ui)
   get_answer <- dropdown_page.get_answer(alternative_text)
-  page(ui = ui, get_answer = get_answer, on_complete = on_complete,
+  page(ui = ui, get_answer = get_answer, save_answer = save_answer,
        validate = validate, final = FALSE)
 }
 
@@ -485,13 +463,6 @@ dropdown_page.get_answer <- function(alternative_text) {
   }
 }
 
-dropdown_page.autosave <- function(label, prompt, alternative_text) {
-  function(state, input, ...) {
-    # metadata <- list(type = "dropdown_page", prompt = prompt)
-    save_result(place = state, label = label, value = answer(state))
-  }
-}
-
 # Version of actionButton that also triggers the next page
 #' @export
 trigger_button <- function(inputId, label, icon = NULL, width = NULL, ...) {
@@ -507,7 +478,6 @@ new_results_section <- function(label) {
   stopifnot(is.scalar.character(label))
   code_block(function(state, ...) register_next_results_section(state, label))
 }
-
 
 # code_block.save_data <- function(mode = "local")
 

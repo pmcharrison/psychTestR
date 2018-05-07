@@ -4,24 +4,21 @@
 \alias{page}
 \title{New page}
 \usage{
-page(ui, final = FALSE, get_answer = NULL, on_complete = NULL,
-  validate = NULL)
+page(ui, label = NULL, final = FALSE, get_answer = NULL,
+  save_answer = FALSE, validate = NULL)
 }
 \arguments{
 \item{ui}{Page UI. Can be either a scalar character (e.g.
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. \code{shiny::tags$p("Welcome to the test!")}.}
 
-\item{final}{Whether or not the page is the final page in the test.}
-
-\item{on_complete}{Optional function to run when page completes.
+\item{final}{Whether or not the page is the final page in the test.
 Should take the following form: function(state, input) ...
 where \code{state} is the app's persistent state (a Shiny reactiveValues object)
 and \code{input} is the input produced by the page UI.}
 
 \item{validate}{Optional validation function.
-Should take the same form as \code{on_complete}, and return
-\code{TRUE} for a successful validation and \code{FALSE}
+Should return \code{TRUE} for a successful validation and \code{FALSE}
 for an unsuccessful validation.
 If validation fails then the page will be refreshed, usually
 to give the user a chance to revise their input.}

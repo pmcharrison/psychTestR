@@ -87,10 +87,8 @@ try_finalise_page <- function(elt, state, input, session, options) {
   if (!validate_elt(elt, state, input, session, options)) {
     message("Input validation failed.")
     FALSE
-  } else {
-    perform_on_complete_function(elt, state, input, session, options)
-    TRUE
-  }
+  } else TRUE
+  if (elt@save_answer) save_result(state, elt@label, answer(state))
 }
 
 perform_get_answer_function <- function(elt, state, input, session, options) {
@@ -146,26 +144,27 @@ render_ui <- function(state, elts) {
 validate_elt <- function(elt, state, input, session, options) {
   f <- elt@validate
   res <- if (is.null(f)) TRUE else f(
-    state = state, input = input, session = session, options = options)
-  if (isTRUE(res)) TRUE else {
-    if (!is.scalar.character(res)) {
+    answer = answer(state), state = state, input = input, session = session,
+    options = options)
+  if (res == TRUE) {
+    TRUE
+  } else {
+    msg <- if (res == FALSE) {
+      "Invalid result."
+    } else if (is.scalar.character(res)) {
+      res
+    } else {
       print(res)
-      stop("validation function must either return TRUE for success or ",
-           "a scalar character error message for failure")
+      stop("validation function must either return TRUE for success or, ",
+           "for failure, either FALSE or a scalar character error message")
     }
-    shinyjs::alert(res)
+    shinyjs::alert(msg)
     FALSE
   }
 }
 
 make_current_page_visible <- function() {
   shinyjs::runjs("document.getElementById('current_page.ui').style.visibility = 'visible'")
-}
-
-perform_on_complete_function <- function(elt, state, input, session, options) {
-  f <- elt@on_complete
-  if (!is.null(f)) f(
-    state = state, input = input, session = session, options = options)
 }
 
 #' @export

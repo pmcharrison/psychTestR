@@ -5,8 +5,7 @@
 \title{Make dropdown list page}
 \usage{
 dropdown_page(label, prompt, choices, alternative_choice = FALSE,
-  alternative_text = "Other (please state)",
-  on_complete = dropdown_page.autosave(label, prompt, alternative_text),
+  alternative_text = "Other (please state)", save_answer = TRUE,
   validate = dropdown_page.validate(alternative_choice, alternative_text),
   next_button_text = "Next", max_width_pixels = 200, ...)
 }
