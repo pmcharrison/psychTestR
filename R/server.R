@@ -122,6 +122,13 @@ check_elts <- function(elts) {
     stop("The last element in <elts> must be marked 'final' ",
          "(try setting final = TRUE in the last test page).")
   }
+  class_check <- vapply(elts, function(x) is(x, "test_element"), logical(1))
+  class_check_failed <- which(!class_check)
+  if (!all(class_check))
+    stop("every element of elts must be an object of class test_element, ",
+         "but this was not true for ",
+         ngettext(length(class_check_failed), "element ", "elements "),
+         paste(class_check_failed, collapse = ", "))
 }
 
 render_ui <- function(state, elts) {
