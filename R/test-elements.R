@@ -486,8 +486,9 @@ new_results_section <- function(label) {
 # code_block.save_data <- function(mode = "local")
 
 #' @export
-save_results_to_disk <- function(final) {
-  stopifnot(is.scalar(final))
+#' @param complete Whether the participant completed the test.
+save_results_to_disk <- function(complete) {
+  stopifnot(is.scalar.character(complete))
   code_block(function(state, options, ...) {
     dir <- options$results_dir
     R.utils::mkdirs(dir)
@@ -499,13 +500,13 @@ save_results_to_disk <- function(final) {
     save_id <- save_id(state)
     previous_save_path <- previous_save_path(state)
     if (!is.null(previous_save_path)) unlink(previous_save_path)
-    filename <- sprintf("id=%s&p_id=%s&save_id=%s&final=%s.rds",
+    filename <- sprintf("id=%s&p_id=%s&save_id=%s&complete=%s.rds",
                         format(id, scientific = FALSE),
                         format(p_id),
                         format(save_id, scientific = FALSE),
-                        tolower(final))
+                        tolower(complete))
     path <- file.path(dir, filename)
-    results <- get_results(state, add_session_info = TRUE)
+    results <- get_results(state, complete = complete, add_session_info = TRUE)
     saveRDS(results, path)
     previous_save_path(state) <- path
     save_id(state) <- save_id(state) + 1L

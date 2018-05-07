@@ -220,9 +220,9 @@ admin_panel.statistics.num_participants <- function(input, output, options) {
     input$admin_panel.statistics.open
     shiny::showNotification("Refreshing statistics...")
     n_complete <- length(list.files(options$results_dir,
-                                    pattern = "final=true\\.rds$"))
+                                    pattern = "complete=true\\.rds$"))
     n_part_complete <- length(list.files(options$results_dir,
-                                         pattern = "final=false\\.rds$"))
+                                         pattern = "complete=false\\.rds$"))
     shiny::p(
       "The output directory contains results for ",
       shiny::strong(format(n_complete, scientific = FALSE)),
@@ -266,12 +266,12 @@ admin_panel.statistics.average_time <- function(input, output, options) {
   output$admin_panel.statistics.average_time <- shiny::renderUI({
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
-    files <- list.files(options$results_dir, pattern = "final=true\\.rds$",
+    files <- list.files(options$results_dir, pattern = "complete=true\\.rds$",
                         full.names = TRUE)
     if (length(files) > 0L) {
       data <- lapply(files, readRDS)
       time_taken <- vapply(data, function(x) {
-        with(x$session, difftime(current_time, time_started, units = "mins"))
+        difftime(x$session$current_time, x$session$time_started, units = "mins")
       }, numeric(1))
       M <- mean(time_taken)
       SD <- sd(time_taken)
@@ -379,7 +379,8 @@ admin_panel.handle_downloads.current_results.csv <- function(state, output) {
     filename = "results.csv",
     content = function(file) {
       df <- tryCatch({
-        as.data.frame(get_results(state, add_session_info = TRUE))
+        as.data.frame(get_results(
+          state, complete = FALSE, add_session_info = TRUE))
       }, error = function(e) {
         msg <- "Failed to create csv file. Try saving an RDS file instead."
         shiny::showNotification(msg, type = "error")

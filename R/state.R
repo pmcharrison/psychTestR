@@ -116,11 +116,13 @@ demo <- function(state) {
 }
 
 #' @export
-get_session_info <- function(state) {
-  stopifnot(is(state, "state"))
+get_session_info <- function(state, complete) {
+  stopifnot(is(state, "state"),
+            is.scalar.logical(complete))
   res <- list(
     p_id = state$p_id,
     pilot = state$pilot,
+    complete = complete,
     time_started = state$time_started,
     current_time = Sys.time(),
     num_restarts = state$num_restarts
@@ -153,12 +155,14 @@ update_state_from_list <- function(state, list) {
 }
 
 #' @export
-get_results <- function(state, add_session_info = FALSE) {
+#' @param complete Whether the participant completed the test.
+get_results <- function(state, complete, add_session_info = FALSE) {
   stopifnot(is(state, "state"))
+  stopifnot(is.scalar.logical(complete))
   results <- state$results
   if (add_session_info) {
     results <- register_next_results_section(results, "session")
-    session_info <- get_session_info(state)
+    session_info <- get_session_info(state, complete)
     for (i in seq_along(session_info)) {
       results <- save_result(results,
                              label = names(session_info)[[i]],

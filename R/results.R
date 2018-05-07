@@ -32,7 +32,10 @@ as.data.frame.results <- function(x, ...) {
     stop("cannot coerce to data.frame when the results object contains ",
          "non-atomic elements")
   }
-  as.data.frame(y, check.names = FALSE, ...)
+  df <- as.data.frame(y, check.names = FALSE, ...)
+  session_info_cols <- grepl("$session\\.", names(df))
+  cbind(df[, session_info_cols],
+        df[, !session_info_cols])
 }
 
 # sections <- as.list(x)
