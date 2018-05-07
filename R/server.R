@@ -87,13 +87,22 @@ try_finalise_page <- function(elt, state, input, session, options) {
   if (!validate_elt(elt, state, input, session, options)) {
     message("Input validation failed.")
     FALSE
-  } else TRUE
-  if (elt@save_answer) save_result(state, elt@label, answer(state))
+  } else {
+    if (elt@save_answer) save_result(state, elt@label, answer(state))
+    perform_on_complete_function(elt, state, input, session, options)
+    TRUE
+  }
 }
 
 perform_get_answer_function <- function(elt, state, input, session, options) {
   f <-  elt@get_answer
   answer(state) <- if (!is.null(f)) f(
+    state = state, input = input, session = session, options = options)
+}
+
+perform_on_complete_function <- function(elt, state, input, session, options) {
+  f <- elt@on_complete
+  if (!is.null(f)) f(
     state = state, input = input, session = session, options = options)
 }
 

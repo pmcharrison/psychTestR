@@ -5,7 +5,7 @@
 \title{Make volume calibration page}
 \usage{
 volume_calibration_page(url, type = tools::file_ext(url), prompt = NULL,
-  button_text = "Next", ...)
+  button_text = "Next", on_complete = NULL)
 }
 \arguments{
 \item{url}{URL to the audio
@@ -16,8 +16,6 @@ or a URL relative to the /www directory (e.g. "audio.mp3").}
 
 \item{prompt}{Prompt to be displayed. If left \code{NULL},
 a sensible English prompt is provided.}
-
-\item{...}{Further parameters to be passed to \code{\link{page}}.}
 }
 \description{
 Creates a page for the participant to calibrate their volume,

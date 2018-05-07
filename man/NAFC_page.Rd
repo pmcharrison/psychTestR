@@ -6,7 +6,7 @@
 \usage{
 NAFC_page(label, prompt, choices, save_answer = TRUE,
   arrange_vertically = TRUE, hide_response_ui = FALSE,
-  response_ui_id = "response_ui", ...)
+  response_ui_id = "response_ui", on_complete = NULL)
 }
 \arguments{
 \item{prompt}{Prompt to be displayed above the response choices.
@@ -21,8 +21,6 @@ will be used for button labels.}
 
 \item{arrange_vertically}{Whether to arrange the response buttons vertically
 (the default) as opposed to horizontally.}
-
-\item{...}{Further parameters to be passed to \code{\link{page}}.}
 }
 \description{
 Creates an n-alternative forced-foced choice page.

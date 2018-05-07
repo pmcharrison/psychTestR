@@ -5,8 +5,8 @@
 \title{Make NAFC video page}
 \usage{
 video_NAFC_page(label, prompt, choices, url, type = tools::file_ext(url),
-  save_answer = TRUE, video_width = "100\%",
-  arrange_choices_vertically = TRUE, wait = TRUE, loop = FALSE, ...)
+  save_answer = TRUE, on_complete = NULL, video_width = "100\%",
+  arrange_choices_vertically = TRUE, wait = TRUE, loop = FALSE)
 }
 \arguments{
 \item{prompt}{Prompt to be displayed above the response choices.
@@ -34,8 +34,6 @@ or a URL relative to the /www directory (e.g. "video.mp4").}
 the response buttons.}
 
 \item{loop}{Whether the video should loop.}
-
-\item{...}{Further parameters to be passed to \code{\link{page}}.}
 }
 \description{
 Creates an n-alternative forced-foced choice page with a video prompt.

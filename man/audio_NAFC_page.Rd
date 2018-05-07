@@ -5,8 +5,8 @@
 \title{Make NAFC audio page}
 \usage{
 audio_NAFC_page(label, prompt, choices, url, type = tools::file_ext(url),
-  save_answer = TRUE, arrange_choices_vertically = TRUE, wait = TRUE,
-  loop = FALSE, ...)
+  save_answer = TRUE, on_complete = NULL,
+  arrange_choices_vertically = TRUE, wait = TRUE, loop = FALSE)
 }
 \arguments{
 \item{prompt}{Prompt to be displayed above the response choices.
@@ -32,8 +32,6 @@ or a URL relative to the /www directory (e.g. "audio.mp3").}
 the response buttons.}
 
 \item{loop}{Whether the audio should loop.}
-
-\item{...}{Further parameters to be passed to \code{\link{page}}.}
 }
 \description{
 Creates an n-alternative forced-foced choice page with an audio prompt.
