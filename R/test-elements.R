@@ -4,7 +4,7 @@ setOldClass("shiny.tag.list")
 setClass("test_element")
 
 setClassUnion("function_or_null", members = c("function", "NULL"))
-setClassUnion("character_or_null", members = c("function", "NULL"))
+setClassUnion("character_or_null", members = c("character", "NULL"))
 
 setClass("page",
          slots = list(ui = "shiny.tag",
@@ -163,7 +163,7 @@ text_input_page <- function(label, prompt,
   body = shiny::div(tagify(prompt), text_input)
   ui <- shiny::div(body, trigger_button("next", button_text))
   page(ui = ui, label = label, get_answer = get_answer, save_answer = save_answer,
-       validate = validate, on_complete)
+       validate = validate, on_complete = on_complete, final = FALSE)
 }
 
 #' @export
