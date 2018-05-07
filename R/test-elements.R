@@ -96,7 +96,7 @@ page <- function(ui, label = NULL, final = FALSE, get_answer = NULL,
     is.null.or(label, is.scalar.character),
     is.scalar.logical(final),
     is.null.or(get_answer, is.function),
-    is.scalar.character(save_answer),
+    is.scalar.logical(save_answer),
     is.null.or(validate, is.function),
     is.null.or(on_complete, is.function))
   if (save_answer && !is.scalar.character(label))
@@ -139,20 +139,30 @@ final_page <- function(body) {
 
 #' @export
 text_input_page <- function(label, prompt,
+                            one_line = TRUE,
                             save_answer = TRUE,
                             placeholder = NULL,
                             button_text = "Next",
                             width = "300px",
+                            height = "100px", # only relevant if one_line == FALSE
                             validate = NULL,
                             on_complete = NULL) {
-  stopifnot(is.scalar.character(label))
-  text_input <- shiny::textInput("text_input", label = NULL,
-                                 placeholder = placeholder,
-                                 width = width)
+  stopifnot(is.scalar.character(label),
+            is.scalar.logical(one_line))
+  text_input <- if (one_line) {
+    shiny::textInput("text_input", label = NULL,
+                     placeholder = placeholder,
+                     width = width)
+  } else {
+    shiny::textAreaInput("text_input", label = NULL,
+                         placeholder = placeholder,
+                         width = width,
+                         height = height)
+  }
   get_answer <- function(input, ...) input$text_input
   body = shiny::div(tagify(prompt), text_input)
   ui <- shiny::div(body, trigger_button("next", button_text))
-  page(ui = ui, get_answer = get_answer, save_answer = save_answer,
+  page(ui = ui, label = label, get_answer = get_answer, save_answer = save_answer,
        validate = validate, on_complete)
 }
 
@@ -222,7 +232,7 @@ NAFC_page <- function(label, prompt, choices,
                  id = response_ui_id))
   get_answer <- function(input, ...) input$last_btn_pressed
   validate <- function(answer, ...) !is.null(answer)
-  page(ui = ui, get_answer = get_answer, save_answer = save_answer,
+  page(ui = ui, label = label,  get_answer = get_answer, save_answer = save_answer,
        validate = validate, on_complete = on_complete, final = FALSE)
 }
 
@@ -435,7 +445,7 @@ dropdown_page <- function(label, prompt, choices,
   response_ui <- shiny::div(style = style, dropdown, text_box, button)
   ui <- shiny::div(prompt, response_ui)
   get_answer <- dropdown_page.get_answer(alternative_text)
-  page(ui = ui, get_answer = get_answer, save_answer = save_answer,
+  page(ui = ui, label = label, get_answer = get_answer, save_answer = save_answer,
        validate = validate, on_complete = on_complete, final = FALSE)
 }
 
