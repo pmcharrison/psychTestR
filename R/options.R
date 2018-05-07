@@ -1,5 +1,5 @@
 #' @export
-pt_options <- function(admin_password,
+pt_options <- function(admin_password, researcher_email,
                        demo = FALSE,
                        max_num_participants = NULL,
                        max_participants_msg = NULL,
@@ -14,6 +14,8 @@ pt_options <- function(admin_password,
                        clean_sessions_interval_min = 15) {
   stopifnot(!missing(admin_password),
             is.scalar.character(admin_password),
+            !missing(researcher_email),
+            is.scalar.character(researcher_email),
             is.scalar.logical(demo),
             is.scalar.numeric(session_timeout_min),
             is.scalar.numeric(clean_sessions_interval_min),
@@ -36,7 +38,7 @@ pt_options <- function(admin_password,
 
   if (is.null(problems_info)) {
     problems_info <- paste0(
-      "Problems? Contact p.m.c.harrison@qmul.ac.uk with a link to this page.")
+      "Problems? Contact ", researcher_email, " with a link to this page.")
   }
 
   if (is.null(server_closed_msg)) {
@@ -50,6 +52,7 @@ pt_options <- function(admin_password,
   results_archive_dir <- file.path(output_dir, "deleted-results")
 
   list(admin_password = admin_password,
+       researcher_email = researcher_email,
        demo = demo,
        max_num_participants = max_num_participants,
        max_participants_msg = max_participants_msg,
