@@ -6,14 +6,14 @@ options(shiny.error = browser)
 show_x <- reactive_page(
   function(state, ...) {
     one_button_page(sprintf("Value of x is '%s'",
-                            format(get_global("x", state))))
+                            format(get_local("x", state))))
   }
 )
 
 elts <- c(
   one_button_page("Welcome!"),
   code_block(function(state, ...) {
-    set_global("x", "parent", state)
+    set_local("x", "parent", state)
   }),
   one_button_page(
     "We begin in the parent environment and define a variable 'x'."
@@ -28,7 +28,7 @@ elts <- c(
     "We can set the variable 'x' to 'child'."
   ),
   code_block(function(state, ...) {
-    set_global("x", "child", state)
+    set_local("x", "child", state)
   }),
   show_x,
   one_button_page(
