@@ -3,7 +3,6 @@ pt_options <- function(title, admin_password, researcher_email,
                        demo = FALSE,
                        max_num_participants = NULL,
                        notify_new_participant = FALSE,
-                       notify_quota_complete = FALSE,
                        pushbullet_email = NULL,
                        pushbullet_apikey = NULL,
                        max_participants_msg = NULL,
@@ -21,7 +20,6 @@ pt_options <- function(title, admin_password, researcher_email,
             is.scalar.character(researcher_email),
             is.scalar.logical(demo),
             is.scalar.logical(notify_new_participant),
-            is.scalar.logical(notify_quota_complete),
             is.null.or(pushbullet_email, is.scalar.character),
             is.null.or(pushbullet_apikey, is.scalar.character),
             is.scalar.numeric(session_timeout_min),
@@ -30,15 +28,15 @@ pt_options <- function(title, admin_password, researcher_email,
             is.scalar.logical(enable_admin_panel),
             is.scalar.logical(auto_p_id),
             is.scalar.character(output_dir),
-            is.null.or(max_num_participants, is.scalar.numeric),
+            is.null.or(max_num_participants, is.scalar.integerlike),
             is.null.or(max_participants_msg, is.scalar.character),
             is.null.or(server_closed_msg, is.scalar.character),
             is.null.or(problems_info, is.scalar.character))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
-  if ((notify_new_participant || notify_quota_complete) &&
+  if ((notify_new_participant) &&
       (is.null(pushbullet_email) || is.null(pushbullet_apikey))) stop(
-        "if notify_new_participant or notify_quota_complete are TRUE, ",
+        "if notify_new_participant is TRUE, ",
         "both pushbullet_email and pushbullet_apikey must be provided.")
 
   if (is.null(max_participants_msg)) {
@@ -68,7 +66,6 @@ pt_options <- function(title, admin_password, researcher_email,
        researcher_email = researcher_email,
        demo = demo,
        notify_new_participant = notify_new_participant,
-       notify_quota_complete = notify_quota_complete,
        pushbullet = list(email = pushbullet_email,
                          apikey = pushbullet_apikey),
        max_num_participants = max_num_participants,
@@ -86,23 +83,6 @@ pt_options <- function(title, admin_password, researcher_email,
        session_timeout_min = session_timeout_min,
        clean_sessions_interval_min = clean_sessions_interval_min)
 }
-
-# default_session_dirs <- c("shiny-sessions", "/var/tmp/shiny-sessions")
-
-# get_default_session_dir <- function() {
-#   for (dir in default_session_dirs) {
-#     R.utils::mkdirs(dir)
-#     if (test_permissions(dir)) return(dir)
-#   }
-#   tempdir()
-# }
-
-#' #' @export
-#' delete_default_session_dirs <- function() {
-#'   for (dir in default_session_dirs) {
-#'     unlink(dir, recursive = TRUE)
-#'   }
-#' }
 
 #' @export
 test_permissions <- function(dir) {

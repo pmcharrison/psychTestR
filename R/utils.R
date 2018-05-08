@@ -14,6 +14,10 @@ is.scalar <- function(x) {
   identical(length(x), 1L)
 }
 
+is.scalar.integerlike <- function(x) {
+  is.scalar(x) && is.integerlike(x)
+}
+
 tagify <- function(x) {
   stopifnot(is.character(x) || is(x, "shiny.tag"))
   if (is.character(x)) {

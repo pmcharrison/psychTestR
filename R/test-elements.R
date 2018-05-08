@@ -528,11 +528,13 @@ notify_new_participant <- function(opt) {
     results <- tabulate_results(opt, include_pilot = FALSE)
     num_complete <- sum(results$complete)
     title <- sprintf("N = %i", num_complete)
-    msg <- sprintf("Participant number %i just completed the experiment '%s'.",
-                   num_complete, opt$title)
+    msg <- sprintf("Participant number %i%s just completed the experiment '%s'.",
+                   num_complete,
+                   if (!is.null(opt$max_num_participants)) {
+                     sprintf("/%i", opt$max_num_participants)
+                   } else "",
+                   opt$title)
     async_pushbullet(title = title, body = msg, opt = opt)
-    # Get number of complete participants, including current one
-    # Report it
   }
 }
 
