@@ -572,3 +572,23 @@ end_module <- function() {
     register_next_results_section(state, "results")
   })
 }
+
+#' @export
+finish_test_and_give_code <- function(researcher_email) {
+  c(
+    begin_module("finish"),
+    code_block(function(state, ...) {
+      code <- shiny:::createUniqueId(16)
+      save_result(state, "code", code)
+      set_local("code", code, state)
+      save_results_to_disk(complete = TRUE)
+    }),
+    reactive_page(function(state, options, ...) {
+      final_page(shiny::div(
+        shiny::p("Thank you very much for participating in this study."),
+        shiny::p("Your completion code is:",
+                 shiny::strong(get_local("code", state))),
+        shiny::p(sprintf(
+          "If you have any further questions or feedback, please feel free to",
+          "contact the research team at %s.", researcher_email))))}))
+}
