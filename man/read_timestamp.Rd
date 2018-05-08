@@ -4,7 +4,7 @@
 \alias{read_timestamp}
 \title{Returns NA if no timestamp found}
 \usage{
-read_timestamp(options, p_id)
+read_timestamp(opt, p_id)
 }
 \description{
 Returns NA if no timestamp found

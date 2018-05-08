@@ -1,7 +1,11 @@
 #' @export
 pt_options <- function(title, admin_password, researcher_email,
-                       demo = FALSE,
                        max_num_participants = NULL,
+                       demo = FALSE,
+                       debug_locally = FALSE, #####
+                       log_error = TRUE,
+                       show_full_error_msg = TRUE,
+                       notify_error = FALSE, #####
                        notify_new_participant = FALSE,
                        pushbullet_email = NULL,
                        pushbullet_apikey = NULL,
@@ -18,7 +22,11 @@ pt_options <- function(title, admin_password, researcher_email,
   stopifnot(is.scalar.character(title),
             is.scalar.character(admin_password),
             is.scalar.character(researcher_email),
+            is.scalar.logical(debug_locally),
+            is.scalar.logical(log_error),
+            is.scalar.logical(show_full_error_msg),
             is.scalar.logical(demo),
+            is.scalar.logical(notify_error),
             is.scalar.logical(notify_new_participant),
             is.null.or(pushbullet_email, is.scalar.character),
             is.null.or(pushbullet_apikey, is.scalar.character),
@@ -34,9 +42,9 @@ pt_options <- function(title, admin_password, researcher_email,
             is.null.or(problems_info, is.scalar.character))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
-  if ((notify_new_participant) &&
+  if ((notify_new_participant || notify_error) &&
       (is.null(pushbullet_email) || is.null(pushbullet_apikey))) stop(
-        "if notify_new_participant is TRUE, ",
+        "if notify_error or notify_new_participant is TRUE, ",
         "both pushbullet_email and pushbullet_apikey must be provided.")
 
   if (is.null(max_participants_msg)) {
@@ -60,11 +68,16 @@ pt_options <- function(title, admin_password, researcher_email,
   results_dir <- file.path(output_dir, "results")
   session_dir <- file.path(output_dir, "sessions")
   results_archive_dir <- file.path(output_dir, "deleted-results")
+  error_dir <- file.path(output_dir, "errors")
 
   list(title = title,
        admin_password = admin_password,
        researcher_email = researcher_email,
        demo = demo,
+       debug_locally = debug_locally,
+       log_error = log_error,
+       show_full_error_msg = show_full_error_msg,
+       notify_error = notify_error,
        notify_new_participant = notify_new_participant,
        pushbullet = list(email = pushbullet_email,
                          apikey = pushbullet_apikey),
@@ -80,6 +93,7 @@ pt_options <- function(title, admin_password, researcher_email,
        results_dir = results_dir,
        session_dir = session_dir,
        results_archive_dir = results_archive_dir,
+       error_dir = error_dir,
        session_timeout_min = session_timeout_min,
        clean_sessions_interval_min = clean_sessions_interval_min)
 }
@@ -101,11 +115,11 @@ test_permissions <- function(dir) {
 
 #' @export
 check_dirs <- function(opt) {
-  stopifnot(is.scalar.character(opt$output_dir),
-            is.scalar.character(opt$results_dir),
-            is.scalar.character(opt$session_dir))
-  dirs <- c(opt$output_dir, opt$results_dir, opt$session_dir)
-  for (dir in dirs) {
+  dirs <- c("output_dir", "results_dir", "session_dir",
+            "results_archive_dir", "error_dir")
+  for (d in dirs) {
+    dir <- opt[[d]]
+    stopifnot(is.scalar.character(dir))
     R.utils::mkdirs(dir)
     if (!test_permissions(dir)) {
       stop("Insufficient permissions to write to directory ",

@@ -1,6 +1,6 @@
 server <- function(elts, opt) {
-  # stopifnot(is(side_panel, "side_panel"))
   function(input, output, session) {
+    set_error_handling(opt, session, state)
     state <- new_state()
     setup_session(state, input, elts, session, opt)
     output$ui <- render_ui(state, elts)

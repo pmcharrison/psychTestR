@@ -14,6 +14,10 @@ is.scalar <- function(x) {
   identical(length(x), 1L)
 }
 
+is.integerlike <- function(x) {
+  all(round(x) == x)
+}
+
 is.scalar.integerlike <- function(x) {
   is.scalar(x) && is.integerlike(x)
 }

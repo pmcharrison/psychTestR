@@ -494,7 +494,6 @@ new_results_section <- function(label) {
 #' @export
 #' @param complete Whether the participant completed the test.
 save_results_to_disk <- function(complete) {
-  stop("propagate pilot argument")
   stopifnot(is.scalar.logical(complete))
   code_block(function(state, opt, ...) {
     dir <- opt$results_dir
@@ -502,16 +501,16 @@ save_results_to_disk <- function(complete) {
     if (!test_permissions(dir)) {
       stop("Insufficient permissions to write to directory ", dir, ".")
     }
-    id <- length(list.files(dir, pattern = "\\.rds$")) + 1L
-    p_id <- p_id(state)
-    save_id <- save_id(state)
     previous_save_path <- previous_save_path(state)
     if (!is.null(previous_save_path)) unlink(previous_save_path)
-    filename <- sprintf("id=%s&p_id=%s&save_id=%s&complete=%s.rds",
-                        format(id, scientific = FALSE),
-                        format(p_id),
-                        format(save_id, scientific = FALSE),
-                        tolower(complete))
+    filename <- sprintf(
+      "id=%s&p_id=%s&save_id=%s&pilot=%s&complete=%s.rds",
+      id = format(length(list.files(dir, pattern = "\\.rds$")) + 1L,
+                  scientific = FALSE),
+      p_id = format(p_id(state), scientific = FALSE),
+      save_id = format(save_id(state), scientific = FALSE),
+      pilot = tolower(pilot(state)),
+      complete = tolower(complete))
     path <- file.path(dir, filename)
     results <- get_results(state, complete = complete, add_session_info = TRUE)
     saveRDS(results, path)

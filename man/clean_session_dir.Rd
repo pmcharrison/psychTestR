@@ -4,7 +4,7 @@
 \alias{clean_session_dir}
 \title{Deletes all session caches that are older than a certain amount.}
 \usage{
-clean_session_dir(session, options)
+clean_session_dir(session, opt)
 }
 \description{
 Deletes all session caches that are older than a certain amount.
