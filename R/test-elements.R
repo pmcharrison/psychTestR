@@ -502,35 +502,41 @@ new_results_section <- function(label) {
   code_block(function(state, ...) register_next_results_section(state, label))
 }
 
-# code_block.save_data <- function(mode = "local")
+#' @export
+#' @param complete Whether the participant completed the test.
+elt_save_results_to_disk <- function(complete) {
+  stopifnot(is.scalar.logical(complete))
+  code_block(function(state, opt, ...) {
+    save_results_to_disk(complete, state, opt)
+  })
+}
 
 #' @export
 #' @param complete Whether the participant completed the test.
-save_results_to_disk <- function(complete) {
-  stopifnot(is.scalar.logical(complete))
-  code_block(function(state, opt, ...) {
+save_results_to_disk <- function(complete, state, opt, ...) {
     dir <- opt$results_dir
     R.utils::mkdirs(dir)
-    if (!test_permissions(dir)) {
-      stop("Insufficient permissions to write to directory ", dir, ".")
-    }
-    previous_save_path <- previous_save_path(state)
-    if (!is.null(previous_save_path)) unlink(previous_save_path)
-    filename <- sprintf(
-      "id=%s&p_id=%s&save_id=%s&pilot=%s&complete=%s.rds",
-      id = format(length(list.files(dir, pattern = "\\.rds$")) + 1L,
-                  scientific = FALSE),
-      p_id = format(p_id(state), scientific = FALSE),
-      save_id = format(save_id(state), scientific = FALSE),
-      pilot = tolower(pilot(state)),
-      complete = tolower(complete))
+    if (!test_permissions(dir)) stop(
+      "Insufficient permissions to write to directory ", dir, ".")
+    if (!is.null(previous_save_path(state))) unlink(previous_save_path(state))
+    filename <- save_results_to_disk.get_filename(state, dir, complete)
     path <- file.path(dir, filename)
     results <- get_results(state, complete = complete, add_session_info = TRUE)
     saveRDS(results, path)
     if (complete) notify_new_participant(opt)
     previous_save_path(state) <- path
     save_id(state) <- save_id(state) + 1L
-  })
+}
+
+save_results_to_disk.get_filename <- function(state, dir, complete) {
+  sprintf(
+    "id=%s&p_id=%s&save_id=%s&pilot=%s&complete=%s.rds",
+    id = format(length(list.files(dir, pattern = "\\.rds$")) + 1L,
+                scientific = FALSE),
+    p_id = format(p_id(state), scientific = FALSE),
+    save_id = format(save_id(state), scientific = FALSE),
+    pilot = tolower(pilot(state)),
+    complete = tolower(complete))
 }
 
 notify_new_participant <- function(opt) {
