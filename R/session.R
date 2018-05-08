@@ -14,7 +14,7 @@ initialise_session <- function(state, session, opt) {
     if (!is.null(p_id_url)) {
       try_resume_session(p_id = p_id_url, state, session, opt,
                          ask_to_confirm_resume = TRUE,
-                         reset_if_resume_fails = TRUE)
+                         reset_if_resume_fails = !opt$allow_any_p_id_url)
     } else {
       if (opt$auto_p_id) {
         p_id <- generate_new_p_id(opt)
@@ -56,6 +56,7 @@ try_resume_session <- function(p_id, state, session, opt,
       shinyjs::alert(paste0("Couldn't find this user's testing session.\n",
                             "Beginning a new session."))
       shinyjs::runjs("reset_p_id_and_refresh_browser();")
+      allow_session_saving(state) <- FALSE
     } else {
       shiny::showNotification("Starting new session.")
     }
@@ -81,7 +82,7 @@ save_session <- function(state, opt) {
   shiny::observe({
     stopifnot(is(state, "state"), is.scalar.character(opt$session_dir))
     p_id <- p_id(state)
-    if (!is.null(p_id)) {
+    if (!is.null(p_id) && allow_session_saving(state)) {
       path.p_id <- file.path(opt$session_dir, p_id)
       path.data <- file.path(path.p_id, "data.RDS")
       R.utils::mkdirs(path.p_id)

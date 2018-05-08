@@ -22,6 +22,7 @@ initialise_state <- function(x) {
   x$pilot <- FALSE
   x$error <- NULL
   x$answer <- NULL
+  x$allow_session_saving <- TRUE
   invisible(TRUE)
 }
 
@@ -112,6 +113,19 @@ demo <- function(state) {
 `demo<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
   state$demo <- value
+  state
+}
+
+#' @export
+allow_session_saving <- function(state) {
+  stopifnot(is(state, "state"))
+  state$allow_session_saving
+}
+
+#' @export
+`allow_session_saving<-` <- function(state, value) {
+  stopifnot(is(state, "state"), is.scalar.logical(value))
+  state$allow_session_saving <- value
   state
 }
 
