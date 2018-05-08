@@ -50,6 +50,9 @@ pt_options <- function(title, admin_password, researcher_email,
   if (nchar(title) > 100L)
     stop("maximum title length is 100 characters")
 
+  if (force_p_id_from_url && !allow_any_p_id_url)
+    stop("if force_p_id_from_url is TRUE then allow_any_p_id_url must be TRUE")
+
   if ((notify_new_participant || notify_error) &&
       (is.null(pushbullet_email) || is.null(pushbullet_apikey))) stop(
         "if notify_error or notify_new_participant is TRUE, ",
