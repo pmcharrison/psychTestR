@@ -22,20 +22,21 @@ ui <- function(opt) {
                       shiny::uiOutput("admin_panel.ui"),
                       admin_panel.modals
                     ))),
-    shiny::includeScript(system.file("js/push-p-id-to-url.js",
-                                     package = "psychTest")),
-    shiny::includeScript(system.file("js/reset-p-id-and-refresh-browser.js",
-                                     package = "psychTest")),
-    shiny::includeScript(system.file("js/confirm-resume-session.js",
-                                     package = "psychTest")),
-    shiny::includeScript(system.file("js/confirm-delete-results.js",
-                                     package = "psychTest")),
-    shiny::includeScript(system.file("js/confirm-clear-sessions.js",
-                                     package = "psychTest")),
-    shiny::includeScript(system.file("js/hide-content.js",
-                                     package = "psychTest")),
-    shiny::includeScript(system.file("js/trigger-button.js",
-                                     package = "psychTest")),
-    shiny::includeScript(system.file("js/next-page.js",
-                                     package = "psychTest")))
+    include_scripts())
+}
+
+include_scripts <- function() {
+  scripts <- c(
+    "js/push-p-id-to-url.js",
+    "js/reset-p-id-and-refresh-browser.js",
+    "js/confirm-resume-session.js",
+    "js/confirm-delete-results.js",
+    "js/confirm-delete-errors.js",
+    "js/confirm-clear-sessions.js",
+    "js/hide-content.js",
+    "js/trigger-button.js",
+    "js/next-page.js"
+  )
+  lapply(scripts, function(x) shiny::includeScript(system.file(
+    x, package = "psychTest")))
 }

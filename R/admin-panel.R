@@ -16,100 +16,112 @@ admin_panel.ui.logged_out <- shiny::tags$div(
   )
 )
 
-admin_panel.ui.logged_in <-
-  shiny::div(
-    shiny::h3("Admin"),
-    align = "center",
-    admin_panel.statistics.ui,
-    shiny::fluidRow(
-      shiny::column(
-        2,
-        shinyBS::tipify(
-          el = shiny::p(shiny::downloadButton("admin_panel.download_current_results.rds",
-                                              "Current (RDS)")),
-          title = paste0("Downloads current participant&#39;s results as an RDS file. ",
-                         "Downloaded results can be read into R using the ",
-                         "function readRDS()."),
-          placement = "top"
-        ),
-        shinyBS::tipify(
-          el = shiny::p(shiny::downloadButton("admin_panel.download_all_results.rds",
-                                              "All (RDS)")),
-          title = paste0("Downloads all participants&#39; results as a zip file of RDS files. ",
-                         "Individual participant&#39;s files can then be read into R ",
-                         "using the function <em>readRDS()</em>."),
-          placement = "top")
-      ),
-      shiny::column(
-        2,
-        shinyBS::tipify(
-          el = shiny::p(shiny::downloadButton("admin_panel.download_current_results.csv",
-                                              "Current (CSV)")),
-          title = paste0("Downloads current participant&#39;s results as a CSV file. ",
-                         "CSV files will typically contain less detailed results ",
-                         "than equivalent RDS files."),
-          placement = "top"
-        ),
-        shinyBS::tipify(
-          el = shiny::p(shiny::downloadButton("admin_panel.download_all_results.csv",
-                                              "All (CSV)")),
-          title = paste0("Downloads all participants&#39; results as a single CSV file. ",
-                         "CSV files will typically contain less detailed results ",
-                         "than equivalent RDS files."),
-          placement = "top")
-      ),
-      shiny::column(
-        2,
-        shinyBS::tipify(
-          # periods in the uiOutput label seem to break shinyBS
-          el = shiny::tags$div(shiny::uiOutput("admin_panel_pilot_ui")),
-          title = paste0("Pilot mode affects only the current participant. ",
-                         "In pilot mode, testing proceeds as normal, ",
-                         "but the saved results are marked as pilot results."),
-          placement = "top"
-        )
-      ),
-      shiny::column(
-        2,
-        # periods in the uiOutput label seem to break shinyBS
-        shiny::uiOutput("admin_panel_open_close_buttons")
-      ),
-      shiny::column(
-        2,
-        shinyBS::tipify(
-          shiny::p(shiny::actionButton("admin_panel.delete_results",
-                                       "Delete results",
-                                       onclick = "confirm_delete_results();")),
-          title = "Backs up and then deletes all results.",
-          placement = "top"
-        ),
-        shinyBS::tipify(
-          shiny::p(shiny::actionButton("admin_panel.clear_sessions",
-                                       "Clear sessions",
-                                       onclick = "confirm_clear_sessions();")),
-          placement = "top",
-          title = paste0("Clears session files. ",
-                         "Current testing sessions will not be interrupted. ",
-                         "However, participants will be not be able to use URLs ",
-                         "to resume testing sessions last active ",
-                         "before session clearing.")
-        )
-      ),
-      shiny::column(
-        2,
-        shinyBS::tipify(
-          el = shiny::p(shiny::actionButton("admin_panel.statistics.open", "Statistics")),
-          title = "Displays participation statistics."
-        ),
-        shinyBS::tipify(
-          el = shiny::p(shiny::actionButton("admin_logout", "Exit admin mode",
-                                            style = "color: white; background-color: #c62121")),
-          title = "Signs out of administration mode.",
-          placement = "top"
-        )
-      )
-    )
-  )
+admin_panel.ui.results <- shiny::fluidRow(shiny::fluidRow(
+  shiny::column(
+    6,
+    shinyBS::tipify(
+      el = shiny::p(shiny::downloadButton("admin_panel.download_current_results.rds",
+                                          "Current (RDS)")),
+      title = paste0("Downloads current participant&#39;s results as an RDS file. ",
+                     "Downloaded results can be read into R using the ",
+                     "function readRDS()."),
+      placement = "top"
+    ),
+    shinyBS::tipify(
+      el = shiny::p(shiny::downloadButton("admin_panel.download_all_results.rds",
+                                          "All (RDS)")),
+      title = paste0("Downloads all participants&#39; results as a zip file of RDS files. ",
+                     "Individual participant&#39;s files can then be read into R ",
+                     "using the function <em>readRDS()</em>."),
+      placement = "top")
+  ),
+  shiny::column(
+    6,
+    shinyBS::tipify(
+      el = shiny::p(shiny::downloadButton("admin_panel.download_current_results.csv",
+                                          "Current (CSV)")),
+      title = paste0("Downloads current participant&#39;s results as a CSV file. ",
+                     "CSV files will typically contain less detailed results ",
+                     "than equivalent RDS files."),
+      placement = "top"
+    ),
+    shinyBS::tipify(
+      el = shiny::p(shiny::downloadButton("admin_panel.download_all_results.csv",
+                                          "All (CSV)")),
+      title = paste0("Downloads all participants&#39; results as a single CSV file. ",
+                     "CSV files will typically contain less detailed results ",
+                     "than equivalent RDS files."),
+      placement = "top")
+  )),
+  shinyBS::tipify(
+    shiny::p(shiny::actionButton("admin_panel.delete_results",
+                                 "Delete all",
+                                 onclick = "confirm_delete_results();")),
+    title = "Backs up and then deletes all results.",
+    placement = "top"
+  ))
+
+admin_panel.ui.errors <- shiny::fluidRow(
+  shinyBS::tipify(
+    el = shiny::p(shiny::downloadButton("admin_panel.download_errors",
+                                        "Download")),
+    title = paste0("Downloads error logs as a zip file. ",
+                   "Explore individual error logs in R by loading the file ",
+                   "with <em>load()</em> and then calling <em>debugger()</em> ",
+                   "on the resulting object."),
+    placement = "top"),
+  shinyBS::tipify(
+    shiny::p(shiny::actionButton("admin_panel.delete_errors",
+                                 "Delete",
+                                 onclick = "confirm_delete_errors();")),
+    title = "Deletes all error logs",
+    placement = "top"
+  ))
+
+admin_panel.ui.pilot <- shinyBS::tipify(
+  # periods in the uiOutput label seem to break shinyBS
+  el = shiny::tags$div(shiny::uiOutput("admin_panel_pilot_ui")),
+  title = paste0("Pilot mode affects only the current participant. ",
+                 "In pilot mode, testing proceeds as normal, ",
+                 "but the saved results are marked as pilot results."),
+  placement = "top"
+)
+
+admin_panel.ui.availability <- shiny::uiOutput("admin_panel_open_close_buttons")
+
+admin_panel.ui.misc <- shiny::fluidRow(
+  shinyBS::tipify(
+    el = shiny::p(shiny::actionButton("admin_panel.statistics.open", "Statistics")),
+    title = "Displays participation statistics."
+  ),
+  shinyBS::tipify(
+    shiny::p(shiny::actionButton("admin_panel.clear_sessions",
+                                 "Clear sessions",
+                                 onclick = "confirm_clear_sessions();")),
+    placement = "top",
+    title = paste0("Clears session files. ",
+                   "Current testing sessions will not be interrupted. ",
+                   "However, participants will be not be able to use URLs ",
+                   "to resume testing sessions last active ",
+                   "before session clearing.")),
+  shinyBS::tipify(
+    el = shiny::p(shiny::actionButton("admin_logout", "Exit admin mode",
+                                      style = "color: white; background-color: #c62121")),
+    title = "Signs out of administration mode.",
+    placement = "top"
+  ))
+
+
+admin_panel.ui.logged_in <- shiny::fluidRow(
+  shiny::h3("Admin"),
+  align = "center",
+  admin_panel.statistics.ui,
+  shiny::column(4, shiny::h4("Results"), admin_panel.ui.results),
+  shiny::column(2, shiny::h4("Error logs"), admin_panel.ui.errors),
+  shiny::column(2, shiny::h4("Piloting"), admin_panel.ui.pilot),
+  shiny::column(2, shiny::h4("Availability"), admin_panel.ui.availability),
+  shiny::column(2, shiny::h4("Misc."), admin_panel.ui.misc)
+)
 
 admin_panel.render_ui <- function(state, output) {
   output$admin_panel.ui <- shiny::renderUI({
@@ -161,8 +173,9 @@ admin_panel.observers <- function(state, input, output, session, opt) {
     admin_panel.observe.submit_admin_password(state, input, session, opt),
     admin_panel.observe.admin_logout(state, input, session),
     admin_panel.observe_open_close_buttons(input, output, session),
-    admin_panel.delete_results.observers(input, opt),
-    admin_panel.clear_sessions.observers(input, opt),
+    admin_panel.delete_results.observers(state, input, opt),
+    admin_panel.delete_errors.observers(state, input, opt),
+    admin_panel.clear_sessions.observers(state, input, opt),
     admin_panel.statistics.num_participants(input, output, opt),
     admin_panel.statistics.latest_results(input, output, opt),
     admin_panel.statistics.average_time(input, output, opt),
@@ -279,14 +292,22 @@ admin_panel.statistics.average_time <- function(input, output, opt) {
   })
 }
 
-admin_panel.delete_results.observers <- function(input, opt) {
-  shiny::observeEvent(input$admin_panel.confirm_delete_results,
-                      admin_panel.delete_results.actual(opt))
+admin_panel.delete_results.observers <- function(state, input, opt) {
+  shiny::observeEvent(
+    input$admin_panel.confirm_delete_results,
+    if (admin(state)) admin_panel.delete_results.actual(opt))
 }
 
-admin_panel.clear_sessions.observers <- function(input, opt) {
-  shiny::observeEvent(input$admin_panel.confirm_clear_sessions,
-                      admin_panel.clear_sessions.actual(opt))
+admin_panel.delete_errors.observers <- function(state, input, opt) {
+  shiny::observeEvent(
+    input$admin_panel.confirm_delete_errors,
+    if (admin(state)) admin_panel.delete_errors.actual(opt))
+}
+
+admin_panel.clear_sessions.observers <- function(state, input, opt) {
+  shiny::observeEvent(
+    input$admin_panel.confirm_clear_sessions,
+    if (admin(state)) admin_panel.clear_sessions.actual(opt))
 }
 
 admin_panel.delete_results.actual <- function(opt) {
@@ -297,7 +318,7 @@ admin_panel.delete_results.actual <- function(opt) {
                  ".zip")
   path <- file.path(dir, file)
   shiny::showNotification("Creating results backup...")
-  zip_all_results(output_file = path, results_dir = opt$results_dir)
+  zip_dir(output_file = path, results_dir = opt$results_dir)
   if (file.exists(path)) {
     shiny::showNotification("Backup created.")
     unlink(opt$results_dir, recursive = TRUE)
@@ -308,6 +329,13 @@ admin_panel.delete_results.actual <- function(opt) {
     shiny::showNotification(
       "Backup failed, deleting cancelled.")
   }
+}
+
+admin_panel.delete_errors.actual <- function(opt) {
+  unlink(opt$error_dir, recursive = TRUE)
+  Sys.sleep(0.01)
+  dir.create(opt$error_dir)
+  shiny::showNotification("Deleted error logs.")
 }
 
 admin_panel.clear_sessions.actual <- function(opt) {
@@ -360,6 +388,7 @@ admin_panel.handle_downloads <- function(state, output, opt) {
   admin_panel.handle_downloads.all_results.rds(state, output, opt)
   admin_panel.handle_downloads.current_results.csv(state, output)
   admin_panel.handle_downloads.all_results.csv(state, output, opt)
+  admin_panel.handle_download.errors(state, output, opt)
 }
 
 admin_panel.handle_downloads.current_results.rds <- function(state, output) {
@@ -387,10 +416,17 @@ admin_panel.handle_downloads.current_results.csv <- function(state, output) {
   )
 }
 
+admin_panel.handle_download.errors <- function(state, output, opt) {
+  output$admin_panel.download_errors <- shiny::downloadHandler(
+    filename = "errors.zip",
+    content = function(file) zip_dir(file, opt$error_dir)
+  )
+}
+
 admin_panel.handle_downloads.all_results.rds <- function(state, output, opt) {
   output$admin_panel.download_all_results.rds <- shiny::downloadHandler(
     filename = "results.zip",
-    content = function(file) zip_all_results(file, opt$results_dir)
+    content = function(file) zip_dir(file, opt$results_dir)
   )
 }
 
@@ -411,17 +447,17 @@ admin_panel.handle_downloads.all_results.csv <- function(state, output, opt) {
   )
 }
 
-zip_all_results <- function(output_file, results_dir) {
-  if (!dir.exists(results_dir)) stop("<results_dir> doesn't exist")
+zip_dir <- function(output_file, dir) {
+  if (!dir.exists(dir)) stop("<dir> doesn't exist")
   old_wd <- getwd()
-  results_dir <- gsub("/$", "", results_dir)
-  results_dir_parent <- dirname(results_dir)
-  results_dir_name <- basename(results_dir)
+  dir <- gsub("/$", "", dir)
+  dir_parent <- dirname(dir)
+  dir_name <- basename(dir)
   output_full_path <- file.path(normalizePath(dirname(output_file)),
                                 basename(output_file))
   tryCatch({
-    setwd(results_dir_parent)
-    utils::zip(zipfile = output_full_path, files = results_dir_name)
+    setwd(dir_parent)
+    utils::zip(zipfile = output_full_path, files = dir_name)
     setwd(old_wd)
   }, error = function(e) {
     setwd(old_wd)
