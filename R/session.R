@@ -17,7 +17,7 @@ initialise_session <- function(state, session, opt) {
                            ask_to_confirm_resume = TRUE,
                            reset_if_resume_fails = !opt$allow_any_p_id_url)
       } else {
-        error(state) <- paste0("Error: ", describe_valid_p_id())
+        error(state) <- describe_valid_p_id()
         allow_session_saving(state) <- FALSE
       }
     } else {
@@ -59,6 +59,7 @@ try_resume_session <- function(p_id, state, session, opt,
     }
     update_state_from_list(state, data)
     increment_num_restarts(state)
+    if (!is_test_closed(opt)) closed(state) <- FALSE
   } else {
     if (reset_if_resume_fails) {
       shinyjs::alert(paste0("Couldn't find this user's testing session.\n",

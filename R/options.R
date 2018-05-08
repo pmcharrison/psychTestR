@@ -107,6 +107,7 @@ pt_options <- function(title, admin_password, researcher_email,
        session_dir = session_dir,
        results_archive_dir = results_archive_dir,
        error_dir = error_dir,
+       closed_file = file.path(output_dir, "closed.txt"),
        session_timeout_min = session_timeout_min,
        clean_sessions_interval_min = clean_sessions_interval_min)
 }

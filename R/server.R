@@ -3,7 +3,7 @@ server <- function(elts, opt, custom_admin_panel) {
     set_error_handling(opt, session, state)
     state <- new_state()
     setup_session(state, input, elts, session, opt)
-    output$ui <- render_ui(state, elts)
+    output$ui <- render_ui(state, elts, opt)
     shiny::observeEvent(input$next_page,
                         next_page(state, input, output, elts, session, opt,
                                   triggered_by_front_end = TRUE))
@@ -19,9 +19,8 @@ server <- function(elts, opt, custom_admin_panel) {
 
 setup_session <- function(state, input, elts, session, opt) {
   shiny::isolate({
-    if (is_test_closed()) {
-      error(state) <- opt$server_closed_msg
-      return(NULL)
+    if (is_test_closed(opt)) {
+      closed(state) <- TRUE
     }
     max <- opt$max_num_participants
     if (!is.null(max)) {
@@ -29,7 +28,6 @@ setup_session <- function(state, input, elts, session, opt) {
       num_complete <- sum(results$complete)
       if (num_complete + 1L > max) {
         error(state) <- opt$max_participants_msg
-       return(NULL)
       }
     }
     advance_to_first_page(state, input, elts, session)
@@ -140,10 +138,12 @@ check_elts <- function(elts) {
          paste(class_check_failed, collapse = ", "))
 }
 
-render_ui <- function(state, elts) {
+render_ui <- function(state, elts, opt) {
   shiny::renderUI({
     elt <- if (!is.null(error(state))) {
-      final_page(paste0(error(state))) # we don't enforce a prefix - user can add it themselves
+      final_page(paste0("Error: ", error(state)))
+    } else if (closed(state)) {
+      final_page(opt$server_closed_msg)
     } else {
       get_current_elt(state, elts, eval = TRUE)
     }
@@ -179,12 +179,12 @@ make_current_page_visible <- function() {
 }
 
 #' @export
-close_test <- function() {
-  closed <- is_test_closed()
+close_test <- function(opt) {
+  closed <- is_test_closed(opt)
   if (closed) {
     shiny::showNotification("Test is already closed.", type = "warning")
   } else {
-    success <- file.create("closed.txt")
+    success <- file.create(opt$closed_file)
     if (success) {
       shiny::showNotification("Test successfully closed.", type = "message")
     } else {
@@ -194,12 +194,12 @@ close_test <- function() {
 }
 
 #' @export
-open_test <- function() {
-  closed <- is_test_closed()
+open_test <- function(opt) {
+  closed <- is_test_closed(opt)
   if (!closed) {
     shiny::showNotification("Test is already open.", type = "warning")
   } else {
-    success <- file.remove("closed.txt")
+    success <- file.remove(opt$closed_file)
     if (success) {
       shiny::showNotification("Test successfully opened.", type = "message")
     } else {
@@ -209,6 +209,6 @@ open_test <- function() {
 }
 
 #' @export
-is_test_closed <- function() {
-  file.exists("closed.txt")
+is_test_closed <- function(opt) {
+  file.exists(opt$closed_file)
 }

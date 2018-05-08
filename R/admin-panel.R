@@ -175,7 +175,7 @@ admin_panel.observers <- function(state, input, output, session, opt) {
     admin_panel.observe.admin_login_trigger(input, session),
     admin_panel.observe.submit_admin_password(state, input, session, opt),
     admin_panel.observe.admin_logout(state, input, session),
-    admin_panel.observe_open_close_buttons(input, output, session),
+    admin_panel.observe_open_close_buttons(input, output, session, opt),
     admin_panel.delete_results.observers(state, input, opt),
     admin_panel.delete_errors.observers(state, input, opt),
     admin_panel.clear_sessions.observers(state, input, opt),
@@ -349,7 +349,7 @@ admin_panel.clear_sessions.actual <- function(opt) {
   shiny::showNotification("Successfully cleared session files.")
 }
 
-admin_panel.observe_open_close_buttons <- function(input, output, session) {
+admin_panel.observe_open_close_buttons <- function(input, output, session, opt) {
   output$admin_panel_open_close_buttons <- shiny::renderUI({
     shiny::invalidateLater(500, session)
     input$admin_panel.close_test
@@ -357,7 +357,7 @@ admin_panel.observe_open_close_buttons <- function(input, output, session) {
 
     highlight_style <- "color: white; background-color: #c62121"
 
-    closed <- is_test_closed()
+    closed <- is_test_closed(opt)
 
     btn.open <- shiny::actionButton("admin_panel.open_test", "Open test",
                                     style = if (!closed) highlight_style)
@@ -381,8 +381,8 @@ admin_panel.observe_open_close_buttons <- function(input, output, session) {
   })
 
   list(
-    shiny::observeEvent(input$admin_panel.close_test, close_test()),
-    shiny::observeEvent(input$admin_panel.open_test, open_test())
+    shiny::observeEvent(input$admin_panel.close_test, close_test(opt)),
+    shiny::observeEvent(input$admin_panel.open_test, open_test(opt))
   )
 }
 
