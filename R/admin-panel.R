@@ -394,7 +394,8 @@ admin_panel.handle_downloads <- function(state, output, opt) {
 admin_panel.handle_downloads.current_results.rds <- function(state, output) {
   output$admin_panel.download_current_results.rds <- shiny::downloadHandler(
     filename = "results.rds",
-    content = function(file) saveRDS(get_results(state, add_session_info = TRUE),
+    content = function(file) saveRDS(get_results(state, add_session_info = TRUE,
+                                                 complete = FALSE),
                                      file = file)
   )
 }
@@ -490,5 +491,3 @@ admin_panel.server <- function(state, input, output, session, opt) {
     admin_panel.observers(state, input, output, session, opt)
   }
 }
-
-# admin_panel.download_all_results
