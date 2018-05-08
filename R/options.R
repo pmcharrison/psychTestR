@@ -45,6 +45,10 @@ pt_options <- function(title, admin_password, researcher_email,
             is.null.or(problems_info, is.scalar.character))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
+  title <- iconv(title, "UTF-8", "UTF-8", sub = "")
+  if (nchar(title) > 100L)
+    stop("maximum title length is 100 characters")
+
   if ((notify_new_participant || notify_error) &&
       (is.null(pushbullet_email) || is.null(pushbullet_apikey))) stop(
         "if notify_error or notify_new_participant is TRUE, ",
