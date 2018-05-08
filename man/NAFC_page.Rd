@@ -5,7 +5,7 @@
 \title{New NAFC page}
 \usage{
 NAFC_page(label, prompt, choices, save_answer = TRUE,
-  arrange_vertically = TRUE, hide_response_ui = FALSE,
+  arrange_vertically = length(choices) > 2L, hide_response_ui = FALSE,
   response_ui_id = "response_ui", on_complete = NULL)
 }
 \arguments{
