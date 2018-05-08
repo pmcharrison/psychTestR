@@ -203,12 +203,12 @@ get_p_id.validate <- function(validate) {
 is_p_id_valid <- function(p_id) {
   stopifnot(is.scalar.character(p_id))
   n <- nchar(p_id)
-  n > 0L && n <= 60L && grepl("^[A-Za-z0-9_]*$", p_id)
+  n > 0L && n <= 100L && grepl("^[A-Za-z0-9_]*$", p_id)
 }
 
 describe_valid_p_id <- function() {
   paste0(
-    "Participant IDs must be between 1 and 60 characters long, ",
+    "Participant IDs must be between 1 and 100 characters long, ",
     "and solely comprise alphanumeric characters ",
     "and underscores.")
 }
@@ -229,7 +229,7 @@ describe_valid_p_id <- function() {
 #' @export
 NAFC_page <- function(label, prompt, choices,
                       save_answer = TRUE,
-                      arrange_vertically = TRUE,
+                      arrange_vertically = length(choices) > 2L,
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui",
                       on_complete = NULL) {
@@ -262,7 +262,8 @@ NAFC_page <- function(label, prompt, choices,
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
 #' @export
-make_ui_NAFC <- function(choices, hide = FALSE, arrange_vertically = TRUE,
+make_ui_NAFC <- function(choices, hide = FALSE,
+                         arrange_vertically = length(choices) > 2L,
                          id = "response_ui") {
   stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hide))
   labels <- if (is.null(names(choices))) choices else names(choices)
@@ -301,7 +302,7 @@ video_NAFC_page <- function(label, prompt, choices, url,
                             save_answer = TRUE,
                             on_complete = NULL,
                             video_width = "100%",
-                            arrange_choices_vertically = TRUE,
+                            arrange_choices_vertically = length(choices) > 2L,
                             wait = TRUE,
                             loop = FALSE) {
   stopifnot(is.scalar.character(label),
@@ -318,7 +319,7 @@ video_NAFC_page <- function(label, prompt, choices, url,
       onplay = media.js$media_played,
       autoplay = "autoplay", style = "max-width: 500px",
       playsinline = "playsinline", onplay = media.js$hide_media_btn,
-      if (loop) "loop",
+      loop = if (loop) "loop",
       onended = if (wait) media.js$show_responses else "null"),
     media_mobile_play_button)
   prompt2 <- shiny::div(tagify(prompt), video_ui)
@@ -372,7 +373,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
                             type = tools::file_ext(url),
                             save_answer = TRUE,
                             on_complete = NULL,
-                            arrange_choices_vertically = TRUE,
+                            arrange_choices_vertically = length(choices) > 2L,
                             wait = TRUE, loop = FALSE) {
   stopifnot(is.scalar.character(label),
             is.character(choices), is.scalar.character(url),
