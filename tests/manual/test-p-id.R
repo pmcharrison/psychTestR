@@ -1,3 +1,5 @@
+library(psychTest)
+
 elts <- c(one_button_page("First page"),
           one_button_page("Page 2/4"),
           one_button_page("Page 3/4"),
@@ -22,5 +24,5 @@ make_test(elts = c(get_p_id(),
 # This test should not give you a p_id until you enter it yourself.
 make_test(elts = c(get_p_id(),
                    final_page("End of the test")),
-          pt_options("Testing test elements", "test", "p.m.c.harrison@qmul.ac.uk", debug_locally = TRUE,
+          pt_options("Testing participant IDs", "test", "p.m.c.harrison@qmul.ac.uk", debug_locally = TRUE,
                      auto_p_id = FALSE))

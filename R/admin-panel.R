@@ -256,7 +256,7 @@ admin_panel.statistics.latest_results <- function(input, output, opt) {
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
     files <- tabulate_results(opt, include_pilot = FALSE)
-    if (length(files) > 0L) {
+    if (nrow(files) > 0L) {
       latest_file <- files$file[[which.max(files$id)]]
       latest_path <- file.path(opt$results_dir, latest_file)
       latest_data <- readRDS(latest_path)
