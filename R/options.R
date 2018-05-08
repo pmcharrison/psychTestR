@@ -113,11 +113,12 @@ test_permissions <- function(dir) {
   success
 }
 
+OUTPUT_DIRS <- c("output_dir", "results_dir", "session_dir",
+                 "results_archive_dir", "error_dir")
+
 #' @export
 check_dirs <- function(opt) {
-  dirs <- c("output_dir", "results_dir", "session_dir",
-            "results_archive_dir", "error_dir")
-  for (d in dirs) {
+  for (d in OUTPUT_DIRS) {
     dir <- opt[[d]]
     stopifnot(is.scalar.character(dir))
     R.utils::mkdirs(dir)
@@ -127,4 +128,11 @@ check_dirs <- function(opt) {
            "at the terminal.")
     }
   }
+}
+
+clear_output_dirs <- function(opt) {
+  success <- unlink(opt$output_dir, recursive = TRUE) == 0L
+  if (!success) message("Failed to clear output directory.")
+  Sys.sleep(0.01)
+  check_dirs(opt)
 }
