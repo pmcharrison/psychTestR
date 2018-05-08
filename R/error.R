@@ -8,7 +8,8 @@ set_error_handling <- function(opt, session, state) {
       if (opt$notify_error) notify_error(err, opt)
       if (opt$log_error) log_error(opt)
       error(state) <- "A fatal error occurred."
-      session$close()
+      # stop()
+      # session$close()
     }
   }
   options(shiny.error = f)
