@@ -1,10 +1,10 @@
-ui <- function(options) {
-  title_content <- shiny::wellPanel(shiny::h3(options$title, align = "center"))
+ui <- function(opt) {
+  title_content <- shiny::wellPanel(shiny::h3(opt$title, align = "center"))
   main_content <- shiny::wellPanel(align = "center", shiny::uiOutput("ui"))
 
   shiny::fluidPage(
-    theme = options$theme,
-    title = options$title,
+    theme = opt$theme,
+    title = opt$title,
     shinyjs::useShinyjs(),
     shiny::fluidRow(shiny::column(12, title_content)),
     shiny::fluidRow(
@@ -18,7 +18,7 @@ ui <- function(options) {
                     shiny::tags$div(
                       style = "padding: 10px",
                       align = "center",
-                      shiny::p(htmltools::htmlEscape(options$problems_info, FALSE)),
+                      shiny::p(htmltools::htmlEscape(opt$problems_info, FALSE)),
                       shiny::uiOutput("admin_panel.ui"),
                       admin_panel.modals
                     ))),

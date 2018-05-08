@@ -1,32 +1,30 @@
-options <- list(session_timeout_min = 120,
-                clean_sessions_interval_min = 15)
-
-server <- function(elts, options) {
+server <- function(elts, opt) {
   # stopifnot(is(side_panel, "side_panel"))
   function(input, output, session) {
     state <- new_state()
-    setup_session(state, input, elts, session, options)
+    setup_session(state, input, elts, session, opt)
     output$ui <- render_ui(state, elts)
     shiny::observeEvent(input$next_page,
-                        next_page(state, input, output, elts, session, options,
+                        next_page(state, input, output, elts, session, opt,
                                   triggered_by_front_end = TRUE))
-    shiny::observe(demo(state) <- if (admin(state)) TRUE else options$demo)
-    admin_panel.server(state, input, output, session, options)
-    manage_sessions(state, options = options, session = session)
+    shiny::observe(demo(state) <- if (admin(state)) TRUE else opt$demo)
+    admin_panel.server(state, input, output, session, opt)
+    manage_sessions(state, opt = opt, session = session)
   }
 }
 
-setup_session <- function(state, input, elts, session, options) {
+setup_session <- function(state, input, elts, session, opt) {
   shiny::isolate({
     if (is_test_closed()) {
-      error(state) <- options$server_closed_msg
+      error(state) <- opt$server_closed_msg
       return(NULL)
     }
-    max <- options$max_num_participants
+    max <- opt$max_num_participants
     if (!is.null(max)) {
-      count <- count_participants(options$results_dir)
-      if (count + 1L > max) {
-        error(state) <- options$max_participants_msg
+      results <- tabulate_results(opt, include_pilot = FALSE)
+      num_complete <- sum(results$complete)
+      if (num_complete + 1L > max) {
+        error(state) <- opt$max_participants_msg
        return(NULL)
       }
     }
@@ -41,7 +39,7 @@ setup_session <- function(state, input, elts, session, options) {
 #       error(state) <- "An error occurred when trying to advance to the next page."
 #     })}
 
-next_page <- function(state, input, output, elts, session, options,
+next_page <- function(state, input, output, elts, session, opt,
                       triggered_by_front_end = FALSE) {
   stopifnot(is.scalar.logical(triggered_by_front_end))
   if (triggered_by_front_end && is.null(input$last_btn_pressed)) {
@@ -51,12 +49,12 @@ next_page <- function(state, input, output, elts, session, options,
   elt  <- get_current_elt(state, elts, eval = TRUE)
   success <- FALSE
   if (is(elt, "page")) {
-    success <- try_finalise_page(elt, state, input, session, options)
+    success <- try_finalise_page(elt, state, input, session, opt)
     if (!success) make_current_page_visible()
   } else if (is(elt, "code_block")) {
     execute_code_block(elt, state = state, elts = elts,
                        input = input, output = output,
-                       session = session, options = options)
+                       session = session, opt = opt)
     success <- TRUE
   }
   if (success) {
@@ -65,7 +63,7 @@ next_page <- function(state, input, output, elts, session, options,
     if (is(new_elt, "code_block")) {
       return(next_page(state, input = input, output = output,
                        elts = elts, session = session,
-                       options = options))
+                       opt = opt))
     }
     # } else stop("Unrecognised test element: '", class(new_elt), "'")
   }
@@ -77,40 +75,40 @@ skip_n_pages <- function(state, n) {
   increment_elt_index(state, by = n)
 }
 
-try_finalise_page <- function(elt, state, input, session, options) {
+try_finalise_page <- function(elt, state, input, session, opt) {
   stopifnot(is(elt, "page"), is(state, "state"))
   if (elt@final) {
     shinyjs::alert("Cannot advance on a 'final' page!")
     FALSE
   }
-  perform_get_answer_function(elt, state, input, session, options)
-  if (!validate_elt(elt, state, input, session, options)) {
+  perform_get_answer_function(elt, state, input, session, opt)
+  if (!validate_elt(elt, state, input, session, opt)) {
     message("Input validation failed.")
     FALSE
   } else {
     if (elt@save_answer) save_result(state, elt@label, answer(state))
-    perform_on_complete_function(elt, state, input, session, options)
+    perform_on_complete_function(elt, state, input, session, opt)
     TRUE
   }
 }
 
-perform_get_answer_function <- function(elt, state, input, session, options) {
+perform_get_answer_function <- function(elt, state, input, session, opt) {
   f <-  elt@get_answer
   answer(state) <- if (!is.null(f)) f(
-    state = state, input = input, session = session, options = options)
+    state = state, input = input, session = session, opt = opt)
 }
 
-perform_on_complete_function <- function(elt, state, input, session, options) {
+perform_on_complete_function <- function(elt, state, input, session, opt) {
   f <- elt@on_complete
   if (!is.null(f)) f(
-    state = state, input = input, session = session, options = options)
+    state = state, input = input, session = session, opt = opt)
 }
 
 execute_code_block <- function(elt, state, elts, input, output,
-                               session, options) {
+                               session, opt) {
   stopifnot(is(elt, "code_block"))
   elt@fun(state = state, elts = elts, input = input, output = output,
-          session = session, options = options)
+          session = session, opt = opt)
 }
 
 check_elts <- function(elts) {
@@ -150,11 +148,11 @@ render_ui <- function(state, elts) {
   })
 }
 
-validate_elt <- function(elt, state, input, session, options) {
+validate_elt <- function(elt, state, input, session, opt) {
   f <- elt@validate
   res <- if (is.null(f)) TRUE else f(
     answer = answer(state), state = state, input = input, session = session,
-    options = options)
+    opt = opt)
   if (res == TRUE) {
     TRUE
   } else {

@@ -150,8 +150,3 @@ save_result.state <- function(place, label, value) {
   place$results <- save_result.results(place$results, label, value)
   place
 }
-
-#' @export
-count_participants <- function(results_dir) {
-  length(list.files(results_dir, pattern = "\\.rds$"))
-}

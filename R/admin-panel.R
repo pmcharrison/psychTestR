@@ -135,10 +135,10 @@ admin_panel.observe.admin_login_trigger <- function(input, session) {
 }
 
 admin_panel.observe.submit_admin_password <- function(state, input, session,
-                                                      options) {
+                                                      opt) {
   shiny::observeEvent(
     input$submit_admin_password, {
-      if (input$admin_password == options$admin_password) {
+      if (input$admin_password == opt$admin_password) {
         admin(state) <- TRUE
         shinyBS::toggleModal(session, "admin_login_popup", toggle = "close")
       } else {
@@ -155,17 +155,17 @@ admin_panel.observe.admin_logout <- function(state, input, session) {
   })
 }
 
-admin_panel.observers <- function(state, input, output, session, options) {
+admin_panel.observers <- function(state, input, output, session, opt) {
   list(
     admin_panel.observe.admin_login_trigger(input, session),
-    admin_panel.observe.submit_admin_password(state, input, session, options),
+    admin_panel.observe.submit_admin_password(state, input, session, opt),
     admin_panel.observe.admin_logout(state, input, session),
     admin_panel.observe_open_close_buttons(input, output, session),
-    admin_panel.delete_results.observers(input, options),
-    admin_panel.clear_sessions.observers(input, options),
-    admin_panel.statistics.num_participants(input, output, options),
-    admin_panel.statistics.latest_results(input, output, options),
-    admin_panel.statistics.average_time(input, output, options),
+    admin_panel.delete_results.observers(input, opt),
+    admin_panel.clear_sessions.observers(input, opt),
+    admin_panel.statistics.num_participants(input, output, opt),
+    admin_panel.statistics.latest_results(input, output, opt),
+    admin_panel.statistics.average_time(input, output, opt),
     admin_panel.statistics.open(input, session),
     admin_panel.observe.pilot_mode(state, input, output, session)
   )
@@ -214,15 +214,14 @@ admin_panel.statistics.open <- function(input, session) {
                                            toggle = "open"))
 }
 
-admin_panel.statistics.num_participants <- function(input, output, options) {
+admin_panel.statistics.num_participants <- function(input, output, opt) {
   output$admin_panel.statistics.num_participants <- shiny::renderUI({
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
     shiny::showNotification("Refreshing statistics...")
-    n_complete <- length(list.files(options$results_dir,
-                                    pattern = "complete=true\\.rds$"))
-    n_part_complete <- length(list.files(options$results_dir,
-                                         pattern = "complete=false\\.rds$"))
+    df <- tabulate_results(opt, include_pilot = FALSE)
+    n_complete <- sum(df$complete)
+    n_part_complete <- sum(!df$complete)
     shiny::p(
       "The output directory contains results for ",
       shiny::strong(format(n_complete, scientific = FALSE)),
@@ -236,17 +235,14 @@ admin_panel.statistics.num_participants <- function(input, output, options) {
   })
 }
 
-admin_panel.statistics.latest_results <- function(input, output, options) {
+admin_panel.statistics.latest_results <- function(input, output, opt) {
   output$admin_panel.statistics.latest_results <- shiny::renderUI({
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
-    files <- list.files(options$results_dir, pattern = "\\.rds$")
+    files <- tabulate_results(opt, include_pilot = FALSE)
     if (length(files) > 0L) {
-      ids <- gsub("&p_id=.*", "", files)
-      ids <- gsub("id=", "", ids)
-      ids <- as.integer(ids)
-      latest_file <- files[[which.max(ids)]]
-      latest_path <- file.path(options$results_dir, latest_file)
+      latest_file <- files$file[[which.max(files$id)]]
+      latest_path <- file.path(opt$results_dir, latest_file)
       latest_data <- readRDS(latest_path)
       latest_time <- as.list(latest_data)$session$current_time
       if (!is.null(latest_time)) {
@@ -262,14 +258,14 @@ admin_panel.statistics.latest_results <- function(input, output, options) {
   })
 }
 
-admin_panel.statistics.average_time <- function(input, output, options) {
+admin_panel.statistics.average_time <- function(input, output, opt) {
   output$admin_panel.statistics.average_time <- shiny::renderUI({
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
-    files <- list.files(options$results_dir, pattern = "complete=true\\.rds$",
-                        full.names = TRUE)
-    if (length(files) > 0L) {
-      data <- lapply(files, readRDS)
+    files <- tabulate_results(opt, include_pilot = FALSE)
+    files <- files[files$complete, ]
+    if (nrow(files) > 0L) {
+      data <- lapply(files$full_file, readRDS)
       time_taken <- vapply(data, function(x) {
         difftime(x$session$current_time, x$session$time_started, units = "mins")
       }, numeric(1))
@@ -283,30 +279,30 @@ admin_panel.statistics.average_time <- function(input, output, options) {
   })
 }
 
-admin_panel.delete_results.observers <- function(input, options) {
+admin_panel.delete_results.observers <- function(input, opt) {
   shiny::observeEvent(input$admin_panel.confirm_delete_results,
-                      admin_panel.delete_results.actual(options))
+                      admin_panel.delete_results.actual(opt))
 }
 
-admin_panel.clear_sessions.observers <- function(input, options) {
+admin_panel.clear_sessions.observers <- function(input, opt) {
   shiny::observeEvent(input$admin_panel.confirm_clear_sessions,
-                      admin_panel.clear_sessions.actual(options))
+                      admin_panel.clear_sessions.actual(opt))
 }
 
-admin_panel.delete_results.actual <- function(options) {
-  dir <- options$results_archive_dir
+admin_panel.delete_results.actual <- function(opt) {
+  dir <- opt$results_archive_dir
   R.utils::mkdirs(dir)
   file <- paste0(format(Sys.time(),
                         format = "date=%Y-%m-%d&time=%H-%M-%S&tz=%Z"),
                  ".zip")
   path <- file.path(dir, file)
   shiny::showNotification("Creating results backup...")
-  zip_all_results(output_file = path, results_dir = options$results_dir)
+  zip_all_results(output_file = path, results_dir = opt$results_dir)
   if (file.exists(path)) {
     shiny::showNotification("Backup created.")
-    unlink(options$results_dir, recursive = TRUE)
+    unlink(opt$results_dir, recursive = TRUE)
     Sys.sleep(0.01)
-    dir.create(options$results_dir)
+    dir.create(opt$results_dir)
     shiny::showNotification("Deleted results.")
   } else {
     shiny::showNotification(
@@ -314,8 +310,8 @@ admin_panel.delete_results.actual <- function(options) {
   }
 }
 
-admin_panel.clear_sessions.actual <- function(options) {
-  dir <- options$session_dir
+admin_panel.clear_sessions.actual <- function(opt) {
+  dir <- opt$session_dir
   unlink(dir, recursive = TRUE)
   Sys.sleep(0.01)
   dir.create(dir)
@@ -359,11 +355,11 @@ admin_panel.observe_open_close_buttons <- function(input, output, session) {
   )
 }
 
-admin_panel.handle_downloads <- function(state, output, options) {
+admin_panel.handle_downloads <- function(state, output, opt) {
   admin_panel.handle_downloads.current_results.rds(state, output)
-  admin_panel.handle_downloads.all_results.rds(state, output, options)
+  admin_panel.handle_downloads.all_results.rds(state, output, opt)
   admin_panel.handle_downloads.current_results.csv(state, output)
-  admin_panel.handle_downloads.all_results.csv(state, output, options)
+  admin_panel.handle_downloads.all_results.csv(state, output, opt)
 }
 
 admin_panel.handle_downloads.current_results.rds <- function(state, output) {
@@ -391,19 +387,19 @@ admin_panel.handle_downloads.current_results.csv <- function(state, output) {
   )
 }
 
-admin_panel.handle_downloads.all_results.rds <- function(state, output, options) {
+admin_panel.handle_downloads.all_results.rds <- function(state, output, opt) {
   output$admin_panel.download_all_results.rds <- shiny::downloadHandler(
     filename = "results.zip",
-    content = function(file) zip_all_results(file, options$results_dir)
+    content = function(file) zip_all_results(file, opt$results_dir)
   )
 }
 
-admin_panel.handle_downloads.all_results.csv <- function(state, output, options) {
+admin_panel.handle_downloads.all_results.csv <- function(state, output, opt) {
   output$admin_panel.download_all_results.csv <- shiny::downloadHandler(
     filename = "results.csv",
     content = function(file) {
       df <- tryCatch({
-        df_all_results(options$results_dir)
+        df_all_results(opt$results_dir)
       }, error = function(e) {
         print(e)
         msg <- "Failed to create csv file. Try saving an RDS file instead."
@@ -451,11 +447,11 @@ df_all_results <- function(results_dir) {
   df
 }
 
-admin_panel.server <- function(state, input, output, session, options) {
-  if (options$enable_admin_panel) {
+admin_panel.server <- function(state, input, output, session, opt) {
+  if (opt$enable_admin_panel) {
     admin_panel.render_ui(state, output)
-    admin_panel.handle_downloads(state, output, options)
-    admin_panel.observers(state, input, output, session, options)
+    admin_panel.handle_downloads(state, output, opt)
+    admin_panel.observers(state, input, output, session, opt)
   }
 }
 

@@ -1,9 +1,9 @@
 #' @export
-make_test <- function(elts, options = pt_options()) {
-  stopifnot(is.list(options))
-  check_dirs(options)
+make_test <- function(elts, opt = pt_options()) {
+  stopifnot(is.list(opt))
+  check_dirs(opt)
   check_elts(elts)
   shiny::shinyApp(
-    ui = ui(options = options),
-    server = server(elts = elts, options = options))
+    ui = ui(opt = opt),
+    server = server(elts = elts, opt = opt))
 }

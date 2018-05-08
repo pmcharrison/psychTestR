@@ -183,9 +183,9 @@ get_p_id <- function(prompt = "Please enter your participant ID.",
        validate = validate_2, on_complete = get_p_id.on_complete)
 }
 
-get_p_id.on_complete <- function(state, input, session, options, ...) {
+get_p_id.on_complete <- function(state, input, session, opt, ...) {
   p_id <- psychTest::answer(state)
-  try_resume_session(p_id, state, session, options,
+  try_resume_session(p_id, state, session, opt,
                      ask_to_confirm_resume = FALSE,
                      reset_if_resume_fails = FALSE)
 }
@@ -494,9 +494,10 @@ new_results_section <- function(label) {
 #' @export
 #' @param complete Whether the participant completed the test.
 save_results_to_disk <- function(complete) {
+  stop("propagate pilot argument")
   stopifnot(is.scalar.logical(complete))
-  code_block(function(state, options, ...) {
-    dir <- options$results_dir
+  code_block(function(state, opt, ...) {
+    dir <- opt$results_dir
     R.utils::mkdirs(dir)
     if (!test_permissions(dir)) {
       stop("Insufficient permissions to write to directory ", dir, ".")
@@ -514,9 +515,25 @@ save_results_to_disk <- function(complete) {
     path <- file.path(dir, filename)
     results <- get_results(state, complete = complete, add_session_info = TRUE)
     saveRDS(results, path)
+    if (complete) notify_new_participant(opt)
     previous_save_path(state) <- path
     save_id(state) <- save_id(state) + 1L
   })
+}
+
+notify_new_participant <- function(opt) {
+  enabled <- opt$notify_new_participant
+  stopifnot(is.scalar.logical(enabled))
+  if (enabled) {
+    results <- tabulate_results(opt, include_pilot = FALSE)
+    num_complete <- sum(results$complete)
+    title <- sprintf("N = %i", num_complete)
+    msg <- sprintf("Participant number %i just completed the experiment '%s'.",
+                   num_complete, opt$title)
+    async_pushbullet(title = title, body = msg, opt = opt)
+    # Get number of complete participants, including current one
+    # Report it
+  }
 }
 
 #' @export
@@ -528,9 +545,9 @@ loop_while <- function(test, logic) {
   if (!is.list(logic)) logic <- list(logic)
   if (length(logic) == 0L) stop("<logic> may not be empty")
   n <- length(logic)
-  elt <- code_block(function(state, elts, input, output, session, options) {
+  elt <- code_block(function(state, elts, input, output, session, opt) {
     res <- test(state = state, input = input, output = output,
-                session = session, options = options)
+                session = session, opt = opt)
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                       "scalar logical")
     if (!res) skip_n_pages(state, - (n + 1L))
