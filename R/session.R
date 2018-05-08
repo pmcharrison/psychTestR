@@ -12,11 +12,19 @@ initialise_session <- function(state, session, opt) {
   shiny::isolate({
     p_id_url <- get_p_id_from_url(session)
     if (!is.null(p_id_url)) {
-      try_resume_session(p_id = p_id_url, state, session, opt,
-                         ask_to_confirm_resume = TRUE,
-                         reset_if_resume_fails = !opt$allow_any_p_id_url)
+      if (is_p_id_valid(p_id_url)){
+        try_resume_session(p_id = p_id_url, state, session, opt,
+                           ask_to_confirm_resume = TRUE,
+                           reset_if_resume_fails = !opt$allow_any_p_id_url)
+      } else {
+        error(state) <- describe_valid_p_id()
+        allow_session_saving(state) <- FALSE
+      }
     } else {
-      if (opt$auto_p_id) {
+      if (opt$force_p_id_from_url) {
+        error(state) <- "p_id parameter must be provided through the URL."
+        allow_session_saving(state) <- FALSE
+      } else if (opt$auto_p_id) {
         p_id <- generate_new_p_id(opt)
         p_id(state) <- p_id
         session$sendCustomMessage("push_p_id_to_url", p_id)

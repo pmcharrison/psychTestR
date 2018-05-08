@@ -143,7 +143,7 @@ check_elts <- function(elts) {
 render_ui <- function(state, elts) {
   shiny::renderUI({
     elt <- if (!is.null(error(state))) {
-      final_page(error(state))
+      final_page(paste0("Error: ", error(state)))
     } else {
       get_current_elt(state, elts, eval = TRUE)
     }

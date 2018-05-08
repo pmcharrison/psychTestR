@@ -172,7 +172,6 @@ get_p_id <- function(prompt = "Please enter your participant ID.",
                      button_text = "Next",
                      width = "300px",
                      validate = "auto") {
-  validate_2 <- get_p_id.validate(validate)
   get_answer <- function(input, ...) input$p_id
   text_input <- shiny::textInput("p_id", label = NULL,
                                  placeholder = placeholder,
@@ -180,7 +179,8 @@ get_p_id <- function(prompt = "Please enter your participant ID.",
   body = shiny::div(tagify(prompt), text_input)
   ui <- shiny::div(body, trigger_button("next", button_text))
   page(ui = ui, get_answer = get_answer, save_answer = FALSE,
-       validate = validate_2, on_complete = get_p_id.on_complete)
+       validate = get_p_id.validate(validate),
+       on_complete = get_p_id.on_complete)
 }
 
 get_p_id.on_complete <- function(state, input, session, opt, ...) {
@@ -195,10 +195,22 @@ get_p_id.validate <- function(validate) {
     validate
   } else if (identical(validate, "auto")) {
     function(answer, ...) {
-      valid <- nchar(answer) > 0L
-      if (valid) TRUE else "Please enter your participant ID before proceeding."
+      if (is_p_id_valid) TRUE else describe_valid_p_id()
     }
   } else stop("Unrecognised validation method.")
+}
+
+is_p_id_valid <- function(p_id) {
+  stopifnot(is.scalar.character(p_id))
+  n <- nchar(p_id)
+  n > 0L && n <= 60L && grepl("^[A-Za-z0-9_]*$", p_id)
+}
+
+describe_valid_p_id <- function() {
+  paste0(
+    "Participant IDs must be between 1 and 60 characters long, ",
+    "and solely comprise alphanumeric characters ",
+    "and underscores.")
 }
 
 #' New NAFC page
