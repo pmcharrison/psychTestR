@@ -318,7 +318,7 @@ admin_panel.delete_results.actual <- function(opt) {
                  ".zip")
   path <- file.path(dir, file)
   shiny::showNotification("Creating results backup...")
-  zip_dir(output_file = path, results_dir = opt$results_dir)
+  zip_dir(dir = opt$results_dir, output_file = path)
   if (file.exists(path)) {
     shiny::showNotification("Backup created.")
     unlink(opt$results_dir, recursive = TRUE)
@@ -420,14 +420,14 @@ admin_panel.handle_downloads.current_results.csv <- function(state, output) {
 admin_panel.handle_download.errors <- function(state, output, opt) {
   output$admin_panel.download_errors <- shiny::downloadHandler(
     filename = "errors.zip",
-    content = function(file) zip_dir(file, opt$error_dir)
+    content = function(file) zip_dir(opt$error_dir, file)
   )
 }
 
 admin_panel.handle_downloads.all_results.rds <- function(state, output, opt) {
   output$admin_panel.download_all_results.rds <- shiny::downloadHandler(
     filename = "results.zip",
-    content = function(file) zip_dir(file, opt$results_dir)
+    content = function(file) zip_dir(opt$results_dir, file)
   )
 }
 
@@ -448,7 +448,7 @@ admin_panel.handle_downloads.all_results.csv <- function(state, output, opt) {
   )
 }
 
-zip_dir <- function(output_file, dir) {
+zip_dir <- function(dir, output_file) {
   if (!dir.exists(dir)) stop("<dir> doesn't exist")
   old_wd <- getwd()
   dir <- gsub("/$", "", dir)
