@@ -2,10 +2,10 @@
 pt_options <- function(title, admin_password, researcher_email,
                        max_num_participants = NULL,
                        demo = FALSE,
-                       debug_locally = FALSE, #####
+                       debug_locally = FALSE,
                        log_error = TRUE,
                        show_full_error_msg = TRUE,
-                       notify_error = FALSE, #####
+                       notify_error = FALSE,
                        notify_new_participant = FALSE,
                        pushbullet_email = NULL,
                        pushbullet_apikey = NULL,
@@ -21,7 +21,6 @@ pt_options <- function(title, admin_password, researcher_email,
                        output_dir = "output",
                        session_timeout_min = 120,
                        clean_sessions_interval_min = 15) {
-  warning("Sanitise title etc.")
   stopifnot(is.scalar.character(title),
             is.scalar.character(admin_password),
             is.scalar.character(researcher_email),
