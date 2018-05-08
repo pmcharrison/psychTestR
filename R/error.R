@@ -3,10 +3,11 @@ set_error_handling <- function(opt, session, state) {
     browser
   } else {
     function() {
-      err <- geterrmessage()
-      display_error_msg(err, opt)
-      if (opt$notify_error) notify_error(err, opt)
-      if (opt$log_error) log_error(opt)
+      # err <- geterrmessage()
+      # display_error_msg(err, opt)
+      # if (opt$notify_error) notify_error(err, opt)
+      # if (opt$log_error) log_error(opt)
+      shinyjs::alert("Oops")
       error(state) <- "A fatal error occurred."
       # stop()
       # session$close()
