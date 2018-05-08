@@ -1,4 +1,4 @@
-server <- function(elts, opt) {
+server <- function(elts, opt, custom_admin_panel) {
   function(input, output, session) {
     set_error_handling(opt, session, state)
     state <- new_state()
@@ -9,6 +9,10 @@ server <- function(elts, opt) {
                                   triggered_by_front_end = TRUE))
     shiny::observe(demo(state) <- if (admin(state)) TRUE else opt$demo)
     admin_panel.server(state, input, output, session, opt)
+    if (!is.null(custom_admin_panel))
+      custom_admin_panel(
+        state = state, input = input, output = output, session = session,
+        opt = opt)
     manage_sessions(state, opt = opt, session = session)
   }
 }

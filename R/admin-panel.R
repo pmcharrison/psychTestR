@@ -113,14 +113,17 @@ admin_panel.ui.misc <- shiny::fluidRow(
 
 
 admin_panel.ui.logged_in <- shiny::fluidRow(
-  shiny::h3("Admin"),
-  align = "center",
-  admin_panel.statistics.ui,
-  shiny::column(4, shiny::h4("Results"), admin_panel.ui.results),
-  shiny::column(2, shiny::h4("Error logs"), admin_panel.ui.errors),
-  shiny::column(2, shiny::h4("Piloting"), admin_panel.ui.pilot),
-  shiny::column(2, shiny::h4("Availability"), admin_panel.ui.availability),
-  shiny::column(2, shiny::h4("Misc."), admin_panel.ui.misc)
+  shiny::fluidRow(
+    shiny::h3("Admin"),
+    align = "center",
+    admin_panel.statistics.ui,
+    shiny::column(4, shiny::h4("Results"), admin_panel.ui.results),
+    shiny::column(2, shiny::h4("Error logs"), admin_panel.ui.errors),
+    shiny::column(2, shiny::h4("Piloting"), admin_panel.ui.pilot),
+    shiny::column(2, shiny::h4("Availability"), admin_panel.ui.availability),
+    shiny::column(2, shiny::h4("Misc."), admin_panel.ui.misc)
+  ),
+  shiny::fluidRow(shiny::uiOutput("custom_admin_panel"))
 )
 
 admin_panel.render_ui <- function(state, output) {
