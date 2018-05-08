@@ -195,7 +195,7 @@ get_p_id.validate <- function(validate) {
     validate
   } else if (identical(validate, "auto")) {
     function(answer, ...) {
-      if (is_p_id_valid) TRUE else describe_valid_p_id()
+      if (is_p_id_valid(answer)) TRUE else describe_valid_p_id()
     }
   } else stop("Unrecognised validation method.")
 }
