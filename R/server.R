@@ -104,7 +104,7 @@ perform_get_answer_function <- function(elt, state, input, session, opt) {
 perform_on_complete_function <- function(elt, state, input, session, opt) {
   f <- elt@on_complete
   if (!is.null(f)) f(
-    state = state, input = input, session = session, opt = opt)
+    state = state, answer = answer(state), input = input, session = session, opt = opt)
 }
 
 execute_code_block <- function(elt, state, elts, input, output,
