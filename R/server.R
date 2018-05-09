@@ -1,6 +1,6 @@
 server <- function(elts, opt, custom_admin_panel) {
   function(input, output, session) {
-    warning("Error handling doesn't work. Remove it :(")
+    # warning("Error handling doesn't work. Remove it :(")
     # set_error_handling(opt, session, state)
     state <- new_state()
     setup_session(state, input, elts, session, opt)
