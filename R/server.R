@@ -31,7 +31,7 @@ setup_session <- function(state, input, elts, session, opt) {
         error(state) <- opt$max_participants_msg
       }
     }
-    advance_to_first_page(state, input, elts, session)
+    advance_to_first_page(state, input, elts, session, opt)
   })
 }
 
@@ -49,7 +49,7 @@ next_page <- function(state, input, output, elts, session, opt,
     error(state) <- "An unexpected error occurred."
     return()
   }
-  elt  <- get_current_elt(state, elts, eval = TRUE)
+  elt  <- get_current_elt(state, elts, opt, eval = TRUE)
   success <- FALSE
   if (is(elt, "page")) {
     success <- try_finalise_page(elt, state, input, session, opt)
@@ -62,7 +62,7 @@ next_page <- function(state, input, output, elts, session, opt,
   }
   if (success) {
     increment_elt_index(state)
-    new_elt <- get_current_elt(state, elts, eval = FALSE)
+    new_elt <- get_current_elt(state, elts, opt, eval = FALSE)
     if (is(new_elt, "code_block")) {
       return(next_page(state, input = input, output = output,
                        elts = elts, session = session,
@@ -146,7 +146,7 @@ render_ui <- function(state, elts, opt) {
     } else if (closed(state)) {
       final_page(opt$server_closed_msg)
     } else {
-      get_current_elt(state, elts, eval = TRUE)
+      get_current_elt(state, elts, opt, eval = TRUE)
     }
     if (!is(elt, "page")) display_error("Cannot display element of class ", class(elt))
     shiny::div(id = "current_page.ui", elt@ui)

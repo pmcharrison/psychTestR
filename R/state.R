@@ -246,9 +246,9 @@ p_id <- function(state) {
   return(state)
 }
 
-advance_to_first_page <- function(state, input, elts, session) {
+advance_to_first_page <- function(state, input, elts, session, opt) {
   stopifnot(is(state, "state"))
-  current_elt <- get_current_elt(state, elts = elts, eval = FALSE)
+  current_elt <- get_current_elt(state, elts = elts, opt = opt, eval = FALSE)
   if (!is(current_elt, "page")) next_page(state, input, elts, session)
 }
 
@@ -261,25 +261,25 @@ get_current_elt_index <- function(state) {
   state$elt_index
 }
 
-get_elt <- function(state, index, elts, eval = TRUE) {
+get_elt <- function(state, index, elts, opt, eval = TRUE) {
   stopifnot(is.scalar.numeric(index), round(index) == index,
             index >= 0, index <= get_num_elts(elts))
   elt <- elts[[index]]
   if (is(elt, "reactive_page") && eval) {
-    elt@fun(state)
+    elt@fun(state = state, answer = answer(state), opt = opt)
   } else elt
 }
 
-get_current_elt <- function(state, elts, eval = TRUE) {
+get_current_elt <- function(state, elts, opt, eval = TRUE) {
   current_index <- get_current_elt_index(state)
   get_elt(state = state, index = current_index,
-          elts = elts, eval = eval)
+          elts = elts, opt = opt, eval = eval)
 }
 
-get_next_elt <- function(state, elts, eval = TRUE) {
+get_next_elt <- function(state, elts, opt, eval = TRUE) {
   current_index <- get_current_elt_index(state)
   get_elt(state, index = current_index + 1L,
-          elts = elts, eval = eval)
+          elts = elts, opt = opt, eval = eval)
 }
 
 #' Low-level setter, see skip_n_pages for skipping pages in general
