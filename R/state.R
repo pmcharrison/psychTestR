@@ -24,6 +24,7 @@ initialise_state <- function(x) {
   x$answer <- NULL
   x$closed <- FALSE
   x$allow_session_saving <- TRUE
+  x$url_params <- list()
   invisible(TRUE)
 }
 
@@ -114,6 +115,18 @@ demo <- function(state) {
 `demo<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
   state$demo <- value
+  state
+}
+
+#' @export
+get_url_params <- function(state) {
+  stopifnot(is(state, "state"))
+  state$url_params
+}
+
+`url_params<-` <- function(state, value) {
+  stopifnot(is(state, "state"), is.list(value))
+  state$url_params <- value
   state
 }
 
