@@ -5,9 +5,11 @@ setClass("test_element")
 
 setClassUnion("function_or_null", members = c("function", "NULL"))
 setClassUnion("character_or_null", members = c("character", "NULL"))
+setClassUnion("shiny_tag_or_null", members = c("shiny.tag", "NULL"))
 
 setClass("page",
          slots = list(ui = "shiny.tag",
+                      admin_ui = "shiny_tag_or_null",
                       label = "character_or_null",
                       final = "logical",
                       get_answer = "function_or_null",
@@ -89,10 +91,12 @@ setMethod(
 #' If validation fails then the page will be refreshed, usually
 #' to give the user a chance to revise their input.
 #' @export
-page <- function(ui, label = NULL, final = FALSE, get_answer = NULL,
+page <- function(ui, admin_ui = NULL, label = NULL, final = FALSE, get_answer = NULL,
                  save_answer = FALSE, validate = NULL, on_complete = NULL) {
   ui <- tagify(ui)
   stopifnot(
+    is(ui, "shiny.tag"),
+    is.null(admin_ui) || is(admin_ui, "shiny.tag") || is.scalar.character(admin_ui),
     is.null.or(label, is.scalar.character),
     is.scalar.logical(final),
     is.null.or(get_answer, is.function),
@@ -102,7 +106,9 @@ page <- function(ui, label = NULL, final = FALSE, get_answer = NULL,
   if (save_answer && !is.scalar.character(label))
     stop("if save_answer is TRUE then a scalar character label ",
          "must be provided")
-  new("page", ui = ui, label = label, final = final, get_answer = get_answer,
+  if (is.scalar.character(admin_ui)) admin_ui <- tagify(admin_ui)
+  new("page", ui = ui, admin_ui = admin_ui, label = label, final = final,
+      get_answer = get_answer,
       save_answer = save_answer, validate = validate, on_complete = on_complete)
 }
 
@@ -118,11 +124,12 @@ page <- function(ui, label = NULL, final = FALSE, get_answer = NULL,
 #' @param button_text Text to display on the button.
 #' Should be a scalar character vector.
 #' @export
-one_button_page <- function(body, button_text = "Next", on_complete = NULL) {
+one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
+                            on_complete = NULL) {
   body <- tagify(body)
   stopifnot(is.scalar.character(button_text))
   ui <- shiny::div(body, trigger_button("next", button_text))
-  page(ui = ui, on_complete = on_complete)
+  page(ui = ui, admin_ui = admin_ui, on_complete = on_complete)
 }
 
 #' New final page
@@ -132,9 +139,9 @@ one_button_page <- function(body, button_text = "Next", on_complete = NULL) {
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
 #' @export
-final_page <- function(body) {
+final_page <- function(body, admin_ui = NULL) {
   body <- tagify(body)
-  page(ui = body, final = TRUE)
+  page(ui = body, admin_ui = admin_ui, final = TRUE)
 }
 
 #' @export
@@ -146,7 +153,8 @@ text_input_page <- function(label, prompt,
                             width = "300px",
                             height = "100px", # only relevant if one_line == FALSE
                             validate = NULL,
-                            on_complete = NULL) {
+                            on_complete = NULL,
+                            admin_ui = NULL) {
   stopifnot(is.scalar.character(label),
             is.scalar.logical(one_line))
   text_input <- if (one_line) {
@@ -163,7 +171,8 @@ text_input_page <- function(label, prompt,
   body = shiny::div(tagify(prompt), text_input)
   ui <- shiny::div(body, trigger_button("next", button_text))
   page(ui = ui, label = label, get_answer = get_answer, save_answer = save_answer,
-       validate = validate, on_complete = on_complete, final = FALSE)
+       validate = validate, on_complete = on_complete, final = FALSE,
+       admin_ui = admin_ui)
 }
 
 #' @export
@@ -171,7 +180,8 @@ get_p_id <- function(prompt = "Please enter your participant ID.",
                      placeholder = "e.g. 10492817",
                      button_text = "Next",
                      width = "300px",
-                     validate = "auto") {
+                     validate = "auto",
+                     admin_ui = NULL) {
   get_answer <- function(input, ...) input$p_id
   text_input <- shiny::textInput("p_id", label = NULL,
                                  placeholder = placeholder,
@@ -180,7 +190,8 @@ get_p_id <- function(prompt = "Please enter your participant ID.",
   ui <- shiny::div(body, trigger_button("next", button_text))
   page(ui = ui, get_answer = get_answer, save_answer = FALSE,
        validate = get_p_id.validate(validate),
-       on_complete = get_p_id.on_complete)
+       on_complete = get_p_id.on_complete,
+       admin_ui = admin_ui)
 }
 
 get_p_id.on_complete <- function(state, input, session, opt, ...) {
@@ -232,7 +243,8 @@ NAFC_page <- function(label, prompt, choices,
                       arrange_vertically = length(choices) > 2L,
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui",
-                      on_complete = NULL) {
+                      on_complete = NULL,
+                      admin_ui = NULL) {
   stopifnot(is.scalar.character(label),
             is.character(choices), length(choices) > 0L,
             is.scalar.logical(arrange_vertically))
@@ -245,7 +257,8 @@ NAFC_page <- function(label, prompt, choices,
   get_answer <- function(input, ...) input$last_btn_pressed
   validate <- function(answer, ...) !is.null(answer)
   page(ui = ui, label = label,  get_answer = get_answer, save_answer = save_answer,
-       validate = validate, on_complete = on_complete, final = FALSE)
+       validate = validate, on_complete = on_complete, final = FALSE,
+       admin_ui = admin_ui)
 }
 
 #' Make NAFC buttons
@@ -304,7 +317,8 @@ video_NAFC_page <- function(label, prompt, choices, url,
                             video_width = "100%",
                             arrange_choices_vertically = length(choices) > 2L,
                             wait = TRUE,
-                            loop = FALSE) {
+                            loop = FALSE,
+                            admin_ui = NULL) {
   stopifnot(is.scalar.character(label),
             is.character(choices), is.scalar.character(url),
             is.scalar.character(url), is.scalar.character(video_width),
@@ -327,7 +341,8 @@ video_NAFC_page <- function(label, prompt, choices, url,
             save_answer = save_answer,
             on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
-            hide_response_ui = wait, response_ui_id = "response_ui")
+            hide_response_ui = wait, response_ui_id = "response_ui",
+            admin_ui = admin_ui)
 }
 
 media.js <- list(
@@ -374,7 +389,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
                             save_answer = TRUE,
                             on_complete = NULL,
                             arrange_choices_vertically = length(choices) > 2L,
-                            wait = TRUE, loop = FALSE) {
+                            wait = TRUE, loop = FALSE,
+                            admin_ui = NULL) {
   stopifnot(is.scalar.character(label),
             is.character(choices), is.scalar.character(url),
             is.scalar.character(url),
@@ -391,7 +407,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
             save_answer = save_answer,
             on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
-            hide_response_ui = wait, response_ui_id = "response_ui")
+            hide_response_ui = wait, response_ui_id = "response_ui",
+            admin_ui = admin_ui)
 }
 
 #' Make volume calibration page
@@ -408,7 +425,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 volume_calibration_page <- function(url, type = tools::file_ext(url),
                                     prompt = NULL,
                                     button_text = "Next",
-                                    on_complete = NULL) {
+                                    on_complete = NULL,
+                                    admin_ui = NULL) {
   if (is.null(prompt)) prompt <- shiny::div(
     shiny::p(
       "You should hear some audio playing.",
@@ -424,7 +442,8 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
                   save_answer = FALSE,
                   on_complete = on_complete,
                   url = url, type = type,
-                  wait = FALSE, loop = TRUE)
+                  wait = FALSE, loop = TRUE,
+                  admin_ui = admin_ui)
 }
 
 #' Make dropdown list page
@@ -439,7 +458,8 @@ dropdown_page <- function(label, prompt, choices,
                                                             alternative_text),
                           on_complete = NULL,
                           next_button_text = "Next",
-                          max_width_pixels = 200) {
+                          max_width_pixels = 200,
+                          admin_ui = NULL) {
   stopifnot(is.scalar.character(label),
             is.character(choices),
             is.scalar.logical(alternative_choice),
@@ -459,7 +479,8 @@ dropdown_page <- function(label, prompt, choices,
   ui <- shiny::div(prompt, response_ui)
   get_answer <- dropdown_page.get_answer(alternative_text)
   page(ui = ui, label = label, get_answer = get_answer, save_answer = save_answer,
-       validate = validate, on_complete = on_complete, final = FALSE)
+       validate = validate, on_complete = on_complete, final = FALSE,
+       admin_ui = admin_ui)
 }
 
 dropdown_page.validate <- function(alternative_choice, alternative_text) {

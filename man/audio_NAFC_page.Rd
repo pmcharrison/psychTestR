@@ -7,7 +7,7 @@
 audio_NAFC_page(label, prompt, choices, url, type = tools::file_ext(url),
   save_answer = TRUE, on_complete = NULL,
   arrange_choices_vertically = length(choices) > 2L, wait = TRUE,
-  loop = FALSE)
+  loop = FALSE, admin_ui = NULL)
 }
 \arguments{
 \item{prompt}{Prompt to be displayed above the response choices.

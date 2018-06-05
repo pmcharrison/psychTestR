@@ -116,6 +116,7 @@ admin_panel.ui.logged_in <- shiny::fluidRow(
   shiny::fluidRow(
     shiny::h3("Admin"),
     align = "center",
+    shiny::uiOutput("page_admin_ui"),
     admin_panel.statistics.ui,
     shiny::column(4, shiny::h4("Results"), admin_panel.ui.results),
     shiny::column(2, shiny::h4("Error logs"), admin_panel.ui.errors),
@@ -126,9 +127,12 @@ admin_panel.ui.logged_in <- shiny::fluidRow(
   shiny::fluidRow(shiny::uiOutput("custom_admin_panel"))
 )
 
-admin_panel.render_ui <- function(state, output) {
+admin_panel.render_ui <- function(state, output, elts, opt) {
   output$admin_panel.ui <- shiny::renderUI({
     if (admin(state)) admin_panel.ui.logged_in else admin_panel.ui.logged_out
+  })
+  output$page_admin_ui <- shiny::renderUI({
+    if (admin(state)) get_current_elt(state, elts, opt, eval = TRUE)@admin_ui
   })
 }
 
@@ -488,9 +492,9 @@ df_all_results <- function(results_dir) {
   df
 }
 
-admin_panel.server <- function(state, input, output, session, opt) {
+admin_panel.server <- function(state, input, output, session, opt, elts) {
   if (opt$enable_admin_panel) {
-    admin_panel.render_ui(state, output)
+    admin_panel.render_ui(state, output, elts, opt)
     admin_panel.handle_downloads(state, output, opt)
     admin_panel.observers(state, input, output, session, opt)
   }

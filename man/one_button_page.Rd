@@ -4,7 +4,8 @@
 \alias{one_button_page}
 \title{New one-button page}
 \usage{
-one_button_page(body, button_text = "Next", on_complete = NULL)
+one_button_page(body, admin_ui = NULL, button_text = "Next",
+  on_complete = NULL)
 }
 \arguments{
 \item{body}{Page body. Can be either a scalar character (e.g.

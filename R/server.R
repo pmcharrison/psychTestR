@@ -9,7 +9,7 @@ server <- function(elts, opt, custom_admin_panel) {
                         next_page(state, input, output, elts, session, opt,
                                   triggered_by_front_end = TRUE))
     shiny::observe(demo(state) <- if (admin(state)) TRUE else opt$demo)
-    admin_panel.server(state, input, output, session, opt)
+    admin_panel.server(state, input, output, session, opt, elts)
     if (!is.null(custom_admin_panel))
       custom_admin_panel(
         state = state, input = input, output = output, session = session,

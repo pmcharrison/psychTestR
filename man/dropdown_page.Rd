@@ -7,7 +7,8 @@
 dropdown_page(label, prompt, choices, alternative_choice = FALSE,
   alternative_text = "Other (please state)", save_answer = TRUE,
   validate = dropdown_page.validate(alternative_choice, alternative_text),
-  on_complete = NULL, next_button_text = "Next", max_width_pixels = 200)
+  on_complete = NULL, next_button_text = "Next", max_width_pixels = 200,
+  admin_ui = NULL)
 }
 \description{
 Creates a page where the response is to be selected from a dropdown list.

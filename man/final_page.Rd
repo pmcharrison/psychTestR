@@ -4,7 +4,7 @@
 \alias{final_page}
 \title{New final page}
 \usage{
-final_page(body)
+final_page(body, admin_ui = NULL)
 }
 \arguments{
 \item{body}{Page body. Can be either a scalar character (e.g.
