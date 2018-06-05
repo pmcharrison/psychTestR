@@ -1,5 +1,6 @@
 ui <- function(opt) {
-  title_content <- shiny::wellPanel(shiny::h3(opt$title, align = "center"))
+  title_content <- shiny::wellPanel(shiny::h4(opt$title, align = "center"),
+                                    style = "padding: 3px;")
   main_content <- shiny::wellPanel(align = "center", shiny::uiOutput("ui"))
 
   shiny::fluidPage(
