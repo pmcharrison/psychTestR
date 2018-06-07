@@ -111,7 +111,7 @@ execute_code_block <- function(elt, state, elts, input, output,
                                session, opt) {
   stopifnot(is(elt, "code_block"))
   elt@fun(state = state, elts = elts, input = input, output = output,
-          session = session, opt = opt)
+          session = session, opt = opt, answer = answer(state))
 }
 
 check_elts <- function(elts) {
