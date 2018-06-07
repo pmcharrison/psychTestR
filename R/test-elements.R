@@ -586,7 +586,7 @@ loop_while <- function(test, logic) {
   if (!is.list(logic)) logic <- list(logic)
   if (length(logic) == 0L) stop("<logic> may not be empty")
   n <- length(logic)
-  elt <- code_block(function(state, elts, input, output, session, opt) {
+  elt <- code_block(function(state, elts, input, output, session, opt, ...) {
     res <- test(state = state, input = input, output = output,
                 session = session, opt = opt)
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
