@@ -48,9 +48,8 @@ pt_options <- function(title, admin_password, researcher_email,
             is.null.or(server_closed_msg, is.scalar.character),
             is.null.or(problems_info, is.scalar.character),
             is.null.or(logo, is.scalar.character),
-            if (!is.null(logo)) {
-              is.scalar.character(logo_width) && is.scalar.character(logo_height)
-            })
+            is.null(logo) ||
+              (is.scalar.character(logo_width) && is.scalar.character(logo_height)))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   title <- iconv(title, "UTF-8", "UTF-8", sub = "")
