@@ -20,7 +20,10 @@ pt_options <- function(title, admin_password, researcher_email,
                        enable_admin_panel = TRUE,
                        output_dir = "output",
                        session_timeout_min = 7 * 24 * 60,
-                       clean_sessions_interval_min = 15) {
+                       clean_sessions_interval_min = 15,
+                       logo = NULL,
+                       logo_width = NULL,
+                       logo_height = NULL) {
   stopifnot(is.scalar.character(title),
             is.scalar.character(admin_password),
             is.scalar.character(researcher_email),
@@ -43,7 +46,11 @@ pt_options <- function(title, admin_password, researcher_email,
             is.null.or(max_num_participants, is.scalar.integerlike),
             is.null.or(max_participants_msg, is.scalar.character),
             is.null.or(server_closed_msg, is.scalar.character),
-            is.null.or(problems_info, is.scalar.character))
+            is.null.or(problems_info, is.scalar.character),
+            is.null.or(logo, is.scalar.character),
+            if (!is.null(logo)) {
+              is.scalar.character(logo_width) && is.scalar.character(logo_height)
+            })
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   title <- iconv(title, "UTF-8", "UTF-8", sub = "")
@@ -109,7 +116,10 @@ pt_options <- function(title, admin_password, researcher_email,
        error_dir = error_dir,
        closed_file = file.path(output_dir, "closed.txt"),
        session_timeout_min = session_timeout_min,
-       clean_sessions_interval_min = clean_sessions_interval_min)
+       clean_sessions_interval_min = clean_sessions_interval_min,
+       logo = logo,
+       logo_width = logo_width,
+       logo_height = logo_height)
 }
 
 #' @export

@@ -1,6 +1,34 @@
 ui <- function(opt) {
-  title_content <- shiny::wellPanel(shiny::h4(opt$title, align = "center"),
-                                    style = "padding: 3px;")
+  title_content <- shiny::wellPanel(
+    style = "padding: 3px; padding-left: 10px; padding-right: 10px",
+    shiny::div(
+      style = "display: flex; justify-content: space-between; align-items: center;",
+      if (!is.null(opt$logo)) {
+            shiny::img(
+              src = opt$logo,
+              style = sprintf("width: %s; height: %s;",
+                              width = opt$logo_width,
+                              height = opt$logo_height))
+          } else " ",
+      shiny::h4(opt$title),
+      shiny::h4("psychTestR")
+      )
+    )
+    # shiny::fluidRow(
+    #   shiny::column(4, if (!is.null(opt$logo)) {
+    #     shiny::img(
+    #       src = opt$logo,
+    #       style = sprintf(
+    #         paste0("display:block;margin-left:auto;margin-right:auto;",
+    #                "width:%s;height:%s;",
+    #                # "vertical-align:middle"),
+    #                "position:relative;top:50%%;margin-top:-31px;"),
+    #         width = opt$logo_width,
+    #         height = opt$logo_height))
+    #   }),
+    #   shiny::column(4, shiny::h4(opt$title, align = "center")),
+    #   shiny::column(4)
+    # ))
   main_content <- shiny::wellPanel(align = "center", shiny::uiOutput("ui"))
 
   shiny::fluidPage(
