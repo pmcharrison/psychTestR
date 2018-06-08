@@ -97,8 +97,10 @@ try_finalise_page <- function(elt, state, input, session, opt) {
 
 perform_get_answer_function <- function(elt, state, input, session, opt) {
   f <-  elt@get_answer
-  answer(state) <- if (!is.null(f)) f(
-    state = state, input = input, session = session, opt = opt)
+  if (!is.null(f)) {
+    answer(state) <- f(
+      state = state, input = input, session = session, opt = opt)
+  }
 }
 
 perform_on_complete_function <- function(elt, state, input, session, opt) {
