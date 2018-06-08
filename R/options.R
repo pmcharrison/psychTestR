@@ -19,7 +19,7 @@ pt_options <- function(title, admin_password, researcher_email,
                        force_p_id_from_url = FALSE,
                        enable_admin_panel = TRUE,
                        output_dir = "output",
-                       session_timeout_min = 120,
+                       session_timeout_min = 7 * 24 * 60,
                        clean_sessions_interval_min = 15) {
   stopifnot(is.scalar.character(title),
             is.scalar.character(admin_password),
