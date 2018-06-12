@@ -1,4 +1,5 @@
 - implement safe_next_page, and get rid of error dumps
+- check how many times pages get evaluated
 
 - new_section label shouldn't have spaces
 

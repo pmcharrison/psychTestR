@@ -120,10 +120,10 @@ check_elts <- function(elts) {
   if (length(elts) == 0L) {
     stop("<elts> cannot have length 0")
   }
-  first_elt <- elts[[1]]
-  if (!(is(first_elt, "page") || is(first_elt, "reactive_page"))) {
-    stop("The first element in <elts> must be a (possibly reactive) test page.")
-  }
+  # first_elt <- elts[[1]]
+  # if (!(is(first_elt, "page") || is(first_elt, "reactive_page"))) {
+  #   stop("The first element in <elts> must be a (possibly reactive) test page.")
+  # }
   last_elt <- elts[[length(elts)]]
   if (!(is(last_elt, "page") || is(last_elt, "reactive_page"))) {
     stop("The last element in <elts> must be a (possibly reactive) test page.")
@@ -150,8 +150,9 @@ render_ui <- function(state, elts, opt) {
     } else {
       get_current_elt(state, elts, opt, eval = TRUE)
     }
-    if (!is(elt, "page")) display_error("Cannot display element of class ", class(elt))
-    shiny::div(id = "current_page.ui", elt@ui)
+    ui <- if (is(elt, "page")) elt@ui else shiny::div()
+    # if (!is(elt, "page")) display_error("Cannot display element of class ", class(elt))
+    shiny::div(id = "current_page.ui", ui)
   })
 }
 
