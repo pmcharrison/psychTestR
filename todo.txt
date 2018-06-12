@@ -1,5 +1,6 @@
 - implement safe_next_page, and get rid of error dumps
 - check how many times pages get evaluated
+- warning message on start up: file("") only supports open = "w+" and open = "w+b": using the former
 
 - new_section label shouldn't have spaces
 
