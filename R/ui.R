@@ -56,15 +56,14 @@ ui <- function(opt) {
 
 include_scripts <- function() {
   scripts <- c(
-    "js/push-p-id-to-url.js",
-    "js/reset-p-id-and-refresh-browser.js",
-    "js/confirm-resume-session.js",
-    "js/confirm-delete-results.js",
-    "js/confirm-delete-errors.js",
     "js/confirm-clear-sessions.js",
+    "js/confirm-delete-errors.js",
+    "js/confirm-delete-results.js",
+    "js/confirm-resume-session.js",
     "js/hide-content.js",
-    "js/trigger-button.js",
-    "js/next-page.js"
+    "js/next-page.js",
+    "js/reset-p-id-and-refresh-browser.js",
+    "js/trigger-button.js"
   )
   lapply(scripts, function(x) shiny::includeScript(system.file(
     x, package = "psychTest")))
