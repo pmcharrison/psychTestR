@@ -201,7 +201,7 @@ get_p_id <- function(prompt = "Please enter your participant ID.",
 get_p_id.on_complete <- function(state, input, session, opt, ...) {
   p_id <- answer(state)
   try_resume_session(p_id, state, session, opt,
-                     ask_to_confirm_resume = FALSE,
+                     ask_to_confirm_resume = TRUE,
                      reset_if_resume_fails = FALSE)
 }
 
