@@ -3,7 +3,7 @@ server <- function(elts, opt, custom_admin_panel) {
     # warning("Error handling doesn't work. Remove it :(")
     # set_error_handling(opt, session, state)
     state <- new_state()
-    setup_session(state, input, elts, session, opt)
+    setup_session(state, input, output, elts, session, opt)
     output$ui <- render_ui(state, elts, opt)
     shiny::observeEvent(input$next_page,
                         next_page(state, input, output, elts, session, opt,
@@ -18,7 +18,7 @@ server <- function(elts, opt, custom_admin_panel) {
   }
 }
 
-setup_session <- function(state, input, elts, session, opt) {
+setup_session <- function(state, input, output, elts, session, opt) {
   shiny::isolate({
     if (is_test_closed(opt)) {
       closed(state) <- TRUE
@@ -31,7 +31,7 @@ setup_session <- function(state, input, elts, session, opt) {
         error(state) <- opt$max_participants_msg
       }
     }
-    advance_to_first_page(state, input, elts, session, opt)
+    advance_to_first_page(state, input, output, elts, session, opt)
   })
 }
 

@@ -259,7 +259,7 @@ p_id <- function(state) {
   return(state)
 }
 
-advance_to_first_page <- function(state, input, elts, session, opt) {
+advance_to_first_page <- function(state, input, output, elts, session, opt) {
   stopifnot(is(state, "state"))
   current_elt <- get_current_elt(state, elts = elts, opt = opt, eval = FALSE)
   if (!is(current_elt, "page")) next_page(
