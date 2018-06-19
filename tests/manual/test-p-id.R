@@ -1,4 +1,4 @@
-library(psychTest)
+library(psychTestR)
 
 elts <- c(one_button_page("First page"),
           one_button_page("Page 2/4"),

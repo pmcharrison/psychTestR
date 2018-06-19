@@ -1,4 +1,4 @@
-library(psychTest)
+library(psychTestR)
 
 elts <- c(
   one_button_page("The next page will throw an error."),

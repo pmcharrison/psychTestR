@@ -1,4 +1,4 @@
-# library(psychTest)
+# library(psychTestR)
 # library(shiny)
 #
 # options(shiny.error = browser)

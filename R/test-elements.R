@@ -44,7 +44,7 @@ setMethod(
   "show",
   signature(object = "page"),
   definition = function(object) {
-    cat("psychTest page\n")
+    cat("psychTestR page\n")
     htmltools::html_print(shiny::div(
       shiny::includeCSS(system.file(shinythemes::shinytheme("readable"),
                                     package = "shinythemes")),
@@ -60,7 +60,7 @@ setMethod(
   "show",
   signature(object = "code_block"),
   definition = function(object) {
-    cat("psychTest code block\n")
+    cat("psychTestR code block\n")
     print(object@fun)
   }
 )
@@ -69,7 +69,7 @@ setMethod(
   "show",
   signature(object = "reactive_page"),
   definition = function(object) {
-    cat("psychTest reactive page\n")
+    cat("psychTestR reactive page\n")
     print(object@fun)
     print(final_page(shiny::em("reactive page")))
   }
@@ -77,7 +77,7 @@ setMethod(
 
 #' New page
 #'
-#' This is the most general way to create a psychTest page.
+#' This is the most general way to create a psychTestR page.
 #' @param ui Page UI. Can be either a scalar character (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.

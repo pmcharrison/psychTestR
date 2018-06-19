@@ -12,7 +12,7 @@ new_results <- function() {
 print.results <- function(x, ...) {
   num_sections <- length(x)
   num_results <- sum(vapply(x, length, integer(1)))
-  cat(sprintf("psychTest results list (%i result%s in %s section%s)\n",
+  cat(sprintf("psychTestR results list (%i result%s in %s section%s)\n",
               num_results, if (num_results != 1L) "s" else "",
               num_sections, if (num_sections != 1L) "s" else ""),
       "(visualise with as.list() or as.data.frame())\n")

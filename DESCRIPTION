@@ -1,4 +1,4 @@
-Package: psychTest
+Package: psychTestR
 Type: Package
 Title: Framework for delivering psychological tests via Shiny
 Version: 0.1.0

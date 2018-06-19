@@ -1,7 +1,7 @@
-library(psychTest)
+library(psychTestR)
 
 elts <- c(
-  one_button_page("Here we will test some of the psychTest functionality. Please complete the test, following all instructions you see."),
+  one_button_page("Here we will test some of the psychTestR functionality. Please complete the test, following all instructions you see."),
   text_input_page("one_line_text_input",
                   "Please enter some text below. The textbox should only be one line height.",
                   one_line = TRUE),

@@ -1,4 +1,4 @@
-library(psychTest)
+library(psychTestR)
 
 # This test has its session cleaning interval set very low so that
 # you can see it in action.

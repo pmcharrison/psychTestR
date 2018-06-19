@@ -1,4 +1,4 @@
-library(psychTest)
+library(psychTestR)
 make_item <- function(n) {
   NAFC_page(label = paste0("q", n),
             prompt = paste0("Question ", n),

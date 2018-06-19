@@ -1,4 +1,4 @@
-library(psychTest)
+library(psychTestR)
 
 elts <- c(
   code_block(function(state, ...) message("Hello!")),

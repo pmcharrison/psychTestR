@@ -66,5 +66,5 @@ include_scripts <- function() {
     "js/trigger-button.js"
   )
   lapply(scripts, function(x) shiny::includeScript(system.file(
-    x, package = "psychTest")))
+    x, package = "psychTestR")))
 }

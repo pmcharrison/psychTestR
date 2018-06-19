@@ -25,5 +25,5 @@ If validation fails then the page will be refreshed, usually
 to give the user a chance to revise their input.}
 }
 \description{
-This is the most general way to create a psychTest page.
+This is the most general way to create a psychTestR page.
 }
