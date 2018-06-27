@@ -333,11 +333,11 @@ video_NAFC_page <- function(label, prompt, choices, url,
       shiny::tags$head(shiny::tags$script(shiny::HTML(media.js$media_not_played))),
       shiny::tags$source(src = url, type = paste0("video/", type)),
       id = "media", width = video_width, preload = "auto",
-      oncanplaythrough = media.js$show_video_btn,
-      onplay = media.js$media_played,
       autoplay = "autoplay", style = "max-width: 500px",
-      playsinline = "playsinline", onplay = media.js$hide_media_btn,
+      playsinline = "playsinline",
       loop = if (loop) "loop",
+      oncanplaythrough = media.js$show_media_btn,
+      onplay = paste0(media.js$media_played, media.js$hide_media_btn),
       onended = if (wait) media.js$show_responses else "null"),
     media_mobile_play_button)
   prompt2 <- shiny::div(tagify(prompt), video_ui)
@@ -400,12 +400,17 @@ audio_NAFC_page <- function(label, prompt, choices, url,
             is.scalar.character(url),
             is.scalar.logical(arrange_choices_vertically),
             is.scalar.logical(wait), is.scalar.logical(loop))
-  audio_ui <- shiny::tags$audio(
+  audio_ui <- shiny::tags$div(shiny::tags$audio(
+    shiny::tags$head(shiny::tags$script(shiny::HTML(media.js$media_not_played))),
     shiny::tags$source(src = url, type = paste0("audio/", type)),
-    id = "audio_stimulus", preload = "auto",
+    id = "media",
+    preload = "auto",
     autoplay = "autoplay",
     loop = if (loop) "loop",
-    onended = if (wait) media.js$show_responses else "null")
+    oncanplaythrough = media.js$show_media_btn,
+    onplay = paste0(media.js$media_played, media.js$hide_media_btn),
+    onended = if (wait) media.js$show_responses else "null"
+  ), media_mobile_play_button)
   prompt2 <- shiny::div(tagify(prompt), audio_ui)
   NAFC_page(label = label, prompt = prompt2, choices = choices,
             save_answer = save_answer,
