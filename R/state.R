@@ -164,7 +164,7 @@ get_session_info <- function(state, complete) {
     current_time = Sys.time(),
     num_restarts = state$num_restarts
   )
-  attr(res, "server") <- sessionInfo()
+  attr(res, "server") <- utils::sessionInfo()
   res
 }
 
