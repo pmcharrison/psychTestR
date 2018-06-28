@@ -627,7 +627,7 @@ finish_test_and_give_code <- function(researcher_email) {
   c(
     begin_module("finish"),
     code_block(function(state, ...) {
-      code <- shiny:::createUniqueId(16)
+      code <- generate_id(16)
       save_result(state, "code", code)
       set_local("code", code, state)
       save_results_to_disk(complete = TRUE)
