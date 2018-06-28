@@ -1,3 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^output$
+^app.R$
+^scratch.R$
+^todo.txt$
