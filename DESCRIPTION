@@ -8,15 +8,20 @@ Description: Framework for delivering psychological tests via Shiny.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-Imports: shiny,
+Imports: assertthat,
+    shiny,
     catR,
+    htmltools,
     magrittr,
-    shinyjs,
-    R.utils,
-    assertthat,
     methods,
+    parallel,
+    plyr,
     RPushbullet,
-    parallel
+    R.utils,
+    shinyjs,
+    shinyBS,
+    shinythemes,
+    tidyr
 RoxygenNote: 6.0.1
 Suggests: testthat
 Byte-Compile: yes
