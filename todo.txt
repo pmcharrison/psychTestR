@@ -1,3 +1,5 @@
+- move to Github
+- a test with just a reactive page which produces a final page doesn't work
 - implement safe_next_page, and get rid of error dumps
 - check how many times pages get evaluated
 - warning message on start up: file("") only supports open = "w+" and open = "w+b": using the former
