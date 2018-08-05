@@ -20,7 +20,7 @@ http://shiny.pmcharrison.com/mdt-demo.
 Pitch imagery arrow task (Gelding et al. 2018):
 http://shiny.pmcharrison.com/piat-demo.
 
-## Installation and local demo
+## Local installation
 
 If you don't have R installed, install it from here: https://cloud.r-project.org/
 
@@ -31,7 +31,10 @@ install.packages("devtools")
 devtools::install_github("pmcharrison/psychtestr")
 ```
 
-Then enter the following to run an example psychTestR test:
+## Local demo
+
+Once psychTestR is installed on your local computer, 
+open RStudio and enter the following to run an example psychTestR test:
 
 ```r
 library(psychTestR)
