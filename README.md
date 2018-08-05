@@ -31,7 +31,7 @@ Then open R and install psychTestR:
 
 ```r
 install.packages("devtools")
-devtools::install_github("pmcharrison/psychtestr")
+devtools::install_github("pmcharrison/psychTestR")
 ```
 
 ## Local demo
