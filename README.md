@@ -1,4 +1,4 @@
-# psychtestr
+# psychTestR
 
 psychTestR is an R package for creating behavioural experiment interfaces.
 Key benefits of psychTestR include:
@@ -14,16 +14,22 @@ Key benefits of psychTestR include:
 
 ## Examples
 
-Adaptive melodic discrimination test (Harrison, Collins, & Müllensiefen (2017): 
+Adaptive melodic discrimination test (Harrison, Collins, & Müllensiefen 2017): 
 http://shiny.pmcharrison.com/mdt-demo.
 
-Pitch imagery arrow task 
+Pitch imagery arrow task (Gelding et al. 2018):
+http://shiny.pmcharrison.com/piat-demo.
+
+## License
+
+psychTestR will always be completely free to use for both non-commercial or commercial purposes.
+The package is available under the MIT license (https: //opensource.org/licenses/MIT).
 
 ## References
 
 Gelding, Rebecca W., Harrison, Peter M. C.,
 Johnson, Blake W., Thompson, William F.,
-& Müllensiefen, D.
+& Müllensiefen, D. (2018).
 Developing a psychometrically advanced version of the Pitch Imagery Arrow Task.
 Paper presented at the 15th International Conference on Music Perception and Cognition and
 10th triennial conference of the European Society for the Cognitive Sciences of Music
