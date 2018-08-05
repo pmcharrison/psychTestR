@@ -122,6 +122,11 @@ pt_options <- function(title, admin_password, researcher_email,
 }
 
 #' @export
+demo_options <- function() {
+  pt_options(title = "Demo", admin_password = "demo", researcher_email = "XXX")
+}
+
+#' @export
 test_permissions <- function(dir) {
   success <- FALSE
   tmp <- file.path(dir, "test.txt")
