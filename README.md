@@ -37,8 +37,8 @@ Then enter the following to run an example psychTestR test:
 library(psychTestR)
 make_test(list(
   text_input_page(
-    "name", 
-    "What's your name?", 
+    label = "name", 
+    prompt = "What's your name?", 
     validate = function(answer, ...) {
       if (answer == "")
         "Name cannot be left blank."
@@ -49,9 +49,9 @@ make_test(list(
                  state = state)
     }),
   NAFC_page(
-    "colour",
-    "What's your favourite colour?",
-    c("Red", "Green", "Blue")),
+    label = "colour",
+    prompt = "What's your favourite colour?",
+    choices = c("Red", "Green", "Blue")),
   elt_save_results_to_disk(complete = TRUE),
   reactive_page(function(state, ...) {
     final_page(paste0("Thank you for participating, ", 
