@@ -24,6 +24,9 @@ http://shiny.pmcharrison.com/piat-demo.
 
 If you don't have R installed, install it from here: https://cloud.r-project.org/
 
+We recommend also installing RStudio, a popular integrated development environment for R:
+https://www.rstudio.com/.
+
 Then open R and install psychTestR:
 
 ```r
