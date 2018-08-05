@@ -20,6 +20,59 @@ http://shiny.pmcharrison.com/mdt-demo.
 Pitch imagery arrow task (Gelding et al. 2018):
 http://shiny.pmcharrison.com/piat-demo.
 
+## Installation and local demo
+
+If you don't have R installed, install it from here: https://cloud.r-project.org/
+
+Then open R and install psychTestR:
+
+```r
+install.packages("devtools")
+devtools::install_github("pmcharrison/psychtestr")
+```
+
+Then enter the following to run an example psychTestR test:
+
+```r
+library(psychTestR)
+make_test(list(
+  text_input_page(
+    "name", 
+    "What's your name?", 
+    validate = function(answer, ...) {
+      if (answer == "")
+        "Name cannot be left blank."
+      else TRUE
+    },
+    on_complete = function(answer, state, ...) {
+      set_global(key = "name", value = answer,
+                 state = state)
+    }),
+  NAFC_page(
+    "colour",
+    "What's your favourite colour?",
+    c("Red", "Green", "Blue")),
+  elt_save_results_to_disk(complete = TRUE),
+  reactive_page(function(state, ...) {
+    final_page(paste0("Thank you for participating, ", 
+                      get_global("name", state),
+                      "."))
+  })))
+```
+
+Once you've recorded some data, try logging into the admin panel with the password 'demo'.
+Here you can download your response data.
+
+## Acknowledgements
+
+psychTestR was created by Peter M. C. Harrison
+with useful feedback from 
+Daniel Müllensiefen, Klaus Frieler, and Marcus Pearce.
+The work was was supported by Peter's PhD studentship from 
+the EPSRC and AHRC Centre for Doctoral Training
+in Media and Arts Technology (EP/L01632X/1)
+and by the Humboldt’s foundation Anneliese Maier research prize awarded to Daniel Müllensiefen.
+
 ## License
 
 psychTestR will always be completely free to use for both non-commercial or commercial purposes.
