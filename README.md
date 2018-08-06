@@ -14,18 +14,17 @@ Key benefits of psychTestR include:
 
 ## Examples
 
-Adaptive melodic discrimination test (Harrison, Collins, & Müllensiefen 2017): 
-http://shiny.pmcharrison.com/mdt-demo.
+- [Adaptive melodic discrimination test](http://shiny.pmcharrison.com/mdt-demo)
+(Harrison, Collins, & Müllensiefen 2017)
 
-Pitch imagery arrow task (Gelding et al. 2018):
-http://shiny.pmcharrison.com/piat-demo.
+- [Pitch imagery arrow task](http://shiny.pmcharrison.com/piat-demo) (Gelding et al. 2018)
 
 ## Local installation
 
-If you don't have R installed, install it from here: https://cloud.r-project.org/
+If you don't have R installed, [download](https://cloud.r-project.org/) and install it first. 
 
-We recommend also installing RStudio, a popular integrated development environment for R:
-https://www.rstudio.com/.
+We recommend also installing [RStudio](https://www.rstudio.com/),
+a popular integrated development environment for R.
 
 Then open R and install psychTestR:
 
@@ -82,7 +81,7 @@ and by the Humboldt’s foundation Anneliese Maier research prize awarded to Dan
 ## License
 
 psychTestR will always be completely free to use for both non-commercial or commercial purposes.
-The package is available under the MIT license (https: //opensource.org/licenses/MIT).
+The package is available under the [MIT license](https://opensource.org/licenses/MIT).
 
 ## References
 
