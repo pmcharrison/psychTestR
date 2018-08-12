@@ -1,17 +1,33 @@
+#' Get basic demographics
+#'
+#' Gets basic demographic information from the participant.
 #' @export
-get_basic_demographics <- function(intro = basic_demographics_default_intro()) {
+#' @param intro Introductory page to the demographics section.
+#' If \code{NULL}, no introduction is given.
+#' @param gender Ask the participant's gender? (Boolean)
+#' @param age Ask the participant's age? (Boolean)
+#' @param occupation Ask the participant's occupation? (Boolean)
+#' @param education Ask the participant's education? (Boolean)
+get_basic_demographics <- function(intro = basic_demographics_default_intro(),
+                                   gender = TRUE,
+                                   age = TRUE,
+                                   occupation = TRUE,
+                                   education = TRUE) {
   stopifnot(is.null(intro) || is(intro, "page"))
   c(
     begin_module("demographics"),
     intro,
-    get_basic_demographics.gender(),
-    get_basic_demographics.age(),
-    get_basic_demographics.occupation(),
-    get_basic_demographics.education_highest_achieved(),
+    if (gender) get_basic_demographics.gender(),
+    if (age) get_basic_demographics.age(),
+    if (occupation) get_basic_demographics.occupation(),
+    if (education) get_basic_demographics.education_highest_achieved(),
     end_module()
   )
 }
 
+#' Default demographics introduction
+#'
+#' Default introduction to the demographics section.
 #' @export
 basic_demographics_default_intro <- function() {
   one_button_page("We will now ask you some questions about your personal background.")

@@ -1,29 +1,89 @@
+#' Alias for test_options()
+#'
+#' Alias for \code{test_options()} (deprecated).
+pt_options <- function(...) {
+  do.call(test_options, list(...))
+}
+
+
+#' Test options
+#'
+#' Defines the options for running a given test.
+#' @param title The test's title.
+#' @param admin_password Password to access the admin panel.
+#' @param researcher_email Researcher's email; used in participant help message.
+#' @param max_num_participants Maximum number of participant completes
+#' before the test automatically closes (excludes pilot participants
+#' as indicated through the admin panel).
+#' @param demo Whether the test is to be run in demo mode.
+#' @param debug Whether the test is to be debugged locally
+#' (set to \code{TRUE} when developing locally).
+#' @param log_error Whether to log errors
+#' (this feature is under development).
+#' @param show_full_error_msg} Whether to show full error messages.
+#' @param notify_error Whether to send a Pushbullet message when
+#' the test experiences an error
+#' (this feature is under development).
+#' @param notify_new_participant Whether to send a Pushbullet message when
+#' a new participant completes the test.
+#' @param pushbullet_email Email to send Pushbullet notifications to.
+#' @param pushbullet_apikey Pushbullet API key (see https://www.pushbullet.com/).
+#' @param max_participants_msg Message to display when the participant
+#' quota is reached
+#' (\code{NULL} gives default).
+#' @param server_closed_msg Message to display when the server is closed
+#' via the admin panel
+#' (\code{NULL} gives default).
+#' @param problems_info Message to display at the bottom of the screen
+#' with advice about what to do if a problem occurs.
+#' Defaults to a standard message including the researcher's email
+#' (if provided).
+#' @param theme Shiny theme: see e.g. the \code{shinythemes} package.
+#' @param auto_p_id Whether or not to automatically generate an
+#' ID for each participant.
+#' @param enable_resume_session Whether to allow participants to resume
+#' sessions by refreshing the page.
+#' @param allow_any_p_id_url Whether to allow new participants
+#' to give themselves an arbitrary participant ID by passing it
+#' as a URL parameter.
+#' @param force_p_id_from_url Whether to force new participants
+#' to provide their participant ID as a URL parameter.
+#' @param enable_admin_panel Wheter to enable the admin panel.
+#' @param output_dir String identifying psychTestR's output directory.
+#' @param session_timeout_min Minimum time until a participant's
+#' session times out (minutes).
+#' @param clean_sessions_interval_min How often should psychTestR
+#' check for expired participant sessions (minutes).
+#' @param logo Path to a logo to display in the header (optional).
+#' @param logo_width Logo width, e.g. \code{"100px"}.
+#' @param logo_height Logo height, e.g. \code{"50px"}.
 #' @export
-pt_options <- function(title, admin_password, researcher_email,
-                       max_num_participants = NULL,
-                       demo = FALSE,
-                       debug_locally = FALSE,
-                       log_error = TRUE,
-                       show_full_error_msg = TRUE,
-                       notify_error = FALSE,
-                       notify_new_participant = FALSE,
-                       pushbullet_email = NULL,
-                       pushbullet_apikey = NULL,
-                       max_participants_msg = NULL,
-                       server_closed_msg = NULL,
-                       problems_info = NULL,
-                       theme = shinythemes::shinytheme("readable"),
-                       auto_p_id = TRUE,
-                       enable_resume_session = TRUE,
-                       allow_any_p_id_url = FALSE,
-                       force_p_id_from_url = FALSE,
-                       enable_admin_panel = TRUE,
-                       output_dir = "output",
-                       session_timeout_min = 7 * 24 * 60,
-                       clean_sessions_interval_min = 15,
-                       logo = NULL,
-                       logo_width = NULL,
-                       logo_height = NULL) {
+test_options <- function(title, admin_password,
+                         researcher_email = NULL,
+                         max_num_participants = NULL,
+                         demo = FALSE,
+                         debug_locally = FALSE,
+                         log_error = TRUE,
+                         show_full_error_msg = TRUE,
+                         notify_error = FALSE,
+                         notify_new_participant = FALSE,
+                         pushbullet_email = NULL,
+                         pushbullet_apikey = NULL,
+                         max_participants_msg = NULL,
+                         server_closed_msg = NULL,
+                         problems_info = "default",
+                         theme = shinythemes::shinytheme("readable"),
+                         auto_p_id = TRUE,
+                         enable_resume_session = TRUE,
+                         allow_any_p_id_url = FALSE,
+                         force_p_id_from_url = FALSE,
+                         enable_admin_panel = TRUE,
+                         output_dir = "output",
+                         session_timeout_min = 7 * 24 * 60,
+                         clean_sessions_interval_min = 15,
+                         logo = NULL,
+                         logo_width = NULL,
+                         logo_height = NULL) {
   stopifnot(is.scalar.character(title),
             is.scalar.character(admin_password),
             is.scalar.character(researcher_email),
@@ -46,7 +106,7 @@ pt_options <- function(title, admin_password, researcher_email,
             is.null.or(max_num_participants, is.scalar.integerlike),
             is.null.or(max_participants_msg, is.scalar.character),
             is.null.or(server_closed_msg, is.scalar.character),
-            is.null.or(problems_info, is.scalar.character),
+            is.scalar.character(problems_info),
             is.null.or(logo, is.scalar.character),
             is.null(logo) ||
               (is.scalar.character(logo_width) && is.scalar.character(logo_height)))
@@ -71,8 +131,8 @@ pt_options <- function(title, admin_password, researcher_email,
       "so testing has now finished.")
   }
 
-  if (is.null(problems_info)) {
-    problems_info <- paste0(
+  if (problems_info == "default") {
+    problems_info <- if (is.null(researcher_email)) "" else paste0(
       "Problems? Contact ", researcher_email, " with a link to this page.")
   }
 
@@ -121,11 +181,18 @@ pt_options <- function(title, admin_password, researcher_email,
        logo_height = logo_height)
 }
 
+#' Demo options
+#'
+#' Test options list for demo purposes.
 #' @export
 demo_options <- function() {
-  pt_options(title = "Demo", admin_password = "demo", researcher_email = "XXX")
+  test_options(title = "Demo", admin_password = "demo", researcher_email = "XXX")
 }
 
+#' Test write permissions
+#'
+#' Test the ability to write to a given directory.
+#' @param dir Directory to test.
 #' @export
 test_permissions <- function(dir) {
   success <- FALSE
@@ -144,6 +211,11 @@ test_permissions <- function(dir) {
 OUTPUT_DIRS <- c("output_dir", "results_dir", "session_dir",
                  "results_archive_dir", "error_dir")
 
+#' Check directories
+#'
+#' Checks that all directories as specified in the test options
+#' are writeable.
+#' @param opt Options list as created by \code{test_options()}.
 #' @export
 check_dirs <- function(opt) {
   for (d in OUTPUT_DIRS) {
@@ -158,9 +230,9 @@ check_dirs <- function(opt) {
   }
 }
 
-clear_output_dirs <- function(opt) {
-  success <- unlink(opt$output_dir, recursive = TRUE) == 0L
-  if (!success) message("Failed to clear output directory.")
-  Sys.sleep(0.01)
-  check_dirs(opt)
-}
+# clear_output_dirs <- function(opt) {
+#   success <- unlink(opt$output_dir, recursive = TRUE) == 0L
+#   if (!success) message("Failed to clear output directory.")
+#   Sys.sleep(0.01)
+#   check_dirs(opt)
+# }

@@ -1,3 +1,6 @@
+#' Demo: Getting URL parameters
+#'
+#' Demonstrates how psychTestR can get URL parameters.
 #' @export
 demo.get_url_params <- function() {
   elts <- c(
@@ -11,13 +14,12 @@ demo.get_url_params <- function() {
             "instead. Load the resulting URL."
           ) else
             shiny::div(shiny::p("Your message should display here:", msg))
-                       # shiny::p("Your p_id is", p_id(state)))
       )}),
     psychTestR::final_page("That's the end of the demo.")
   )
   psychTestR::make_test(
     elts,
     opt = psychTestR::pt_options(title = "Demo URL params",
-                                admin_password = "demo",
-                                researcher_email = "p.m.c.harrison@qmul.ac.uk"))
+                                 admin_password = "demo",
+                                 researcher_email = "p.m.c.harrison@qmul.ac.uk"))
 }

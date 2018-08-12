@@ -1,3 +1,6 @@
+#' Demo: Getting URL parameters
+#'
+#' Demonstrates how psychTestR can set URL parameters.
 #' @export
 demo.set_url_params <- function() {
   elts <- c(
