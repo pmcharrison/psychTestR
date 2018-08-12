@@ -68,7 +68,7 @@ make_test(list(
 Once you've recorded some data, try logging into the admin panel with the password 'demo'.
 Here you can download your response data.
 
-## Documentation
+## Documentation
 
 Additional documentation is available [here](https://github.com/pmcharrison/psychTestR/wiki).
 
