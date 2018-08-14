@@ -12,8 +12,12 @@ one_button_page(body, admin_ui = NULL, button_text = "Next",
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. \code{shiny::tags$p("Welcome to the test!")}.}
 
+\item{admin_ui}{See \code{\link{page}}.}
+
 \item{button_text}{Text to display on the button.
 Should be a scalar character vector.}
+
+\item{on_complete}{See \code{\link{page}}.}
 }
 \description{
 Creates a page with a prompt and one button which, when clicked,

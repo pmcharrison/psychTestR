@@ -2,12 +2,26 @@
 % Please edit documentation in R/test-elements.R
 \name{reactive_page}
 \alias{reactive_page}
-\title{Careful - function must be idempotent (calling it multiple times should
-have the same effect as calling it once).}
+\title{Reactive page}
 \usage{
 reactive_page(fun)
 }
+\arguments{
+\item{fun}{Function that returns a \code{page} argument.
+This function's argument list must include \code{...}.
+It should also include one or more named arguments that provide
+information for generating the new page: potential arguments
+include \code{state}, corresponding to the participant's
+\code{state} object,
+\code{answer}, which is the most recent participant response,
+and \code{opt}, which is the test's option list as created by
+\code{test_options}.
+The function should always return an object of class \code{page}.}
+}
 \description{
-Careful - function must be idempotent (calling it multiple times should
+Creates a reactive page.
+A reactive page is defined by a function that is called once the participant
+reaches a given location in the timeline.
+This function must be idempotent, i.e. calling it multiple times should
 have the same effect as calling it once).
 }

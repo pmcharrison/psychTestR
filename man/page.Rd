@@ -13,16 +13,44 @@ page(ui, admin_ui = NULL, label = NULL, final = FALSE,
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. \code{shiny::tags$p("Welcome to the test!")}.}
 
-\item{final}{Whether or not the page is the final page in the test.
-Should take the following form: function(state, input) ...
-where \code{state} is the app's persistent state (a Shiny reactiveValues object)
-and \code{input} is the input produced by the page UI.}
+\item{admin_ui}{Optional UI component for the admin panel.}
+
+\item{label}{Page label (character scalar).}
+
+\item{final}{Whether or not the page is the final page in the test.}
+
+\item{get_answer}{Optional function for extracting the participant's
+answer from the current page.
+The argument list should include \code{...}, \code{input},
+and optionally \code{state}, the participant's \code{state} object.
+The function should extract the answer from the Shiny
+\code{input} object and return it as its output.}
+
+\item{save_answer}{Whether or not to save the answer.}
 
 \item{validate}{Optional validation function.
-Should return \code{TRUE} for a successful validation and \code{FALSE}
-for an unsuccessful validation.
+The argument list should include \code{...},
+and any of:
+\code{answer}, the participant's most recent answer;
+\code{state}, the participant's state object;
+\code{input}, the current page's Shiny input object;
+\code{opt}, the test's option list as created by \code{test_options()};
+\code{session}, the current Shiny session object.
+It should return \code{TRUE} for a successful validation;
+for an unsuccessful validation, it should return either \code{FALSE}
+or a character scalar error message.
 If validation fails then the page will be refreshed, usually
 to give the user a chance to revise their input.}
+
+\item{on_complete}{Optional function to execute on leaving the page
+(after successful validation).
+The argument list should include \code{...},
+and any of:
+\code{state}, the participant's state object;
+\code{answer}, the participant's most recent answer;
+\code{input}, the current page's Shiny input object;
+\code{session}, the current Shiny session object;
+\code{opt}, the test's option list as created by \code{test_options()}.}
 }
 \description{
 This is the most general way to create a psychTestR page.

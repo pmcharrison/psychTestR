@@ -10,6 +10,8 @@ video_NAFC_page(label, prompt, choices, url, type = tools::file_ext(url),
   loop = FALSE, admin_ui = NULL)
 }
 \arguments{
+\item{label}{Label for the current page (character scalar).}
+
 \item{prompt}{Prompt to be displayed above the response choices.
 Can be either a scalar character (e.g. "What is 2 + 2?")
 or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.}
@@ -26,6 +28,10 @@ or a URL relative to the /www directory (e.g. "video.mp4").}
 
 \item{type}{Video type (e.g. 'mp4'). Defaults to the provided file extension.}
 
+\item{save_answer}{See \code{\link{page}}.}
+
+\item{on_complete}{See \code{\link{page}}.}
+
 \item{video_width}{Video width, as passed to HTML (e.g. '50px').}
 
 \item{arrange_choices_vertically}{Whether to arrange the response buttons vertically
@@ -35,6 +41,8 @@ or a URL relative to the /www directory (e.g. "video.mp4").}
 the response buttons.}
 
 \item{loop}{Whether the video should loop.}
+
+\item{admin_ui}{See \code{\link{page}}.}
 }
 \description{
 Creates an n-alternative forced-foced choice page with a video prompt.

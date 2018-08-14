@@ -23,8 +23,23 @@ setClass("reactive_page",
          prototype = list(fun = function(state) page),
          contains = "test_element")
 
-#' Careful - function must be idempotent (calling it multiple times should
+#' Reactive page
+#'
+#' Creates a reactive page.
+#' A reactive page is defined by a function that is called once the participant
+#' reaches a given location in the timeline.
+#' This function must be idempotent, i.e. calling it multiple times should
 #' have the same effect as calling it once).
+#' @param fun Function that returns a \code{page} argument.
+#' This function's argument list must include \code{...}.
+#' It should also include one or more named arguments that provide
+#' information for generating the new page: potential arguments
+#' include \code{state}, corresponding to the participant's
+#' \code{state} object,
+#' \code{answer}, which is the most recent participant response,
+#' and \code{opt}, which is the test's option list as created by
+#' \code{test_options}.
+#' The function should always return an object of class \code{page}.
 #' @export
 reactive_page <- function(fun) {
   new("reactive_page", fun = fun)
@@ -35,6 +50,18 @@ setClass("code_block",
          contains = "test_element",
          prototype = list(fun = function(...) NULL))
 
+#' Code block
+#'
+#' Creates a code block.
+#' @param fun Function to execute within code block.
+#' This function's argument list must include \code{...}.
+#' It may also include any of the following named arguments:
+#' \code{state}, the participant's state object;
+#' \code{opt}, which is the test's option list as created by \code{test_options()};
+#' \code{input}, the current page's Shiny input object;
+#' \code{output}, the current page's Shiny output object;
+#' \code{session}, the current Shiny session object;
+#' \code{elts}, the timeline (i.e. list of test elements).
 #' @export
 code_block <- function(fun) {
   new("code_block", fun = fun)
@@ -81,17 +108,41 @@ setMethod(
 #' @param ui Page UI. Can be either a scalar character (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
+#' @param admin_ui Optional UI component for the admin panel.
+#' @param label Page label (character scalar).
 #' @param final Whether or not the page is the final page in the test.
-#' Should take the following form: function(state, input) ...
-#' where \code{state} is the app's persistent state (a Shiny reactiveValues object)
-#' and \code{input} is the input produced by the page UI.
+#' @param get_answer Optional function for extracting the participant's
+#' answer from the current page.
+#' The argument list should include \code{...}, \code{input},
+#' and optionally \code{state}, the participant's \code{state} object.
+#' The function should extract the answer from the Shiny
+#' \code{input} object and return it as its output.
+#' @param save_answer Whether or not to save the answer.
 #' @param validate Optional validation function.
-#' Should return \code{TRUE} for a successful validation and \code{FALSE}
-#' for an unsuccessful validation.
+#' The argument list should include \code{...},
+#' and any of:
+#' \code{answer}, the participant's most recent answer;
+#' \code{state}, the participant's state object;
+#' \code{input}, the current page's Shiny input object;
+#' \code{opt}, the test's option list as created by \code{test_options()};
+#' \code{session}, the current Shiny session object.
+#' It should return \code{TRUE} for a successful validation;
+#' for an unsuccessful validation, it should return either \code{FALSE}
+#' or a character scalar error message.
 #' If validation fails then the page will be refreshed, usually
 #' to give the user a chance to revise their input.
+#' @param on_complete Optional function to execute on leaving the page
+#' (after successful validation).
+#' The argument list should include \code{...},
+#' and any of:
+#' \code{state}, the participant's state object;
+#' \code{answer}, the participant's most recent answer;
+#' \code{input}, the current page's Shiny input object;
+#' \code{session}, the current Shiny session object;
+#' \code{opt}, the test's option list as created by \code{test_options()}.
 #' @export
-page <- function(ui, admin_ui = NULL, label = NULL, final = FALSE, get_answer = NULL,
+page <- function(ui, admin_ui = NULL, label = NULL,
+                 final = FALSE, get_answer = NULL,
                  save_answer = FALSE, validate = NULL, on_complete = NULL) {
   ui <- tagify(ui)
   stopifnot(
@@ -121,8 +172,10 @@ page <- function(ui, admin_ui = NULL, label = NULL, final = FALSE, get_answer = 
 #' @param body Page body. Can be either a scalar character (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
+#' @param admin_ui See \code{\link{page}}.
 #' @param button_text Text to display on the button.
 #' Should be a scalar character vector.
+#' @param on_complete See \code{\link{page}}.
 #' @export
 one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
                             on_complete = NULL) {
@@ -138,12 +191,27 @@ one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
 #' @param body Page body. Can be either a scalar character (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
+#' @param admin_ui See \code{\link{page}}.
 #' @export
 final_page <- function(body, admin_ui = NULL) {
   body <- tagify(body)
   page(ui = body, admin_ui = admin_ui, final = TRUE)
 }
 
+#' Text input page
+#'
+#' Creates a page where the participant puts their
+#' answer in a text box.
+#' @param label Label for the current page (character scalar).
+#' @param prompt Prompt to display (character scalar or Shiny tag object)
+#' @param save_answer See \code{\link{page}}.
+#' @param placeholder Placeholder text for the text box (character scalar).
+#' @param button_text Text for the submit button (character scalar).
+#' @param width Width of the text box (character scalar, should be valid HTML).
+#' @param height Height of the text box (character scalar, should be valid HTML).
+#' @param validate See \code{\link{page}}.
+#' @param on_complete See \code{\link{page}}.
+#' @param admin_ui See \code{\link{page}}.
 #' @export
 text_input_page <- function(label, prompt,
                             one_line = TRUE,
@@ -179,6 +247,17 @@ text_input_page <- function(label, prompt,
        admin_ui = admin_ui)
 }
 
+#' Get participant ID
+#'
+#' A psychTestR page that gets the participant to enter their ID.
+#' @param prompt Prompt to display (character scalar or Shiny tag object)
+#' @param placeholder Placeholder text for the text box (character scalar).
+#' @param button_text Text for the submit button (character scalar).
+#' @param width Width of the text box (character scalar, should be valid HTML).
+#' @param validate See \code{\link{page}}.
+#' @param admin_ui See \code{\link{page}}.
+#' @note Participant IDs must be between 1 and 100 characters long,
+#' and solely comprise alphanumeric characters and underscores.
 #' @export
 get_p_id <- function(prompt = "Please enter your participant ID.",
                      placeholder = "e.g. 10492817",
@@ -231,6 +310,7 @@ describe_valid_p_id <- function() {
 #' New NAFC page
 #'
 #' Creates an n-alternative forced-foced choice page.
+#' @param label Label for the current page (character scalar).
 #' @param prompt Prompt to be displayed above the response choices.
 #' Can be either a scalar character (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
@@ -239,8 +319,16 @@ describe_valid_p_id <- function() {
 #' and for button labels.
 #' If named, then values will be used for button IDs and names
 #' will be used for button labels.
+#' @param save_answer See \code{\link{page}}.
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
+#' @param hide_response_ui Whether to begin with the response interface hidden
+#' (it can be subsequently made visible through Javascript,
+#' using the element ID as set in \code{response_ui_id}.
+#' See \code{audio_NAFC_page} for an example.).
+#' @param response_ui_id HTML ID for the response user interface.
+#' @param on_complete See \code{\link{page}}.
+#' @param admin_ui See \code{\link{page}}.
 #' @export
 NAFC_page <- function(label, prompt, choices,
                       save_answer = TRUE,
@@ -275,9 +363,9 @@ NAFC_page <- function(label, prompt, choices,
 #' will be used for button labels.
 #' @param hide Whether the response buttons should be hidden
 #' (possibly to be shown later).
-#' @param id HTML ID for the div containing the response buttons.
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
+#' @param id HTML ID for the div containing the response buttons.
 #' @export
 make_ui_NAFC <- function(choices, hide = FALSE,
                          arrange_vertically = length(choices) > 2L,
@@ -295,6 +383,7 @@ make_ui_NAFC <- function(choices, hide = FALSE,
 #' Make NAFC video page
 #'
 #' Creates an n-alternative forced-foced choice page with a video prompt.
+#' @param label Label for the current page (character scalar).
 #' @param prompt Prompt to be displayed above the response choices.
 #' Can be either a scalar character (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
@@ -307,12 +396,15 @@ make_ui_NAFC <- function(choices, hide = FALSE,
 #' Can be an absolute URL (e.g. "http://mysite.com/video.mp4")
 #' or a URL relative to the /www directory (e.g. "video.mp4").
 #' @param type Video type (e.g. 'mp4'). Defaults to the provided file extension.
+#' @param save_answer See \code{\link{page}}.
+#' @param on_complete See \code{\link{page}}.
 #' @param video_width Video width, as passed to HTML (e.g. '50px').
 #' @param arrange_choices_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
 #' @param wait Whether to wait for the video to finish before displaying
 #' the response buttons.
 #' @param loop Whether the video should loop.
+#' @param admin_ui See \code{\link{page}}.
 #' @export
 video_NAFC_page <- function(label, prompt, choices, url,
                             type = tools::file_ext(url),
@@ -370,6 +462,7 @@ media_mobile_play_button <- shiny::tags$p(
 #' Make NAFC audio page
 #'
 #' Creates an n-alternative forced-foced choice page with an audio prompt.
+#' @param label Label for the current page (character scalar).
 #' @param prompt Prompt to be displayed above the response choices.
 #' Can be either a scalar character (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
@@ -382,11 +475,14 @@ media_mobile_play_button <- shiny::tags$p(
 #' Can be an absolute URL (e.g. "http://mysite.com/audio.mp3")
 #' or a URL relative to the /www directory (e.g. "audio.mp3").
 #' @param type Audio type (e.g. 'mp3'). Defaults to the provided file extension.
+#' @param save_answer See \code{\link{page}}.
+#' @param on_complete See \code{\link{page}}.
 #' @param arrange_choices_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
 #' @param wait Whether to wait for the audio to finish before displaying
 #' the response buttons.
 #' @param loop Whether the audio should loop.
+#' @param admin_ui See \code{\link{page}}.
 #' @export
 audio_NAFC_page <- function(label, prompt, choices, url,
                             type = tools::file_ext(url),
@@ -424,12 +520,14 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 #'
 #' Creates a page for the participant to calibrate their volume,
 #' using example audio, and the volume controls on their computer.
-#' @param prompt Prompt to be displayed. If left \code{NULL},
-#' a sensible English prompt is provided.
-#' @param url URL to the audio
+#' @param url URL to the audio.
 #' Can be an absolute URL (e.g. "http://mysite.com/audio.mp3")
 #' or a URL relative to the /www directory (e.g. "audio.mp3").
 #' @param type Audio type (e.g. 'mp3'). Defaults to the provided file extension.
+#' @param prompt Prompt to be displayed. If left \code{NULL},
+#' a sensible English prompt is provided.
+#' @param button_text Button text (scalar character).
+#' @param admin_ui See \code{\link{page}}.
 #' @export
 volume_calibration_page <- function(url, type = tools::file_ext(url),
                                     prompt = NULL,
@@ -458,6 +556,25 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 #' Make dropdown list page
 #'
 #' Creates a page where the response is to be selected from a dropdown list.
+#' @param label Page label (scalar character).
+#' @param prompt Prompt to be displayed above the response choices.
+#' Can be either a scalar character (e.g. "What is 2 + 2?")
+#' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
+#' @param choices Character vector of choices for the participant.
+#' If names are provided, then these names will be used for display,
+#' whereas the values will be stored in the results.
+#' @param alternative_choice Whether or not to give the participant
+#' the option of providing a free-text response instead of
+#' selecting one of the dropdown options.
+#' @param alternative_text Prompt for the free-text box (only relevant
+#' if \code{alternative_choice} is set to \code{TRUE}).
+#' @param save_answer See \code{\link{page}}.
+#' @param validate See \code{\link{page}}.
+#' @param on_complete See \code{\link{page}}.
+#' @param next_button_text Text to display on the next-page button
+#' (character scalar).
+#' @param max_width_pixels Maximum width of the response UI, in pixels.
+#' @param admin_ui See \code{\link{page}}.
 #' @export
 dropdown_page <- function(label, prompt, choices,
                           alternative_choice = FALSE,
@@ -512,11 +629,20 @@ dropdown_page.validate <- function(alternative_choice, alternative_text) {
 
 dropdown_page.get_answer <- function(alternative_text) {
   function(input, ...) {
-    if (input$dropdown == alternative_text) input$text_alternative else input$dropdown
+    if (input$dropdown == alternative_text)
+      input$text_alternative else
+        input$dropdown
   }
 }
 
-# Version of actionButton that also triggers the next page
+#' Trigger button
+#'
+#' A version of \code{shiny::actionButton} that triggers
+#' the next psychTestR page.
+#' @param inputId See \link[shiny]{actionButton}
+#' @param label See \link[shiny]{actionButton}
+#' @param icon See \link[shiny]{actionButton}
+#' @param width See \link[shiny]{actionButton}
 #' @export
 trigger_button <- function(inputId, label, icon = NULL, width = NULL) {
   inputId <- htmltools::htmlEscape(inputId, attribute = TRUE)
@@ -526,14 +652,22 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL) {
     onclick = "trigger_button(this.id);")
 }
 
+#' New results section
+#'
+#' Returns a test element that initialises a new results section.
+#' @param label Label to give the new results section.
 #' @export
 new_results_section <- function(label) {
   stopifnot(is.scalar.character(label))
   code_block(function(state, ...) register_next_results_section(state, label))
 }
 
+#' Save results to disk (test element version)
+#'
+#' Returns a test element that saves the current participant's results to disk.
+#' @param complete Whether or not the participant
+#' has now completed the test (scalar Boolean).
 #' @export
-#' @param complete Whether the participant completed the test.
 elt_save_results_to_disk <- function(complete) {
   stopifnot(is.scalar.logical(complete))
   code_block(function(state, opt, ...) {
@@ -541,6 +675,15 @@ elt_save_results_to_disk <- function(complete) {
   })
 }
 
+#' Save results to disk
+#'
+#' Saves the current participant's results to disk.
+#' This function can be called e.g. within a code block.
+#' @param complete Whether or not the participant
+#' has now completed the test (scalar Boolean).
+#' @param state The participant's \code{state} object.
+#' @param opt Test options as created by \code{test_options()}.
+#' @param ... Further arguments are allowed but ignored (for back-compatibility).
 #' @export
 #' @param complete Whether the participant completed the test.
 save_results_to_disk <- function(complete, state, opt, ...) {
@@ -586,6 +729,21 @@ notify_new_participant <- function(opt) {
   }
 }
 
+#' Loop
+#'
+#' Repeatedly show a series of test elements to the participant
+#' while a condition is satisfied.
+#' The elements are shown at least once; at the end of each pass,
+#' the test function is checked.
+#' @param test Test function to execute.
+#' Argument list should include \code{...};
+#' further permitted arguments are:
+#' \code{state}, the participant's \code{state} object;
+#' \code{input}, the Shiny \code{input} object for the current page;
+#' \code{output}, the Shiny \code{output} object for the current page;
+#' \code{session}, the Shiny \code{session} object;
+#' \code{opt}, test options as created by \code{test_options()}.
+#' @param logic List of psychTestR test elements.
 #' @export
 loop_while <- function(test, logic) {
   if (!is.function(test)) stop("<test> must be a function")
@@ -605,6 +763,13 @@ loop_while <- function(test, logic) {
   c(logic, elt)
 }
 
+#' Begin module
+#'
+#' Returns a code block that begins a psychTestR module.
+#' Modules have their own set of local variables.
+#' They also have identifying labels that are stored alongside
+#' result entries created during the module.
+#' @param label Module label (scalar character).
 #' @export
 begin_module <- function(label) {
   stopifnot(is.scalar.character(label))
@@ -614,6 +779,13 @@ begin_module <- function(label) {
   })
 }
 
+#' End module
+#'
+#' Returns a code block that ends a psychTestR module.
+#' Modules have their own set of local variables.
+#' They also have identifying labels that are stored alongside
+#' result entries created during the module.
+#' @param label Module label (scalar character).
 #' @export
 end_module <- function() {
   code_block(function(state, ...) {
@@ -622,6 +794,14 @@ end_module <- function() {
   })
 }
 
+#' Finish test and give code
+#'
+#' psychTestR logic for finishing the current test
+#' and giving the participant a randomly
+#' generated code that can then be used for organising payment
+#' (e.g. for Amazon Mechanical Turk).
+#' @param researcher_email The researcher's email address
+#' (given in case the participant has any further questions).
 #' @export
 finish_test_and_give_code <- function(researcher_email) {
   c(

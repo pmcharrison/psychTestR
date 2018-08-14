@@ -10,6 +10,8 @@ audio_NAFC_page(label, prompt, choices, url, type = tools::file_ext(url),
   loop = FALSE, admin_ui = NULL)
 }
 \arguments{
+\item{label}{Label for the current page (character scalar).}
+
 \item{prompt}{Prompt to be displayed above the response choices.
 Can be either a scalar character (e.g. "What is 2 + 2?")
 or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.}
@@ -26,6 +28,10 @@ or a URL relative to the /www directory (e.g. "audio.mp3").}
 
 \item{type}{Audio type (e.g. 'mp3'). Defaults to the provided file extension.}
 
+\item{save_answer}{See \code{\link{page}}.}
+
+\item{on_complete}{See \code{\link{page}}.}
+
 \item{arrange_choices_vertically}{Whether to arrange the response buttons vertically
 (the default) as opposed to horizontally.}
 
@@ -33,6 +39,8 @@ or a URL relative to the /www directory (e.g. "audio.mp3").}
 the response buttons.}
 
 \item{loop}{Whether the audio should loop.}
+
+\item{admin_ui}{See \code{\link{page}}.}
 }
 \description{
 Creates an n-alternative forced-foced choice page with an audio prompt.

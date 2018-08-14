@@ -10,6 +10,37 @@ dropdown_page(label, prompt, choices, alternative_choice = FALSE,
   alternative_text), on_complete = NULL, next_button_text = "Next",
   max_width_pixels = 200, admin_ui = NULL)
 }
+\arguments{
+\item{label}{Page label (scalar character).}
+
+\item{prompt}{Prompt to be displayed above the response choices.
+Can be either a scalar character (e.g. "What is 2 + 2?")
+or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.}
+
+\item{choices}{Character vector of choices for the participant.
+If names are provided, then these names will be used for display,
+whereas the values will be stored in the results.}
+
+\item{alternative_choice}{Whether or not to give the participant
+the option of providing a free-text response instead of
+selecting one of the dropdown options.}
+
+\item{alternative_text}{Prompt for the free-text box (only relevant
+if \code{alternative_choice} is set to \code{TRUE}).}
+
+\item{save_answer}{See \code{\link{page}}.}
+
+\item{validate}{See \code{\link{page}}.}
+
+\item{on_complete}{See \code{\link{page}}.}
+
+\item{next_button_text}{Text to display on the next-page button
+(character scalar).}
+
+\item{max_width_pixels}{Maximum width of the response UI, in pixels.}
+
+\item{admin_ui}{See \code{\link{page}}.}
+}
 \description{
 Creates a page where the response is to be selected from a dropdown list.
 }

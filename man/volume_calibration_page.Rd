@@ -9,7 +9,7 @@ volume_calibration_page(url, type = tools::file_ext(url),
   admin_ui = NULL)
 }
 \arguments{
-\item{url}{URL to the audio
+\item{url}{URL to the audio.
 Can be an absolute URL (e.g. "http://mysite.com/audio.mp3")
 or a URL relative to the /www directory (e.g. "audio.mp3").}
 
@@ -17,6 +17,10 @@ or a URL relative to the /www directory (e.g. "audio.mp3").}
 
 \item{prompt}{Prompt to be displayed. If left \code{NULL},
 a sensible English prompt is provided.}
+
+\item{button_text}{Button text (scalar character).}
+
+\item{admin_ui}{See \code{\link{page}}.}
 }
 \description{
 Creates a page for the participant to calibrate their volume,

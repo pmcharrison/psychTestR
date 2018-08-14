@@ -10,6 +10,8 @@ NAFC_page(label, prompt, choices, save_answer = TRUE,
   admin_ui = NULL)
 }
 \arguments{
+\item{label}{Label for the current page (character scalar).}
+
 \item{prompt}{Prompt to be displayed above the response choices.
 Can be either a scalar character (e.g. "What is 2 + 2?")
 or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.}
@@ -20,8 +22,21 @@ and for button labels.
 If named, then values will be used for button IDs and names
 will be used for button labels.}
 
+\item{save_answer}{See \code{\link{page}}.}
+
 \item{arrange_vertically}{Whether to arrange the response buttons vertically
 (the default) as opposed to horizontally.}
+
+\item{hide_response_ui}{Whether to begin with the response interface hidden
+(it can be subsequently made visible through Javascript,
+using the element ID as set in \code{response_ui_id}.
+See \code{audio_NAFC_page} for an example.).}
+
+\item{response_ui_id}{HTML ID for the response user interface.}
+
+\item{on_complete}{See \code{\link{page}}.}
+
+\item{admin_ui}{See \code{\link{page}}.}
 }
 \description{
 Creates an n-alternative forced-foced choice page.
