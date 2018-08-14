@@ -71,11 +71,20 @@ as.data.frame.results <- function(x, ...) {
 
 # Accessing results ####
 
+#' Access results
+#'
+#' Accesses the \code{results} slot in \code{state}.
+#' @param state The participant's \code{state} object.
 #' @export
 results <- function(state) {
   state$results
 }
 
+#' Set results
+#'
+#' Sets the \code{results} slot in \code{state}.
+#' @param state The participant's \code{state} object.
+#' @param value Value to set the \code{results} slot to.
 #' @export
 `results<-` <- function(state, value) {
   state$results <- value
@@ -83,6 +92,10 @@ results <- function(state) {
 
 # Register next results section ####
 
+#' Register next results section
+#' @param x Where should the new section be registered?
+#' Methods exist for \code{results} objects and for \code{state} objects.
+#' @param label Label for the new section.
 #' @export
 register_next_results_section <- function(x, label) {
   stopifnot(is.null(label) || is.scalar.character(label))
@@ -124,6 +137,14 @@ register_next_results_section.results <- function(x, label) {
 
 # Saving results ####
 
+#' Save result
+#'
+#' Saves a new datum into the participant's results store.
+#'
+#' @param place Place to save the results.
+#' Methods exist for \code{results} objects and for \code{state} objects.
+#' @param label Label for the new datum.
+#' @param value Value of the new datum.
 #' @export
 save_result <- function(place, label, value) UseMethod("save_result")
 

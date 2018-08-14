@@ -43,6 +43,13 @@ get_url_params_from_browser <- function(session) {
 #   shiny::parseQueryString(session$clientData$url_search)$p_id
 # }
 
+#' Set a URL parameter
+#'
+#' Sets a URL parameter.
+#' @param key URL parameter key.
+#' @param value URL parameter value.
+#' @param session The participant's \code{session} object.
+#' @param state The participant's \code{state} object.
 #' @export
 set_url_param <- function(key, value, session, state) {
   stopifnot(is.scalar(value), is.scalar.character(key))

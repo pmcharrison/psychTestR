@@ -72,7 +72,12 @@ next_page <- function(state, input, output, elts, session, opt,
   }
 }
 
-#' Intended to be called within e.g. code blocks to skip pages
+#' Skip pages
+#'
+#' Skips a certain number of pages, typically in response to a
+#' participant action.
+#' @param state Participant's state object.
+#' @param n Number of pages to skip (negative numbers skip backwards).
 #' @export
 skip_n_pages <- function(state, n) {
   increment_elt_index(state, by = n)
@@ -182,6 +187,10 @@ make_current_page_visible <- function() {
   shinyjs::runjs("document.getElementById('current_page.ui').style.visibility = 'visible'")
 }
 
+#' Close test
+#'
+#' Closes the test.
+#' @param opt Test options list as created by \code{test_options()}.
 #' @export
 close_test <- function(opt) {
   closed <- is_test_closed(opt)
@@ -197,6 +206,10 @@ close_test <- function(opt) {
   }
 }
 
+#' Open test
+#'
+#' Opens the test.
+#' @param opt Test options list as created by \code{test_options()}.
 #' @export
 open_test <- function(opt) {
   closed <- is_test_closed(opt)
@@ -212,6 +225,11 @@ open_test <- function(opt) {
   }
 }
 
+#' Is test closed?
+#'
+#' Checks whether the test is closed.
+#' @param opt Test options list as created by \code{test_options()}.
+#' @return \code{TRUE} if the test is closed, \code{FALSE} otherwise.
 #' @export
 is_test_closed <- function(opt) {
   file.exists(opt$closed_file)

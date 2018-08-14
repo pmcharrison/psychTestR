@@ -4,8 +4,9 @@
 \alias{volume_calibration_page}
 \title{Make volume calibration page}
 \usage{
-volume_calibration_page(url, type = tools::file_ext(url), prompt = NULL,
-  button_text = "Next", on_complete = NULL, admin_ui = NULL)
+volume_calibration_page(url, type = tools::file_ext(url),
+  prompt = NULL, button_text = "Next", on_complete = NULL,
+  admin_ui = NULL)
 }
 \arguments{
 \item{url}{URL to the audio

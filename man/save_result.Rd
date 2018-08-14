@@ -13,6 +13,14 @@ get_next_results_section.state <- function(x) {
 \usage{
 save_result(place, label, value)
 }
+\arguments{
+\item{place}{Place to save the results.
+Methods exist for \code{results} objects and for \code{state} objects.}
+
+\item{label}{Label for the new datum.}
+
+\item{value}{Value of the new datum.}
+}
 \description{
 get_next_results_section.results <- function(x) {
   y <- attr(x, "new_section")
@@ -24,4 +32,8 @@ stop()
     names(results)
   }
 }
+Save result
+}
+\details{
+Saves a new datum into the participant's results store.
 }

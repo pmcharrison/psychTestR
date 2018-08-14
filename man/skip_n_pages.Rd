@@ -2,10 +2,16 @@
 % Please edit documentation in R/server.R
 \name{skip_n_pages}
 \alias{skip_n_pages}
-\title{Intended to be called within e.g. code blocks to skip pages}
+\title{Skip pages}
 \usage{
 skip_n_pages(state, n)
 }
+\arguments{
+\item{state}{Participant's state object.}
+
+\item{n}{Number of pages to skip (negative numbers skip backwards).}
+}
 \description{
-Intended to be called within e.g. code blocks to skip pages
+Skips a certain number of pages, typically in response to a
+participant action.
 }

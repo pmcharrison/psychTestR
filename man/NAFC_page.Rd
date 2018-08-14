@@ -6,7 +6,8 @@
 \usage{
 NAFC_page(label, prompt, choices, save_answer = TRUE,
   arrange_vertically = length(choices) > 2L, hide_response_ui = FALSE,
-  response_ui_id = "response_ui", on_complete = NULL, admin_ui = NULL)
+  response_ui_id = "response_ui", on_complete = NULL,
+  admin_ui = NULL)
 }
 \arguments{
 \item{prompt}{Prompt to be displayed above the response choices.

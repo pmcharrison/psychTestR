@@ -20,7 +20,7 @@ pt_options <- function(...) {
 #' (set to \code{TRUE} when developing locally).
 #' @param log_error Whether to log errors
 #' (this feature is under development).
-#' @param show_full_error_msg} Whether to show full error messages.
+#' @param show_full_error_msg Whether to show full error messages.
 #' @param notify_error Whether to send a Pushbullet message when
 #' the test experiences an error
 #' (this feature is under development).
