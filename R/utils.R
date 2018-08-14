@@ -34,6 +34,11 @@ is.null.or <- function(x, f) {
   is.null(x) || f(x)
 }
 
+#' Display a popup error message
+#'
+#' Displays a popup error message and terminates the testing session.
+#' @param ... Arguments to be pasted together (without separator) to form
+#' the error message.
 #' @export
 display_error <- function(...) {
   msg <- paste(..., collapse = "")
@@ -41,6 +46,11 @@ display_error <- function(...) {
   stop(msg)
 }
 
+#' Assert that a global variable is NULL
+#'
+#' Throws an error if a certain global variable is not \code{NULL}.
+#' @param key Key of the global variable that should be \code{NULL}.
+#' @param state The participant's \code{state} object.
 #' @export
 assert_global_is_null <- function(key, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
