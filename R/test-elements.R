@@ -46,7 +46,7 @@ setClass("reactive_page",
 #' The function should always return an object of class \code{page}.
 #' @export
 reactive_page <- function(fun) {
-  new("reactive_page", fun = fun)
+  new("reactive_page", fun = fun, i18n_dict = SELECTED_I18N_DICT$get())
 }
 
 setClass("code_block",
@@ -69,7 +69,7 @@ setClass("code_block",
 #' \code{elts}, the timeline (i.e. list of test elements).
 #' @export
 code_block <- function(fun) {
-  new("code_block", fun = fun)
+  new("code_block", fun = fun, i18n_dict = SELECTED_I18N_DICT$get())
 }
 
 setMethod(

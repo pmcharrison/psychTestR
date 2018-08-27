@@ -20,6 +20,13 @@ i18n_dict <- R6::R6Class(
                          key, language))
       }
       val
+    },
+    print = function(...) {
+      df <- self$as.data.frame()
+      n <- nrow(df)
+      cat(sprintf("i18n dictionary (%i terms):\n\n", n))
+      print(head(df))
+      cat("\n")
     }
   ),
   private = list(dict = NULL)
@@ -42,10 +49,10 @@ i18n_state <- R6::R6Class(
   public = list(
     dict = NULL,
     lang = NULL,
-    initialize = function(x) {
+    initialize = function() {
       self$dict <- NULL
       self$lang <- NULL
-      },
+    },
     set = function(dict, lang) {
       stopifnot(is.null(dict) ||
                   is(dict, "i18n_dict") ||
@@ -72,4 +79,26 @@ I18N_STATE <- i18n_state$new()
 # Translate
 i18n <- function(key) {
   I18N_STATE$translate(key)
+}
+
+selected_i18n_dict <- R6::R6Class(
+  "selected_i18n_dict",
+  public = list(initialize = function() private$val <- NULL,
+                get = function() private$val,
+                set = function(val) {
+                  stopifnot(is.null(val) || is(val, "i18n_dict"))
+                  private$val <- val
+                },
+                reset = function() private$val <- NULL),
+  private = list(val = NULL)
+)
+SELECTED_I18N_DICT <- selected_i18n_dict$new()
+
+#' @export
+with_i18n <- function(dict, expr) {
+  old_dict <- SELECTED_I18N_DICT$get()
+  SELECTED_I18N_DICT$set(dict)
+  res <- eval(expr)
+  SELECTED_I18N_DICT$set(old_dict)
+  res
 }
