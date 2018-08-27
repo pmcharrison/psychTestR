@@ -23,9 +23,12 @@ test_that("I18N_GLOBAL_DICT", {
     FR = c("Bonjour", "Salut", "Au revoir"),
     stringsAsFactors = FALSE
   )
-  I18N_GLOBAL_DICT$reset()
-  I18N_GLOBAL_DICT$set(i18n_dict$new(csv))
-  expect_equal(I18N_GLOBAL_DICT$get()$as.data.frame(), csv)
-  I18N_GLOBAL_DICT$reset()
-  expect_equal(I18N_GLOBAL_DICT$get(), NULL)
+  psychTestR:::I18N_STATE$reset()
+  psychTestR:::I18N_STATE$set(dict = i18n_dict$new(csv),
+                              lang = "FR")
+  testthat::expect_equal(psychTestR:::I18N_STATE$translate("A"),
+                         "Bonjour")
+  psychTestR:::I18N_STATE$reset()
+  expect_error(psychTestR:::I18N_STATE$translate("A"),
+               "cannot translate, no dictionary defined")
 })

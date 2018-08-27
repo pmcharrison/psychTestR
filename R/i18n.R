@@ -37,18 +37,39 @@ i18n_check <- function(x) {
     stop("all columns of input to i18n_dict() must be character class")
 }
 
-i18n_global_dict <- R6::R6Class(
-  "i18n_global_dict",
+i18n_state <- R6::R6Class(
+  "i18n_state",
   public = list(
-    initialize = function(x) private$val <- NULL,
-    get = function() private$val,
-    set = function(val) {
-      stopifnot(is(val, "i18n_dict"))
-      private$val <- val
+    dict = NULL,
+    lang = NULL,
+    initialize = function(x) {
+      self$dict <- NULL
+      self$lang <- NULL
+      },
+    set = function(dict, lang) {
+      stopifnot(is.null(dict) ||
+                  is(dict, "i18n_dict") ||
+                  identical(dict, "identity"),
+                is.null.or(lang, is.scalar.character))
+      self$dict <- dict
+      self$lang <- lang
     },
-    reset = function() private$val <- NULL
-  ),
-  private = list(val = NULL)
+    reset = function() {
+      self$dict <- NULL
+      self$lang <- NULL
+    },
+    translate = function(key) {
+      if (is.null(self$dict)) stop("cannot translate, no dictionary defined")
+      if (is.null(self$lang)) stop("cannot translate, no language defined")
+      if (identical(self$dict, "identity")) key else
+        self$dict$translate(key = key, language = self$lang)
+    }
+  )
 )
 
-I18N_GLOBAL_DICT <- i18n_global_dict$new()
+I18N_STATE <- i18n_state$new()
+
+# Translate
+i18n <- function(key) {
+  I18N_STATE$translate(key)
+}

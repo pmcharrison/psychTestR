@@ -18,6 +18,7 @@ initialise_state <- function(x) {
   x$save_id <- 1L
   x$previous_save_path <- NULL
   x$admin <- FALSE
+  x$language <- NULL
   x$demo <- FALSE
   x$pilot <- FALSE
   x$error <- NULL
@@ -177,6 +178,17 @@ closed <- function(state) {
 `closed<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
   state$closed <- value
+  state
+}
+
+language <- function(state) {
+  stopifnot(is(state, "state"))
+  state$language
+}
+
+`language<-` <- function(state, value) {
+  stopifnot(is(state, "state"), is.scalar.character(value))
+  state$language <- value
   state
 }
 
@@ -352,9 +364,9 @@ get_elt <- function(state, index, elts, opt, eval = TRUE) {
             index >= 0, index <= get_num_elts(elts))
   elt <- elts[[index]]
   if (is(elt, "reactive_page") && eval) {
-    I18N_GLOBAL_DICT$set(elt@i18n_dict)
+    I18N_STATE$set(dict = elt@i18n_dict, lang = language(state))
     elt@fun(state = state, answer = answer(state), opt = opt)
-    I18N_GLOBAL_DICT$reset()
+    I18N_STATE$reset()
   } else elt
 }
 

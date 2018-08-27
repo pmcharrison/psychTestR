@@ -117,10 +117,10 @@ perform_on_complete_function <- function(elt, state, input, session, opt) {
 execute_code_block <- function(elt, state, elts, input, output,
                                session, opt) {
   stopifnot(is(elt, "code_block"))
-  I18N_GLOBAL_DICT$set(elt@i18n_dict)
+  I18N_STATE$set(dict = elt@i18n_dict, lang = language(state))
   elt@fun(state = state, elts = elts, input = input, output = output,
           session = session, opt = opt, answer = answer(state))
-  I18N_GLOBAL_DICT$reset()
+  I18N_STATE$reset()
 }
 
 check_elts <- function(elts) {
