@@ -352,7 +352,9 @@ get_elt <- function(state, index, elts, opt, eval = TRUE) {
             index >= 0, index <= get_num_elts(elts))
   elt <- elts[[index]]
   if (is(elt, "reactive_page") && eval) {
+    I18N_GLOBAL_DICT$set(elt@i18n_dict)
     elt@fun(state = state, answer = answer(state), opt = opt)
+    I18N_GLOBAL_DICT$reset()
   } else elt
 }
 
