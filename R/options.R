@@ -1,6 +1,7 @@
 #' Alias for test_options()
 #'
 #' Alias for \code{test_options()} (deprecated).
+#' @export
 pt_options <- function(...) {
   do.call(test_options, list(...))
 }
