@@ -5,8 +5,9 @@
 \title{Test options}
 \usage{
 test_options(title, admin_password, researcher_email = NULL,
-  max_num_participants = NULL, demo = FALSE, debug_locally = FALSE,
-  log_error = TRUE, show_full_error_msg = TRUE, notify_error = FALSE,
+  max_num_participants = NULL, demo = FALSE, languages = "GB",
+  debug_locally = FALSE, log_error = TRUE,
+  show_full_error_msg = TRUE, notify_error = FALSE,
   notify_new_participant = FALSE, pushbullet_email = NULL,
   pushbullet_apikey = NULL, max_participants_msg = NULL,
   server_closed_msg = NULL, problems_info = "default",
@@ -29,6 +30,11 @@ before the test automatically closes (excludes pilot participants
 as indicated through the admin panel).}
 
 \item{demo}{Whether the test is to be run in demo mode.}
+
+\item{languages}{Character vector of languages that may be selected
+via the URL parameter 'language'. If no language is provided by
+the URL parameter, defaults to the first language in this vector.
+Languages should be encoded according to ISO3166 conventions.}
 
 \item{log_error}{Whether to log errors
 (this feature is under development).}

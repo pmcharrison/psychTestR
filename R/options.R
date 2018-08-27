@@ -17,6 +17,10 @@ pt_options <- function(...) {
 #' before the test automatically closes (excludes pilot participants
 #' as indicated through the admin panel).
 #' @param demo Whether the test is to be run in demo mode.
+#' @param languages Character vector of languages that may be selected
+#' via the URL parameter 'language'. If no language is provided by
+#' the URL parameter, defaults to the first language in this vector.
+#' Languages should be encoded according to ISO3166 conventions.
 #' @param debug Whether the test is to be debugged locally
 #' (set to \code{TRUE} when developing locally).
 #' @param log_error Whether to log errors
@@ -63,6 +67,7 @@ test_options <- function(title, admin_password,
                          researcher_email = NULL,
                          max_num_participants = NULL,
                          demo = FALSE,
+                         languages = "GB",
                          debug_locally = FALSE,
                          log_error = TRUE,
                          show_full_error_msg = TRUE,
@@ -88,6 +93,8 @@ test_options <- function(title, admin_password,
   stopifnot(is.scalar.character(title),
             is.scalar.character(admin_password),
             is.scalar.character(researcher_email),
+            is.character(languages),
+            length(languages) > 0,
             is.scalar.logical(debug_locally),
             is.scalar.logical(log_error),
             is.scalar.logical(show_full_error_msg),
@@ -152,6 +159,7 @@ test_options <- function(title, admin_password,
        admin_password = admin_password,
        researcher_email = researcher_email,
        demo = demo,
+       languages = languages,
        debug_locally = debug_locally,
        log_error = log_error,
        show_full_error_msg = show_full_error_msg,
