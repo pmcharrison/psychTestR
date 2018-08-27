@@ -98,7 +98,12 @@ SELECTED_I18N_DICT <- selected_i18n_dict$new()
 with_i18n <- function(dict, expr) {
   old_dict <- SELECTED_I18N_DICT$get()
   SELECTED_I18N_DICT$set(dict)
-  res <- eval(expr)
+  tryCatch(
+    res <- eval(expr),
+    error = function(e) {
+      SELECTED_I18N_DICT$set(old_dict)
+      stop(e)
+    })
   SELECTED_I18N_DICT$set(old_dict)
   res
 }
