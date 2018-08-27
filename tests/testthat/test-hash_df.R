@@ -13,4 +13,4 @@ test_that("hash_df", {
   expect_error(hash_csv(42))
   expect_error(hash_csv(data.frame(Key = 10, GB = "Hi")))
   expect_error(hash_csv(data.frame(key = 10, GB = "Hi")))
-}
+})

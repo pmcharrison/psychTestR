@@ -22,7 +22,8 @@ Imports: assertthat,
     shinyBS,
     shinythemes,
     tidyr,
-    utils
+    utils,
+    R6
 RoxygenNote: 6.1.0
 Suggests: testthat
 Byte-Compile: yes
