@@ -196,10 +196,12 @@ page <- function(ui, admin_ui = NULL, label = NULL,
 #' @export
 one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
                             on_complete = NULL) {
-  body <- tagify(body)
-  stopifnot(is.scalar.character(button_text))
-  ui <- shiny::div(body, trigger_button("next", button_text))
-  page(ui = ui, admin_ui = admin_ui, on_complete = on_complete)
+  i18_support(expression({
+    body <- tagify(body)
+    stopifnot(is.scalar.character(button_text))
+    ui <- shiny::div(body, trigger_button("next", button_text))
+    page(ui = ui, admin_ui = admin_ui, on_complete = on_complete)
+  }))
 }
 
 #' New final page
@@ -211,8 +213,10 @@ one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
 #' @param admin_ui See \code{\link{page}}.
 #' @export
 final_page <- function(body, admin_ui = NULL) {
-  body <- tagify(body)
-  page(ui = body, admin_ui = admin_ui, final = TRUE)
+  i18_support({
+    body <- tagify(body)
+    page(ui = body, admin_ui = admin_ui, final = TRUE)
+  })
 }
 
 #' Text input page
@@ -354,20 +358,22 @@ NAFC_page <- function(label, prompt, choices,
                       response_ui_id = "response_ui",
                       on_complete = NULL,
                       admin_ui = NULL) {
-  stopifnot(is.scalar.character(label),
-            is.character(choices), length(choices) > 0L,
-            is.scalar.logical(arrange_vertically))
-  ui <- shiny::div(
-    tagify(prompt),
-    make_ui_NAFC(choices,
-                 hide = hide_response_ui,
-                 arrange_vertically = arrange_vertically,
-                 id = response_ui_id))
-  get_answer <- function(input, ...) input$last_btn_pressed
-  validate <- function(answer, ...) !is.null(answer)
-  page(ui = ui, label = label,  get_answer = get_answer, save_answer = save_answer,
-       validate = validate, on_complete = on_complete, final = FALSE,
-       admin_ui = admin_ui)
+  i18_support({
+    stopifnot(is.scalar.character(label),
+              is.character(choices), length(choices) > 0L,
+              is.scalar.logical(arrange_vertically))
+    ui <- shiny::div(
+      tagify(prompt),
+      make_ui_NAFC(choices,
+                   hide = hide_response_ui,
+                   arrange_vertically = arrange_vertically,
+                   id = response_ui_id))
+    get_answer <- function(input, ...) input$last_btn_pressed
+    validate <- function(answer, ...) !is.null(answer)
+    page(ui = ui, label = label,  get_answer = get_answer, save_answer = save_answer,
+         validate = validate, on_complete = on_complete, final = FALSE,
+         admin_ui = admin_ui)
+  })
 }
 
 #' Make NAFC buttons

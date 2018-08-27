@@ -66,8 +66,9 @@ i18n_state <- R6::R6Class(
       self$lang <- NULL
     },
     translate = function(key) {
-      if (is.null(self$dict)) stop("cannot translate, no dictionary defined")
-      if (is.null(self$lang)) stop("cannot translate, no language defined")
+      if (WITH_I18N$get()) stop(with_i18n_error())
+      if (is.null(self$dict)) stop(missing_dict_error())
+      if (is.null(self$lang)) stop(missing_lang_error())
       if (identical(self$dict, "identity")) key else
         self$dict$translate(key = key, language = self$lang)
     }
@@ -76,9 +77,30 @@ i18n_state <- R6::R6Class(
 
 I18N_STATE <- i18n_state$new()
 
+with_i18n_error <- function() {
+  msg <- "i18n() cannot be evaluated within with_i18n()"
+  condition(c("with_i18n_error", "error"),
+            message = msg)
+}
+
+missing_dict_error <- function() {
+  msg <- "cannot translate, no dictionary defined"
+  condition(c("missing_dict_error", "error"),
+            message = msg)
+}
+
+missing_lang_error <- function() {
+  msg <- "cannot translate, no language defined"
+  condition(c("missing_lang_error", "error"),
+            message = msg)
+}
+
 # Translate
-i18n <- function(key) {
-  I18N_STATE$translate(key)
+#' @export
+i18n <- function(...) {
+  x <- as.character(c(...))
+  vapply(x, function(y) I18N_STATE$translate(y), character(1),
+         USE.NAMES = FALSE)
 }
 
 selected_i18n_dict <- R6::R6Class(
@@ -94,16 +116,39 @@ selected_i18n_dict <- R6::R6Class(
 )
 SELECTED_I18N_DICT <- selected_i18n_dict$new()
 
+with_i18n_flag <- R6::R6Class(
+  "with_i18n_flag",
+  public = list(initialize = function() private$val <- FALSE,
+                get = function() private$val,
+                set = function(val) private$val <- val),
+  private = list(val = FALSE)
+)
+WITH_I18N <- with_i18n_flag$new()
+
+
 #' @export
 with_i18n <- function(dict, expr) {
   old_dict <- SELECTED_I18N_DICT$get()
   SELECTED_I18N_DICT$set(dict)
+  WITH_I18N$set(TRUE)
   tryCatch(
     res <- eval(expr),
     error = function(e) {
       SELECTED_I18N_DICT$set(old_dict)
+      WITH_I18N$set(FALSE)
       stop(e)
     })
   SELECTED_I18N_DICT$set(old_dict)
+  WITH_I18N$set(FALSE)
   res
+}
+
+#' @export
+i18_support <- function(expr) {
+  parent <- sys.frame(-1)
+  tryCatch(
+    eval(expr, envir = parent),
+    with_i18n_error = function(e)
+      reactive_page(function(...) eval(expr, envir = parent))
+  )
 }

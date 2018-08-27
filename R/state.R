@@ -365,8 +365,9 @@ get_elt <- function(state, index, elts, opt, eval = TRUE) {
   elt <- elts[[index]]
   if (is(elt, "reactive_page") && eval) {
     I18N_STATE$set(dict = elt@i18n_dict, lang = language(state))
-    elt@fun(state = state, answer = answer(state), opt = opt)
+    res <- elt@fun(state = state, answer = answer(state), opt = opt)
     I18N_STATE$reset()
+    res
   } else elt
 }
 
