@@ -1,11 +1,13 @@
 setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
+setOldClass("i18n_dict")
 
 setClass("test_element")
 
 setClassUnion("function_or_null", members = c("function", "NULL"))
 setClassUnion("character_or_null", members = c("character", "NULL"))
 setClassUnion("shiny_tag_or_null", members = c("shiny.tag", "NULL"))
+setClassUnion("i18n_dict_or_null", members = c("i18n_dict", "NULL"))
 
 setClass("page",
          slots = list(ui = "shiny.tag",
@@ -19,8 +21,10 @@ setClass("page",
          contains = "test_element")
 
 setClass("reactive_page",
-         slots = list(fun = "function"),
-         prototype = list(fun = function(state) page),
+         slots = list(fun = "function",
+                      i18n_dict = "i18n_dict_or_null"),
+         prototype = list(fun = function(state) page,
+                          i18n_dict = NULL),
          contains = "test_element")
 
 #' Reactive page
@@ -46,9 +50,10 @@ reactive_page <- function(fun) {
 }
 
 setClass("code_block",
-         slots = list(fun = "function"),
+         slots = list(fun = "function", i18n_dict = "i18n_dict_or_null"),
          contains = "test_element",
-         prototype = list(fun = function(...) NULL))
+         prototype = list(fun = function(...) NULL,
+                          i18n_dict = NULL))
 
 #' Code block
 #'
@@ -72,23 +77,32 @@ setMethod(
   signature(object = "page"),
   definition = function(object) {
     cat("psychTestR page\n")
-    htmltools::html_print(shiny::div(
-      shiny::includeCSS(system.file(shinythemes::shinytheme("readable"),
-                                    package = "shinythemes")),
-      shiny::fluidRow(shiny::wellPanel(shiny::h3("<App title>", align = "center"))),
-      shiny::fluidRow(
-        id = "content",
-        shiny::column(2),
-        shiny::column(8, shiny::wellPanel(align = "center", object@ui)),
-        shiny::column(2)
-      )))})
+    view_page(object)
+  })
+
+view_page <- function(object) {
+  htmltools::html_print(shiny::div(
+    shiny::includeCSS(system.file(shinythemes::shinytheme("readable"),
+                                  package = "shinythemes")),
+    shiny::fluidRow(shiny::wellPanel(
+      shiny::h3("<App title>", align = "center"))),
+    shiny::fluidRow(
+      id = "content",
+      shiny::column(2),
+      shiny::column(8, shiny::wellPanel(align = "center", object@ui)),
+      shiny::column(2)
+    )))
+}
 
 setMethod(
   "show",
   signature(object = "code_block"),
   definition = function(object) {
     cat("psychTestR code block\n")
+    cat("Function: ")
     print(object@fun)
+    cat("i18n dictionary: ")
+    print(object@i18n_dict)
   }
 )
 
@@ -97,8 +111,11 @@ setMethod(
   signature(object = "reactive_page"),
   definition = function(object) {
     cat("psychTestR reactive page\n")
+    cat("Function: ")
     print(object@fun)
-    print(final_page(shiny::em("reactive page")))
+    cat("i18n dictionary: ")
+    print(object@i18n_dict)
+    view_page(final_page(shiny::em("reactive page")))
   }
 )
 
@@ -687,18 +704,18 @@ elt_save_results_to_disk <- function(complete) {
 #' @export
 #' @param complete Whether the participant completed the test.
 save_results_to_disk <- function(complete, state, opt, ...) {
-    dir <- opt$results_dir
-    R.utils::mkdirs(dir)
-    if (!test_permissions(dir)) stop(
-      "Insufficient permissions to write to directory ", dir, ".")
-    if (!is.null(previous_save_path(state))) unlink(previous_save_path(state))
-    filename <- save_results_to_disk.get_filename(state, dir, complete)
-    path <- file.path(dir, filename)
-    results <- get_results(state, complete = complete, add_session_info = TRUE)
-    saveRDS(results, path)
-    if (complete) notify_new_participant(opt)
-    previous_save_path(state) <- path
-    save_id(state) <- save_id(state) + 1L
+  dir <- opt$results_dir
+  R.utils::mkdirs(dir)
+  if (!test_permissions(dir)) stop(
+    "Insufficient permissions to write to directory ", dir, ".")
+  if (!is.null(previous_save_path(state))) unlink(previous_save_path(state))
+  filename <- save_results_to_disk.get_filename(state, dir, complete)
+  path <- file.path(dir, filename)
+  results <- get_results(state, complete = complete, add_session_info = TRUE)
+  saveRDS(results, path)
+  if (complete) notify_new_participant(opt)
+  previous_save_path(state) <- path
+  save_id(state) <- save_id(state) + 1L
 }
 
 save_results_to_disk.get_filename <- function(state, dir, complete) {
