@@ -18,4 +18,8 @@ demo.i18n <- function() {
   make_test(elts)
 }
 
-stop("Solution: with_i18n should create one timeline for each language")
+stop("Solution: with_i18n should create one timeline for each language. ",
+     "Rationale: ",
+     "a) lazy evaluation is difficult to get to work ",
+     "b) lazy evaluation could have unintuitive results ",
+     "(changing a variable after the fact could have backwards effects)")
