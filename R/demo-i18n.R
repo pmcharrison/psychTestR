@@ -30,5 +30,12 @@ demo.i18n <- function() {
     )
   }, dict = NULL)
 
+  # French
   make_test(timeline, opt = demo_options(languages = "FR"))
+
+  # English
+  make_test(timeline, opt = demo_options(languages = "GB"))
+
+  # Fail
+  make_test(timeline, opt = demo_options(languages = "DE"))
 }

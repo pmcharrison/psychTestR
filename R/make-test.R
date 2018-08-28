@@ -23,8 +23,20 @@ make_test <- function(elts, opt = demo_options(),
   check_dirs(opt)
   if (is.list(elts)) elts <- new_timeline(elts)
   check_elts(elts)
+  check_opt(opt, elts)
   shiny::shinyApp(
     ui = ui(opt = opt),
     server = server(elts = elts, opt = opt,
                     custom_admin_panel = custom_admin_panel))
+}
+
+check_opt <- function(opt, elts) {
+  stopifnot(is(elts, "timeline"))
+  unsupported_languages <- setdiff(opt$languages, elts$languages)
+  if (length(unsupported_languages) > 0L)
+    stop("the following language(s) specified in 'opt$languages' ",
+         "are not supported by 'elts': ",
+         paste(unsupported_languages, collapse = ", "),
+         ". Consider removing some languages from 'opt$languages', ",
+         " or otherwise adding relevant language support to 'elts'.")
 }
