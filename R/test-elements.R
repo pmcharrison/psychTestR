@@ -69,7 +69,7 @@ setClass("code_block",
 #' \code{elts}, the timeline (i.e. list of test elements).
 #' @export
 code_block <- function(fun) {
-  new("code_block", fun = fun, i18n_dict = SELECTED_I18N_DICT$get())
+  new("code_block", fun = fun) # , i18n_dict = SELECTED_I18N_DICT$get())
 }
 
 setMethod(
@@ -101,8 +101,8 @@ setMethod(
     cat("psychTestR code block\n")
     cat("Function: ")
     print(object@fun)
-    cat("i18n dictionary: ")
-    print(object@i18n_dict)
+    # cat("i18n dictionary: ")
+    # print(object@i18n_dict)
   }
 )
 
@@ -113,8 +113,8 @@ setMethod(
     cat("psychTestR reactive page\n")
     cat("Function: ")
     print(object@fun)
-    cat("i18n dictionary: ")
-    print(object@i18n_dict)
+    # cat("i18n dictionary: ")
+    # print(object@i18n_dict)
     view_page(final_page(shiny::em("reactive page")))
   }
 )
@@ -196,12 +196,10 @@ page <- function(ui, admin_ui = NULL, label = NULL,
 #' @export
 one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
                             on_complete = NULL) {
-  i18_support(expression({
-    body <- tagify(body)
-    stopifnot(is.scalar.character(button_text))
-    ui <- shiny::div(body, trigger_button("next", button_text))
-    page(ui = ui, admin_ui = admin_ui, on_complete = on_complete)
-  }))
+  body <- tagify(body)
+  stopifnot(is.scalar.character(button_text))
+  ui <- shiny::div(body, trigger_button("next", button_text))
+  page(ui = ui, admin_ui = admin_ui, on_complete = on_complete)
 }
 
 #' New final page
@@ -213,10 +211,8 @@ one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
 #' @param admin_ui See \code{\link{page}}.
 #' @export
 final_page <- function(body, admin_ui = NULL) {
-  i18_support({
-    body <- tagify(body)
-    page(ui = body, admin_ui = admin_ui, final = TRUE)
-  })
+  body <- tagify(body)
+  page(ui = body, admin_ui = admin_ui, final = TRUE)
 }
 
 #' Text input page

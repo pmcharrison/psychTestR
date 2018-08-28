@@ -4,9 +4,11 @@ i18n_dict <- R6::R6Class(
   public = list(
     initialize = function(x) {
       i18n_check(x)
+      private$languages <- setdiff(names(x), "key")
       private$dict <- hash_df(x)
     },
     as.data.frame = function() unhash_df(private$dict),
+    list_languages = function() private$languages
     translate = function(key, language, allow_missing = FALSE) {
       stopifnot(is.scalar(key),
                 is.scalar(language),
@@ -29,7 +31,7 @@ i18n_dict <- R6::R6Class(
       cat("\n")
     }
   ),
-  private = list(dict = NULL)
+  private = list(dict = NULL, languages = NULL)
 )
 
 # Checks the validity of the dictionary
@@ -103,28 +105,27 @@ i18n <- function(...) {
          USE.NAMES = FALSE)
 }
 
-selected_i18n_dict <- R6::R6Class(
-  "selected_i18n_dict",
-  public = list(initialize = function() private$val <- NULL,
-                get = function() private$val,
-                set = function(val) {
-                  stopifnot(is.null(val) || is(val, "i18n_dict"))
-                  private$val <- val
-                },
-                reset = function() private$val <- NULL),
-  private = list(val = NULL)
-)
-SELECTED_I18N_DICT <- selected_i18n_dict$new()
-
-with_i18n_flag <- R6::R6Class(
-  "with_i18n_flag",
-  public = list(initialize = function() private$val <- FALSE,
-                get = function() private$val,
-                set = function(val) private$val <- val),
-  private = list(val = FALSE)
-)
-WITH_I18N <- with_i18n_flag$new()
-
+# selected_i18n_dict <- R6::R6Class(
+#   "selected_i18n_dict",
+#   public = list(initialize = function() private$val <- NULL,
+#                 get = function() private$val,
+#                 set = function(val) {
+#                   stopifnot(is.null(val) || is(val, "i18n_dict"))
+#                   private$val <- val
+#                 },
+#                 reset = function() private$val <- NULL),
+#   private = list(val = NULL)
+# )
+# SELECTED_I18N_DICT <- selected_i18n_dict$new()
+#
+# with_i18n_flag <- R6::R6Class(
+#   "with_i18n_flag",
+#   public = list(initialize = function() private$val <- FALSE,
+#                 get = function() private$val,
+#                 set = function(val) private$val <- val),
+#   private = list(val = FALSE)
+# )
+# WITH_I18N <- with_i18n_flag$new()
 
 #' @export
 with_i18n <- function(dict, expr) {
@@ -143,12 +144,44 @@ with_i18n <- function(dict, expr) {
   res
 }
 
-#' @export
-i18_support <- function(expr) {
-  parent <- sys.frame(-1)
+with_i18n <- gtools::defmacro(dict, x, expr = {
+  langs <- dict$list_languages()
+  if (length(langs) == 0) stop("zero languages in dictionary")
+  timeline <- list()
+  names(timeline) <- langs
+  for (i in seq_along(langs)) {
+    lang <- langs[i]
+    timeline[i] <- with_i18n_state(dict = dict, lang = lang, x = x)
+  }
+  class(timeline) <- "i18_timeline"
+  timeline
+})
+
+with_i18n_state <- gtools::defmacro(dict, lang, x, expr = {
+  old_state <- list(dict = I18N_STATE$dict,
+                    lang = I18N_STATE$lang)
+  I18N_STATE$set(dict = dict, lang = lang)
   tryCatch(
-    eval(expr, envir = parent),
-    with_i18n_error = function(e)
-      reactive_page(function(...) eval(expr, envir = parent))
+    res <- eval(x),
+    error = function(e) {
+      I18N_STATE$set(dict = old_state$dict,
+                     lang = old_state$lang)
+      stop(e)
+    }
   )
-}
+  I18N_STATE$set(dict = old_state$dict,
+                 lang = old_state$lang)
+  res
+})
+
+
+
+#' #' @export
+#' i18_support <- function(expr) {
+#'   parent <- sys.frame(-1)
+#'   tryCatch(
+#'     eval(expr, envir = parent),
+#'     with_i18n_error = function(e)
+#'       reactive_page(function(...) eval(expr, envir = parent))
+#'   )
+#' }
