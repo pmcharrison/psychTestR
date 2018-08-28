@@ -354,7 +354,6 @@ NAFC_page <- function(label, prompt, choices,
                       response_ui_id = "response_ui",
                       on_complete = NULL,
                       admin_ui = NULL) {
-  i18_support({
     stopifnot(is.scalar.character(label),
               is.character(choices), length(choices) > 0L,
               is.scalar.logical(arrange_vertically))
@@ -369,7 +368,6 @@ NAFC_page <- function(label, prompt, choices,
     page(ui = ui, label = label,  get_answer = get_answer, save_answer = save_answer,
          validate = validate, on_complete = on_complete, final = FALSE,
          admin_ui = admin_ui)
-  })
 }
 
 #' Make NAFC buttons
