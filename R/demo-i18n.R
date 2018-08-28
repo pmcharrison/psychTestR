@@ -1,17 +1,23 @@
 demo.i18n <- function() {
   dict <- i18n_dict$new(data.frame(
-    key = c("welcome", "weather", "sun", "rain", "bye"),
+    key = c("welcome", "weather", "sun", "rain", "bye", "sorry", "good"),
     GB = c("Hello!", "What's the weather like today?",
-           "It's sunny", "It's rainy", "Goodbye!"),
+           "It's sunny", "It's rainy", "Goodbye!",
+           "I'm sorry...", "That's good!"),
     FR = c("Bonjour!", "Quel temps fait-il?",
-           "Il fait beau", "Il pleut", "Au revoir!"),
+           "Il fait beau", "Il pleut", "Au revoir!",
+           "Je suis desole...", "C'est bon!"),
     stringsAsFactors = FALSE
   ))
   timeline <- new_timeline(x = {
     list(
-      one_button_page("Hi"),
       one_button_page(i18n("welcome")),
-      NAFC_page("weather", i18n("weather"), choices = i18n("sun", "rain")),
+      NAFC_page("weather", i18n("weather"),
+                choices = c("sun", "rain"),
+                labels = i18n(c("sun", "rain")),
+                on_complete = function(answer, ...) {
+                  shinyjs::alert(i18n(if (answer == "rain") "sorry" else "good"))
+                }),
       final_page(i18n("bye"))
     )
   }, dict = dict)
@@ -24,5 +30,5 @@ demo.i18n <- function() {
     )
   }, dict = NULL)
 
-  make_test(timeline)
+  make_test(timeline, opt = demo_options(languages = "FR"))
 }

@@ -1,11 +1,11 @@
-new_state <- function(input, output, session) {
+new_state <- function(opt) {
   x <- shiny::reactiveValues()
   class(x) <- c(class(x), "state")
-  initialise_state(x)
+  initialise_state(x, opt)
   x
 }
 
-initialise_state <- function(x) {
+initialise_state <- function(x, opt) {
   stopifnot(is(x, "state"))
   x$elt_index <- 1L
   x$p_id <- NULL
@@ -18,7 +18,7 @@ initialise_state <- function(x) {
   x$save_id <- 1L
   x$previous_save_path <- NULL
   x$admin <- FALSE
-  x$language <- NULL
+  x$language <- opt$languages[1]
   x$demo <- FALSE
   x$pilot <- FALSE
   x$error <- NULL
@@ -351,7 +351,7 @@ advance_to_first_page <- function(state, input, output, elts, session, opt) {
 }
 
 get_num_elts <- function(elts) {
-  length(elts)
+  elts$length
 }
 
 get_current_elt_index <- function(state) {
@@ -362,7 +362,7 @@ get_current_elt_index <- function(state) {
 get_elt <- function(state, index, elts, opt, eval = TRUE) {
   stopifnot(is.scalar.numeric(index), round(index) == index,
             index >= 0, index <= get_num_elts(elts))
-  elt <- elts[[index]]
+  elt <- elts$get(language(state), index)
   if (is(elt, "reactive_page") && eval) {
     I18N_STATE$set(dict = elt@i18n_dict, lang = language(state))
     res <- elt@fun(state = state, answer = answer(state), opt = opt)

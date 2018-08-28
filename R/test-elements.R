@@ -2,12 +2,22 @@ setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
 setOldClass("i18n_dict")
 
-setClass("test_element")
-
 setClassUnion("function_or_null", members = c("function", "NULL"))
 setClassUnion("character_or_null", members = c("character", "NULL"))
 setClassUnion("shiny_tag_or_null", members = c("shiny.tag", "NULL"))
 setClassUnion("i18n_dict_or_null", members = c("i18n_dict", "NULL"))
+
+setClass("test_element", slots = list(i18n_dict = "i18n_dict_or_null"))
+setMethod("initialize", "test_element", function(.Object, ...) {
+  .Object@i18n_dict <- I18N_STATE$dict
+  callNextMethod()
+})
+# setMethod("show", signature(object = "test_element"),
+#           definition = function(object) {
+#             cat("i18n dictionary: ")
+#             print(object@i18n_dict)
+#             callNextMethod()
+#           })
 
 setClass("page",
          slots = list(ui = "shiny.tag",
@@ -21,10 +31,8 @@ setClass("page",
          contains = "test_element")
 
 setClass("reactive_page",
-         slots = list(fun = "function",
-                      i18n_dict = "i18n_dict_or_null"),
-         prototype = list(fun = function(state) page,
-                          i18n_dict = NULL),
+         slots = list(fun = "function"),
+         prototype = list(fun = function(state) page),
          contains = "test_element")
 
 #' Reactive page
@@ -46,14 +54,13 @@ setClass("reactive_page",
 #' The function should always return an object of class \code{page}.
 #' @export
 reactive_page <- function(fun) {
-  new("reactive_page", fun = fun, i18n_dict = SELECTED_I18N_DICT$get())
+  new("reactive_page", fun = fun)
 }
 
 setClass("code_block",
-         slots = list(fun = "function", i18n_dict = "i18n_dict_or_null"),
+         slots = list(fun = "function"),
          contains = "test_element",
-         prototype = list(fun = function(...) NULL,
-                          i18n_dict = NULL))
+         prototype = list(fun = function(...) NULL))
 
 #' Code block
 #'
@@ -69,7 +76,7 @@ setClass("code_block",
 #' \code{elts}, the timeline (i.e. list of test elements).
 #' @export
 code_block <- function(fun) {
-  new("code_block", fun = fun) # , i18n_dict = SELECTED_I18N_DICT$get())
+  new("code_block", fun = fun)
 }
 
 setMethod(
@@ -101,8 +108,6 @@ setMethod(
     cat("psychTestR code block\n")
     cat("Function: ")
     print(object@fun)
-    # cat("i18n dictionary: ")
-    # print(object@i18n_dict)
   }
 )
 
@@ -113,8 +118,6 @@ setMethod(
     cat("psychTestR reactive page\n")
     cat("Function: ")
     print(object@fun)
-    # cat("i18n dictionary: ")
-    # print(object@i18n_dict)
     view_page(final_page(shiny::em("reactive page")))
   }
 )
@@ -347,7 +350,7 @@ describe_valid_p_id <- function() {
 #' @param on_complete See \code{\link{page}}.
 #' @param admin_ui See \code{\link{page}}.
 #' @export
-NAFC_page <- function(label, prompt, choices,
+NAFC_page <- function(label, prompt, choices, labels = NULL,
                       save_answer = TRUE,
                       arrange_vertically = length(choices) > 2L,
                       hide_response_ui = FALSE,
@@ -360,6 +363,7 @@ NAFC_page <- function(label, prompt, choices,
     ui <- shiny::div(
       tagify(prompt),
       make_ui_NAFC(choices,
+                   labels = labels,
                    hide = hide_response_ui,
                    arrange_vertically = arrange_vertically,
                    id = response_ui_id))
@@ -384,11 +388,14 @@ NAFC_page <- function(label, prompt, choices,
 #' (the default) as opposed to horizontally.
 #' @param id HTML ID for the div containing the response buttons.
 #' @export
-make_ui_NAFC <- function(choices, hide = FALSE,
+make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
                          arrange_vertically = length(choices) > 2L,
                          id = "response_ui") {
-  stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hide))
-  labels <- if (is.null(names(choices))) choices else names(choices)
+  stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hide),
+            is.null.or(labels, is.character))
+  if (is.null(labels)) {
+    labels <- if (is.null(names(choices))) choices else names(choices)
+  }
   shiny::tags$div(id = id,
                   style = if (hide) "visibility: hidden" else "visibility: inherit",
                   mapply(function(id, label) {
@@ -424,6 +431,7 @@ make_ui_NAFC <- function(choices, hide = FALSE,
 #' @param admin_ui See \code{\link{page}}.
 #' @export
 video_NAFC_page <- function(label, prompt, choices, url,
+                            labels = NULL,
                             type = tools::file_ext(url),
                             save_answer = TRUE,
                             on_complete = NULL,
@@ -450,7 +458,7 @@ video_NAFC_page <- function(label, prompt, choices, url,
       onended = if (wait) media.js$show_responses else "null"),
     media_mobile_play_button)
   prompt2 <- shiny::div(tagify(prompt), video_ui)
-  NAFC_page(label = label, prompt = prompt2, choices = choices,
+  NAFC_page(label = label, prompt = prompt2, choices = choices, labels = labels,
             save_answer = save_answer,
             on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
@@ -502,6 +510,7 @@ media_mobile_play_button <- shiny::tags$p(
 #' @param admin_ui See \code{\link{page}}.
 #' @export
 audio_NAFC_page <- function(label, prompt, choices, url,
+                            labels = NULL,
                             type = tools::file_ext(url),
                             save_answer = TRUE,
                             on_complete = NULL,
@@ -525,7 +534,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     onended = if (wait) media.js$show_responses else "null"
   ), media_mobile_play_button)
   prompt2 <- shiny::div(tagify(prompt), audio_ui)
-  NAFC_page(label = label, prompt = prompt2, choices = choices,
+  NAFC_page(label = label, prompt = prompt2, choices = choices, labels = labels,
             save_answer = save_answer,
             on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,

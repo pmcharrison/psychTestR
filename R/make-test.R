@@ -21,8 +21,8 @@ make_test <- function(elts, opt = demo_options(),
                       custom_admin_panel = NULL) {
   stopifnot(is.list(opt), is.null.or(custom_admin_panel, is.function))
   check_dirs(opt)
+  if (is.list(elts)) elts <- new_timeline(elts)
   check_elts(elts)
-  warning("Coerce to i18n_timeline")
   shiny::shinyApp(
     ui = ui(opt = opt),
     server = server(elts = elts, opt = opt,

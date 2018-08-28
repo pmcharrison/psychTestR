@@ -2,7 +2,7 @@ server <- function(elts, opt, custom_admin_panel) {
   function(input, output, session) {
     # warning("Error handling doesn't work. Remove it :(")
     # set_error_handling(opt, session, state)
-    state <- new_state()
+    state <- new_state(opt)
     setup_session(state, input, output, elts, session, opt)
     output$ui <- render_ui(state, elts, opt)
     shiny::observeEvent(input$next_page,
@@ -85,19 +85,23 @@ skip_n_pages <- function(state, n) {
 
 try_finalise_page <- function(elt, state, input, session, opt) {
   stopifnot(is(elt, "page"), is(state, "state"))
-  if (elt@final) {
+  I18N_STATE$set(dict = elt@i18n_dict, lang = language(state))
+  res <- if (elt@final) {
     shinyjs::alert("Cannot advance on a 'final' page!")
     FALSE
-  }
-  perform_get_answer_function(elt, state, input, session, opt)
-  if (!validate_elt(elt, state, input, session, opt)) {
-    message("Input validation failed.")
-    FALSE
   } else {
-    if (elt@save_answer) save_result(state, elt@label, answer(state))
-    perform_on_complete_function(elt, state, input, session, opt)
-    TRUE
+    perform_get_answer_function(elt, state, input, session, opt)
+    if (!validate_elt(elt, state, input, session, opt)) {
+      message("Input validation failed.")
+      FALSE
+    } else {
+      if (elt@save_answer) save_result(state, elt@label, answer(state))
+      perform_on_complete_function(elt, state, input, session, opt)
+      TRUE
+    }
   }
+  I18N_STATE$reset()
+  res
 }
 
 perform_get_answer_function <- function(elt, state, input, session, opt) {
@@ -123,14 +127,18 @@ execute_code_block <- function(elt, state, elts, input, output,
   I18N_STATE$reset()
 }
 
-check_elts <- function(elts) {
-  if (length(elts) == 0L) {
-    stop("<elts> cannot have length 0")
+check_elts <- function(x) {
+  if (x$length == 0L) {
+    stop("timeline cannot have length 0")
+  }
+  if (length(x$languages) == 0L) {
+    stop("timeline must contain at least one language")
   }
   # first_elt <- elts[[1]]
   # if (!(is(first_elt, "page") || is(first_elt, "reactive_page"))) {
   #   stop("The first element in <elts> must be a (possibly reactive) test page.")
   # }
+  elts <- x$get(x$languages[1]) # Check the elements for the first available language
   last_elt <- elts[[length(elts)]]
   if (!(is(last_elt, "page") || is(last_elt, "reactive_page"))) {
     stop("The last element in <elts> must be a (possibly reactive) test page.")

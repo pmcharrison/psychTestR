@@ -194,8 +194,8 @@ test_options <- function(title, admin_password,
 #'
 #' Test options list for demo purposes.
 #' @export
-demo_options <- function() {
-  test_options(title = "Demo", admin_password = "demo", researcher_email = "XXX")
+demo_options <- function(...) {
+  test_options(title = "Demo", admin_password = "demo", researcher_email = "XXX", ...)
 }
 
 #' Test write permissions

@@ -117,7 +117,7 @@ i18n <- function(...) {
 #   private = list(val = NULL)
 # )
 # SELECTED_I18N_DICT <- selected_i18n_dict$new()
-#
+
 # with_i18n_flag <- R6::R6Class(
 #   "with_i18n_flag",
 #   public = list(initialize = function() private$val <- FALSE,
