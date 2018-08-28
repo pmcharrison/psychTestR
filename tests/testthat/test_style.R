@@ -3,6 +3,9 @@ context("style")
 # After https://stackoverflow.com/questions/6216968/r-force-local-scope
 # (answer from Tommy)
 
+library(magrittr)
+library(testthat)
+
 check_globals <- function(f, label, silent = FALSE) {
   vars <- codetools::findGlobals(f)
   found <- !vapply(vars, exists, logical(1), envir=parent.frame())
@@ -23,5 +26,8 @@ check_fun <- function(label) {
 
 test_that("style", {
   functions <- lsf.str("package:psychTestR") %>% as.character
-  for (f in functions) expect_true(check_fun(f))
+  for (f in functions) {
+    print(f)
+    expect_true(check_fun(f))
+  }
 })

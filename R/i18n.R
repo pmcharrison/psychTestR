@@ -4,11 +4,10 @@ i18n_dict <- R6::R6Class(
   public = list(
     initialize = function(x) {
       i18n_check(x)
-      private$languages <- setdiff(names(x), "key")
+      private$..languages <- setdiff(names(x), "key")
       private$dict <- hash_df(x)
     },
     as.data.frame = function() unhash_df(private$dict),
-    list_languages = function() private$languages,
     translate = function(key, language, allow_missing = FALSE) {
       stopifnot(is.scalar(key),
                 is.scalar(language),
@@ -31,7 +30,8 @@ i18n_dict <- R6::R6Class(
       cat("\n")
     }
   ),
-  private = list(dict = NULL, languages = NULL)
+  private = list(dict = NULL, ..languages = NULL),
+  active = list(languages = function() private$..languages)
 )
 
 # Checks the validity of the dictionary
@@ -129,59 +129,76 @@ i18n <- function(...) {
 
 
 #' @export
-i18n_timeline <- R6::R6Class(
-  "i18n_timeline",
+timeline <- R6::R6Class(
+  "timeline",
   public = list(
     initialize = function(x) {
       stopifnot(is.list(x))
+      private$..length <- if (length(x) == 0) 0L else unique(vapply(x, length, integer(1)))
+      if (length(private$..length) > 1L) stop("inconsistent timeline lengths between languages")
       private$..languages <- names(x)
       private$data <- as.environment(x)
     },
-    get = function(language) {
+    get = function(language, i = NULL) {
       if (!is.scalar.character(language))
         stop("'language' must be a scalar character")
       if (!language %in% self$languages)
         stop("'language'", language, " not supported by timeline ",
              "(valid languages: ", paste(self$languages, collapse = ", "), ")")
-      private$data[[language]]
+      if (!is.null.or(i, is.scalar.integerlike))
+        stop("'i' must either be NULL or a scalar integer")
+      lst <- private$data[[language]]
+      if (is.null(i)) lst else {
+        n <- length(lst)
+        if (i < 1 || i > n) stop("element ", i, " doesn't exist in timeline")
+        lst[[i]]
+      }
     },
     print = function(...) {
-      cat("psychTestR i18n timeline\n")
-      cat(sprintf("  %i languages: %s\n\n",
+      cat("psychTestR timeline\n")
+      cat(sprintf("  %i languages: %s\n",
                   length(self$languages),
                   paste(self$languages, collapse = ", ")))
+      cat(sprintf("  length: %i elements\n", self$length))
+      cat("\n")
     }
   ),
-  private = list(data = NULL, ..languages = NULL),
-  active = list(languages = function() private$..languages)
+  private = list(data = NULL, ..languages = NULL, ..length = NULL),
+  active = list(languages = function() private$..languages,
+                length = function() private$..length)
 )
 
+# res[[i]] <- if (lang == "default") x else psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
+
 #' @export
-new_i18n_timeline <- gtools::defmacro(dict, x, expr = {
-  langs <- dict$list_languages()
-  if (length(langs) == 0) stop("zero languages in dictionary")
-  timeline <- list()
-  for (i in seq_along(langs)) {
-    lang <- langs[i]
-    timeline[[i]] <- psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
-  }
-  names(timeline) <- langs
-  i18n_timeline$new(timeline)
+new_timeline <- gtools::defmacro(x, dict = NULL, expr = {
+  local({
+    langs <- if (is.null(dict)) "default" else dict$languages
+    res <- list()
+    for (i in seq_along(langs)) {
+      lang <- langs[i]
+      res[[i]] <- if (lang == "default") x else psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
+    }
+    names(res) <- langs
+    psychTestR:::timeline$new(res)
+  })
 })
 
 with_i18n_state <- gtools::defmacro(dict, lang, x, expr = {
-  old_state <- list(dict = psychTestR:::I18N_STATE$dict,
-                    lang = psychTestR:::I18N_STATE$lang)
-  psychTestR:::I18N_STATE$set(dict = dict, lang = lang)
-  tryCatch(
-    res <- eval(x),
-    error = function(e) {
-      psychTestR:::I18N_STATE$set(dict = old_state$dict,
-                                  lang = old_state$lang)
-      stop(e)
-    }
-  )
-  psychTestR:::I18N_STATE$set(dict = old_state$dict,
-                              lang = old_state$lang)
-  res
+  local({
+    old_state <- list(dict = psychTestR:::I18N_STATE$dict,
+                      lang = psychTestR:::I18N_STATE$lang)
+    psychTestR:::I18N_STATE$set(dict = dict, lang = lang)
+    tryCatch(
+      res <- eval(x),
+      error = function(e) {
+        psychTestR:::I18N_STATE$set(dict = old_state$dict,
+                                    lang = old_state$lang)
+        stop(e)
+      }
+    )
+    psychTestR:::I18N_STATE$set(dict = old_state$dict,
+                                lang = old_state$lang)
+    res
+  })
 })

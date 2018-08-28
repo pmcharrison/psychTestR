@@ -7,13 +7,13 @@ demo.i18n <- function() {
            "Il fait beau", "Il pleut", "Au revoir!"),
     stringsAsFactors = FALSE
   ))
-  timeline <- new_i18n_timeline(dict = dict, x = {
+  timeline <- new_timeline(x = {
     list(
       one_button_page("Hi"),
       one_button_page(i18n("welcome")),
       NAFC_page("weather", i18n("weather"), choices = i18n("sun", "rain")),
       final_page(i18n("bye"))
     )
-  })
+  }, dict = dict)
   make_test(timeline)
 }
