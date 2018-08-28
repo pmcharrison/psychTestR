@@ -4,7 +4,7 @@
 \alias{make_ui_NAFC}
 \title{Make NAFC buttons}
 \usage{
-make_ui_NAFC(choices, hide = FALSE,
+make_ui_NAFC(choices, labels = NULL, hide = FALSE,
   arrange_vertically = length(choices) > 2L, id = "response_ui")
 }
 \arguments{

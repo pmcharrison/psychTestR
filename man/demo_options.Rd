@@ -4,7 +4,7 @@
 \alias{demo_options}
 \title{Demo options}
 \usage{
-demo_options()
+demo_options(...)
 }
 \description{
 Test options list for demo purposes.

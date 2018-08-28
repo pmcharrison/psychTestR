@@ -168,16 +168,32 @@ timeline <- R6::R6Class(
                 length = function() private$..length)
 )
 
-# res[[i]] <- if (lang == "default") x else psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
+#' @export
+c.timeline <- function(...) {
+  input <- list(...)
+  if (length(input) == 1L) {
+    return(input[[1]])
+  } else {
+    Reduce(function(x, y) {
+      langs <- sort(intersect(x$languages, y$languages))
+      lst <- sapply(langs, function(lang) {
+        c(x$get(lang), y$get(lang))
+      }, simplify = FALSE)
+      timeline$new(lst)
+    }, input)
+  }
+}
 
 #' @export
-new_timeline <- gtools::defmacro(x, dict = NULL, expr = {
+new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "GB", expr = {
+  stopifnot(psychTestR:::is.null.or(dict, function(z) is(dict, "i18n_dict")),
+            psychTestR:::is.scalar.character(default_lang))
   local({
-    langs <- if (is.null(dict)) "default" else dict$languages
+    langs <- if (is.null(dict)) default_lang else dict$languages
     res <- list()
     for (i in seq_along(langs)) {
       lang <- langs[i]
-      res[[i]] <- if (lang == "default") x else psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
+      res[[i]] <- if (is.null(dict)) x else psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
     }
     names(res) <- langs
     psychTestR:::timeline$new(res)

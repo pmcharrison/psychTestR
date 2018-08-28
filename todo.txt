@@ -1,3 +1,2 @@
 - combining timelines
-- save language in session info
 - implement BAT
