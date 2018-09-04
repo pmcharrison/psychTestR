@@ -99,10 +99,18 @@ missing_lang_error <- function() {
 
 # Translate
 #' @export
-i18n <- function(...) {
+i18n <- function(..., sub = character()) {
+  stopifnot(length(sub) == 0L || !is.null(names(sub)))
   x <- as.character(c(...))
-  vapply(x, function(y) I18N_STATE$translate(y), character(1),
-         USE.NAMES = FALSE)
+  res <- vapply(x, function(y) I18N_STATE$translate(y), character(1),
+                USE.NAMES = FALSE)
+  if (length(sub) > 0L) {
+    from <- paste("{{", names(sub), "}}", sep = "")
+    to <- as.character(sub)
+    for (i in seq_along(sub))
+      res <- gsub(res, pattern = from[i], replacement = to[i], fixed = TRUE)
+  }
+  res
 }
 
 # selected_i18n_dict <- R6::R6Class(
@@ -128,7 +136,6 @@ i18n <- function(...) {
 # WITH_I18N <- with_i18n_flag$new()
 
 
-#' @export
 timeline <- R6::R6Class(
   "timeline",
   public = list(
