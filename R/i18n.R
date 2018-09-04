@@ -181,6 +181,11 @@ timeline <- R6::R6Class(
 )
 
 #' @export
+length.timeline <- function(x) {
+  x$length
+}
+
+#' @export
 c.timeline <- function(...) {
   input <- list(...)
   if (length(input) == 1L) {
