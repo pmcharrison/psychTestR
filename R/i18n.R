@@ -188,31 +188,27 @@ length.timeline <- function(x) {
 #' @export
 c.timeline <- function(...) {
   input <- list(...)
-  if (length(input) == 1L) {
-    return(input[[1]])
-  } else {
-    Reduce(function(x, y) {
-      x_is_timeline <- is(x, "timeline")
-      y_is_timeline <- is(y, "timeline")
-      lst <- if (x_is_timeline && y_is_timeline) {
-        langs <- sort(intersect(x$languages, y$languages))
-        sapply(langs, function(lang) {
-          c(x$get(lang), y$get(lang))
-        }, simplify = FALSE)
-      } else if (x_is_timeline && !y_is_timeline) {
-        langs <- sort(x$languages)
-        sapply(langs, function(lang) {
-          c(x$get(lang), y)
-        }, simplify = FALSE)
-      } else if (!x_is_timeline && y_is_timeline) {
-        langs <- sort(y$languages)
-        sapply(langs, function(lang) {
-          c(x, y$get(lang))
-        }, simplify = FALSE)
-      } else stop("this shouldn't happen")
-      timeline$new(lst)
-    }, input)
-  }
+  Reduce(function(x, y) {
+    x_is_timeline <- is(x, "timeline")
+    y_is_timeline <- is(y, "timeline")
+    lst <- if (x_is_timeline && y_is_timeline) {
+      langs <- sort(intersect(x$languages, y$languages))
+      sapply(langs, function(lang) {
+        c(x$get(lang), y$get(lang))
+      }, simplify = FALSE)
+    } else if (x_is_timeline && !y_is_timeline) {
+      langs <- sort(x$languages)
+      sapply(langs, function(lang) {
+        c(x$get(lang), y)
+      }, simplify = FALSE)
+    } else if (!x_is_timeline && y_is_timeline) {
+      langs <- sort(y$languages)
+      sapply(langs, function(lang) {
+        c(x, y$get(lang))
+      }, simplify = FALSE)
+    } else stop("this shouldn't happen")
+    timeline$new(lst)
+  }, input)
 }
 
 #' @export
@@ -224,12 +220,24 @@ new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
     res <- list()
     for (i in seq_along(langs)) {
       lang <- langs[i]
-      res[[i]] <- if (is.null(dict)) x else psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
+      tmp <- if (is.null(dict)) x else psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
+      if (psychTestR::is.timeline(tmp)) {
+        return(tmp)
+      } else {
+        is_elt <- vapply(tmp, psychTestR::is.test_element, logical(1L))
+        if (!all(is_elt)) {
+          stop("input to 'new_timeline' did not produce a list of test elements")
+        }
+        res[[i]] <- tmp
+      }
     }
     names(res) <- langs
     psychTestR:::timeline$new(res)
   })
 })
+
+#' @export
+is.timeline <- function(x) is(x, "timeline")
 
 with_i18n_state <- gtools::defmacro(dictionary, language, x, expr = {
   local({
