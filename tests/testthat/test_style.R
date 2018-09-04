@@ -27,7 +27,6 @@ check_fun <- function(label) {
 test_that("style", {
   functions <- lsf.str("package:psychTestR") %>% as.character
   for (f in functions) {
-    print(f)
     expect_true(check_fun(f))
   }
 })

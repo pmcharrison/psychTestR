@@ -7,10 +7,10 @@ test_that("hash_df", {
     FR = c("Bonjour", "Salut", "Au revoir"),
     stringsAsFactors = FALSE
   )
-  expect_equal(csv, unhash_df(hash_df(csv)))
-  h <- hash_df(csv)
+  expect_equal(csv, unhash_df(hash_df(csv, markdown = FALSE)))
+  h <- hash_df(csv, markdown = FALSE)
   expect_equal(h$A$GB, "Hello")
-  expect_error(hash_csv(42))
-  expect_error(hash_csv(data.frame(Key = 10, GB = "Hi")))
-  expect_error(hash_csv(data.frame(key = 10, GB = "Hi")))
+  expect_error(hash_df(42, markdown = FALSE))
+  expect_error(hash_df(data.frame(Key = 10, GB = "Hi"), markdown = FALSE))
+  expect_error(hash_df(data.frame(key = 10, GB = "Hi"), markdown = FALSE))
 })

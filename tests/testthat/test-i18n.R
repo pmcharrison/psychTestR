@@ -32,16 +32,3 @@ test_that("I18N_GLOBAL_DICT", {
   expect_error(psychTestR:::I18N_STATE$translate("A"),
                "cannot translate, no dictionary defined")
 })
-
-test_that("with_i18n", {
-  dict <- i18n_dict$new(data.frame(
-    key = c("A", "B", "C"),
-    GB = c("Hello", "Hi", "Goodbye"),
-    FR = c("Bonjour", "Salut", "Au revoir"),
-    stringsAsFactors = FALSE
-  ))
-  cb_1 <- code_block(function(x) x + 1)
-  expect_null(cb_1@i18n_dict)
-  cb_2 <- with_i18n(dict, code_block(function(x) x + 1))
-
-})

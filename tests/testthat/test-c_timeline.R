@@ -15,20 +15,20 @@ test_that("combining timelines from the same language", {
   ))
   t1.2 <- c(t1, t2)
   expect_equal(t1.2$length, 4)
-  expect_equal(t1.2$languages, "GB")
-  expect_equal(t1.2$get("GB", 1), t1$get("GB", 1))
-  expect_equal(t1.2$get("GB", 3), t2$get("GB", 1))
-  expect_true(identical(t1.2$get("GB", 3),
-                        t2$get("GB", 1)))
-  expect_false(identical(t1.2$get("GB", 3),
-                        t2$get("GB", 2)))
+  expect_equal(t1.2$languages, "EN")
+  expect_equal(t1.2$get("EN", 1), t1$get("EN", 1))
+  expect_equal(t1.2$get("EN", 3), t2$get("EN", 1))
+  expect_true(identical(t1.2$get("EN", 3),
+                        t2$get("EN", 1)))
+  expect_false(identical(t1.2$get("EN", 3),
+                        t2$get("EN", 2)))
 
 })
 
 test_that("combining timelines from different languages", {
   dict1 <- i18n_dict$new(data.frame(
     key = c("welcome", "weather", "sun", "rain", "bye", "sorry", "good"),
-    GB = c("Hello!", "What's the weather like today?",
+    EN = c("Hello!", "What's the weather like today?",
            "It's sunny", "It's rainy", "Goodbye!",
            "I'm sorry...", "That's good!"),
     FR = c("Bonjour!", "Quel temps fait-il?",
@@ -38,7 +38,7 @@ test_that("combining timelines from different languages", {
   ))
   dict2 <- i18n_dict$new(data.frame(
     key = c("welcome", "weather", "sun", "rain", "bye", "sorry", "good"),
-    GB = c("Hello!", "What's the weather like today?",
+    EN = c("Hello!", "What's the weather like today?",
            "It's sunny", "It's rainy", "Goodbye!",
            "I'm sorry...", "That's good!"),
     DE = c("Willkommen", "Wie ist das Wetter heute?",
@@ -49,7 +49,7 @@ test_that("combining timelines from different languages", {
   ))
   dict3 <- i18n_dict$new(data.frame(
     key = c("welcome", "weather", "sun", "rain", "bye", "sorry", "good"),
-    GB = c("Hello!", "What's the weather like today?",
+    EN = c("Hello!", "What's the weather like today?",
            "It's sunny", "It's rainy", "Goodbye!",
            "I'm sorry...", "That's good!"),
     FR = c("Bonjour!", "Quel temps fait-il?",
@@ -78,6 +78,6 @@ test_that("combining timelines from different languages", {
   t_all <- c(t1, t2, t3)
 
   expect_equal(t_all$length, 6)
-  expect_equal(t_all$languages, "GB")
-  expect_equal(t_all$get("GB", 6), t3$get("GB", 2))
+  expect_equal(t_all$languages, "EN")
+  expect_equal(t_all$get("EN", 6), t3$get("EN", 2))
 })
