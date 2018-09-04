@@ -20,7 +20,7 @@ pt_options <- function(...) {
 #' @param languages Character vector of languages that may be selected
 #' via the URL parameter 'language'. If no language is provided by
 #' the URL parameter, defaults to the first language in this vector.
-#' Languages should be encoded according to ISO3166 conventions.
+#' Languages should be encoded according to ISO 639-2 conventions.
 #' @param debug Whether the test is to be debugged locally
 #' (set to \code{TRUE} when developing locally).
 #' @param log_error Whether to log errors
@@ -67,7 +67,7 @@ test_options <- function(title, admin_password,
                          researcher_email = NULL,
                          max_num_participants = NULL,
                          demo = FALSE,
-                         languages = "GB",
+                         languages = "EN",
                          debug_locally = FALSE,
                          log_error = TRUE,
                          show_full_error_msg = TRUE,

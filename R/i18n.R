@@ -185,7 +185,7 @@ c.timeline <- function(...) {
 }
 
 #' @export
-new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "GB", expr = {
+new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
   stopifnot(psychTestR:::is.null.or(dict, function(z) is(dict, "i18n_dict")),
             psychTestR:::is.scalar.character(default_lang))
   local({
