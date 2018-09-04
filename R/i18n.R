@@ -224,10 +224,11 @@ new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
       if (psychTestR::is.timeline(tmp)) {
         return(tmp)
       } else {
+        if (psychTestR::is.test_element(tmp)) tmp <- list(tmp)
+        err_msg <- "input to 'new_timeline' must produce a (list of) test element(s)"
+        if (!is.list(tmp)) stop(err_msg)
         is_elt <- vapply(tmp, psychTestR::is.test_element, logical(1L))
-        if (!all(is_elt)) {
-          stop("input to 'new_timeline' did not produce a list of test elements")
-        }
+        if (!all(is_elt)) stop(err_msg)
         res[[i]] <- tmp
       }
     }
