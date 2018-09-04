@@ -21,21 +21,21 @@ demo.i18n <- function() {
       final_page(i18n("bye"))
     )
   }, dict = dict)
-  t2 <- new_timeline(x = {
-    list(
-      one_button_page("Hi"),
-      one_button_page("welcome"),
-      NAFC_page("weather", "weather", choices = c("sun", "rain")),
-      final_page("bye")
-    )
-  }, dict = NULL)
+  # t2 <- new_timeline(x = {
+  #   list(
+  #     one_button_page("Hi"),
+  #     one_button_page("welcome"),
+  #     NAFC_page("weather", "weather", choices = c("sun", "rain")),
+  #     final_page("bye")
+  #   )
+  # }, dict = NULL)
 
   # French
   make_test(timeline, opt = demo_options(languages = "FR"))
 
-  # English
-  make_test(timeline, opt = demo_options(languages = "GB"))
-
-  # Fail
-  make_test(timeline, opt = demo_options(languages = "DE"))
+  # # English
+  # make_test(timeline, opt = demo_options(languages = "GB"))
+  #
+  # # Fail
+  # make_test(timeline, opt = demo_options(languages = "DE"))
 }
