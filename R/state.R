@@ -132,6 +132,7 @@ pilot <- function(state) {
   state
 }
 
+#' @export
 demo <- function(state) {
   stopifnot(is(state, "state"))
   state$demo
