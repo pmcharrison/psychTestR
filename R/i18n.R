@@ -34,6 +34,11 @@ i18n_dict <- R6::R6Class(
   active = list(languages = function() private$..languages)
 )
 
+#' @export
+as.data.frame.i18n_dict <- function(x, ...) {
+  x$as.data.frame()
+}
+
 # Checks the validity of the dictionary
 i18n_check <- function(x) {
   if (!is.data.frame(x))
