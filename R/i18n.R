@@ -2,10 +2,10 @@
 i18n_dict <- R6::R6Class(
   "i18n_dict",
   public = list(
-    initialize = function(x) {
+    initialize = function(x, markdown = TRUE) {
       i18n_check(x)
       private$..languages <- setdiff(names(x), "key")
-      private$dict <- hash_df(x)
+      private$dict <- hash_df(x, markdown = markdown)
     },
     as.data.frame = function() unhash_df(private$dict),
     translate = function(key, language, allow_missing = FALSE) {

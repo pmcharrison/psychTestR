@@ -5,7 +5,7 @@
 \title{Test options}
 \usage{
 test_options(title, admin_password, researcher_email = NULL,
-  max_num_participants = NULL, demo = FALSE, languages = "GB",
+  max_num_participants = NULL, demo = FALSE, languages = "EN",
   debug_locally = FALSE, log_error = TRUE,
   show_full_error_msg = TRUE, notify_error = FALSE,
   notify_new_participant = FALSE, pushbullet_email = NULL,
@@ -34,7 +34,7 @@ as indicated through the admin panel).}
 \item{languages}{Character vector of languages that may be selected
 via the URL parameter 'language'. If no language is provided by
 the URL parameter, defaults to the first language in this vector.
-Languages should be encoded according to ISO3166 conventions.}
+Languages should be encoded according to ISO 639-2 conventions.}
 
 \item{log_error}{Whether to log errors
 (this feature is under development).}

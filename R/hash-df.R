@@ -1,5 +1,6 @@
 # Converts a data.frame into a hash table.
-hash_df <- function(x) {
+hash_df <- function(x, markdown) {
+  stopifnot(is.scalar.logical(markdown))
   if (!is.data.frame(x))
     stop("input must be a dataframe ")
   if (!is.character(x$key))
@@ -9,6 +10,10 @@ hash_df <- function(x) {
     key <- x$key[i]
     value <- as.list(x[i, ])
     value$key <- NULL
+    if (markdown) value <- lapply(value, function(x) {
+      x <- gsub("\\\\", "\n\n", x)
+      markdown::markdownToHTML(text = x, fragment.only = TRUE)
+    })
     y[[key]] <- value
   }
   y

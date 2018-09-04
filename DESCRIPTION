@@ -23,7 +23,8 @@ Imports: assertthat,
     shinythemes,
     tidyr,
     utils,
-    R6
+    R6,
+    markdown
 RoxygenNote: 6.1.0
 Suggests: testthat
 Byte-Compile: yes
