@@ -187,10 +187,24 @@ c.timeline <- function(...) {
     return(input[[1]])
   } else {
     Reduce(function(x, y) {
-      langs <- sort(intersect(x$languages, y$languages))
-      lst <- sapply(langs, function(lang) {
-        c(x$get(lang), y$get(lang))
-      }, simplify = FALSE)
+      x_is_timeline <- is(x, "timeline")
+      y_is_timeline <- is(y, "timeline")
+      lst <- if (x_is_timeline && y_is_timeline) {
+        langs <- sort(intersect(x$languages, y$languages))
+        sapply(langs, function(lang) {
+          c(x$get(lang), y$get(lang))
+        }, simplify = FALSE)
+      } else if (x_is_timeline && !y_is_timeline) {
+        langs <- sort(x$languages)
+        sapply(langs, function(lang) {
+          c(x$get(lang), y)
+        }, simplify = FALSE)
+      } else if (!x_is_timeline && y_is_timeline) {
+        langs <- sort(y$languages)
+        sapply(langs, function(lang) {
+          c(x, y$get(lang))
+        }, simplify = FALSE)
+      } else stop("this shouldn't happen")
       timeline$new(lst)
     }, input)
   }
@@ -212,14 +226,16 @@ new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
   })
 })
 
-with_i18n_state <- gtools::defmacro(dict, lang, x, expr = {
+with_i18n_state <- gtools::defmacro(dictionary, language, x, expr = {
   local({
     old_state <- list(dict = psychTestR:::I18N_STATE$dict,
                       lang = psychTestR:::I18N_STATE$lang)
-    psychTestR:::I18N_STATE$set(dict = dict, lang = lang)
+    psychTestR:::I18N_STATE$set(dict = dictionary, lang = language)
+    # browser()
     tryCatch(
       res <- eval(x),
       error = function(e) {
+        # browser()
         psychTestR:::I18N_STATE$set(dict = old_state$dict,
                                     lang = old_state$lang)
         stop(e)
