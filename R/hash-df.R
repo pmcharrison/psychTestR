@@ -10,13 +10,21 @@ hash_df <- function(x, markdown) {
     key <- x$key[i]
     value <- as.list(x[i, ])
     value$key <- NULL
-    if (markdown) value <- lapply(value, function(x) {
-      x <- gsub("\\\\", "\n\n", x)
-      markdown::markdownToHTML(text = x, fragment.only = TRUE)
-    })
+    if (markdown) value <- lapply(value, parse_markdown)
     y[[key]] <- value
   }
   y
+}
+
+parse_markdown <- function(x) {
+  stopifnot(is.scalar.character(x))
+  has_paragraphs <- grepl("(\\\\\\\\)|(<p>)|(\\n)", x)
+  if (has_paragraphs)
+    x <- gsub("\\\\", "\n\n", x, fixed = TRUE)
+  res <- markdown::markdownToHTML(text = x, fragment.only = TRUE)
+  if (!has_paragraphs)
+    res <- gsub("(<p>)|(</p>)|(\\n)", "", res)
+  res
 }
 
 # Converts a hash table, as created by hash_df(), into a data.frame.
@@ -26,5 +34,8 @@ unhash_df <- function(x) {
   values <- lapply(y, function(x) as.data.frame(x, stringsAsFactors = FALSE)) %>%
     do.call(rbind, .)
   row.names(values) <- NULL
-  cbind(key = keys, values, stringsAsFactors = FALSE)
+  res <- cbind(key = keys, values, stringsAsFactors = FALSE)
+  res <- res[order(res$key), ]
+  row.names(res) <- NULL
+  res
 }
