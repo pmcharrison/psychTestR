@@ -417,7 +417,9 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
                          arrange_vertically = length(choices) > 2L,
                          id = "response_ui") {
   stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hide),
-            is.null.or(labels, is.character))
+            is.null(labels) ||
+              ((is.character(labels) || is.list(labels)) &&
+                 length(labels) == length(choices)))
   if (is.null(labels)) {
     labels <- if (is.null(names(choices))) choices else names(choices)
   }
