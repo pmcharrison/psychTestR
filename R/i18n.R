@@ -225,10 +225,11 @@ new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
         return(tmp)
       } else {
         if (psychTestR::is.test_element(tmp)) tmp <- list(tmp)
-        err_msg <- "input to 'new_timeline' must produce a (list of) test element(s)"
-        if (!is.list(tmp)) stop(err_msg)
+        err_msg <- paste0("input to 'new_timeline' must produce a (list of) ",
+                          "test element(s), instead received: ")
+        if (!is.list(tmp)) stop(err_msg, capture.output(print(tmp)))
         is_elt <- vapply(tmp, psychTestR::is.test_element, logical(1L))
-        if (!all(is_elt)) stop(err_msg)
+        if (!all(is_elt)) stop(err_msg, capture.output(print(tmp)))
         res[[i]] <- tmp
       }
     }
@@ -245,11 +246,9 @@ with_i18n_state <- gtools::defmacro(dictionary, language, x, expr = {
     old_state <- list(dict = psychTestR:::I18N_STATE$dict,
                       lang = psychTestR:::I18N_STATE$lang)
     psychTestR:::I18N_STATE$set(dict = dictionary, lang = language)
-    # browser()
     tryCatch(
       res <- eval(x),
       error = function(e) {
-        # browser()
         psychTestR:::I18N_STATE$set(dict = old_state$dict,
                                     lang = old_state$lang)
         stop(e)
