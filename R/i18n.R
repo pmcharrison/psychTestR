@@ -140,15 +140,16 @@ i18n <- function(x, html = TRUE, sub = character()) {
 # )
 # WITH_I18N <- with_i18n_flag$new()
 
-
+# You can drop languages from a timeline but you can't add them.
 timeline <- R6::R6Class(
   "timeline",
   public = list(
     initialize = function(x) {
       stopifnot(is.list(x))
-      private$..length <- if (length(x) == 0) 0L else unique(vapply(x, length, integer(1)))
-      if (length(private$..length) > 1L) stop("inconsistent timeline lengths between languages")
-      private$..languages <- names(x)
+      private$..length <- if (length(x) == 0) 0L else
+        unique(vapply(x, length, integer(1)))
+      if (length(private$..length) > 1L)
+        stop("inconsistent timeline lengths between languages")
       private$data <- as.environment(x)
     },
     get = function(language, i = NULL) {
@@ -166,6 +167,10 @@ timeline <- R6::R6Class(
         lst[[i]]
       }
     },
+    drop_languages = function(drop) {
+      stopifnot(is.character(drop))
+      rm(list = drop, envir = private$data)
+    },
     print = function(...) {
       cat("psychTestR timeline\n")
       cat(sprintf("  %i languages: %s\n",
@@ -175,8 +180,8 @@ timeline <- R6::R6Class(
       cat("\n")
     }
   ),
-  private = list(data = NULL, ..languages = NULL, ..length = NULL),
-  active = list(languages = function() private$..languages,
+  private = list(data = NULL, ..length = NULL),
+  active = list(languages = function() sort(names(private$data)),
                 length = function() private$..length)
 )
 
@@ -220,23 +225,79 @@ new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
     res <- list()
     for (i in seq_along(langs)) {
       lang <- langs[i]
-      tmp <- if (is.null(dict)) x else psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
+      tmp <- if (is.null(dict)) x else
+        psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
       if (psychTestR::is.timeline(tmp)) {
-        return(tmp)
+        return(psychTestR:::format_new_timeline(tmp, langs))
       } else {
-        if (psychTestR::is.test_element(tmp)) tmp <- list(tmp)
-        err_msg <- paste0("input to 'new_timeline' must produce a (list of) ",
-                          "test element(s), instead received: ")
-        if (!is.list(tmp)) stop(err_msg, capture.output(print(tmp)))
-        is_elt <- vapply(tmp, psychTestR::is.test_element, logical(1L))
-        if (!all(is_elt)) stop(err_msg, capture.output(print(tmp)))
-        res[[i]] <- tmp
+        res[[i]] <- psychTestR:::format_test_element_list(tmp, lang)
       }
     }
     names(res) <- langs
     psychTestR:::timeline$new(res)
   })
 })
+
+# To be called from within new_timeline()
+format_new_timeline <- function(input, langs) {
+  stopifnot(is(input, "timeline"),
+            is.character(langs))
+  if (!all(langs) %in% input$languages)
+    stop("new_timeline() was called with dictionary languages ",
+         paste(langs, collapse = ", "),
+         " but the input <x> evaluated to a timeline where these ",
+         "languages were not available ",
+         "(available languages: ", paste(input$languages, collapse = ", "),
+         ")")
+  drop <- setdiff(input$languages, langs)
+  input$drop_languages(drop)
+  input
+}
+
+# To be called from within new_timeline()
+# Timelines are permitted within the input list.
+# However, an error will be thrown if these timelines don't
+# support the required languages.
+format_test_element_list <- function(input, lang) {
+  stopifnot(is.scalar.character(lang))
+  x <- if (psychTestR::is.test_element(input)) list(input) else input
+  if (!is.list(x)) stop("new_timeline() received an input that wasn't a ",
+                        "test element or a list")
+  format_test_element_list.check_classes(x)
+  x <- format_test_element_list.dissolve_timelines(x, lang)
+  x
+}
+
+format_test_element_list.check_classes <- function(x) {
+  if (!all(vapply(x, function(y) {
+    psychTestR::is.test_element(y) ||
+      psychTestR::is.timeline(y)
+  }, logical(1)))) {
+    classes <- vapply(x, class, character(1))
+    stop("new_timeline() received a list as input, ",
+         "but not all elements were test elements. ",
+         "Here is the class list: ",
+         paste(classes, collapse = ", "))
+  }
+}
+
+format_test_element_list.dissolve_timelines <- function(x, lang) {
+  l <- lapply(x, function(y) {
+    if (is.test_element(y)) {
+      y
+    } else if (is.timeline(y)) {
+      if (!(lang %in% y$languages)) {
+        stop("argument <x> to new_timeline() produced a list ",
+             "containing a timeline, but this timeline ",
+             "did not support the language ", lang, " ",
+             "(supported languages: {",
+             paste(y$languages, collapse = ", "), "})")
+      }
+      y$get(lang)
+    } else stop("this shouldn't happen")
+  })
+  do.call(what = c, args = l)
+}
 
 #' @export
 is.timeline <- function(x) is(x, "timeline")
