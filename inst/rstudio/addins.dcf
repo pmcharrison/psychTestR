@@ -1,0 +1,9 @@
+Name: Insert `i18n()`
+Description: Inserts `i18n()` at the cursor position.
+Binding: insert_i18n
+Interactive: false
+
+Name: Insert `psychTestR::i18n()`
+Description: Inserts `psychTestR::i18n()` at the cursor position.
+Binding: insert_pt_i18n
+Interactive: false

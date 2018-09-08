@@ -24,7 +24,8 @@ Imports: assertthat,
     tidyr,
     utils,
     R6,
-    markdown
+    markdown,
+    rstudioapi
 RoxygenNote: 6.1.0
 Suggests: testthat
 Byte-Compile: yes
