@@ -123,7 +123,7 @@ i18n_check <- function(x) {
     stop("argument <sub> for function i18n_check() was missing names")
   if (!is.scalar.character(x$x))
     stop("argument <x> for function i18_check() must be a character scalar")
-  if (!is.scalar.character(x$html))
+  if (!is.scalar.logical(x$html))
     stop("argument <html> for function i18_check() must be a logical scalar")
 }
 
