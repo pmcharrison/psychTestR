@@ -105,9 +105,7 @@ missing_lang_error <- function() {
 # Translate
 #' @export
 i18n <- function(x, html = TRUE, sub = character()) {
-  stopifnot(length(sub) == 0L || !is.null(names(sub)),
-            is.scalar.character(x),
-            is.scalar.logical(html))
+  i18n_check(as.list(environment()))
   res <- I18N_STATE$translate(x)
   if (length(sub) > 0L) {
     from <- paste("{{", names(sub), "}}", sep = "")
@@ -116,6 +114,17 @@ i18n <- function(x, html = TRUE, sub = character()) {
       res <- gsub(res, pattern = from[i], replacement = to[i], fixed = TRUE)
   }
   if (html) shiny::HTML(res) else res
+}
+
+i18n_check <- function(x) {
+  if (!is.character(x$sub))
+    stop("argument <sub> for function i18n_check() must be a character vector")
+  if (length(x$sub) > 0 && is.null(names(x$sub)))
+    stop("argument <sub> for function i18n_check() was missing names")
+  if (!is.scalar.character(x$x))
+    stop("argument <x> for function i18_check() must be a character scalar")
+  if (!is.scalar.character(x$html))
+    stop("argument <html> for function i18_check() must be a logical scalar")
 }
 
 # selected_i18n_dict <- R6::R6Class(
