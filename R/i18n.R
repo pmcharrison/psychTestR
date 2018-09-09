@@ -117,8 +117,8 @@ i18n <- function(x, html = TRUE, sub = character()) {
 }
 
 i18n_check <- function(x) {
-  if (!is.character(x$sub))
-    stop("argument <sub> for function i18n_check() must be a character vector")
+  if (!(is.null(x$sub) || is.vector(x$sub)))
+    stop("argument <sub> for function i18n_check() must be a vector")
   if (length(x$sub) > 0 && is.null(names(x$sub)))
     stop("argument <sub> for function i18n_check() was missing names")
   if (!is.scalar.character(x$x))
