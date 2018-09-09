@@ -757,7 +757,7 @@ save_results_to_disk <- function(complete, state, opt, ...) {
 save_results_to_disk.get_filename <- function(state, dir, complete) {
   sprintf(
     "id=%s&p_id=%s&save_id=%s&pilot=%s&complete=%s.rds",
-    id = format(length(list.files(dir, pattern = "\\.rds$")) + 1L,
+    id = format(length(list_results_files(dir)) + 1L,
                 scientific = FALSE),
     p_id = format(p_id(state), scientific = FALSE),
     save_id = format(save_id(state), scientific = FALSE),

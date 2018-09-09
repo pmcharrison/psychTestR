@@ -12,9 +12,14 @@
 #
 # # "id=1&p_id=PeterHarrison&save_id=1&final=true.rds"
 
+list_results_files <- function(results_dir, full.names = FALSE) {
+  pattern <- "^id=.*\\.rds$"
+  list.files(results_dir, pattern = pattern, full.names = full.names)
+}
+
 tabulate_results <- function(opt, include_pilot) {
   stopifnot(is.scalar.logical(include_pilot))
-  df <- data.frame(file = list.files(opt$results_dir, pattern = "\\.rds$"),
+  df <- data.frame(file = list_results_files(opt$results_dir),
                    stringsAsFactors = FALSE)
   cols <- c("id", "p_id", "save_id", "pilot", "complete")
   if (nrow(df) > 0L) {

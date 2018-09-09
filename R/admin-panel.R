@@ -475,7 +475,7 @@ zip_dir <- function(dir, output_file) {
 }
 
 df_all_results <- function(results_dir) {
-  files <- list.files(results_dir, pattern = "\\.rds", full.names = TRUE)
+  files <- list_results_files(results_dir, full.names = TRUE)
   if (length(files) == 0L) return(data.frame())
   data <- lapply(files, readRDS)
   data_df <- lapply(data, as.data.frame)
