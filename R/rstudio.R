@@ -15,3 +15,7 @@ insert_i18n <- function() {
 insert_pt_i18n <- function() {
   insert_fun("psychTestR::i18n")
 }
+
+insert_psychTestR <- function() {
+  rstudioapi::insertText("psychTestR::")
+}
