@@ -118,13 +118,17 @@ i18n <- function(x, html = TRUE, sub = character()) {
 
 i18n_check <- function(x) {
   if (!(is.null(x$sub) || is.vector(x$sub)))
-    stop("argument <sub> for function i18n_check() must be a vector")
+    stop("argument <sub> for function i18n_check() must be a vector, ",
+         "instead got ", utils::capture.output(print(x$sub)))
   if (length(x$sub) > 0 && is.null(names(x$sub)))
-    stop("argument <sub> for function i18n_check() was missing names")
+    stop("argument <sub> for function i18n_check() was missing names, ",
+         "instead got ", utils::capture.output(print(x$sub)))
   if (!is.scalar.character(x$x))
-    stop("argument <x> for function i18_check() must be a character scalar")
+    stop("argument <x> for function i18_check() must be a character scalar, ",
+         "instead got ", utils::capture.output(print(x$x)))
   if (!is.scalar.logical(x$html))
-    stop("argument <html> for function i18_check() must be a logical scalar")
+    stop("argument <html> for function i18_check() must be a logical scalar, ",
+         "instead got ", utils::capture.output(print(x$html)))
 }
 
 # selected_i18n_dict <- R6::R6Class(
