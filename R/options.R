@@ -151,6 +151,7 @@ test_options <- function(title, admin_password,
   }
 
   results_dir <- file.path(output_dir, "results")
+  supplementary_results_dir <- file.path(results_dir, "supplementary")
   session_dir <- file.path(output_dir, "sessions")
   results_archive_dir <- file.path(output_dir, "deleted-results")
   error_dir <- file.path(output_dir, "errors")
@@ -179,6 +180,7 @@ test_options <- function(title, admin_password,
        enable_admin_panel = enable_admin_panel,
        output_dir = output_dir,
        results_dir = results_dir,
+       supplementary_results_dir = supplementary_results_dir,
        session_dir = session_dir,
        results_archive_dir = results_archive_dir,
        error_dir = error_dir,
