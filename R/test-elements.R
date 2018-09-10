@@ -811,7 +811,7 @@ loop_while <- function(test, logic) {
                 session = session, opt = opt)
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                       "scalar logical")
-    if (!res) skip_n_pages(state, - (n + 1L))
+    if (res) skip_n_pages(state, - (n + 1L))
   })
   c(logic, elt)
 }
