@@ -27,11 +27,7 @@ as.list.results <- function(x, ...) {
 
 #' @export
 as.data.frame.results <- function(x, ...) {
-  y <- unlist(as.list(x), recursive = FALSE)
-  if (!all(sapply(y, is.atomic))) {
-    stop("cannot coerce to data.frame when the results object contains ",
-         "non-atomic elements")
-  }
+  y <- unlist(as.list(x), recursive = TRUE)
   df <- as.data.frame(y, check.names = FALSE, ...)
   session_info_cols <- grepl("^session\\.", names(df))
   cbind(df[, session_info_cols],
