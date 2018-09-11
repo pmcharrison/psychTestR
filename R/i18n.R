@@ -3,7 +3,7 @@ i18n_dict <- R6::R6Class(
   "i18n_dict",
   public = list(
     initialize = function(x, markdown = TRUE) {
-      i18n_check(x)
+      i18n_check_csv(x)
       private$..languages <- setdiff(names(x), "key")
       private$dict <- hash_df(x, markdown = markdown)
     },
@@ -40,7 +40,7 @@ as.data.frame.i18n_dict <- function(x, ...) {
 }
 
 # Checks the validity of the dictionary
-i18n_check <- function(x) {
+i18n_check_csv <- function(x) {
   if (!is.data.frame(x))
     stop("input to i18n_dict() must be a dataframe ")
   if (!is.character(x$key))
