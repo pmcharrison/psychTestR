@@ -6,6 +6,9 @@
 \usage{
 pt_options(...)
 }
+\arguments{
+\item{...}{Arguments to pass to \code{\link{test_options}()}.}
+}
 \description{
 Alias for \code{test_options()} (deprecated).
 }

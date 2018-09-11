@@ -163,14 +163,14 @@ save_timestamp <- function(opt, p_id) {
   saveRDS(Sys.time(), file.path(opt$session_dir, p_id, "timestamp.RDS"))
 }
 
-#' Returns NA if no timestamp found
+# Returns NA if no timestamp found
 read_timestamp <- function(opt, p_id) {
   stopifnot(is.scalar.character(p_id), is.scalar.character(opt$session_dir))
   path <- file.path(opt$session_dir, p_id, "timestamp.RDS")
   if (file.exists(path)) readRDS(path) else NA
 }
 
-#' Deletes all session caches that are older than a certain amount.
+# Deletes all session caches that are older than a certain amount.
 clean_session_dir <- function(session, opt) {
   stopifnot(is.scalar.numeric(opt$session_timeout_min),
             is.scalar.numeric(opt$clean_sessions_interval_min),

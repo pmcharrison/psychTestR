@@ -1,9 +1,47 @@
+#' Dictionary
+#'
+#' Dictionaries allow psychTestR tests to
+#' support multiple languages during test administration.
+#' These dictionaries (class name: \code{i18n_dict})
+#' define mappings between string keys (e.g. \code{prompt1})
+#' and (potentially) multiple outputs,
+#' each corresponding to different languages (e.g. English, German).
+#' The dictionary is passed as an argument to \code{\link{new_timeline}},
+#' and provides the context for the evaluation of calls to
+#' \code{\link{i18n}}, responsible for translating individual terms.
+#' @section Methods:
+#' \code{i18n_dict$new()} defines and returns a new dictionary
+#' which can be saved as an object.
+#' Its first argument, \code{x}, should be a data frame defining the dictionary.
+#' Each row of this data frame should correspond to a term to be translated.
+#' It should have a column entitled 'key', which defines the identifying
+#' keys for each term.
+#' All other columns should provide translations into different languages,
+#' with the language being identified by the column name,
+#' according to ISO 639-2 conventions.
+#' The second argument, \code{markdown}, is a scalar Boolean
+#' that determines whether the data frame is formatted in
+#' Markdown or not (Markdown allows for efficient and readable
+#' text markup, e.g. italic and bold).
+#' Text is parsed according to standard Markdown conventions,
+#' with one addition: two successive backslashes
+#' (written "\\" in a text file, or "\\\\" in R)
+#' are interpreted as a new paragraph.
+#'
+#' \code{x$as.data.frame}, where \code{x} is a dictionary object,
+#' converts the dictionary back to a data frame representation.
+#'
+#' \code{x$translate(key, language, allow_missing)}
+#' uses the dictionary \code{x}
+#' to translate \code{key} into \code{language}.
+#' If \code{allow_missing} is \code{TRUE}, then \code{NULL} is returned
+#' when no translation is found, otherwise an error is thrown.
 #' @export
 i18n_dict <- R6::R6Class(
   "i18n_dict",
   public = list(
     initialize = function(x, markdown = TRUE) {
-      i18n_check_csv(x)
+      i18n_check_df(x)
       private$..languages <- setdiff(names(x), "key")
       private$dict <- hash_df(x, markdown = markdown)
     },
@@ -40,7 +78,7 @@ as.data.frame.i18n_dict <- function(x, ...) {
 }
 
 # Checks the validity of the dictionary
-i18n_check_csv <- function(x) {
+i18n_check_df <- function(x) {
   if (!is.data.frame(x))
     stop("input to i18n_dict() must be a dataframe ")
   if (!is.character(x$key))
@@ -102,7 +140,26 @@ missing_lang_error <- function() {
             message = msg)
 }
 
-# Translate
+#' Translate
+#'
+#' Translates text into a language determined by the current testing session.
+#' Translation is carried out using a dictionary defined at test creation
+#' (see \code{\link{i18n_dict}}).
+#' The function can typically only be used within a call
+#' to \code{\link{new_timeline}}, which defines the dictionary
+#' in which to look up \code{i18n}.
+#' Calling \code{i18n} outside this context will typically result in an error.
+#' @param x Character scalar identifying the term to be translated.
+#' @param html Boolean; whether or not the translation output should
+#' be parsed as HTML or as plain text (the default is \code{TRUE},
+#' corresponding to HTML parsing).
+#' @param sub A named character vector or list defining substitutions
+#' to make within the translation output. The text of the translation output
+#' may contain passages such as \code{{{var1}}};
+#' if \code{sub = c(var1 = "Hello")},
+#' then \code{{{var1}}} will be replaced with the text \code{Hello}.
+#' @return The translated output (typically a character scalar
+#' or a \code{shiny::HTML()} output.
 #' @export
 i18n <- function(x, html = TRUE, sub = character()) {
   i18n_check(as.list(environment()))
@@ -131,29 +188,27 @@ i18n_check <- function(x) {
          "instead got ", utils::capture.output(print(x$html)))
 }
 
-# selected_i18n_dict <- R6::R6Class(
-#   "selected_i18n_dict",
-#   public = list(initialize = function() private$val <- NULL,
-#                 get = function() private$val,
-#                 set = function(val) {
-#                   stopifnot(is.null(val) || is(val, "i18n_dict"))
-#                   private$val <- val
-#                 },
-#                 reset = function() private$val <- NULL),
-#   private = list(val = NULL)
-# )
-# SELECTED_I18N_DICT <- selected_i18n_dict$new()
-
-# with_i18n_flag <- R6::R6Class(
-#   "with_i18n_flag",
-#   public = list(initialize = function() private$val <- FALSE,
-#                 get = function() private$val,
-#                 set = function(val) private$val <- val),
-#   private = list(val = FALSE)
-# )
-# WITH_I18N <- with_i18n_flag$new()
-
-# You can drop languages from a timeline but you can't add them.
+#' Timeline
+#'
+#' Timelines are series of psychTestR test elements that chain
+#' together to form a test.
+#' They support internationalisation,
+#' defining parallel series of test elements for the available languages.
+#' @section Creation:
+#' Timelines are created using \code{\link{new_timeline}}.
+#' @section Manipulation:
+#' Timelines can be combined with other timelines and with test elements
+#' using \code{\link{c}}.
+#' @section Usage:
+#' Timelines are ultimately passed to \code{\link{make_test}}.
+#' @section Other methods:
+#' \code{x$get(language, i)} returns a list of test elements corresponding
+#' to \code{language} as extracted from the timeline \code{x},
+#' or, if \code{i} is not \code{NULL}, the ith such test element.
+#'
+#' \code{x$drop_languages(drop)} removes support for a set of languages
+#' from timeline \code{x}, where \code{drop} is the character vector
+#' of languages to remove.
 timeline <- R6::R6Class(
   "timeline",
   public = list(
@@ -229,6 +284,25 @@ c.timeline <- function(...) {
   }, input)
 }
 
+#' New timeline
+#'
+#' Creates a new timeline.
+#' Timelines allow tests to support multiple languages.
+#' @param x Expression defining a series of test elements.
+#' This expression will be evaluated once for every language
+#' provided in the dictionary argument (\code{dict}).
+#' A call to \code{\link{i18n}(key)}, where \code{key}
+#' is a term defined in \code{dict},
+#' will be translated to its definitions in each respective language.
+#' @param dict Dictionary object as created by \code{\link{i18n_dict}$new}.
+#' @param default_lang If no dictionary is supplied, then
+#' \code{new_timeline()} assumes that the current language is
+#' \code{default_lang}.
+#' @note Debugging is difficult within \code{new_timeline()}
+#' because of its underlying macro definition.
+#' When building a test, we recommend defining small timelines
+#' first and subsequently combining them.
+#' This helps to narrow down the source of any errors.
 #' @export
 new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
   stopifnot(psychTestR:::is.null.or(dict, function(z) is(dict, "i18n_dict")),
@@ -312,6 +386,11 @@ format_test_element_list.dissolve_timelines <- function(x, lang) {
   do.call(what = c, args = l)
 }
 
+#' Is it a timeline object?
+#'
+#' Checks whether an object is a timeline object.
+#' @param x Object to check
+#' @return \code{TRUE} if object is a timeline object, \code{FALSE} otherwise.
 #' @export
 is.timeline <- function(x) is(x, "timeline")
 

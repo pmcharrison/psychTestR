@@ -13,6 +13,10 @@ setMethod("initialize", "test_element", function(.Object, ...) {
   callNextMethod()
 })
 
+#' Is object a test element?
+#'
+#' Checks whether an object is a test element.
+#' @param x Object to check.
 #' @export
 is.test_element <- function(x) is(x, "test_element")
 
@@ -248,7 +252,8 @@ final_page <- function(body, admin_ui = NULL) {
 #' Creates a page where the participant puts their
 #' answer in a text box.
 #' @param label Label for the current page (character scalar).
-#' @param prompt Prompt to display (character scalar or Shiny tag object)
+#' @param prompt Prompt to display (character scalar or Shiny tag object).
+#' @param one_line Whether the answer box only has one line of text.
 #' @param save_answer See \code{\link{page}}.
 #' @param placeholder Placeholder text for the text box (character scalar).
 #' @param button_text Text for the submit button (character scalar).
@@ -364,6 +369,10 @@ describe_valid_p_id <- function() {
 #' and for button labels.
 #' If named, then values will be used for button IDs and names
 #' will be used for button labels.
+#' @param labels Optional vector of labels for the NAFC choices.
+#' If not \code{NULL}, will overwrite the names of \code{choices}.
+#' This vector of labels can either be a character vector
+#' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
 #' @param save_answer See \code{\link{page}}.
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
@@ -407,6 +416,10 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
 #' and for button labels.
 #' If named, then values will be used for button IDs and names
 #' will be used for button labels.
+#' @param labels Optional vector of labels for the NAFC choices.
+#' If not \code{NULL}, will overwrite the names of \code{choices}.
+#' This vector of labels can either be a character vector
+#' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
 #' @param hide Whether the response buttons should be hidden
 #' (possibly to be shown later).
 #' @param arrange_vertically Whether to arrange the response buttons vertically
@@ -446,6 +459,10 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
 #' @param url URL to the video.
 #' Can be an absolute URL (e.g. "http://mysite.com/video.mp4")
 #' or a URL relative to the /www directory (e.g. "video.mp4").
+#' @param labels Optional vector of labels for the NAFC choices.
+#' If not \code{NULL}, will overwrite the names of \code{choices}.
+#' This vector of labels can either be a character vector
+#' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
 #' @param type Video type (e.g. 'mp4'). Defaults to the provided file extension.
 #' @param save_answer See \code{\link{page}}.
 #' @param on_complete See \code{\link{page}}.
@@ -523,6 +540,10 @@ media_mobile_play_button <- shiny::tags$p(
 #' and for button labels.
 #' If named, then values will be used for button IDs and names
 #' will be used for button labels.
+#' @param labels Optional vector of labels for the NAFC choices.
+#' If not \code{NULL}, will overwrite the names of \code{choices}.
+#' This vector of labels can either be a character vector
+#' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
 #' @param url URL to the audio
 #' Can be an absolute URL (e.g. "http://mysite.com/audio.mp3")
 #' or a URL relative to the /www directory (e.g. "audio.mp3").
@@ -580,6 +601,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 #' @param prompt Prompt to be displayed. If left \code{NULL},
 #' a sensible English prompt is provided.
 #' @param button_text Button text (scalar character).
+#' @param on_complete See \code{\link{page}}.
 #' @param admin_ui See \code{\link{page}}.
 #' @export
 volume_calibration_page <- function(url, type = tools::file_ext(url),
@@ -738,7 +760,6 @@ elt_save_results_to_disk <- function(complete) {
 #' @param opt Test options as created by \code{test_options()}.
 #' @param ... Further arguments are allowed but ignored (for back-compatibility).
 #' @export
-#' @param complete Whether the participant completed the test.
 save_results_to_disk <- function(complete, state, opt, ...) {
   dir <- opt$results_dir
   R.utils::mkdirs(dir)
@@ -838,7 +859,6 @@ begin_module <- function(label) {
 #' Modules have their own set of local variables.
 #' They also have identifying labels that are stored alongside
 #' result entries created during the module.
-#' @param label Module label (scalar character).
 #' @export
 end_module <- function() {
   code_block(function(state, ...) {

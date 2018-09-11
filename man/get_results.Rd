@@ -12,8 +12,6 @@ get_results(state, complete, add_session_info = FALSE)
 \item{complete}{Whether the participant has now completed the test (Boolean).}
 
 \item{add_session_info}{Whether to add session information (Boolean).}
-
-\item{complete}{Whether the participant completed the test.}
 }
 \value{
 A \code{results} object.

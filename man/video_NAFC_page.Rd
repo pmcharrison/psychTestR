@@ -27,6 +27,11 @@ will be used for button labels.}
 Can be an absolute URL (e.g. "http://mysite.com/video.mp4")
 or a URL relative to the /www directory (e.g. "video.mp4").}
 
+\item{labels}{Optional vector of labels for the NAFC choices.
+If not \code{NULL}, will overwrite the names of \code{choices}.
+This vector of labels can either be a character vector
+or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
+
 \item{type}{Video type (e.g. 'mp4'). Defaults to the provided file extension.}
 
 \item{save_answer}{See \code{\link{page}}.}

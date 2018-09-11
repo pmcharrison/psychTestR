@@ -20,6 +20,8 @@ a sensible English prompt is provided.}
 
 \item{button_text}{Button text (scalar character).}
 
+\item{on_complete}{See \code{\link{page}}.}
+
 \item{admin_ui}{See \code{\link{page}}.}
 }
 \description{

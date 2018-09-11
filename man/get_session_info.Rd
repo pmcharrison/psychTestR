@@ -6,6 +6,12 @@
 \usage{
 get_session_info(state, complete)
 }
+\arguments{
+\item{state}{The participant's \code{state} object.}
+
+\item{complete}{Whether or not the session is now considered complete
+(this only affects the returned session info).}
+}
 \value{
 List containing session information.
 }

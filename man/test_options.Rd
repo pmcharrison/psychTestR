@@ -6,8 +6,7 @@
 \usage{
 test_options(title, admin_password, researcher_email = NULL,
   max_num_participants = NULL, demo = FALSE, languages = "EN",
-  debug_locally = FALSE, log_error = TRUE,
-  show_full_error_msg = TRUE, notify_error = FALSE,
+  log_error = TRUE, show_full_error_msg = TRUE, notify_error = FALSE,
   notify_new_participant = FALSE, pushbullet_email = NULL,
   pushbullet_apikey = NULL, max_participants_msg = NULL,
   server_closed_msg = NULL, problems_info = "default",
@@ -95,9 +94,6 @@ check for expired participant sessions (minutes).}
 \item{logo_width}{Logo width, e.g. \code{"100px"}.}
 
 \item{logo_height}{Logo height, e.g. \code{"50px"}.}
-
-\item{debug}{Whether the test is to be debugged locally
-(set to \code{TRUE} when developing locally).}
 }
 \description{
 Defines the options for running a given test.

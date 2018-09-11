@@ -22,6 +22,11 @@ and for button labels.
 If named, then values will be used for button IDs and names
 will be used for button labels.}
 
+\item{labels}{Optional vector of labels for the NAFC choices.
+If not \code{NULL}, will overwrite the names of \code{choices}.
+This vector of labels can either be a character vector
+or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
+
 \item{save_answer}{See \code{\link{page}}.}
 
 \item{arrange_vertically}{Whether to arrange the response buttons vertically

@@ -4,6 +4,9 @@ NULL
 #' @importFrom methods "is" "new"
 NULL
 
+#' @importFrom methods "callNextMethod"
+NULL
+
 #' @importFrom stats "sd"
 NULL
 

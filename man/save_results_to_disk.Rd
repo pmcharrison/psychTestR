@@ -15,8 +15,6 @@ has now completed the test (scalar Boolean).}
 \item{opt}{Test options as created by \code{test_options()}.}
 
 \item{...}{Further arguments are allowed but ignored (for back-compatibility).}
-
-\item{complete}{Whether the participant completed the test.}
 }
 \description{
 Saves the current participant's results to disk.

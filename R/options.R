@@ -1,6 +1,7 @@
 #' Alias for test_options()
 #'
 #' Alias for \code{test_options()} (deprecated).
+#' @param ... Arguments to pass to \code{\link{test_options}()}.
 #' @export
 pt_options <- function(...) {
   do.call(test_options, list(...))
@@ -21,8 +22,6 @@ pt_options <- function(...) {
 #' via the URL parameter 'language'. If no language is provided by
 #' the URL parameter, defaults to the first language in this vector.
 #' Languages should be encoded according to ISO 639-2 conventions.
-#' @param debug Whether the test is to be debugged locally
-#' (set to \code{TRUE} when developing locally).
 #' @param log_error Whether to log errors
 #' (this feature is under development).
 #' @param show_full_error_msg Whether to show full error messages.
@@ -68,7 +67,6 @@ test_options <- function(title, admin_password,
                          max_num_participants = NULL,
                          demo = FALSE,
                          languages = "EN",
-                         debug_locally = FALSE,
                          log_error = TRUE,
                          show_full_error_msg = TRUE,
                          notify_error = FALSE,
@@ -95,7 +93,6 @@ test_options <- function(title, admin_password,
             is.scalar.character(researcher_email),
             is.character(languages),
             length(languages) > 0,
-            is.scalar.logical(debug_locally),
             is.scalar.logical(log_error),
             is.scalar.logical(show_full_error_msg),
             is.scalar.logical(demo),
@@ -161,7 +158,6 @@ test_options <- function(title, admin_password,
        researcher_email = researcher_email,
        demo = demo,
        languages = languages,
-       debug_locally = debug_locally,
        log_error = log_error,
        show_full_error_msg = show_full_error_msg,
        notify_error = notify_error,
@@ -195,6 +191,7 @@ test_options <- function(title, admin_password,
 #' Demo options
 #'
 #' Test options list for demo purposes.
+#' @param ... Arguments to be passed to \code{\link{test_options}()}.
 #' @export
 demo_options <- function(...) {
   test_options(title = "Demo", admin_password = "demo", researcher_email = "XXX", ...)

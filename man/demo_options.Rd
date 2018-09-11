@@ -6,6 +6,9 @@
 \usage{
 demo_options(...)
 }
+\arguments{
+\item{...}{Arguments to be passed to \code{\link{test_options}()}.}
+}
 \description{
 Test options list for demo purposes.
 }

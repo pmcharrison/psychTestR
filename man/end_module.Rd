@@ -6,9 +6,6 @@
 \usage{
 end_module()
 }
-\arguments{
-\item{label}{Module label (scalar character).}
-}
 \description{
 Returns a code block that ends a psychTestR module.
 Modules have their own set of local variables.

@@ -12,7 +12,9 @@ text_input_page(label, prompt, one_line = TRUE, save_answer = TRUE,
 \arguments{
 \item{label}{Label for the current page (character scalar).}
 
-\item{prompt}{Prompt to display (character scalar or Shiny tag object)}
+\item{prompt}{Prompt to display (character scalar or Shiny tag object).}
+
+\item{one_line}{Whether the answer box only has one line of text.}
 
 \item{save_answer}{See \code{\link{page}}.}
 

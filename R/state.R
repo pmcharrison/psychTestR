@@ -132,6 +132,12 @@ pilot <- function(state) {
   state
 }
 
+#' Demo
+#'
+#' Determines whether the current session is a demo session.
+#' @param state The participant's \code{state} object.
+#' @return \code{TRUE} if the current session is a demo session,
+#' \code{FALSE} otherwise.
 #' @export
 demo <- function(state) {
   stopifnot(is(state, "state"))
@@ -197,6 +203,9 @@ language <- function(state) {
 #'
 #' Gets information about the current participant's session,
 #' including things like participant ID, time started, and number of restarts.
+#' @param state The participant's \code{state} object.
+#' @param complete Whether or not the session is now considered complete
+#' (this only affects the returned session info).
 #' @return List containing session information.
 #' @export
 get_session_info <- function(state, complete) {
@@ -244,7 +253,6 @@ update_state_from_list <- function(state, list) {
 #' @param add_session_info Whether to add session information (Boolean).
 #' @return A \code{results} object.
 #' @export
-#' @param complete Whether the participant completed the test.
 get_results <- function(state, complete, add_session_info = FALSE) {
   stopifnot(is(state, "state"))
   stopifnot(is.scalar.logical(complete))
@@ -385,7 +393,7 @@ get_next_elt <- function(state, elts, opt, eval = TRUE) {
           elts = elts, opt = opt, eval = eval)
 }
 
-#' Low-level setter, see skip_n_pages for skipping pages in general
+# Low-level setter, see skip_n_pages for skipping pages in general
 increment_elt_index <- function(state, by = 1L) {
   stopifnot(is.scalar.numeric(by), is.scalar(by), round(by) == by)
   new_index <- state$elt_index + by
