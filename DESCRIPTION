@@ -12,6 +12,7 @@ Imports:
     assertthat (>= 0.2.0),
     shiny (>= 1.1.0),
     catR (>= 3.16),
+    gtools (>= 3.8.1),
     htmltools (>= 0.3.6),
     magrittr (>= 1.5),
     methods,
