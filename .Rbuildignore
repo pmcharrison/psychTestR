@@ -6,3 +6,5 @@
 ^todo.txt$
 ^README\.md$
 ^pdf-doc\.R$
+psychTestR.pdf
+^psychTestR\.pdf$
