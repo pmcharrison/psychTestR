@@ -232,8 +232,8 @@ check_dirs <- function(opt) {
     R.utils::mkdirs(dir)
     if (!test_permissions(dir)) {
       stop("Insufficient permissions to write to directory ",
-           dir, ". Perhaps try 'chown -R <username> <dir>'",
-           "at the terminal.")
+           dir, ". Try upgrading permissions by running 'chown -R shiny <dir>'",
+           "at the terminal, where <dir> is your app's directory.")
     }
   }
 }
