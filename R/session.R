@@ -12,10 +12,11 @@ initialise_session <- function(state, session, opt) {
   shiny::isolate({
     url_params(state) <- get_url_params_from_browser(session)
     language <- get_url_params(state)$language
-    if (is.null(language)) {
+    if (is.null(language) || !language %in% opt$languages) {
       language <- opt$languages[1]
       set_url_param("language", language, session, state)
     }
+
     language(state) <- language
     p_id_url <- get_url_params(state)$p_id
     if (!is.null(p_id_url)) {
