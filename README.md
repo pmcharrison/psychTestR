@@ -15,10 +15,17 @@ Key benefits of psychTestR include:
 
 ## Examples
 
-- [Adaptive melodic discrimination test](http://shiny.pmcharrison.com/mdt-demo)
-(Harrison, Collins, & Müllensiefen 2017)
-
-- [Pitch imagery arrow task](http://shiny.pmcharrison.com/piat-demo) (Gelding et al. 2018)
+- Computerised Adaptive Beat Alignment Test (CA-BAT):
+[demo](http://shiny.pmcharrison.com/cabat-demo), 
+[source](https://github.com/pmcharrison/cabat)
+- Melodic Discrimination Test (MDT):
+[demo](http://shiny.pmcharrison.com/mdt-demo),
+[source](https://github.com/pmcharrison/mdt)
+- Mistuning Perception Test (MPT):
+[demo](http://shiny.pmcharrison.com/mpt-demo),
+[source](https://github.com/pmcharrison/mpt)
+- Pitch imagery arrow task (PIAT):
+[demo](http://shiny.pmcharrison.com/piat-demo)
 
 ## Citation
 
