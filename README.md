@@ -1,5 +1,7 @@
 # psychTestR
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1415355.svg)](https://doi.org/10.5281/zenodo.1415355)
+
 psychTestR is an R package for creating behavioural experiment interfaces.
 Key benefits of psychTestR include:
 
