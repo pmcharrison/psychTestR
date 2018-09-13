@@ -11,3 +11,4 @@ and `psychTestR::`.
 multiple answers from the test page. 
 For example, if a page labelled `A` returns `list(x = 3,  y = 4)`
 then this will be parsed into two columns `A.x` and `B.y`.
+* Changed default theme to 'yeti' (previous theme was 'readable')
