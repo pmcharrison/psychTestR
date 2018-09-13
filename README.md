@@ -13,13 +13,26 @@ Key benefits of psychTestR include:
 - Compatible with all major operating systems (Windows, Mac, Linux)
 - Easy to modularise and share your designs with other researchers
 
-
 ## Examples
 
 - [Adaptive melodic discrimination test](http://shiny.pmcharrison.com/mdt-demo)
 (Harrison, Collins, & Müllensiefen 2017)
 
 - [Pitch imagery arrow task](http://shiny.pmcharrison.com/piat-demo) (Gelding et al. 2018)
+
+## Citation
+
+You can cite psychTestR with the permanent DOI link
+https://doi.org/10.5281/zenodo.1415353.
+We also advise mentioning the particular version you used,
+which you can find from R as follows:
+
+``` r
+library(psychTestR)
+if (!require(devtools)) install.packages("devtools")
+x <- devtools::session_info()
+x$packages[x$packages$package == "psychTestR", ]
+```
 
 ## Local installation
 
