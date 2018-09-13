@@ -1,3 +1,7 @@
+# psychTestR 2.0.1
+
+* Bugfix - language compatibility checks were not being performed properly
+
 # psychTestR 2.0.0
 
 * Internationalisation is now supported, allowing researchers

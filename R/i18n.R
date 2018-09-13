@@ -329,7 +329,7 @@ new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
 format_new_timeline <- function(input, langs) {
   stopifnot(is(input, "timeline"),
             is.character(langs))
-  if (!all(langs) %in% input$languages)
+  if (!all(langs %in% input$languages))
     stop("new_timeline() was called with dictionary languages ",
          paste(langs, collapse = ", "),
          " but the input <x> evaluated to a timeline where these ",
