@@ -27,7 +27,7 @@ as.list.results <- function(x, ...) {
 
 #' @export
 as.data.frame.results <- function(x, ...) {
-  y <- unlist(as.list(x), recursive = TRUE)
+  y <- unlist(as.list(x), recursive = FALSE)
   df <- as.data.frame(y, check.names = FALSE, ...)
   session_info_cols <- grepl("^session\\.", names(df))
   cbind(df[, session_info_cols],
