@@ -17,10 +17,12 @@ Key benefits of psychTestR include:
 
 - Computerised Adaptive Beat Alignment Test (CA-BAT):
 [demo](http://shiny.pmcharrison.com/cabat-demo), 
-[source](https://github.com/pmcharrison/cabat)
+[source](https://github.com/pmcharrison/cabat),
+[paper](https://doi.org/10.1038/s41598-018-30318-8)
 - Melodic Discrimination Test (MDT):
 [demo](http://shiny.pmcharrison.com/mdt-demo),
-[source](https://github.com/pmcharrison/mdt)
+[source](https://github.com/pmcharrison/mdt),
+[paper](https://doi.org/10.1038/s41598-017-03586-z)
 - Mistuning Perception Test (MPT):
 [demo](http://shiny.pmcharrison.com/mpt-demo),
 [source](https://github.com/pmcharrison/mpt)
@@ -87,7 +89,8 @@ make_test(list(
   })))
 ```
 
-Once you've recorded some data, try logging into the admin panel with the password 'demo'.
+Once you've recorded some data, try logging into the admin panel with the password '
+'.
 Here you can download your response data.
 
 ## Documentation
