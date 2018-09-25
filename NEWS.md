@@ -1,3 +1,5 @@
+# psychTestR 2.0.2
+
 * Bugfix - Allowing `NULL` `researcher_email` argument in `test_options()`.
 
 # psychTestR 2.0.1
