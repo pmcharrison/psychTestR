@@ -90,7 +90,7 @@ test_options <- function(title, admin_password,
                          logo_height = NULL) {
   stopifnot(is.scalar.character(title),
             is.scalar.character(admin_password),
-            is.scalar.character(researcher_email),
+            is.null.or(researcher_email, is.scalar.character),
             is.character(languages),
             length(languages) > 0,
             is.scalar.logical(log_error),
