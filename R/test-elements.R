@@ -23,6 +23,7 @@ is.test_element <- function(x) is(x, "test_element")
 #' @export
 c.test_element <- function(...) {
   input <- list(...)
+  input <- Filter(f = Negate(is.null), input)
   stopifnot(all(vapply(input, function(x) {
     is(x, "test_element") || is(x, "timeline") || is.list(x)
   }, logical(1))))
