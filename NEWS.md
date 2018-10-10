@@ -1,3 +1,5 @@
+# psychTestR 2.0.3
+
 * Bugfix - Implicit timeline creation with `c()` no longer
 throws an error when given `NULL` elements.
 
