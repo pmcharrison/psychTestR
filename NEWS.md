@@ -1,3 +1,6 @@
+* Bugfix - Implicit timeline creation with `c()` no longer
+throws an error when given `NULL` elements.
+
 # psychTestR 2.0.2
 
 * Bugfix - Allowing `NULL` `researcher_email` argument in `test_options()`.
