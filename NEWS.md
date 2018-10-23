@@ -1,3 +1,6 @@
+* If i18n() is called without a dictionary, a warning rather than an error
+is thrown.
+
 # psychTestR 2.0.3
 
 * Bugfix - Implicit timeline creation with `c()` no longer
