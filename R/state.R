@@ -1,32 +1,72 @@
-new_state <- function(opt) {
-  x <- shiny::reactiveValues()
-  class(x) <- c(class(x), "state")
-  initialise_state(x, opt)
-  x
-}
+STATE_RDS_FORMAT <- "v1"
 
-initialise_state <- function(x, opt) {
-  stopifnot(is(x, "state"))
-  x$elt_index <- 1L
-  x$p_id <- NULL
-  x$globals <- list()
-  x$locals <- list()
-  x$parent_locals <- list()
-  x$results <- new_results()
-  x$time_started <- Sys.time()
-  x$num_restarts <- 0L
-  x$save_id <- 1L
-  x$previous_save_path <- NULL
-  x$admin <- FALSE
-  x$language <- opt$languages[1]
-  x$demo <- FALSE
-  x$pilot <- FALSE
-  x$error <- NULL
-  x$answer <- NULL
-  x$closed <- FALSE
-  x$allow_session_saving <- TRUE
-  x$url_params <- list()
-  invisible(TRUE)
+STATE <- R6::R6Class(
+  "state",
+  public = list(
+    initialize = function(opt) {
+      self$reactive <- shiny::reactiveValues(
+        ui_reactive_trigger = NULL,
+        admin = FALSE,
+        pilot = FALSE
+      )
+      self$passive[c("results", "time_started", "language")] <- list(
+        new_results(),
+        Sys.time(),
+        opt$languages[1]
+      )
+    },
+    refresh_ui = function() {
+      self$reactive$ui_reactive_trigger <- list(Sys.time(),
+                                                sample(.Machine$integer.max, 1))
+    },
+    save_data = function(file) {
+      checkmate::qassert(file, "S1")
+      saveRDS(list(format = STATE_RDS_FORMAT,
+                   passive = self$passive,
+                   reactive = shiny::reactiveValuesToList(self$reactive)),
+              file)
+    },
+    update_data = function(passive, reactive) {
+      self$update_passive(passive)
+      self$update_reactive(reactive)
+    },
+    update_passive = function(new) {
+      self$passive <- new
+    },
+    update_reactive = function(new) {
+      keys <- names(new)
+      values <- unname(new)
+      for (i in seq_along(new)) {
+        key_i <- keys[[i]]
+        value_i <- values[[i]]
+        self$reactive[[key_i]] <- value_i
+      }
+    },
+    reactive = NULL,
+    passive = list(
+      elt_index = 1L,
+      p_id = NULL,
+      globals = list(),
+      locals = list(),
+      parent_locals = list(),
+      results = NULL,
+      time_started = as.POSIXct(NA),
+      num_restarts = 0L,
+      save_id = 1L,
+      previous_save_path = NULL,
+      language = as.character(NA),
+      demo = FALSE,
+      error = NULL,
+      answer = NULL,
+      closed = FALSE,
+      allow_session_saving = TRUE,
+      url_params = list()
+    )
+  )
+)
+
+is.state <- function(x) {
+  is(x, "state")
 }
 
 #' Answer
@@ -37,7 +77,7 @@ initialise_state <- function(x, opt) {
 #' @export
 answer <- function(state) {
   stopifnot(is(state, "state"))
-  state$answer
+  state$passive$answer
 }
 
 #' Answer
@@ -49,7 +89,7 @@ answer <- function(state) {
 #' @export
 `answer<-` <- function(state, value) {
   stopifnot(is(state, "state"))
-  state$answer <- value
+  state$passive$answer <- value
   state
 }
 
@@ -60,25 +100,25 @@ answer <- function(state) {
 # @param state Participant's \code{state} object.
 save_id <- function(state) {
   stopifnot(is(state, "state"))
-  state$save_id
+  state$passive$save_id
 }
 
 `save_id<-` <- function(state, value) {
   stopifnot(is(state, "state"),
             is.integer(value))
-  state$save_id <- value
+  state$passive$save_id <- value
   state
 }
 
 previous_save_path <- function(state) {
   stopifnot(is(state, "state"))
-  state$previous_save_path
+  state$passive$previous_save_path
 }
 
 `previous_save_path<-` <- function(state, value) {
   stopifnot(is(state, "state"),
             is.scalar.character(value))
-  state$previous_save_path <- value
+  state$passive$previous_save_path <- value
   state
 }
 
@@ -92,7 +132,7 @@ previous_save_path <- function(state) {
 #' @export
 error <- function(state) {
   stopifnot(is(state, "state"))
-  state$error
+  state$passive$error
 }
 
 #' Error
@@ -106,29 +146,29 @@ error <- function(state) {
 #' @export
 `error<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.character(value))
-  state$error <- value
+  state$passive$error <- value
   state
 }
 
 admin <- function(state) {
   stopifnot(is(state, "state"))
-  state$admin
+  state$reactive$admin
 }
 
 `admin<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
-  state$admin <- value
+  state$reactive$admin <- value
   state
 }
 
 pilot <- function(state) {
   stopifnot(is(state, "state"))
-  state$pilot
+  state$reactive$pilot
 }
 
 `pilot<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
-  state$pilot <- value
+  state$reactive$pilot <- value
   state
 }
 
@@ -141,12 +181,12 @@ pilot <- function(state) {
 #' @export
 demo <- function(state) {
   stopifnot(is(state, "state"))
-  state$demo
+  state$passive$demo
 }
 
 `demo<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
-  state$demo <- value
+  state$passive$demo <- value
   state
 }
 
@@ -157,45 +197,45 @@ demo <- function(state) {
 #' @export
 get_url_params <- function(state) {
   stopifnot(is(state, "state"))
-  state$url_params
+  state$passive$url_params
 }
 
 `url_params<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.list(value))
-  state$url_params <- value
+  state$passive$url_params <- value
   state
 }
 
 allow_session_saving <- function(state) {
   stopifnot(is(state, "state"))
-  state$allow_session_saving
+  state$passive$allow_session_saving
 }
 
 `allow_session_saving<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
-  state$allow_session_saving <- value
+  state$passive$allow_session_saving <- value
   state
 }
 
 closed <- function(state) {
   stopifnot(is(state, "state"))
-  state$closed
+  state$passive$closed
 }
 
 `closed<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.logical(value))
-  state$closed <- value
+  state$passive$closed <- value
   state
 }
 
 language <- function(state) {
   stopifnot(is(state, "state"))
-  state$language
+  state$passive$language
 }
 
 `language<-` <- function(state, value) {
   stopifnot(is(state, "state"), is.scalar.character(value))
-  state$language <- value
+  state$passive$language <- value
   state
 }
 
@@ -212,37 +252,25 @@ get_session_info <- function(state, complete) {
   stopifnot(is(state, "state"),
             is.scalar.logical(complete))
   res <- list(
-    p_id = state$p_id,
-    pilot = state$pilot,
+    p_id = state$passive$p_id,
+    pilot = pilot(state),
     complete = complete,
-    time_started = state$time_started,
+    time_started = state$passive$time_started,
     current_time = Sys.time(),
-    num_restarts = state$num_restarts,
-    language = state$language
+    num_restarts = state$passive$num_restarts,
+    language = state$passive$language
   )
   attr(res, "server") <- utils::sessionInfo()
   res
 }
 
 increment_num_restarts <- function(state) {
-  state$num_restarts <- state$num_restarts + 1L
+  state$passive$num_restarts <- state$passive$num_restarts + 1L
 }
 
-as.list.state <- function(x, ...) {
-  shiny::reactiveValuesToList(x)
-}
-
-update_state_from_list <- function(state, list) {
-  stopifnot(is(state, "state"), is.list(list))
-  keys <- names(list)
-  values <- unname(list)
-  for (i in seq_along(list)) {
-    key_i <- keys[[i]]
-    value_i <- values[[i]]
-    state[[key_i]] <- value_i
-  }
-  invisible(TRUE)
-}
+# as.list.state <- function(x, ...) {
+#   shiny::reactiveValuesToList(x)
+# }
 
 #' Get results
 #'
@@ -256,7 +284,7 @@ update_state_from_list <- function(state, list) {
 get_results <- function(state, complete, add_session_info = FALSE) {
   stopifnot(is(state, "state"))
   stopifnot(is.scalar.logical(complete))
-  results <- state$results
+  results <- state$passive$results
   if (add_session_info) {
     results <- register_next_results_section(results, "session")
     session_info <- get_session_info(state, complete)
@@ -278,7 +306,7 @@ get_results <- function(state, complete, add_session_info = FALSE) {
 #' @export
 get_global <- function(key, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
-  state$globals[[key]]
+  state$passive$globals[[key]]
 }
 
 #' Set global variable
@@ -290,7 +318,7 @@ get_global <- function(key, state) {
 #' @export
 set_global <- function(key, value, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
-  state$globals[[key]] <- value
+  state$passive$globals[[key]] <- value
 }
 
 #' Get local variable
@@ -302,7 +330,7 @@ set_global <- function(key, value, state) {
 #' @export
 get_local <- function(key, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
-  state$locals[[key]]
+  state$passive$locals[[key]]
 }
 
 #' Set local variable
@@ -314,20 +342,20 @@ get_local <- function(key, state) {
 #' @export
 set_local <- function(key, value, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
-  state$locals[[key]] <- value
+  state$passive$locals[[key]] <- value
 }
 
 enter_local_environment <- function(state) {
   stopifnot(is(state, "state"))
-  ind <- length(state$parent_locals) + 1L
-  state$parent_locals[[ind]] <- state$locals
-  state$locals <- list()
+  ind <- length(state$passive$parent_locals) + 1L
+  state$passive$parent_locals[[ind]] <- state$passive$locals
+  state$passive$locals <- list()
 }
 
 leave_local_environment <- function(state) {
   stopifnot(is(state, "state"))
-  ind <- length(state$parent_locals)
-  state$locals <- state$parent_locals[[ind]]
+  ind <- length(state$passive$parent_locals)
+  state$passive$locals <- state$passive$parent_locals[[ind]]
 }
 
 #' Get participant ID
@@ -337,7 +365,7 @@ leave_local_environment <- function(state) {
 #' @export
 p_id <- function(state) {
   stopifnot(is(state, "state"))
-  state$p_id
+  state$passive$p_id
 }
 
 #' Sets participant ID
@@ -348,7 +376,7 @@ p_id <- function(state) {
 #' @export
 `p_id<-` <- function(state, value) {
   stopifnot(is(state, "state"))
-  state$p_id <- value
+  state$passive$p_id <- value
   return(state)
 }
 
@@ -364,10 +392,10 @@ get_num_elts <- function(elts) {
   elts$length
 }
 
-get_current_elt_index <- function(state) {
-  stopifnot(is(state, "state"))
-  state$elt_index
-}
+# get_current_elt_index <- function(state) {
+#   stopifnot(is(state, "state"))
+#   state$passive$elt_index
+# }
 
 get_elt <- function(state, index, elts, opt, eval = TRUE) {
   stopifnot(is.scalar.numeric(index), round(index) == index,
@@ -382,23 +410,21 @@ get_elt <- function(state, index, elts, opt, eval = TRUE) {
 }
 
 get_current_elt <- function(state, elts, opt, eval = TRUE) {
-  current_index <- get_current_elt_index(state)
-  get_elt(state = state, index = current_index,
+  get_elt(state = state, index = state$passive$elt_index,
           elts = elts, opt = opt, eval = eval)
 }
 
 get_next_elt <- function(state, elts, opt, eval = TRUE) {
-  current_index <- get_current_elt_index(state)
-  get_elt(state, index = current_index + 1L,
+  get_elt(state, index = state$passive$elt_index + 1L,
           elts = elts, opt = opt, eval = eval)
 }
 
 # Low-level setter, see skip_n_pages for skipping pages in general
 increment_elt_index <- function(state, by = 1L) {
   stopifnot(is.scalar.numeric(by), is.scalar(by), round(by) == by)
-  new_index <- state$elt_index + by
+  new_index <- state$passive$elt_index + by
   if (new_index < 1L) {
     display_error("Test indices less than 1 are not permitted.")
   }
-  state$elt_index <- new_index
+  state$passive$elt_index <- new_index
 }

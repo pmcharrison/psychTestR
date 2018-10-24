@@ -73,7 +73,7 @@ as.data.frame.results <- function(x, ...) {
 #' @param state The participant's \code{state} object.
 #' @export
 results <- function(state) {
-  state$results
+  state$passive$results
 }
 
 #' Set results
@@ -83,7 +83,7 @@ results <- function(state) {
 #' @param value Value to set the \code{results} slot to.
 #' @export
 `results<-` <- function(state, value) {
-  state$results <- value
+  state$passive$results <- value
 }
 
 # Register next results section ####
@@ -164,6 +164,6 @@ save_result.results <- function(place, label, value) {
 #' @export
 save_result.state <- function(place, label, value) {
   stopifnot(is.scalar.character(label))
-  place$results <- save_result.results(place$results, label, value)
+  place$passive$results <- save_result.results(place$passive$results, label, value)
   place
 }

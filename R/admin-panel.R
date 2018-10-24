@@ -193,7 +193,6 @@ admin_panel.observers <- function(state, input, output, session, opt) {
 
 admin_panel.observe.pilot_mode <- function(state, input, output, session) {
   output$admin_panel_pilot_ui <- shiny::renderUI({
-    state$pilot
     pilot <- pilot(state)
 
     highlight_style <- "color: white; background-color: #c62121"

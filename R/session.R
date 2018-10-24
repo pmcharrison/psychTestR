@@ -3,7 +3,7 @@ manage_sessions <- function(state,
                             session = shiny::getDefaultReactiveDomain()) {
   if (opt$enable_resume_session) {
     initialise_session(state, session, opt)
-    list(save_session(state, opt = opt),
+    list(shiny::observe(save_session(state, opt = opt)),
          clean_session_dir(session = session, opt = opt))
   }
 }
@@ -102,13 +102,13 @@ try_resume_session <- function(p_id, state, session, opt,
     } else {
       shiny::showNotification("Resuming previous session.")
     }
-    update_state_from_list(state, data)
+    state$update_data(passive = data$passive, reactive = data$reactive)
     set_url_params(get_url_params(state), session, state)
     increment_num_restarts(state)
     if (!is_test_closed(opt)) closed(state) <- FALSE
   } else {
     if (reset_if_resume_fails) {
-      shinyjs::alert(paste0("Couldn't find this user's testing session.\n",
+      shinyjs::alert(paste0("Failed to load this user's testing session.\n",
                             "Beginning a new session."))
       shinyjs::runjs("reset_p_id_and_refresh_browser();")
       allow_session_saving(state) <- FALSE
@@ -134,21 +134,26 @@ generate_new_p_id <- function(opt) {
 }
 
 save_session <- function(state, opt) {
-  shiny::observe({
-    stopifnot(is(state, "state"), is.scalar.character(opt$session_dir))
-    p_id <- p_id(state)
-    if (!is.null(p_id) && allow_session_saving(state)) {
-      path.p_id <- file.path(opt$session_dir, p_id)
-      path.data <- file.path(path.p_id, "data.RDS")
-      R.utils::mkdirs(path.p_id)
-      saveRDS(shiny::reactiveValuesToList(state), path.data)
-      save_timestamp(opt, p_id)
-    }})
+  stopifnot(is(state, "state"), is.scalar.character(opt$session_dir))
+  p_id <- p_id(state)
+  if (!is.null(p_id) && allow_session_saving(state)) {
+    path.p_id <- file.path(opt$session_dir, p_id)
+    path.data <- file.path(path.p_id, "data.RDS")
+    R.utils::mkdirs(path.p_id)
+    state$save_data(path.data)
+    save_timestamp(opt, p_id)
+  }
 }
 
 load_session <- function(p_id, opt) {
   path <- file.path(opt$session_dir, p_id, "data.RDS")
-  readRDS(path)
+  x <- readRDS(path)
+  if (identical(x$format, STATE_RDS_FORMAT)) {
+    x
+  } else {
+    warning("failed to load session with out-of-date format")
+    NULL
+  }
 }
 
 safe_load_session <- function(p_id, opt) {

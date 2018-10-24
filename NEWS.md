@@ -1,6 +1,10 @@
 * Adding `as.timeline()`.
 * If i18n() is called without a dictionary, a warning rather than an error
 is thrown.
+* Revising reactive dependencies in `state` objects - 
+these objects now take reactive dependencies on much fewer slots.
+This seemed necessary to solve some logic problems in 
+potential reactive page designs.
 
 # psychTestR 2.0.3
 
