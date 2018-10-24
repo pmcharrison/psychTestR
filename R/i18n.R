@@ -288,6 +288,24 @@ c.timeline <- function(...) {
   }, input)
 }
 
+#' Coerce to timeline
+#'
+#' Coerces objects to the \code{timeline} class.
+#' @param x Object to coerce.
+#' @param ... Further arguments to pass to \code{\link{new_timeline}()}.
+#' @export
+as.timeline <- function(x, ...) {
+  if (is.timeline(x)) {
+    x
+  } else if (is.list(x)) {
+    new_timeline(x, ...)
+  } else {
+    stop("don't know how to coerce object of class ",
+         class(x),
+         " to a timeline")
+  }
+}
+
 #' New timeline
 #'
 #' Creates a new timeline.

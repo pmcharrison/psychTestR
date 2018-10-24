@@ -1,3 +1,4 @@
+* Adding `as.timeline()`.
 * If i18n() is called without a dictionary, a warning rather than an error
 is thrown.
 
