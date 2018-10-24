@@ -194,7 +194,8 @@ test_options <- function(title, admin_password,
 #' @param ... Arguments to be passed to \code{\link{test_options}()}.
 #' @export
 demo_options <- function(...) {
-  test_options(title = "Demo", admin_password = "demo", researcher_email = "XXX", ...)
+  test_options(title = "Demo", admin_password = "demo",
+               researcher_email = "XXX", demo = TRUE, ...)
 }
 
 #' Test write permissions

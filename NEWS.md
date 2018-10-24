@@ -5,6 +5,7 @@ is thrown.
 these objects now take reactive dependencies on much fewer slots.
 This seemed necessary to solve some logic problems in 
 potential reactive page designs.
+* Adding `demo = TRUE` default to `demo_options()`.
 
 # psychTestR 2.0.3
 
