@@ -29,6 +29,6 @@ test_that("I18N_GLOBAL_DICT", {
   testthat::expect_equal(psychTestR:::I18N_STATE$translate("A"),
                          "Bonjour")
   psychTestR:::I18N_STATE$reset()
-  expect_error(psychTestR:::I18N_STATE$translate("A"),
-               "cannot translate, no dictionary defined")
+  expect_warning(psychTestR:::I18N_STATE$translate("A"),
+                 "undefined i18n dictionary/language, key left untranslated")
 })
