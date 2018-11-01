@@ -1,3 +1,6 @@
+* Allowing extra attributes to be passed to `trigger_button()`.
+* Adding an optional time delay before `trigger_button()` is activated.
+
 # psychTestR 2.1.0
 
 * Adding `as.timeline()`.

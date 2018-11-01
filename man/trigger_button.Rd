@@ -4,7 +4,8 @@
 \alias{trigger_button}
 \title{Trigger button}
 \usage{
-trigger_button(inputId, label, icon = NULL, width = NULL)
+trigger_button(inputId, label, icon = NULL, width = NULL,
+  enable_after = 0, ...)
 }
 \arguments{
 \item{inputId}{See \link[shiny]{actionButton}}
@@ -14,6 +15,8 @@ trigger_button(inputId, label, icon = NULL, width = NULL)
 \item{icon}{See \link[shiny]{actionButton}}
 
 \item{width}{See \link[shiny]{actionButton}}
+
+\item{...}{Additional arguments to pass to \link[shiny]{actionButton}.}
 }
 \description{
 A version of \code{shiny::actionButton} that triggers
