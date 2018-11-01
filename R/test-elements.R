@@ -719,13 +719,26 @@ dropdown_page.get_answer <- function(alternative_text) {
 #' @param label See \link[shiny]{actionButton}
 #' @param icon See \link[shiny]{actionButton}
 #' @param width See \link[shiny]{actionButton}
+#' @param ... Additional arguments to pass to \link[shiny]{actionButton}.
 #' @export
-trigger_button <- function(inputId, label, icon = NULL, width = NULL) {
+trigger_button <- function(inputId, label, icon = NULL, width = NULL,
+                           enable_after = 0,
+                           ...) {
+  checkmate::qassert(enable_after, "N1[0,)")
   inputId <- htmltools::htmlEscape(inputId, attribute = TRUE)
-  shiny::actionButton(
-    inputId = inputId, label = label,
-    icon = icon, width = width,
-    onclick = "trigger_button(this.id);")
+  shiny::div(
+    shiny::actionButton(
+      inputId = inputId, label = label,
+      icon = icon, width = width,
+      onclick = "trigger_button(this.id);",
+      disabled = TRUE,
+      ...),
+    shiny::tags$script(
+      sprintf("setTimeout(function() {
+                 document.getElementById('%s').disabled = false;
+               }, %i);",
+              inputId, round(enable_after * 1e3))
+    ))
 }
 
 #' New results section

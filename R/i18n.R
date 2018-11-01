@@ -111,34 +111,38 @@ i18n_state <- R6::R6Class(
       self$lang <- NULL
     },
     translate = function(key) {
-      # if (WITH_I18N$get()) stop(with_i18n_error())
-      if (is.null(self$dict)) stop(missing_dict_error())
-      if (is.null(self$lang)) stop(missing_lang_error())
-      if (identical(self$dict, "identity")) key else
+      if (is.null(self$dict) || is.null(self$lang)) {
+        warning("undefined i18n dictionary/language, key left untranslated",
+                call. = FALSE)
+        key
+      } else if (identical(self$dict, "identity")) {
+        key
+      } else {
         self$dict$translate(key = key, language = self$lang)
+      }
     }
   )
 )
 
 I18N_STATE <- i18n_state$new()
 
-with_i18n_error <- function() {
-  msg <- "i18n() cannot be evaluated within with_i18n()"
-  condition(c("with_i18n_error", "error"),
-            message = msg)
-}
+# with_i18n_error <- function() {
+#   msg <- "i18n() cannot be evaluated within with_i18n()"
+#   condition(c("with_i18n_error", "error"),
+#             message = msg)
+# }
 
-missing_dict_error <- function() {
-  msg <- "cannot translate, no dictionary defined"
-  condition(c("missing_dict_error", "error"),
-            message = msg)
-}
+# missing_dict_error <- function() {
+#   msg <- "cannot translate, no dictionary defined"
+#   condition(c("missing_dict_error", "error"),
+#             message = msg)
+# }
 
-missing_lang_error <- function() {
-  msg <- "cannot translate, no language defined"
-  condition(c("missing_lang_error", "error"),
-            message = msg)
-}
+# missing_lang_error <- function() {
+#   msg <- "cannot translate, no language defined"
+#   condition(c("missing_lang_error", "error"),
+#             message = msg)
+# }
 
 #' Translate
 #'
@@ -282,6 +286,24 @@ c.timeline <- function(...) {
     } else stop("this shouldn't happen")
     timeline$new(lst)
   }, input)
+}
+
+#' Coerce to timeline
+#'
+#' Coerces objects to the \code{timeline} class.
+#' @param x Object to coerce.
+#' @param ... Further arguments to pass to \code{\link{new_timeline}()}.
+#' @export
+as.timeline <- function(x, ...) {
+  if (is.timeline(x)) {
+    x
+  } else if (is.list(x)) {
+    new_timeline(x, ...)
+  } else {
+    stop("don't know how to coerce object of class ",
+         class(x),
+         " to a timeline")
+  }
 }
 
 #' New timeline

@@ -1,3 +1,19 @@
+# psychTestR 2.2.0
+
+* Allowing extra attributes to be passed to `trigger_button()`.
+* Adding an optional time delay before `trigger_button()` is activated.
+
+# psychTestR 2.1.0
+
+* Adding `as.timeline()`.
+* If i18n() is called without a dictionary, a warning rather than an error
+is thrown.
+* Revising reactive dependencies in `state` objects - 
+these objects now take reactive dependencies on much fewer slots.
+This seemed necessary to solve some logic problems in 
+potential reactive page designs.
+* Adding `demo = TRUE` default to `demo_options()`.
+
 # psychTestR 2.0.3
 
 * Bugfix - Implicit timeline creation with `c()` no longer

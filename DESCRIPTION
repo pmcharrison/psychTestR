@@ -1,7 +1,7 @@
 Package: psychTestR
 Type: Package
 Title: Framework for delivering psychological tests via Shiny
-Version: 2.0.3
+Version: 2.2.0
 Author: Peter M. C. Harrison
 Maintainer: Peter M. C. Harrison <pmc.harrison@gmail.com>
 Description: Framework for delivering psychological tests via Shiny.
@@ -27,7 +27,8 @@ Imports:
     utils,
     R6 (>= 2.2.2),
     markdown (>= 0.8),
-    rstudioapi (>= 0.7)
+    rstudioapi (>= 0.7),
+    checkmate
 RoxygenNote: 6.1.0
 Suggests: 
     testthat (>= 2.0.0)

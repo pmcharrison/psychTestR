@@ -2,7 +2,7 @@ server <- function(elts, opt, custom_admin_panel) {
   function(input, output, session) {
     # warning("Error handling doesn't work. Remove it :(")
     # set_error_handling(opt, session, state)
-    state <- new_state(opt)
+    state <- STATE$new(opt)
     setup_session(state, input, output, elts, session, opt)
     output$ui <- render_ui(state, elts, opt)
     shiny::observeEvent(input$next_page,
@@ -70,6 +70,8 @@ next_page <- function(state, input, output, elts, session, opt,
     }
     # } else stop("Unrecognised test element: '", class(new_elt), "'")
   }
+  save_session(state, opt)
+  state$refresh_ui()
 }
 
 #' Skip pages
@@ -158,6 +160,7 @@ check_elts <- function(x) {
 
 render_ui <- function(state, elts, opt) {
   shiny::renderUI({
+    state$reactive$ui_reactive_trigger
     elt <- if (!is.null(error(state))) {
       final_page(paste0("Error: ", error(state)))
     } else if (closed(state)) {
