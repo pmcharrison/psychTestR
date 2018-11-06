@@ -1,3 +1,5 @@
+# psychTestR 2.2.1
+
 * Fixed a bug in test session resuming using `get_p_id()` pages.
 
 # psychTestR 2.2.0
