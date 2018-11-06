@@ -61,7 +61,7 @@ next_page <- function(state, input, output, elts, session, opt,
     success <- TRUE
   }
   if (success) {
-    increment_elt_index(state)
+    if (elt@next_elt) increment_elt_index(state)
     new_elt <- get_current_elt(state, elts, opt, eval = FALSE)
     if (is(new_elt, "code_block")) {
       return(next_page(state, input = input, output = output,

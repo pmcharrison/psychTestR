@@ -4,7 +4,7 @@
 \alias{reactive_page}
 \title{Reactive page}
 \usage{
-reactive_page(fun)
+reactive_page(fun, next_elt = TRUE)
 }
 \arguments{
 \item{fun}{Function that returns a \code{page} argument.
@@ -17,6 +17,12 @@ include \code{state}, corresponding to the participant's
 and \code{opt}, which is the test's option list as created by
 \code{test_options}.
 The function should always return an object of class \code{page}.}
+
+\item{next_elt}{(Logical scalar) Whether to go to the next element
+in the timeline once this page is completed.
+This will typically be \code{TRUE},
+except for special cases such as pages that load
+testing sessions from file (\code{\link{get_p_id}}).}
 }
 \description{
 Creates a reactive page.

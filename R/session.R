@@ -116,6 +116,7 @@ try_resume_session <- function(p_id, state, session, opt,
       shiny::showNotification("Starting new session.")
     }
   }
+  success
 }
 
 generate_new_p_id <- function(opt) {
