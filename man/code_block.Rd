@@ -4,7 +4,7 @@
 \alias{code_block}
 \title{Code block}
 \usage{
-code_block(fun)
+code_block(fun, next_elt = TRUE)
 }
 \arguments{
 \item{fun}{Function to execute within code block.
@@ -16,6 +16,12 @@ It may also include any of the following named arguments:
 \code{output}, the current page's Shiny output object;
 \code{session}, the current Shiny session object;
 \code{elts}, the timeline (i.e. list of test elements).}
+
+\item{next_elt}{(Logical scalar) Whether to go to the next element
+in the timeline once this page is completed.
+This will typically be \code{TRUE},
+except for special cases such as pages that load
+testing sessions from file (\code{\link{get_p_id}}).}
 }
 \description{
 Creates a code block.

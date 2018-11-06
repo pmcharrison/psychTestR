@@ -7,7 +7,8 @@ setClassUnion("character_or_null", members = c("character", "NULL"))
 setClassUnion("shiny_tag_or_null", members = c("shiny.tag", "NULL"))
 setClassUnion("i18n_dict_or_null", members = c("i18n_dict", "NULL"))
 
-setClass("test_element", slots = list(i18n_dict = "i18n_dict_or_null"))
+setClass("test_element", slots = list(i18n_dict = "i18n_dict_or_null",
+                                      next_elt = "logical"))
 setMethod("initialize", "test_element", function(.Object, ...) {
   .Object@i18n_dict <- I18N_STATE$dict
   callNextMethod()
@@ -82,9 +83,14 @@ setClass("reactive_page",
 #' and \code{opt}, which is the test's option list as created by
 #' \code{test_options}.
 #' The function should always return an object of class \code{page}.
+#' @param next_elt (Logical scalar) Whether to go to the next element
+#' in the timeline once this page is completed.
+#' This will typically be \code{TRUE},
+#' except for special cases such as pages that load
+#' testing sessions from file (\code{\link{get_p_id}}).
 #' @export
-reactive_page <- function(fun) {
-  new("reactive_page", fun = fun)
+reactive_page <- function(fun, next_elt = TRUE) {
+  new("reactive_page", fun = fun, next_elt = next_elt)
 }
 
 setClass("code_block",
@@ -104,9 +110,14 @@ setClass("code_block",
 #' \code{output}, the current page's Shiny output object;
 #' \code{session}, the current Shiny session object;
 #' \code{elts}, the timeline (i.e. list of test elements).
+#' @param next_elt (Logical scalar) Whether to go to the next element
+#' in the timeline once this page is completed.
+#' This will typically be \code{TRUE},
+#' except for special cases such as pages that load
+#' testing sessions from file (\code{\link{get_p_id}}).
 #' @export
-code_block <- function(fun) {
-  new("code_block", fun = fun)
+code_block <- function(fun, next_elt = TRUE) {
+  new("code_block", fun = fun, next_elt = next_elt)
 }
 
 setMethod(
@@ -190,10 +201,16 @@ setMethod(
 #' \code{input}, the current page's Shiny input object;
 #' \code{session}, the current Shiny session object;
 #' \code{opt}, the test's option list as created by \code{test_options()}.
+#' @param next_elt (Logical scalar) Whether to go to the next element
+#' in the timeline once this page is completed.
+#' This will typically be \code{TRUE},
+#' except for special cases such as pages that load
+#' testing sessions from file (\code{\link{get_p_id}}).
 #' @export
 page <- function(ui, admin_ui = NULL, label = NULL,
                  final = FALSE, get_answer = NULL,
-                 save_answer = FALSE, validate = NULL, on_complete = NULL) {
+                 save_answer = FALSE, validate = NULL, on_complete = NULL,
+                 next_elt = TRUE) {
   ui <- tagify(ui)
   stopifnot(
     is(ui, "shiny.tag"),
@@ -203,14 +220,16 @@ page <- function(ui, admin_ui = NULL, label = NULL,
     is.null.or(get_answer, is.function),
     is.scalar.logical(save_answer),
     is.null.or(validate, is.function),
-    is.null.or(on_complete, is.function))
+    is.null.or(on_complete, is.function),
+    is.scalar.logical(next_elt))
   if (save_answer && !is.scalar.character(label))
     stop("if save_answer is TRUE then a scalar character label ",
          "must be provided")
   if (is.scalar.character(admin_ui)) admin_ui <- tagify(admin_ui)
   new("page", ui = ui, admin_ui = admin_ui, label = label, final = final,
       get_answer = get_answer,
-      save_answer = save_answer, validate = validate, on_complete = on_complete)
+      save_answer = save_answer, validate = validate, on_complete = on_complete,
+      next_elt = next_elt)
 }
 
 #' New one-button page
@@ -325,14 +344,16 @@ get_p_id <- function(prompt = "Please enter your participant ID.",
   page(ui = ui, get_answer = get_answer, save_answer = FALSE,
        validate = get_p_id.validate(validate),
        on_complete = get_p_id.on_complete,
-       admin_ui = admin_ui)
+       admin_ui = admin_ui,
+       next_elt = FALSE)
 }
 
 get_p_id.on_complete <- function(state, input, session, opt, ...) {
   p_id <- answer(state)
-  try_resume_session(p_id, state, session, opt,
-                     ask_to_confirm_resume = TRUE,
-                     reset_if_resume_fails = FALSE)
+  success <- try_resume_session(p_id, state, session, opt,
+                                ask_to_confirm_resume = TRUE,
+                                reset_if_resume_fails = FALSE)
+  if (!success) increment_elt_index(state)
 }
 
 get_p_id.validate <- function(validate) {

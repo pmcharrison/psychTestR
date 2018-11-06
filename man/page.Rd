@@ -6,7 +6,7 @@
 \usage{
 page(ui, admin_ui = NULL, label = NULL, final = FALSE,
   get_answer = NULL, save_answer = FALSE, validate = NULL,
-  on_complete = NULL)
+  on_complete = NULL, next_elt = TRUE)
 }
 \arguments{
 \item{ui}{Page UI. Can be either a scalar character (e.g.
@@ -51,6 +51,12 @@ and any of:
 \code{input}, the current page's Shiny input object;
 \code{session}, the current Shiny session object;
 \code{opt}, the test's option list as created by \code{test_options()}.}
+
+\item{next_elt}{(Logical scalar) Whether to go to the next element
+in the timeline once this page is completed.
+This will typically be \code{TRUE},
+except for special cases such as pages that load
+testing sessions from file (\code{\link{get_p_id}}).}
 }
 \description{
 This is the most general way to create a psychTestR page.
