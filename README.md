@@ -32,7 +32,7 @@ Key benefits of psychTestR include:
 ## Citation
 
 You can cite psychTestR with the permanent DOI link
-https://doi.org/10.5281/zenodo.1415353.
+https://doi.org/10.5281/zenodo.1415355.
 We also advise mentioning the particular version you used,
 which you can find from R as follows:
 
