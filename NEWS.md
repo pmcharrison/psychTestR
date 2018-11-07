@@ -1,5 +1,5 @@
 * Removing unused dependencies.
-* Bugfixes: #2, #3, #31
+* Bugfixes: #2, #3, #24, #31
 
 # psychTestR 2.2.1
 
