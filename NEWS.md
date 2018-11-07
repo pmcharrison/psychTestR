@@ -1,4 +1,4 @@
-* Bugfix: previously, the first test element was skipped if it was a reactive page.
+* Bugfixes: #2, #31
 
 # psychTestR 2.2.1
 
