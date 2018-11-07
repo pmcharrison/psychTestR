@@ -81,3 +81,18 @@ test_that("combining timelines from different languages", {
   expect_equal(t_all$languages, "EN")
   expect_equal(t_all$get("EN", 6), t3$get("EN", 2))
 })
+
+test_that("c.timeline() where the second element is a list of timelines", {
+  a <- one_button_page("a")
+  b <- one_button_page("b")
+  c <- one_button_page("c")
+
+  x <- new_timeline(a)
+  y <- list(new_timeline(a),
+            new_timeline(b),
+            new_timeline(c))
+  z <- c(x, y)
+
+  expect_equal(z$get("EN"),
+               c(a, a, b, c))
+})

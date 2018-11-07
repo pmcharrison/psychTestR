@@ -1,5 +1,6 @@
+* Improved checks in timeline creation
 * Removing unused dependencies.
-* Bugfixes: #2, #3, #24, #31
+* Bugfixes: #2, #3, #24, #26, #31
 
 # psychTestR 2.2.1
 

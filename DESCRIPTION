@@ -26,7 +26,8 @@ Imports:
     R6 (>= 2.2.2),
     markdown (>= 0.8),
     rstudioapi (>= 0.7),
-    checkmate
+    checkmate,
+    purrr
 RoxygenNote: 6.1.0
 Suggests: 
     testthat (>= 2.0.0)

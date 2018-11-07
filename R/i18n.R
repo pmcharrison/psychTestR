@@ -217,8 +217,11 @@ timeline <- R6::R6Class(
   "timeline",
   public = list(
     initialize = function(x) {
-      stopifnot(is.list(x),
-                all(vapply(x, is.list, logical(1))))
+      stopifnot(
+        is.list(x),
+        all(purrr::map_lgl(x, is.list)),
+        all(purrr::map_lgl(x, function(y)
+          all(purrr::map_lgl(y, is.test_element)))))
       private$..length <- if (length(x) == 0) 0L else
         unique(vapply(x, length, integer(1)))
       if (length(private$..length) > 1L)
@@ -265,7 +268,7 @@ length.timeline <- function(x) {
 
 #' @export
 c.timeline <- function(...) {
-  input <- list(...)
+  input <- unlist(list(...))
   Reduce(function(x, y) {
     x_is_timeline <- is(x, "timeline")
     y_is_timeline <- is(y, "timeline")
