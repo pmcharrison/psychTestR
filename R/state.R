@@ -383,9 +383,12 @@ p_id <- function(state) {
 advance_to_first_page <- function(state, input, output, elts, session, opt) {
   stopifnot(is(state, "state"))
   current_elt <- get_current_elt(state, elts = elts, opt = opt, eval = FALSE)
-  if (!is(current_elt, "page")) next_page(
-    state = state, input = input, output = output,
-    elts = elts, session = session, opt = opt)
+  if (!(is(current_elt, "page") ||
+        is(current_elt, "reactive_page")))
+    next_page(
+      state = state, input = input, output = output,
+      elts = elts, session = session, opt = opt
+    )
 }
 
 get_num_elts <- function(elts) {
@@ -398,7 +401,7 @@ get_num_elts <- function(elts) {
 # }
 
 get_elt <- function(state, index, elts, opt, eval = TRUE) {
-  message("index = ", index)
+  message("index = ", index, ", eval = ", eval)
   stopifnot(is.scalar.numeric(index), round(index) == index,
             index >= 0, index <= get_num_elts(elts))
   elt <- elts$get(language(state), index)

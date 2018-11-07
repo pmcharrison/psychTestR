@@ -1,3 +1,5 @@
+* Bugfix: previously, the first test element was skipped if it was a reactive page.
+
 # psychTestR 2.2.1
 
 * Fixed a bug in test session resuming using `get_p_id()` pages.
