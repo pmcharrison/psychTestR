@@ -1,4 +1,4 @@
-* Bugfixes: #2, #31
+* Bugfixes: #2, #3, #31
 
 # psychTestR 2.2.1
 

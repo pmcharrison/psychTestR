@@ -422,12 +422,12 @@ get_next_elt <- function(state, elts, opt, eval = TRUE) {
           elts = elts, opt = opt, eval = eval)
 }
 
-# Low-level setter, see skip_n_pages for skipping pages in general
+# Low-level setter, see skip_n_pages for skipping pages in general.
+# Note: we allow elt_index to temporarily exceed the span
+# of the available elements, as long as this is resolved
+# once get_elt is called.
 increment_elt_index <- function(state, by = 1L) {
   stopifnot(is.scalar.numeric(by), is.scalar(by), round(by) == by)
   new_index <- state$passive$elt_index + by
-  if (new_index < 1L) {
-    display_error("Test indices less than 1 are not permitted.")
-  }
   state$passive$elt_index <- new_index
 }
