@@ -398,6 +398,7 @@ get_num_elts <- function(elts) {
 # }
 
 get_elt <- function(state, index, elts, opt, eval = TRUE) {
+  message("index = ", index)
   stopifnot(is.scalar.numeric(index), round(index) == index,
             index >= 0, index <= get_num_elts(elts))
   elt <- elts$get(language(state), index)

@@ -27,3 +27,12 @@ test_that("drop_languages", {
   t$drop_languages(c("EN", "FR"))
   expect_equal(t$languages, character())
 })
+
+test_that("timelines of length 1", {
+  p <- one_button_page("Hello")
+  t <- new_timeline(list(p))
+  expect_equal(
+    t$get("EN"),
+    list(p)
+  )
+})

@@ -217,7 +217,8 @@ timeline <- R6::R6Class(
   "timeline",
   public = list(
     initialize = function(x) {
-      stopifnot(is.list(x))
+      stopifnot(is.list(x),
+                all(vapply(x, is.list, logical(1))))
       private$..length <- if (length(x) == 0) 0L else
         unique(vapply(x, length, integer(1)))
       if (length(private$..length) > 1L)
@@ -405,7 +406,10 @@ format_test_element_list.dissolve_timelines <- function(x, lang) {
       y$get(lang)
     } else stop("this shouldn't happen")
   })
-  do.call(what = c, args = l)
+  # <l> is now a list of test elements or lists of test elements
+  # res <- do.call(what = c, args = l)
+  # if (is(res, "test_element")) res <- list(res)
+  unlist(l, recursive = FALSE)
 }
 
 #' Is it a timeline object?
