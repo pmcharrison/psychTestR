@@ -89,8 +89,8 @@ make_test(list(
   })))
 ```
 
-Once you've recorded some data, try logging into the admin panel with the password '
-'.
+Once you've recorded some data, try logging into the admin panel with the password 'demo'
+(as specified under the `opt` argument to `make_test()`).
 Here you can download your response data.
 
 ## Documentation
