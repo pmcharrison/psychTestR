@@ -32,9 +32,19 @@ Key benefits of psychTestR include:
 ## Status
 
 psychTestR is still under active development,
-with particular emphasis on developing the documentation.
-In the meanwhile, please feel free to contact Peter at p.m.c.harrison@qmul.ac.uk
-if you have questions.
+with a particular aim of improving the documentation.
+Changes to the codebase typically preserve the existing API.
+If you would like to use psychTestR in your own research,
+please feel free to contact Peter at p.m.c.harrison@qmul.ac.uk for advice/technical support.
+
+## Documentation
+
+The documentation will be improved in the coming months. 
+In the meanwhile, there are three main sources:
+
+- Function documentation: available by running e.g. `?one_button_page` at the R terminal
+- [Wiki documentation](https://github.com/pmcharrison/psychTestR/wiki)
+- [Example tests](https://github.com/pmcharrison/psychTestR#examples)
 
 ## Citation
 
