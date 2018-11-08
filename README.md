@@ -110,10 +110,6 @@ Once you've recorded some data, try logging into the admin panel with the passwo
 (as specified under the `opt` argument to `make_test()`).
 Here you can download your response data.
 
-## Documentation
-
-Additional documentation is available [here](https://github.com/pmcharrison/psychTestR/wiki).
-
 ## Acknowledgements
 
 psychTestR was created by Peter M. C. Harrison
