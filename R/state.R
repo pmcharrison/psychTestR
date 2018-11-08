@@ -383,9 +383,12 @@ p_id <- function(state) {
 advance_to_first_page <- function(state, input, output, elts, session, opt) {
   stopifnot(is(state, "state"))
   current_elt <- get_current_elt(state, elts = elts, opt = opt, eval = FALSE)
-  if (!is(current_elt, "page")) next_page(
-    state = state, input = input, output = output,
-    elts = elts, session = session, opt = opt)
+  if (!(is(current_elt, "page") ||
+        is(current_elt, "reactive_page")))
+    next_page(
+      state = state, input = input, output = output,
+      elts = elts, session = session, opt = opt
+    )
 }
 
 get_num_elts <- function(elts) {
@@ -419,12 +422,12 @@ get_next_elt <- function(state, elts, opt, eval = TRUE) {
           elts = elts, opt = opt, eval = eval)
 }
 
-# Low-level setter, see skip_n_pages for skipping pages in general
+# Low-level setter, see skip_n_pages for skipping pages in general.
+# Note: we allow elt_index to temporarily exceed the span
+# of the available elements, as long as this is resolved
+# once get_elt is called.
 increment_elt_index <- function(state, by = 1L) {
   stopifnot(is.scalar.numeric(by), is.scalar(by), round(by) == by)
   new_index <- state$passive$elt_index + by
-  if (new_index < 1L) {
-    display_error("Test indices less than 1 are not permitted.")
-  }
   state$passive$elt_index <- new_index
 }

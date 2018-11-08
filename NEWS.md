@@ -1,3 +1,9 @@
+# psychTestR 2.2.2
+
+* Improved checks in timeline creation
+* Removing unused dependencies.
+* Bugfixes: #2, #3, #24, #26, #31, #32
+
 # psychTestR 2.2.1
 
 * Fixed a bug in test session resuming using `get_p_id()` pages.

@@ -747,7 +747,7 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL,
                            ...) {
   checkmate::qassert(enable_after, "N1[0,)")
   inputId <- htmltools::htmlEscape(inputId, attribute = TRUE)
-  shiny::div(
+  shiny::tagList(
     shiny::actionButton(
       inputId = inputId, label = label,
       icon = icon, width = width,

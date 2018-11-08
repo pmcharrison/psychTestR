@@ -32,3 +32,11 @@ test_that("example", {
     one_button_page("Goodbye!")
   ), check.attributes = FALSE)
 })
+
+test_that("single element timelines", {
+  p <- one_button_page("Test")
+  expect_equal(
+    psychTestR:::format_test_element_list(input = list(p), lang = "EN"),
+    list(p)
+  )
+})

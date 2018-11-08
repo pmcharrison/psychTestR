@@ -3,15 +3,15 @@ ui <- function(opt) {
     style = "padding: 3px; padding-left: 10px; padding-right: 10px",
     shiny::div(
       style = "display: flex; justify-content: space-between; align-items: center;",
-      if (!is.null(opt$logo)) {
-            shiny::img(
-              src = opt$logo,
-              style = sprintf("width: %s; height: %s;",
-                              width = opt$logo_width,
-                              height = opt$logo_height))
-          } else " ",
       shiny::h4(opt$title),
-      shiny::h4("psychTestR")
+      if (!is.null(opt$logo)) {
+        shiny::img(
+          src = opt$logo,
+          style = sprintf("width: %s; height: %s;",
+                          width = opt$logo_width,
+                          height = opt$logo_height))
+      } else " "
+      # shiny::h4("psychTestR")
       )
     )
     # shiny::fluidRow(
