@@ -29,6 +29,13 @@ Key benefits of psychTestR include:
 - Pitch imagery arrow task (PIAT):
 [demo](http://shiny.pmcharrison.com/piat-demo)
 
+## Status
+
+psychTestR is still under active development,
+with particular emphasis on developing the documentation.
+In the meanwhile, please feel free to contact Peter at p.m.c.harrison@qmul.ac.uk
+if you have questions.
+
 ## Citation
 
 You can cite psychTestR with the permanent DOI link
