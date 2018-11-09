@@ -31,11 +31,17 @@ Key benefits of psychTestR include:
 
 ## Status
 
-psychTestR is still under active development,
-with a particular aim of improving the documentation.
-Changes to the codebase typically preserve the existing API.
-If you would like to use psychTestR in your own research,
-please feel free to contact Peter at p.m.c.harrison@qmul.ac.uk for advice/technical support.
+psychTestR is still under active development.
+Our research groups have successfully used psychTestR for several studies,
+but we want to address various issues before advertising it for wider use:
+
+- Adding comprehensive documentation and tutorials; 
+- Adding more user-friendly type-checking and error catching;
+- Improving test coverage.
+
+You are still welcome to use psychTestR before these steps are complete, of course.
+Peter (p.m.c.harrison@qmul.ac.uk) is happy to provide advice/technical support,
+especially because feedback at this stage can easily be fed into the development process.
 
 ## Documentation
 
