@@ -1,3 +1,5 @@
+# psychTestR 2.3.0
+
 * Changed UI panel backgrounds from grey to white.
 
 # psychTestR 2.2.2
