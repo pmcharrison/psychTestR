@@ -1,6 +1,6 @@
 ui <- function(opt) {
   title_content <- shiny::wellPanel(
-    style = "padding: 3px; padding-left: 10px; padding-right: 10px",
+    style = "padding: 3px; padding-left: 10px; padding-right: 10px; background-color: white;",
     shiny::div(
       style = "display: flex; justify-content: space-between; align-items: center;",
       shiny::h4(opt$title),
@@ -29,7 +29,9 @@ ui <- function(opt) {
     #   shiny::column(4, shiny::h4(opt$title, align = "center")),
     #   shiny::column(4)
     # ))
-  main_content <- shiny::wellPanel(align = "center", shiny::uiOutput("ui"))
+  main_content <- shiny::wellPanel(align = "center",
+                                   style = "background-color: white",
+                                   shiny::uiOutput("ui"))
 
   shiny::fluidPage(
     theme = opt$theme,
