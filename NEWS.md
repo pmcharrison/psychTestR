@@ -1,3 +1,5 @@
+* Changed UI panel backgrounds from grey to white.
+
 # psychTestR 2.2.2
 
 * Improved checks in timeline creation
