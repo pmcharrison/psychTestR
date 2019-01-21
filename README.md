@@ -14,6 +14,12 @@ Key benefits of psychTestR include:
 - Compatible with all major operating systems (Windows, Mac, Linux)
 - Easy to modularise and share your designs with other researchers
 
+## Documentation
+
+- [Online documentation](https://pmcharrison.github.io/psychTestR)
+- Function documentation: available by running e.g. `?one_button_page` at the R terminal
+- [Example tests](https://pmcharrison.github.io/psychTestR/#examples)
+
 ## Examples
 
 - Computerised Adaptive Beat Alignment Test (CA-BAT):
@@ -43,15 +49,6 @@ but we want to address various issues before advertising it for wider use:
 You are still welcome to use psychTestR before these steps are complete, of course.
 Peter (p.m.c.harrison@qmul.ac.uk) is happy to provide advice/technical support,
 especially because feedback at this stage can easily be fed into the development process.
-
-## Documentation
-
-The documentation will be improved in the coming months. 
-In the meanwhile, there are three main sources:
-
-- Function documentation: available by running e.g. `?one_button_page` at the R terminal
-- [Wiki documentation](https://github.com/pmcharrison/psychTestR/wiki)
-- [Example tests](https://github.com/pmcharrison/psychTestR#examples)
 
 ## Citation
 

@@ -30,7 +30,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.4.0</span>
       </span>
     </div>
 
@@ -99,6 +99,15 @@
 <li>Compatible with all major operating systems (Windows, Mac, Linux)</li>
 <li>Easy to modularise and share your designs with other researchers</li>
 </ul>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h2>
+<ul>
+<li><a href="https://pmcharrison.github.io/psychTestR">Online documentation</a></li>
+<li>Function documentation: available by running e.g. <code><a href="reference/one_button_page.html">?one_button_page</a></code> at the R terminal</li>
+<li><a href="https://pmcharrison.github.io/psychTestR/#examples">Example tests</a></li>
+</ul>
+</div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
@@ -113,10 +122,21 @@
 </li>
 </ul>
 </div>
+<div id="status" class="section level2">
+<h2 class="hasAnchor">
+<a href="#status" class="anchor"></a>Status</h2>
+<p>psychTestR is still under active development. Our research groups have successfully used psychTestR for several studies, but we want to address various issues before advertising it for wider use:</p>
+<ul>
+<li>Adding comprehensive documentation and tutorials;</li>
+<li>Adding more user-friendly type-checking and error catching;</li>
+<li>Improving test coverage.</li>
+</ul>
+<p>You are still welcome to use psychTestR before these steps are complete, of course. Peter (<a href="mailto:p.m.c.harrison@qmul.ac.uk" class="email">p.m.c.harrison@qmul.ac.uk</a>) is happy to provide advice/technical support, especially because feedback at this stage can easily be fed into the development process.</p>
+</div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
-<p>You can cite psychTestR with the permanent DOI link <a href="https://doi.org/10.5281/zenodo.1415353" class="uri">https://doi.org/10.5281/zenodo.1415353</a>. We also advise mentioning the particular version you used, which you can find from R as follows:</p>
+<p>You can cite psychTestR with the permanent DOI link <a href="https://doi.org/10.5281/zenodo.1415355" class="uri">https://doi.org/10.5281/zenodo.1415355</a>. We also advise mentioning the particular version you used, which you can find from R as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(psychTestR)</a>
 <a class="sourceLine" id="cb1-2" title="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
 <a class="sourceLine" id="cb1-3" title="3">x &lt;-<span class="st"> </span>devtools<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/devtools/topics/reexports">session_info</a></span>()</a>
@@ -159,12 +179,7 @@
 <a class="sourceLine" id="cb3-22" title="22">                      <span class="kw"><a href="reference/get_global.html">get_global</a></span>(<span class="st">"name"</span>, state),</a>
 <a class="sourceLine" id="cb3-23" title="23">                      <span class="st">"."</span>))</a>
 <a class="sourceLine" id="cb3-24" title="24">  })))</a></code></pre></div>
-<p>Once you’ve recorded some data, try logging into the admin panel with the password ’ ’. Here you can download your response data.</p>
-</div>
-<div id="documentation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#documentation" class="anchor"></a>Documentation</h2>
-<p>Additional documentation is available <a href="https://github.com/pmcharrison/psychTestR/wiki">here</a>.</p>
+<p>Once you’ve recorded some data, try logging into the admin panel with the password ‘demo’ (as specified under the <code>opt</code> argument to <code><a href="reference/make_test.html">make_test()</a></code>). Here you can download your response data.</p>
 </div>
 <div id="acknowledgements" class="section level2">
 <h2 class="hasAnchor">
@@ -175,12 +190,6 @@
 <h2 class="hasAnchor">
 <a href="#license" class="anchor"></a>License</h2>
 <p>psychTestR will always be completely free to use for both non-commercial or commercial purposes. The package is available under the <a href="https://opensource.org/licenses/MIT">MIT license</a>.</p>
-</div>
-<div id="references" class="section level2">
-<h2 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h2>
-<p>Gelding, Rebecca W., Harrison, Peter M. C., Johnson, Blake W., Thompson, William F., &amp; Müllensiefen, D. (2018). Developing a psychometrically advanced version of the Pitch Imagery Arrow Task. Paper presented at the 15th International Conference on Music Perception and Cognition and 10th triennial conference of the European Society for the Cognitive Sciences of Music (ICMPC15/ESCOM10).</p>
-<p>Harrison, P. M. C., Collins, T., &amp; Müllensiefen, D. (2017). Applying modern psychometric techniques to melodic discrimination testing: Item response theory, computerised adaptive testing, and automatic item generation. <em>Scientific Reports</em>, 7, 1–18. <a href="https://doi.org/10.1038/s41598-017-03586-z" class="uri">https://doi.org/10.1038/s41598-017-03586-z</a></p>
 </div>
 </div>
   </div>
