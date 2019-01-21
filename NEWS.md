@@ -1,4 +1,10 @@
+# psychTestR 2.4.2
+
+* Bugfix for implicit timeline combination.
+
 # psychTestR 2.4.1
+
+* Minor edit.
 
 # psychTestR 2.4.0
 
