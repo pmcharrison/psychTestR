@@ -13,7 +13,7 @@ audio_NAFC_page(label, prompt, choices, url, labels = NULL,
 \item{label}{Label for the current page (character scalar).}
 
 \item{prompt}{Prompt to be displayed above the response choices.
-Can be either a scalar character (e.g. "What is 2 + 2?")
+Can be either a character scalar (e.g. "What is 2 + 2?")
 or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.}
 
 \item{choices}{Character vector of choices for the participant.

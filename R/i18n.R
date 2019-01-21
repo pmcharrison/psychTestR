@@ -162,7 +162,7 @@ I18N_STATE <- i18n_state$new()
 #' may contain passages such as \code{{{var1}}};
 #' if \code{sub = c(var1 = "Hello")},
 #' then \code{{{var1}}} will be replaced with the text \code{Hello}.
-#' @return The translated output (typically a character scalar
+#' @return The translated output, typically a character scalar
 #' or a \code{shiny::HTML()} output.
 #' @export
 i18n <- function(x, html = TRUE, sub = character()) {
@@ -230,7 +230,7 @@ timeline <- R6::R6Class(
     },
     get = function(language, i = NULL) {
       if (!is.scalar.character(language))
-        stop("'language' must be a scalar character")
+        stop("'language' must be a character scalar")
       if (!language %in% self$languages)
         stop("'language'", language, " not supported by timeline ",
              "(valid languages: ", paste(self$languages, collapse = ", "), ")")

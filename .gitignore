@@ -1,3 +1,4 @@
+inst/doc
 .Rproj.user
 .Rhistory
 .RData
@@ -12,7 +13,6 @@ shiny_bookmarks
 shiny-sessions
 results
 output
-closed.txt
 app.R
 scratch.R
 psychTestR.pdf

@@ -28,7 +28,12 @@ Imports:
     rstudioapi (>= 0.7),
     checkmate (>= 1.8.5),
     purrr (>= 0.2.5)
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
 Suggests: 
-    testthat (>= 2.0.0)
+    testthat (>= 2.0.0),
+    knitr,
+    rmarkdown
 Byte-Compile: yes
+URL: https://github.com/pmcharrison/psychTestR
+BugReports: https://github.com/pmcharrison/psychTestR/issues
+VignetteBuilder: knitr

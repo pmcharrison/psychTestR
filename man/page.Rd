@@ -9,7 +9,7 @@ page(ui, admin_ui = NULL, label = NULL, final = FALSE,
   on_complete = NULL, next_elt = TRUE)
 }
 \arguments{
-\item{ui}{Page UI. Can be either a scalar character (e.g.
+\item{ui}{Page UI. Can be either a character scalar (e.g.
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. \code{shiny::tags$p("Welcome to the test!")}.}
 

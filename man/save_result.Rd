@@ -2,14 +2,7 @@
 % Please edit documentation in R/results.R
 \name{save_result}
 \alias{save_result}
-\title{#' @export
-get_next_results_section <- function(x) {
-  UseMethod("get_next_results_section")
-}
-#' @export
-get_next_results_section.state <- function(x) {
-  get_next_results_section(results(x))
-}}
+\title{Save result}
 \usage{
 save_result(place, label, value)
 }
@@ -22,18 +15,5 @@ Methods exist for \code{results} objects and for \code{state} objects.}
 \item{value}{Value of the new datum.}
 }
 \description{
-get_next_results_section.results <- function(x) {
-  y <- attr(x, "new_section")
-  z <- names(results)
-  if (!is.null(y)) return(y)
-  if (length(z) > 0) return(z[length(z)])
-stop()
-  else {
-    names(results)
-  }
-}
-Save result
-}
-\details{
 Saves a new datum into the participant's results store.
 }

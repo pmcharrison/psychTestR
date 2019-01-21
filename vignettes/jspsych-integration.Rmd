@@ -1,0 +1,75 @@
+---
+title: "jsPsych integration"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+[jsPsych](https://www.jspsych.org/) is a powerful library for constructing behavioral experiments in Javascript.
+It is possible to embed jsPsych within psychTestR.
+This is useful when you want to take advantage of jsPsych's timed stimulus presentation facilities.
+
+psychTestR does not yet provide dedicated helper functions for embedding jsPsych,
+partly because of recent changes to jsPsych's API.
+However, we give an example below of how this integration can be achieved.
+We intend to incorporate this functionality more explicitly into future releases of psychTestR.
+
+If you have trouble getting the following to work, please contact Peter Harrison at pmc.harrison@gmail.com -
+we'd appreciate a chance to update this documentation. 
+
+```r
+#' @param timeline Character string providing the jsPsych timeline (https://www.jspsych.org/overview/timeline/)
+#' @param plugins Character vector of paths to scripts containing jsPsych plugins to be loaded (https://www.jspsych.org/plugins/overview/)
+#' @param jspsych File path of the jsPsych library file (see below)
+#' @param jspsych_init File path to the jsPsych initialisation file (see below)
+#' @param jquery File path to the jQuery library file (see below)
+jspsych <- function(timeline, plugins, jspsych, jspsych_init, jquery) {
+  for (s in c(plugins, jspsych, jspsych_init, jquery)) 
+    if (!file.exists(s)) stop("couldn't find script ", s)
+  psychTestR::page(
+    ui = shiny::tags$div(
+      shiny::tags$head(lapply(c(jspsych, jquery, plugins), shiny::includeScript)),
+      shiny::tags$script(timeline),
+      shiny::includeScript(jspsych_init),
+      shiny::div(id = "js_psych")),
+    get_answer = function(input, ...) input$jspsych_results,
+    validate = function(answer, ...) nchar(answer > 0L),
+    save_answer = TRUE
+  )
+}
+```
+
+## jsPsych library file
+
+This core part of the jsPsych installation can be found here: https://github.com/jspsych/jsPsych
+
+## jsPsych initialization file
+
+This is the `jspsych_init` file of the `jspsych` function above.
+
+This file should look something like this:
+
+```js
+jsPsych.init({
+  display_element: $('#js_psych'), // some versions of jsPsych
+  // display_element: 'js_psych', // other versions of jsPsych
+  fullscreen: false,
+  timeline: timeline,
+  on_finish: function() {
+    var json_data = jsPsych.data.dataAsJSON();
+    Shiny.onInputChange("jspsych_results", json_data);
+    next_page();
+    // jsPsych.data.displayData();
+  }
+});
+```
+
+Depending on the version of jsPsych the definition of `display_element`
+needs to change slightly, according to the comments above.
+
+## jQuery
+
+The jQuery library file can be downloaded from here: https://jquery.com/download/
+Later versions of jsPsych may not need jQuery to be loaded.

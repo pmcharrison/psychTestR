@@ -1,0 +1,138 @@
+---
+title: "Hosting experiments online"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+psychTestR experiments can be hosted online using the open-source 'Shiny Server' software.
+This software can be installed on a Linux server. 
+The following instructions detail how you can provision your own server 
+if you don't already have one.
+
+## Shiny Server
+
+[Shiny Server](https://www.rstudio.com/products/shiny/shiny-server/)
+hosts [Shiny](https://www.rstudio.com/products/shiny/)
+apps so that they can be accessed over the Internet.
+psychTestR delivers experiments as Shiny apps,
+and therefore needs Shiny Server for deploying experiments online.
+
+Shiny Server has a [free open source version](https://www.rstudio.com/products/shiny/download-server/)
+and a [paid professional version](https://www.rstudio.com/products/shiny-server-pro/).
+While the professional version comes with useful features, in particular sophisticated load management,
+it seems to be prohibitively expensive for research purposes.
+We've used the open source version in our own work, and have had no problems.
+
+## Provisioning a server with Shiny Server
+
+Shiny Server requires a Linux server.
+There are various ways of obtaining your own server.
+Cloud-based providers, such as [Amazon Web Services](https://aws.amazon.com/) (AWS), 
+provide a useful way of getting your own virtual server 
+instead of having to buy and maintain physical hardware.
+The instructions below correspond to AWS because this is where our experience lies,
+but there are many competing cloud providers that could equivalently be used.
+
+The overview of this stage is as follows:
+
+- Spin up an [Elastic Compute Cloud](https://aws.amazon.com/ec2) server
+(typically `t2.micro` should be sufficient for installation and development purposes,
+the server can be temporarily upgraded to larger sizes (e.g. `t2.medium`) 
+during data collection).
+- Install R and Shiny Server.
+
+Instructions covering both of these steps can be found here: 
+https://aws.amazon.com/blogs/big-data/running-r-on-aws/.
+This link provides some additional functionality that you may not need,
+such as setting up a web-hosted instance of RStudio,
+and integrating the server with S3.
+However, it also provides a CloudFormation template that automates the setup of this configuration,
+so it still might save you time.
+
+The following instructions may also be useful:
+
+- https://gist.github.com/sestelo/abdf9693cc3172078a519447fe51f899
+- https://www.edgarsdatalab.com/2016/08/25/setup-a-shiny-server-in-aws/
+- https://www.rstudio.com/products/shiny/download-server/
+
+By default, Shiny Server runs on port 3838. 
+We've found this problematic when testing participants in schools,
+because some firewalls block this port.
+We therefore recommend running Shiny Server on port 80.
+You can achieve this as follows:
+
+- SSH to the server.
+- Open the Shiny Server configuration file: `sudo nano /etc/shiny-server/shiny-server.conf`.
+- Replace the line that says `listen 3838;` with `listen 80;`.
+- Restart Shiny Server: `sudo restart shiny-server`.
+
+## Install psychTestR
+
+You can install psychTestR on your server as follows:
+
+- SSH to the server.
+- Enter the following command into the terminal, to start R: `sudo R`
+- Run the following command at the R terminal:
+
+```
+if (!require(devtools)) install.packages("devtools")
+devtools::install_github("pmcharrison/psychTestR")
+```
+
+## Debugging
+
+### Sanitised error messages
+
+Shiny defaults to sanitised error messages, which is often not desirable.
+We recommend disabling error sanitisation as follows:
+
+- SSH to the server.
+- Open Shiny's configuration file: `sudo nano /etc/shiny-server/shiny-server.conf`.
+- Add the line `sanitize_errors off;` in the obvious place.
+- Save and quit `nano`.
+- Restart Shiny Server: `sudo restart shiny-server`.
+
+### Debugging tips
+
+- Develop your test locally before pushing it to the server.
+- When developing locally, run `options(shiny.error = browser)` so you can
+inspect the stack when an error occurs.
+- When running a test on the server, error messages often go to the Javascript console.
+On Chrome, you can access this console by clicking View -> Developer -> Javascript console.
+- Errors that happen remotely but not locally typically come from psychTestR
+lacking write permissions to your app's folder (see below instructions),
+or from the necessary R packages not being installed on the server.
+You can install R packages on the server by SSHing in, opening R (`sudo R`),
+and then running the same commands as you would on your local machine
+(e.g. `install.packages("car")`).
+
+## Hosting an experiment
+
+Your experiment's source code should already be in the form of a directory
+containing the file `app.R`, which should contain the logic for defining your experiment.
+You should upload this directory to the directory `/srv/shiny-server/`.
+Our recommended approach is currently as follows: 
+
+- Store your experiment's source code in a 
+[Git](https://git-scm.com/) repository,
+hosted online by a service like 
+[Github](https://github.com/), 
+[Bitbucket](https://bitbucket.org/), 
+or [Gitlab](https://gitlab.com/).
+- SSH to the server.
+- Navigate to the target directory: `cd /srv/shiny-server`
+- Download your source code from Git to this directory: `sudo git clone https://user@bitbucket.org/user/repo.git` (see your Git host for exact details)
+- This should create a new directory containing your application. The name will correspond to the name of your Github repository. You can rename it using `mv old_name new_name`.
+- psychTestR needs to have permission to write temporary files into your app's directory; this is where the results will be stored, for example. You therefore need to run `sudo chown -R shiny app_folder_name` 
+to give the Shiny process write permission.
+- Your app should be now available at `http://www.your-server.org:3838/app_name`, or if you changed the port to 80, `http://www.your-server.org/app_name`.
+
+## Local files
+
+psychTestR stores local files in the `output/` subdirectory of your app's directory.
+These include session files and saved data.
+Do not delete these files unless you are happy with losing data.
+We recommend using the app's admin panel to delete these files if necessary.

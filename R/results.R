@@ -110,27 +110,6 @@ register_next_results_section.results <- function(x, label) {
   x
 }
 
-#' #' @export
-#' get_next_results_section <- function(x) {
-#'   UseMethod("get_next_results_section")
-#' }
-
-#' #' @export
-#' get_next_results_section.state <- function(x) {
-#'   get_next_results_section(results(x))
-#' }
-#'
-#' get_next_results_section.results <- function(x) {
-#'   y <- attr(x, "new_section")
-#'   z <- names(results)
-#'   if (!is.null(y)) return(y)
-#'   if (length(z) > 0) return(z[length(z)])
-#' stop()
-#'   else {
-#'     names(results)
-#'   }
-#' }
-
 # Saving results ####
 
 #' Save result

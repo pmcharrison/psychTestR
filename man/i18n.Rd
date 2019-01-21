@@ -20,7 +20,7 @@ if \code{sub = c(var1 = "Hello")},
 then \code{{{var1}}} will be replaced with the text \code{Hello}.}
 }
 \value{
-The translated output (typically a character scalar
+The translated output, typically a character scalar
 or a \code{shiny::HTML()} output.
 }
 \description{

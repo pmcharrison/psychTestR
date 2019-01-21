@@ -8,14 +8,14 @@ one_button_page(body, admin_ui = NULL, button_text = "Next",
   on_complete = NULL)
 }
 \arguments{
-\item{body}{Page body. Can be either a scalar character (e.g.
+\item{body}{Page body. Can be either a character scalar (e.g.
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. \code{shiny::tags$p("Welcome to the test!")}.}
 
 \item{admin_ui}{See \code{\link{page}}.}
 
 \item{button_text}{Text to display on the button.
-Should be a scalar character vector.}
+Should be a character scalar.}
 
 \item{on_complete}{See \code{\link{page}}.}
 }

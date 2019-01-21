@@ -18,7 +18,7 @@ or a URL relative to the /www directory (e.g. "audio.mp3").}
 \item{prompt}{Prompt to be displayed. If left \code{NULL},
 a sensible English prompt is provided.}
 
-\item{button_text}{Button text (scalar character).}
+\item{button_text}{Button text (character scalar).}
 
 \item{on_complete}{See \code{\link{page}}.}
 

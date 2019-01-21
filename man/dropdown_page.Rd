@@ -11,10 +11,10 @@ dropdown_page(label, prompt, choices, alternative_choice = FALSE,
   max_width_pixels = 200, admin_ui = NULL)
 }
 \arguments{
-\item{label}{Page label (scalar character).}
+\item{label}{Page label (character scalar).}
 
 \item{prompt}{Prompt to be displayed above the response choices.
-Can be either a scalar character (e.g. "What is 2 + 2?")
+Can be either a character scalar (e.g. "What is 2 + 2?")
 or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.}
 
 \item{choices}{Character vector of choices for the participant.
