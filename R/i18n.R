@@ -287,7 +287,9 @@ c.timeline <- function(...) {
       sapply(langs, function(lang) {
         c(x, y$get(lang))
       }, simplify = FALSE)
-    } else stop("this shouldn't happen")
+    } else {
+      list(EN = c(x, y))
+    }
     timeline$new(lst)
   }, input)
 }
