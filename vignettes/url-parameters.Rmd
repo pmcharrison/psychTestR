@@ -1,0 +1,41 @@
+---
+title: "URL parameters"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+URL parameters are ways of passing information to a website through the URL.
+For example, the URL http://www.server/app?message=Hello
+would send the message 'Hello'.
+
+psychTestR can both get and set URL parameters. 
+This can be useful when chaining multiple parts of a web-based experiment.
+
+For a demo of this functionality in action,
+open R and execute the following:
+
+```r
+library(psychTestR)
+
+# Demo: getting URL parameters
+demo.get_url_params()
+
+# Demo: setting URL parameters
+demo.set_url_params()
+```
+
+To see how to use this functionality in your own experiments, 
+simply inspect the source code.
+
+```r
+library(psychTestR)
+
+# Source code: getting URL parameters
+print(demo.get_url_params)
+
+# Source code: setting URL parameters
+print(demo.set_url_params)
+```

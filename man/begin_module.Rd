@@ -7,7 +7,7 @@
 begin_module(label)
 }
 \arguments{
-\item{label}{Module label (scalar character).}
+\item{label}{Module label (character scalar).}
 }
 \description{
 Returns a code block that begins a psychTestR module.

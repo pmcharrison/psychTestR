@@ -166,7 +166,7 @@ setMethod(
 #' New page
 #'
 #' This is the most general way to create a psychTestR page.
-#' @param ui Page UI. Can be either a scalar character (e.g.
+#' @param ui Page UI. Can be either a character scalar (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
 #' @param admin_ui Optional UI component for the admin panel.
@@ -223,7 +223,7 @@ page <- function(ui, admin_ui = NULL, label = NULL,
     is.null.or(on_complete, is.function),
     is.scalar.logical(next_elt))
   if (save_answer && !is.scalar.character(label))
-    stop("if save_answer is TRUE then a scalar character label ",
+    stop("if save_answer is TRUE then a character scalar label ",
          "must be provided")
   if (is.scalar.character(admin_ui)) admin_ui <- tagify(admin_ui)
   new("page", ui = ui, admin_ui = admin_ui, label = label, final = final,
@@ -238,12 +238,12 @@ page <- function(ui, admin_ui = NULL, label = NULL,
 #' advances to the next page.
 #' This is typically used for giving the participant information
 #' about the test.
-#' @param body Page body. Can be either a scalar character (e.g.
+#' @param body Page body. Can be either a character scalar (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
 #' @param admin_ui See \code{\link{page}}.
 #' @param button_text Text to display on the button.
-#' Should be a scalar character vector.
+#' Should be a character scalar.
 #' @param on_complete See \code{\link{page}}.
 #' @export
 one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
@@ -257,7 +257,7 @@ one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
 #' New final page
 #'
 #' Creates a page that concludes the test.
-#' @param body Page body. Can be either a scalar character (e.g.
+#' @param body Page body. Can be either a character scalar (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
 #' @param admin_ui See \code{\link{page}}.
@@ -384,7 +384,7 @@ describe_valid_p_id <- function() {
 #' Creates an n-alternative forced-foced choice page.
 #' @param label Label for the current page (character scalar).
 #' @param prompt Prompt to be displayed above the response choices.
-#' Can be either a scalar character (e.g. "What is 2 + 2?")
+#' Can be either a character scalar (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
 #' @param choices Character vector of choices for the participant.
 #' If unnamed, then these values will be used both for button IDs
@@ -471,7 +471,7 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
 #' Creates an n-alternative forced-foced choice page with a video prompt.
 #' @param label Label for the current page (character scalar).
 #' @param prompt Prompt to be displayed above the response choices.
-#' Can be either a scalar character (e.g. "What is 2 + 2?")
+#' Can be either a character scalar (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
 #' @param choices Character vector of choices for the participant.
 #' If unnamed, then these values will be used both for button IDs
@@ -555,7 +555,7 @@ media_mobile_play_button <- shiny::tags$p(
 #' Creates an n-alternative forced-foced choice page with an audio prompt.
 #' @param label Label for the current page (character scalar).
 #' @param prompt Prompt to be displayed above the response choices.
-#' Can be either a scalar character (e.g. "What is 2 + 2?")
+#' Can be either a character scalar (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
 #' @param choices Character vector of choices for the participant.
 #' If unnamed, then these values will be used both for button IDs
@@ -622,7 +622,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 #' @param type Audio type (e.g. 'mp3'). Defaults to the provided file extension.
 #' @param prompt Prompt to be displayed. If left \code{NULL},
 #' a sensible English prompt is provided.
-#' @param button_text Button text (scalar character).
+#' @param button_text Button text (character scalar).
 #' @param on_complete See \code{\link{page}}.
 #' @param admin_ui See \code{\link{page}}.
 #' @export
@@ -653,9 +653,9 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 #' Make dropdown list page
 #'
 #' Creates a page where the response is to be selected from a dropdown list.
-#' @param label Page label (scalar character).
+#' @param label Page label (character scalar).
 #' @param prompt Prompt to be displayed above the response choices.
-#' Can be either a scalar character (e.g. "What is 2 + 2?")
+#' Can be either a character scalar (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
 #' @param choices Character vector of choices for the participant.
 #' If names are provided, then these names will be used for display,
@@ -866,7 +866,7 @@ loop_while <- function(test, logic) {
     res <- test(state = state, input = input, output = output,
                 session = session, opt = opt)
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
-                                      "scalar logical")
+                                      "logical scalar")
     if (res) skip_n_pages(state, - (n + 1L))
   })
   c(logic, elt)
@@ -878,7 +878,7 @@ loop_while <- function(test, logic) {
 #' Modules have their own set of local variables.
 #' They also have identifying labels that are stored alongside
 #' result entries created during the module.
-#' @param label Module label (scalar character).
+#' @param label Module label (character scalar).
 #' @export
 begin_module <- function(label) {
   stopifnot(is.scalar.character(label))

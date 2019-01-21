@@ -1,3 +1,7 @@
+# psychTestR 2.4.0
+
+* Created psychTestR website.
+
 # psychTestR 2.3.0
 
 * Changed UI panel backgrounds from grey to white.

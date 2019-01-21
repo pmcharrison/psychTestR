@@ -189,7 +189,7 @@ validate_elt <- function(elt, state, input, session, opt) {
     } else {
       print(res)
       stop("validation function must either return TRUE for success or, ",
-           "for failure, either FALSE or a scalar character error message")
+           "for failure, either FALSE or a character scalar error message")
     }
     shinyjs::alert(msg)
     FALSE

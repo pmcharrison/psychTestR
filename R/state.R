@@ -368,12 +368,12 @@ p_id <- function(state) {
   state$passive$p_id
 }
 
-#' Sets participant ID
-#'
-#' Sets the participant's ID.
-#' @param state The participant's \code{state} object.
-#' @param value The value to set the ID to.
-#' @export
+# Sets participant ID
+#
+# Sets the participant's ID.
+# @param state The participant's \code{state} object.
+# @param value The value to set the ID to.
+# @export
 `p_id<-` <- function(state, value) {
   stopifnot(is(state, "state"))
   state$passive$p_id <- value

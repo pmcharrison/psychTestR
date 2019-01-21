@@ -7,7 +7,7 @@
 final_page(body, admin_ui = NULL)
 }
 \arguments{
-\item{body}{Page body. Can be either a scalar character (e.g.
+\item{body}{Page body. Can be either a character scalar (e.g.
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. \code{shiny::tags$p("Welcome to the test!")}.}
 
