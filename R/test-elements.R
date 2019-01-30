@@ -856,10 +856,12 @@ notify_new_participant <- function(opt) {
 #' @export
 loop_while <- function(test, logic) {
   if (!is.function(test)) stop("<test> must be a function")
-  if (!(is.list(logic) || is(logic, "test_element"))) {
-    stop("<logic> must be either a test element or a list")
+  if (!(is.list(logic) ||
+        is.test_element(logic) ||
+        is.timeline(logic))) {
+    stop("<logic> must be either a test element, a list, or a timeline")
   }
-  if (!is.list(logic)) logic <- list(logic)
+  if (is.test_element(logic)) logic <- list(logic)
   if (length(logic) == 0L) stop("<logic> may not be empty")
   n <- length(logic)
   elt <- code_block(function(state, elts, input, output, session, opt, ...) {
