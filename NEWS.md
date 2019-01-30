@@ -1,3 +1,7 @@
+# psychTestR 2.4.3
+
+* Fixed #37.
+
 # psychTestR 2.4.2
 
 * Bugfix for implicit timeline combination.
