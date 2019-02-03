@@ -19,7 +19,6 @@ ui <- function(opt) {
 
   shiny::fluidPage(
     theme = opt$theme,
-    # title = opt$title[1],
     shinyjs::useShinyjs(),
     shiny::fluidRow(shiny::column(12, title_content)),
     shiny::fluidRow(
@@ -33,7 +32,7 @@ ui <- function(opt) {
                     shiny::tags$div(
                       style = "padding: 10px",
                       align = "center",
-                      # shiny::p(shiny::textOutput("problems_info")), # htmltools::htmlEscape(., FALSE
+                      shiny::p(shiny::textOutput("problems_info")),
                       shiny::uiOutput("admin_panel.ui"),
                       admin_panel.modals
                     ))),

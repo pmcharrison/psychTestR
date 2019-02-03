@@ -11,7 +11,12 @@ pt_options <- function(...) {
 #' Test options
 #'
 #' Defines the options for running a given test.
-#' @param title The test's title.
+#' @param title
+#' The test's title.
+#' This can either be an unnamed character scalar,
+#' in which case the same title will be shown irrespective of internationalisation,
+#' or a named vector of titles with the names
+#' corresponding to language codes.
 #' @param admin_password Password to access the admin panel.
 #' @param researcher_email Researcher's email; used in participant help message.
 #' @param max_num_participants Maximum number of participant completes
@@ -38,10 +43,15 @@ pt_options <- function(...) {
 #' @param server_closed_msg Message to display when the server is closed
 #' via the admin panel
 #' (\code{NULL} gives default).
-#' @param problems_info Message to display at the bottom of the screen
+#' @param problems_info
+#' Message to display at the bottom of the screen
 #' with advice about what to do if a problem occurs.
-#' Defaults to a standard message including the researcher's email
-#' (if provided).
+#' The default value, "default", gives
+#' a standard English message including the researcher's email (if provided).
+#' Alternatively, the argument can be an unnamed character scalar
+#' providing an non-internationalised message,
+#' or a named vector of internationalised messages with the names
+#' corresponding to language codes.
 #' @param theme Shiny theme: see e.g. the \code{shinythemes} package.
 #' @param auto_p_id Whether or not to automatically generate an
 #' ID for each participant.
@@ -111,7 +121,7 @@ test_options <- function(title, admin_password,
             is.null.or(max_num_participants, is.scalar.integerlike),
             is.null.or(max_participants_msg, is.scalar.character),
             is.null.or(server_closed_msg, is.scalar.character),
-            is.scalar.character(problems_info),
+            is.character(problems_info),
             is.null.or(logo, is.scalar.character),
             is.null(logo) ||
               (is.scalar.character(logo_width) && is.scalar.character(logo_height)))
@@ -121,6 +131,8 @@ test_options <- function(title, admin_password,
   if (any(nchar(title) > 100L))
     stop("maximum title length is 100 characters")
 
+  if (length(title) > 1 && is.null(names(title)))
+    stop("if option 'title' has length > 1, it must be named")
   if (!is.null(names(title)) && !all(languages %in% names(title)))
     stop("titles must be provided for all supported languages")
 
@@ -140,10 +152,18 @@ test_options <- function(title, admin_password,
       "so testing has now finished.")
   }
 
-  if (problems_info == "default") {
+  if (length(problems_info) == 1 && problems_info == "default") {
     problems_info <- if (is.null(researcher_email)) "" else paste0(
       "Problems? Contact ", researcher_email, " with a link to this page.")
+  } else {
+    problems_info <- iconv(problems_info, "UTF-8", "UTF-8", sub = "")
   }
+
+  if (length(problems_info) > 1 && is.null(names(problems_info)))
+    stop("if option 'problems_info' has length > 1, it must be named")
+
+  if (!is.null(names(problems_info)) && !all(languages %in% names(problems_info)))
+    stop("problem info texts must be provided for all supported languages")
 
   if (is.null(server_closed_msg)) {
     server_closed_msg <- paste0(

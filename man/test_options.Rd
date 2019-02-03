@@ -18,7 +18,11 @@ test_options(title, admin_password, researcher_email = NULL,
   logo_height = NULL)
 }
 \arguments{
-\item{title}{The test's title.}
+\item{title}{The test's title.
+This can either be an unnamed character scalar,
+in which case the same title will be shown irrespective of internationalisation,
+or a named vector of titles with the names
+corresponding to language codes.}
 
 \item{admin_password}{Password to access the admin panel.}
 
@@ -61,8 +65,12 @@ via the admin panel
 
 \item{problems_info}{Message to display at the bottom of the screen
 with advice about what to do if a problem occurs.
-Defaults to a standard message including the researcher's email
-(if provided).}
+The default value, "default", gives
+a standard English message including the researcher's email (if provided).
+Alternatively, the argument can be an unnamed character scalar
+providing an non-internationalised message,
+or a named vector of internationalised messages with the names
+corresponding to language codes.}
 
 \item{theme}{Shiny theme: see e.g. the \code{shinythemes} package.}
 
