@@ -1,3 +1,7 @@
+# psychTestR 2.5.0
+
+* Added internationalisation for `test_options()`.
+
 # psychTestR 2.4.3
 
 * Fixed #37.
