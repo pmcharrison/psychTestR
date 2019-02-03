@@ -11,24 +11,8 @@ ui <- function(opt) {
                           width = opt$logo_width,
                           height = opt$logo_height))
       } else " "
-      # shiny::h4("psychTestR")
       )
     )
-    # shiny::fluidRow(
-    #   shiny::column(4, if (!is.null(opt$logo)) {
-    #     shiny::img(
-    #       src = opt$logo,
-    #       style = sprintf(
-    #         paste0("display:block;margin-left:auto;margin-right:auto;",
-    #                "width:%s;height:%s;",
-    #                # "vertical-align:middle"),
-    #                "position:relative;top:50%%;margin-top:-31px;"),
-    #         width = opt$logo_width,
-    #         height = opt$logo_height))
-    #   }),
-    #   shiny::column(4, shiny::h4(opt$title, align = "center")),
-    #   shiny::column(4)
-    # ))
   main_content <- shiny::wellPanel(align = "center",
                                    style = "background-color: white",
                                    shiny::uiOutput("ui"))
