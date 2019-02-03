@@ -3,7 +3,7 @@ ui <- function(opt) {
     style = "padding: 3px; padding-left: 10px; padding-right: 10px; background-color: white;",
     shiny::div(
       style = "display: flex; justify-content: space-between; align-items: center;",
-      shiny::h4(opt$title),
+      shiny::h4(shiny::textOutput("title")),
       if (!is.null(opt$logo)) {
         shiny::img(
           src = opt$logo,
@@ -33,7 +33,8 @@ ui <- function(opt) {
                     shiny::tags$div(
                       style = "padding: 10px",
                       align = "center",
-                      shiny::p(htmltools::htmlEscape(opt$problems_info, FALSE)),
+                      shiny::p(htmltools::htmlEscape(shiny::textOutput("problems_info"),
+                                                     FALSE)),
                       shiny::uiOutput("admin_panel.ui"),
                       admin_panel.modals
                     ))),

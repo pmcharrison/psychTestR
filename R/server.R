@@ -169,7 +169,6 @@ render_ui <- function(state, elts, opt) {
       get_current_elt(state, elts, opt, eval = TRUE)
     }
     ui <- if (is(elt, "page")) elt@ui else shiny::div()
-    # if (!is(elt, "page")) display_error("Cannot display element of class ", class(elt))
     shiny::div(id = "current_page.ui", ui)
   })
 }
