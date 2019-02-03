@@ -41,6 +41,8 @@ i18n_dict <- R6::R6Class(
   "i18n_dict",
   public = list(
     initialize = function(x, markdown = TRUE) {
+      stopifnot(is.data.frame(x))
+      for (col in names(x)) x[[col]] <- as.character(x[[col]])
       i18n_check_df(x)
       private$..languages <- setdiff(names(x), "key")
       private$dict <- hash_df(x, markdown = markdown)

@@ -3,7 +3,7 @@ ui <- function(opt) {
     style = "padding: 3px; padding-left: 10px; padding-right: 10px; background-color: white;",
     shiny::div(
       style = "display: flex; justify-content: space-between; align-items: center;",
-      shiny::h4(shiny::textOutput("title")),
+      shiny::uiOutput("title"),
       if (!is.null(opt$logo)) {
         shiny::img(
           src = opt$logo,
@@ -19,7 +19,7 @@ ui <- function(opt) {
 
   shiny::fluidPage(
     theme = opt$theme,
-    title = opt$title,
+    # title = opt$title[1],
     shinyjs::useShinyjs(),
     shiny::fluidRow(shiny::column(12, title_content)),
     shiny::fluidRow(
@@ -33,8 +33,7 @@ ui <- function(opt) {
                     shiny::tags$div(
                       style = "padding: 10px",
                       align = "center",
-                      shiny::p(htmltools::htmlEscape(shiny::textOutput("problems_info"),
-                                                     FALSE)),
+                      # shiny::p(shiny::textOutput("problems_info")), # htmltools::htmlEscape(., FALSE
                       shiny::uiOutput("admin_panel.ui"),
                       admin_panel.modals
                     ))),

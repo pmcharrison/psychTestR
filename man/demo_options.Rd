@@ -4,7 +4,8 @@
 \alias{demo_options}
 \title{Demo options}
 \usage{
-demo_options(...)
+demo_options(title = "Demo", admin_password = "demo",
+  researcher_email = "XXX", demo = TRUE, ...)
 }
 \arguments{
 \item{...}{Arguments to be passed to \code{\link{test_options}()}.}

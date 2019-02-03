@@ -833,7 +833,7 @@ notify_new_participant <- function(opt) {
                    if (!is.null(opt$max_num_participants)) {
                      sprintf("/%i", opt$max_num_participants)
                    } else "",
-                   opt$title)
+                   opt$title[1])
     async_pushbullet(title = title, body = msg, opt = opt)
   }
 }

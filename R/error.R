@@ -38,7 +38,7 @@ notify_error <- function(err, opt) {
     async_pushbullet(
       title = "Test error: alert (1/2)",
       body = paste0("An error occurred in the test entitled ",
-                    "'", opt$title, "'.",
+                    "'", opt$title[1], "'.",
                     " A detailed error message will follow shortly."),
       opt)
     async_pushbullet(

@@ -5,6 +5,10 @@ server <- function(elts, opt, custom_admin_panel) {
     state <- STATE$new(opt)
     setup_session(state, input, output, elts, session, opt)
     output$ui <- render_ui(state, elts, opt)
+    output$title <- render_title(opt, state)
+
+    i18n_title(opt, state)
+    # output$problems_info <- i18n_problems_info(opt, state)
     shiny::observeEvent(input$next_page,
                         next_page(state, input, output, elts, session, opt,
                                   triggered_by_front_end = TRUE))
@@ -16,6 +20,32 @@ server <- function(elts, opt, custom_admin_panel) {
         opt = opt)
     manage_sessions(state, opt = opt, session = session)
   }
+}
+
+render_title <- function(opt, state) {
+  shiny::renderUI({
+    title <- i18n_title(opt, state)
+    shiny::tagList(
+      shiny::tags$head(shiny::tags$title(title)),
+      shiny::h4(title)
+    )
+  })
+}
+
+i18n_title <- function(opt, state) {
+  stopifnot(is.character(opt$title))
+  if (is.null(names(opt$title)))
+    opt$title else {
+      if (!language(state) %in% names(opt$title))
+        stop("couldn't find current language in title list") else
+          opt$title[[language(state)]]
+    }
+}
+
+i18n_problems_info <- function(opt, state) {
+  shiny::renderText({
+    "Placeholder"
+  })
 }
 
 setup_session <- function(state, input, output, elts, session, opt) {

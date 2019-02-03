@@ -88,7 +88,7 @@ test_options <- function(title, admin_password,
                          logo = NULL,
                          logo_width = NULL,
                          logo_height = NULL) {
-  stopifnot(is.scalar.character(title),
+  stopifnot(is.character(title),
             is.scalar.character(admin_password),
             is.null.or(researcher_email, is.scalar.character),
             is.character(languages),
@@ -118,8 +118,12 @@ test_options <- function(title, admin_password,
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   title <- iconv(title, "UTF-8", "UTF-8", sub = "")
-  if (nchar(title) > 100L)
+  if (any(nchar(title) > 100L))
     stop("maximum title length is 100 characters")
+
+  if (!is.null(names(title)) && !all(languages %in% names(title)))
+    stop("titles must be provided for all supported languages")
+
 
   if (force_p_id_from_url && !allow_any_p_id_url)
     stop("if force_p_id_from_url is TRUE then allow_any_p_id_url must be TRUE")
@@ -193,9 +197,10 @@ test_options <- function(title, admin_password,
 #' Test options list for demo purposes.
 #' @param ... Arguments to be passed to \code{\link{test_options}()}.
 #' @export
-demo_options <- function(...) {
-  test_options(title = "Demo", admin_password = "demo",
-               researcher_email = "XXX", demo = TRUE, ...)
+demo_options <- function(title = "Demo", admin_password = "demo",
+                         researcher_email = "XXX", demo = TRUE, ...) {
+  test_options(title = title, admin_password = admin_password,
+               researcher_email = researcher_email, demo = demo, ...)
 }
 
 #' Test write permissions
