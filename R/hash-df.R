@@ -7,9 +7,10 @@ hash_df <- function(x, markdown) {
     stop("input must have character column called 'key")
   y <- new.env()
   for (i in seq_len(nrow(x))) {
-    key <- x$key[i]
+    key <- enc2utf8(x$key[i])
     value <- as.list(x[i, ])
     value$key <- NULL
+    value <- lapply(value, enc2utf8)
     if (markdown) value <- lapply(value, parse_markdown)
     y[[key]] <- value
   }
