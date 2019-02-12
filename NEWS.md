@@ -1,3 +1,5 @@
+* Fixed encoding issue in markdown (#44).
+
 # psychTestR 2.5.0
 
 * Added internationalisation for `test_options()`.
