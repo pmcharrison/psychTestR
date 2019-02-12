@@ -127,7 +127,7 @@ test_options <- function(title, admin_password,
               (is.scalar.character(logo_width) && is.scalar.character(logo_height)))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
-  title <- iconv(title, "UTF-8", "UTF-8", sub = "")
+  title <- iconv(enc2utf8(title), "UTF-8", "UTF-8", sub = "")
   if (any(nchar(title) > 100L))
     stop("maximum title length is 100 characters")
 
@@ -156,7 +156,7 @@ test_options <- function(title, admin_password,
     problems_info <- if (is.null(researcher_email)) "" else paste0(
       "Problems? Contact ", researcher_email, " with a link to this page.")
   } else {
-    problems_info <- iconv(problems_info, "UTF-8", "UTF-8", sub = "")
+    problems_info <- iconv(enc2utf8(problems_info), "UTF-8", "UTF-8", sub = "")
   }
 
   if (length(problems_info) > 1 && is.null(names(problems_info)))
@@ -170,6 +170,7 @@ test_options <- function(title, admin_password,
       "Thank you for your interest in this test. ",
       "Unfortunately, however, participation is now closed.")
   }
+  server_closed_msg <- enc2utf8(server_closed_msg)
 
   results_dir <- file.path(output_dir, "results")
   supplementary_results_dir <- file.path(results_dir, "supplementary")
