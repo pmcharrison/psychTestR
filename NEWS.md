@@ -1,3 +1,5 @@
+# psychTestR 2.5.1
+
 * Fixed encoding issue in markdown (#44).
 
 # psychTestR 2.5.0
