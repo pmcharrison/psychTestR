@@ -22,7 +22,14 @@ parse_markdown <- function(x) {
   has_paragraphs <- grepl("(\\\\\\\\)|(<p>)|(\\n)", x)
   if (has_paragraphs)
     x <- gsub("\\\\", "\n\n", x, fixed = TRUE)
-  res <- markdown::markdownToHTML(text = x, fragment.only = TRUE)
+  #message("markdownToHTML version")
+  #res <- enc2utf8(markdown::markdownToHTML(text = x, fragment.only = T, encoding = "UTF_8"))
+  #message("renderMarkdown version")
+  res <- markdown::renderMarkdown(file, output = NULL,
+                                  text = x, renderer = "HTML",
+                                  renderer.options = c(getOption("markdown.HTML.options"), "fragment_only"),
+                                  extensions = getOption("markdown.extensions"),
+                                  encoding = "UTF_8")
   if (!has_paragraphs)
     res <- gsub("(<p>)|(</p>)|(\\n)", "", res)
   res
