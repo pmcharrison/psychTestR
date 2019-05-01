@@ -2,6 +2,7 @@
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1415355.svg)](https://doi.org/10.5281/zenodo.1415355)
+[![Travis build status](https://travis-ci.org/pmcharrison/psychtestr.svg?branch=master)](https://travis-ci.org/pmcharrison/psychtestr)
 
 psychTestR is an R package for creating behavioural experiment interfaces.
 Key benefits of psychTestR include:
