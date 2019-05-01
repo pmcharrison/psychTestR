@@ -1,3 +1,6 @@
+template:
+  params:
+    bootswatch: cerulean
 reference:
 - title: Top level
   desc: These are the top-level functions used to launch a psychTestR test.
