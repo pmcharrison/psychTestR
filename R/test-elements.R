@@ -740,6 +740,7 @@ dropdown_page.get_answer <- function(alternative_text) {
 #' @param label See \link[shiny]{actionButton}
 #' @param icon See \link[shiny]{actionButton}
 #' @param width See \link[shiny]{actionButton}
+#' @param enable_after Number of seconds after which responses should be permitted.
 #' @param ... Additional arguments to pass to \link[shiny]{actionButton}.
 #' @export
 trigger_button <- function(inputId, label, icon = NULL, width = NULL,

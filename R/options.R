@@ -216,6 +216,11 @@ test_options <- function(title, admin_password,
 #' Demo options
 #'
 #' Test options list for demo purposes.
+#'
+#' @param title See \code{\link{test_options}}.
+#' @param admin_password See \code{\link{test_options}}.
+#' @param researcher_email See \code{\link{test_options}}.
+#' @param demo See \code{\link{test_options}}.
 #' @param ... Arguments to be passed to \code{\link{test_options}()}.
 #' @export
 demo_options <- function(title = "Demo", admin_password = "demo",

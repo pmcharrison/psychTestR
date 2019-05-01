@@ -8,6 +8,14 @@ demo_options(title = "Demo", admin_password = "demo",
   researcher_email = "XXX", demo = TRUE, ...)
 }
 \arguments{
+\item{title}{See \code{\link{test_options}}.}
+
+\item{admin_password}{See \code{\link{test_options}}.}
+
+\item{researcher_email}{See \code{\link{test_options}}.}
+
+\item{demo}{See \code{\link{test_options}}.}
+
 \item{...}{Arguments to be passed to \code{\link{test_options}()}.}
 }
 \description{

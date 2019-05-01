@@ -16,6 +16,8 @@ trigger_button(inputId, label, icon = NULL, width = NULL,
 
 \item{width}{See \link[shiny]{actionButton}}
 
+\item{enable_after}{Number of seconds after which responses should be permitted.}
+
 \item{...}{Additional arguments to pass to \link[shiny]{actionButton}.}
 }
 \description{
