@@ -6,7 +6,6 @@ cache: packages
 warnings_are_errors: true
 os:
   - linux
-  - osx
 
 before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
 deploy:
