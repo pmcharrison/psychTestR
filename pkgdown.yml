@@ -4,6 +4,6 @@ pkgdown_sha: ~
 articles:
   hosting-experiments-online: hosting-experiments-online.html
   jspsych-integration: jspsych-integration.html
-  tutorial-simple-questionnaire: tutorial-simple-questionnaire.html
+  tutorial-internationalised-questionnaire: tutorial-internationalised-questionnaire.html
   url-parameters: url-parameters.html
 
