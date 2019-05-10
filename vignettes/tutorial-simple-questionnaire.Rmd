@@ -1,0 +1,245 @@
+---
+title: "Tutorial: Creating an internationalised questionnaire"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial: Creating a simple questionnaire}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+  
+## About
+
+This tutorial describes how to create a *internationalised questionnaire* -
+a questionnaire that can be taken in multiple languages - in psychTestR.
+Internationalised tests are more complicated to construct than 
+monolingual tests, but they are essential for international studies.
+
+## Tutorial
+
+The first step is to put together a data file defining items and 
+answers in the different languages that will be used in your test.
+This will be used to define a *dictionary* object
+([`i18n_dict`](https://pmcharrison.github.io/psychTestR/reference/i18n_dict.html))
+that psychTestR will use to find a given translation from a given key.
+For example, the key `colour` might return "What's your favourite colour?"
+if the language is English, or "Quelle est ta couleur préférée?"
+if the language is French.
+
+The precise form of this data file will depend on the type of questionnaire
+you want to construct, and what kind of response options are available.
+Here we will illustrate the creation of a simple questionnaire 
+where each item has a textual cue and two textual response options.
+
+Let's begin by creating an R file within which to design your questionnaire.
+If you're new to writing R code, we recommend you install 
+[RStudio](https://rstudio.com), and create a new project (File > New Project),
+within which to save your file.
+
+At the beginning of your script, write the following to load 
+`psychTestR` and the `tibble` package:
+
+```r
+library(psychTestR)
+library(tibble)
+```
+
+If you haven't got them already, you can install these packages at the 
+R terminal as follows:
+
+``` r
+install.packages(c("devtools", "tibble"))
+devtools::install_github("pmcharrison/psychTestR")
+```
+
+Now we'll define a simple table that defines a questionnaire 
+in our two languages.
+Ordinarily you would define this table in an external csv file,
+and read it in using `read.csv` or `readr::read_csv`,
+but here we will define it within our R code.
+This table takes the form of a `tibble` object, 
+as created by the `tribble` function
+(see `?tibble::tibble` for information),
+but you could also use a `data.frame` object.
+
+```r
+definition <- tribble(
+  ~item_number, ~key_type,   ~key,     ~EN,                  ~FR,
+  1,            "question",  "colour", "Favourite colour?",  "Couleur préférée?",
+  1,            "answer_1",  "red",    "Red",                "Rouge",
+  1,            "answer_2",  "green",  "Green",              "Vert",
+  2,            "question",  "number", "Favourite number?",  "Nombre préféré?",
+  2,            "answer_1",  "7",      "Seven",              "Sept",
+  2,            "answer_2",  "8",      "Eight",              "Huit"
+)
+```
+
+Each row defines a particular question or answer.
+The `item_number` column tells us the current item number;
+each item has several rows, corresponding to its different textual components.
+The `key_type` column tells us whether the current row describes a
+question (`"question"`),
+the first answer (`"answer_1"`),
+or the second answer (`"answer_2"`).
+The `key` column gives a succint identifier for that piece of text,
+which should be unique within the questionnaire.
+The `EN` column gives the text in English, 
+the `FR` column in French.
+
+We will first use this table to create a psychTestR dictionary.
+This is done as follows:
+
+```r
+dict <- i18n_dict$new(definition[, c("key", "EN", "FR")])
+```
+
+Here we wrote `definition[, c("key", "EN", "FR")]`, which 
+takes the original `definition` tibble and only keeps the three columns
+`key`, `EN`, and `FR`, to match the required input of 
+`i18n_dict$new` (see 
+[`i18n`](https://pmcharrison.github.io/psychTestR/reference/i18n.html)
+for details.
+In general, `i18n_dict$new()` requires an input `data.frame` or `tibble`
+where each row corresponds to a text element,
+the first column is a unique identifier termed `key`,
+and the remaining columns provide translations into different languages,
+specified by capitalised ISO 639-2 country codes.
+
+Next, we will use the `definition` object to construct our test logic.
+The general idea is that we will iterate over each item number,
+collect the rows corresponding to that item number,
+and define a test page from this information. 
+Here I'm going to use utility functions from the `tidyverse` packages -
+if you're not familiar with these packages, I'd certainly recommend them.
+If you haven't already installed the `tidyverse`, 
+you can install it with `install.packages("tidyverse")`.
+
+```r
+library(tidyverse)
+
+questionnaire <- new_timeline(
+  c(
+    begin_module("my_questionnaire"),
+    definition %>% 
+      select(item_number, key_type, key) %>% 
+      spread(key_type, key) %>% 
+      pmap(function(item_number, answer_1, answer_2, question) {
+        NAFC_page(label = question, 
+                  prompt = i18n(question),
+                  choices = c(answer_1, 
+                              answer_2),
+                  labels = c(i18n(answer_1), 
+                             i18n(answer_2)))
+      }), 
+    end_module()
+  ),
+  dict = dict
+)
+
+```
+
+Here's a summary of what these operations do:
+
+- [`new_timeline`](https://pmcharrison.github.io/psychTestR/reference/new_timeline.html)
+is a psychTestR function that creates a *timeline*,
+i.e. a series of test elements.
+Timelines support internationalisation, in that one timeline object
+can define test elements in multiple languages.
+When making an internationalised timeline, you must pass a dictionary
+(such as the one we defined earlier) to the `dict` argument.
+
+- The function `c` combines different timelines or test elements together.
+
+- [`begin_module`](https://pmcharrison.github.io/psychTestR/reference/begin_module.html)
+is a psychTestR function signifying that the test is now beginning a new *module*.
+Modules are self-contained entities that are identified by a textual label, 
+in this case "my_questionnaire".
+Modules are usually only necessary if you intend your test to be 
+incorporated into larger test batteries; 
+in this case, the module label helps to identify the results 
+from your particular test component.
+
+- The `%>%` operation takes an R object on one line and 'pipes'
+it forward to the next line as the input of a function.
+See [magrittr](https://magrittr.tidyverse.org/) for details.
+
+- `select` takes the input tibble (`definition`) and selects the columns
+`item_number`, `key_type`, and `key`
+(we could have also used the `[` operator, like before).
+
+- `spread` turns the tibble from long format to wide format,
+where each row now represents a different item.
+
+- `pmap` iterates over each row of the tibble, 
+and calls a provided function on the elements of this row.
+
+- [`NAFC_page`](https://pmcharrison.github.io/psychTestR/reference/NAFC_page.html)
+is a psychTestR function that defines a multiple-choice page.
+See the [psychTestR documentation](https://pmcharrison.github.io/psychTestR/reference/index.html)
+for other page types, or define your own using 
+[page](https://pmcharrison.github.io/psychTestR/reference/page.html).
+
+- [`i18n`](https://pmcharrison.github.io/psychTestR/reference/i18n.html)
+gets a translation for a given key from the dictionary.
+It can only be called within the `new_timeline` function.
+Note that we have provided the `NAFC_page` function
+with both keys and translations,
+allowing the test to save data in a consistent format
+irrespective of the participant's language.
+
+- [`end_module`](https://pmcharrison.github.io/psychTestR/reference/end_module.html)
+signifies the end of the "my_questionnaire" module.
+
+That's it! You've defined your internationalised questionnaire.
+You can now run this questionnaire independently, 
+or insert it into a longer test battery.
+For now, let's try running it independently. 
+Before we do so, we'll add two elements to the timeline:
+an element to save the results to disk 
+(using [`elt_save_results_to_disk`](https://pmcharrison.github.io/psychTestR/reference/elt_save_results_to_disk.html))
+and a [`final_page`](https://pmcharrison.github.io/psychTestR/reference/final_page.html) 
+object to terminate the test.
+We can then run the test using [`make_test`](https://pmcharrison.github.io/psychTestR/reference/make_test.html);
+note that this must be called interactively or else 
+placed within a call to `shiny::runApp`.
+
+```r
+logic <- c(
+  questionnaire,
+  elt_save_results_to_disk(complete = TRUE),
+  final_page("FIN")
+)
+
+psychTestR::make_test(logic)
+```
+
+When you finish the test it should automatically save results in your 
+working directory. 
+You can access these results by running the test
+and logging into the admin panel with the default password, "demo".
+You can launch the test with different default languages as follows:
+
+```r
+# Defaults to English but also supports French
+psychTestR::make_test(logic, opt = demo_options(languages = c("EN", "FR")))
+
+# Defaults to French but also supports English
+psychTestR::make_test(logic, opt = demo_options(languages = c("FR", "EN")))
+```
+
+You can also select languages through the URL you use to access the test.
+Note however that a given participant ID (`p_id`) is permanently linked with a
+given language, so to switch languages you must ensure that the `p_id`
+component of the URL is omitted.
+
+## Conclusion
+
+This internationalisation workflow is somewhat complicated to set up,
+but it is rather powerful. 
+The combination of `i18n_dict` and `i18n` is very flexible,
+and allows internationalisation to be applied to a great variety of test designs,
+not just simple questionnaires.
+
+## Feedback
+
+Have you got feedback about this tutorial? 
+Please submit it to the [issues tracker](https://github.com/pmcharrison/psychTestR/issues),
