@@ -242,4 +242,4 @@ not just simple questionnaires.
 ## Feedback
 
 Have you got feedback about this tutorial? 
-Please submit it to the [issues tracker](https://github.com/pmcharrison/psychTestR/issues),
+Please submit it to the [issues tracker](https://github.com/pmcharrison/psychTestR/issues).
