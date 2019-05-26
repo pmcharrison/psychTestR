@@ -31,6 +31,11 @@
 #' \code{x$as.data.frame}, where \code{x} is a dictionary object,
 #' converts the dictionary back to a data frame representation.
 #'
+#' \code{x$edit(key, language, new)},
+#' edits a given entry in the dictionary for a given \code{key} and \code{language},
+#' replacing it with the value \code{new}.
+#' See the vignette "Editing dictionaries" for details.
+#'
 #' \code{x$translate(key, language, allow_missing)}
 #' uses the dictionary \code{x}
 #' to translate \code{key} into \code{language}.

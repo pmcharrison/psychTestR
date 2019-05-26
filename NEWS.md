@@ -1,3 +1,7 @@
+# psychTestR 2.6.1
+
+* Added missing documentation for `i18n_dict$edit`.
+
 # psychTestR 2.6.0
 
 * Added functionality for editing dictionaries.
