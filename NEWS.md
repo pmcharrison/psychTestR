@@ -1,3 +1,5 @@
+* Added functionality for editing dictionaries.
+
 # psychTestR 2.5.1
 
 * Fixed encoding issue in markdown (#44).

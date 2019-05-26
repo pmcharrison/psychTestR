@@ -1,0 +1,145 @@
+---
+title: "Editing dictionaries"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Editing dictionaries}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## About
+
+Imagine that you're using an open-source psychTestR test 
+that has been created by another researcher,
+and you spot a typo in one of the test items.
+If this typo is hard-coded into the test implementation,
+then you'll have to edit their code to fix it.
+However, if the typo is instead part of their internationalisation dictionary
+(see [`i18n_dict`](https://pmcharrison.github.io/psychTestR/reference/i18n_dict.html)),
+then you can fix the typo without editing their code,
+instead adding some code of your own when you call the test.
+This tutorial demonstrates this functionality.
+
+## Instructions
+
+Let's begin by making a simple test with a typo.
+
+```{r, include = FALSE, echo = FALSE}
+library(psychTestR, quietly = TRUE)
+```
+
+```{r}
+# Load the psychTestR package
+library(psychTestR)
+
+# Define a dictionary with a typo
+my_dict <- i18n_dict$new(data.frame(key = "key1",
+                                    EN = "Welcoom to the test!"))
+
+# The test itself is distributed as a function,
+# which might itself be distributed as a package
+my_test <- function(dict = my_dict) {
+  make_test(new_timeline(
+    list(final_page(i18n("key1"))),
+    dict = dict
+  ))
+}
+```
+
+If we run this test, we see the typo.
+
+``` r
+my_test()
+```
+
+To fix this problem, we begin by inspecting the dictionary object
+to find out which component we need to change.
+In real-life applications, 
+this dictionary object should be exported from the package
+distributing your test, 
+and you should be able to find it by inspecting the documentation.
+We can inspect the dictionary using the `as.data.frame` method.
+
+```{r}
+my_dict$as.data.frame()
+```
+
+Inspecting this dictionary shows us that we want to edit the entry
+with key `key1` and language code `EN`.
+We can do this as follows:
+
+```{r}
+my_dict$edit(key = "key1",
+             language = "EN",
+             new = "Welcome to the test!")
+```
+
+Unlike most R functions, this `edit` function is *destructive*:
+it updates the original object, even without an assignment operator.
+So, if we inspect our `my_dict` object, we see that it has now changed:
+
+```{r}
+my_dict$as.data.frame()
+```
+
+## Real-life example
+
+To make this more concrete, here's a real-life example.
+Let's install the melody discrimination test of
+[Harrison & Müllensiefen (2017)](https://github.com/pmcharrison/mdt):
+
+``` r
+if (!requireNamespace("devtools")) install.packages("devtools")
+devtools::install_github("pmcharrison/mdt")
+```
+
+We can demo the test as follows:
+
+``` r
+mdt::demo_mdt()
+```
+
+Now, suppose I want to replace the word 'Next' with the word 'Proceed'.
+Inspecting the documentation, I see that the dictionary is stored 
+in the object `mdt::mdt_dict`.
+I inspect this dictionary:
+
+```r
+View(mdt::mdt_dict$as.data.frame())
+```
+
+and see, after some searching, that the key for the 'Next' button 
+is `AMDI_0016_I_0001_1`.
+
+(Note: If you get the error "attempt to apply non-function", 
+you probably have an outdated version of `psychTestR` or `mdt` - 
+reinstalling these packages should fix the problem.)
+
+I then edit the dictionary as follows:
+
+``` r
+mdt::mdt_dict$edit(key = "AMDI_0016_I_0001_1", 
+                   language = "EN",
+                   new = "Proceed")
+```
+
+I can check this worked by asking the dictionary to translate the key:
+
+``` r
+mdt::mdt_dict$translate(key = "AMDI_0016_I_0001_1", 
+                        language = "EN")
+```
+
+And now, if we run the test, we should see our changes:
+
+``` r
+mdt::demo_mdt()
+```
+
+Note that this edit only persists for the length of your R session:
+if you restart, it'll revert to the original.
+
+## Feedback
+
+Have you got feedback about this documentation? 
+Please submit it to the [issues tracker](https://github.com/pmcharrison/psychTestR/issues).
