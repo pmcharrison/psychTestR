@@ -62,6 +62,16 @@ i18n_dict <- R6::R6Class(
       }
       val
     },
+    edit = function(key, language, new) {
+      stopifnot(is.scalar.character(key),
+                is.scalar.character(language),
+                is.scalar.character(new))
+      if (is.null(private$dict[[key]][[language]]))
+        stop("can't find any prior entries for key = '", key, "' ",
+             "with language = '", language, "'")
+      private$dict[[key]][[language]] <- new
+      invisible(self)
+    },
     print = function(...) {
       df <- self$as.data.frame()
       n <- nrow(df)
