@@ -2,6 +2,7 @@ pandoc: '2.2'
 pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
+  editing-dictionaries: editing-dictionaries.html
   hosting-experiments-online: hosting-experiments-online.html
   jspsych-integration: jspsych-integration.html
   tutorial-internationalised-questionnaire: tutorial-internationalised-questionnaire.html
