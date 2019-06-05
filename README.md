@@ -56,7 +56,6 @@ especially because feedback at this stage can easily be fed into the development
 You can cite psychTestR as follows:
 
 > Harrison, Peter M. C. (2019). 
-pmcharrison/psychTestR: 
 psychTestR v2.6.1. Zenodo. http://doi.org/10.5281/zenodo.1415355
 
 where you should replace the version number with the 
