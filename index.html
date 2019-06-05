@@ -142,11 +142,17 @@
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
-<p>You can cite psychTestR with the permanent DOI link <a href="https://doi.org/10.5281/zenodo.1415355" class="uri">https://doi.org/10.5281/zenodo.1415355</a>. We also advise mentioning the particular version you used, which you can find from R as follows:</p>
+<p>You can cite psychTestR as follows:</p>
+<blockquote>
+<p>Harrison, Peter M. C. (2019). pmcharrison/psychTestR: psychTestR v2.6.1. Zenodo. <a href="http://doi.org/10.5281/zenodo.1415355" class="uri">http://doi.org/10.5281/zenodo.1415355</a></p>
+</blockquote>
+<p>where you should replace the version number with the version number that you used, which you can find from R as follows:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(psychTestR)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">x &lt;-<span class="st"> </span>devtools<span class="op">::</span><span class="kw">session_info</span>()</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">x<span class="op">$</span>packages[x<span class="op">$</span>packages<span class="op">$</span>package <span class="op">==</span><span class="st"> "psychTestR"</span>, ]</a></code></pre></div>
+<p>Ideally you should also update the year to match the release date of the psychTestR version that you used, which you can find at the Zenodo link.</p>
+<p>Note that the DOI link provided above is constant between versions, but you can find version-specific DOI links on Zenodo.</p>
 </div>
 <div id="local-installation" class="section level2">
 <h2 class="hasAnchor">
