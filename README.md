@@ -53,9 +53,14 @@ especially because feedback at this stage can easily be fed into the development
 
 ## Citation
 
-You can cite psychTestR with the permanent DOI link
-https://doi.org/10.5281/zenodo.1415355.
-We also advise mentioning the particular version you used,
+You can cite psychTestR as follows:
+
+> Harrison, Peter M. C. (2019). 
+pmcharrison/psychTestR: 
+psychTestR v2.6.1. Zenodo. http://doi.org/10.5281/zenodo.1415355
+
+where you should replace the version number with the 
+version number that you used, 
 which you can find from R as follows:
 
 ``` r
@@ -64,6 +69,13 @@ if (!require(devtools)) install.packages("devtools")
 x <- devtools::session_info()
 x$packages[x$packages$package == "psychTestR", ]
 ```
+
+Ideally you should also update the year to match the release date
+of the psychTestR version that you used,
+which you can find at the Zenodo link.
+
+Note that the DOI link provided above is constant between versions,
+but you can find version-specific DOI links on Zenodo.
 
 ## Local installation
 
