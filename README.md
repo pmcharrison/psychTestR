@@ -33,9 +33,11 @@ Key benefits of psychTestR include:
 [paper](https://doi.org/10.1038/s41598-017-03586-z)
 - Mistuning Perception Test (MPT):
 [demo](http://shiny.pmcharrison.com/mpt-demo),
-[source](https://github.com/pmcharrison/mpt)
+[source](https://github.com/pmcharrison/mpt),
+[paper](https://doi.org/10.3758/s13428-019-01225-1)
 - Pitch imagery arrow task (PIAT):
-[demo](http://shiny.pmcharrison.com/piat-demo)
+[demo](http://shiny.pmcharrison.com/piat-demo),
+[source](https://github.com/pmcharrison/piat)
 
 ## Status
 
