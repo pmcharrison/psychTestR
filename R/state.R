@@ -297,48 +297,62 @@ get_results <- function(state, complete, add_session_info = FALSE) {
   results
 }
 
-#' Get global variable
+#' Global and local variables
 #'
-#' Gets a global variable from the participant's testing session.
+#' Global and local variables are useful when you want to compute
+#' some variable from the participant's responses and store
+#' this variable for later use.
+#'
+#' You can set global or local variables within expressions that are
+#' run during the participant's testing session,
+#' for example in code blocks (\code{\link{code_block}}),
+#' or during \code{on_complete} functions (see \code{\link{page}}).
+#' The variable will be preserved for the duration of the participant's
+#' testing session until it is overwritten.
+#'
+#' For tests without modules,
+#' global and local variables behave the same.
+#' The difference between local and global variables is that
+#' local variables are encapsulated within a given module (\code{\link{begin_module}}),
+#' and are wiped at the end of the module (\code{\link{end_module}}).
+#'
+#' Use \code{get_global} and \code{get_local} to get variables.
+#' Use \code{set_global} and \code{set_local} to set them.
+#'
+#' \code{assert_global_is_null} throws an error if the specified global variable
+#' is not \code{NULL}. This is useful to catch cases where the code
+#' would otherwise overwrite a pre-existing variable.
+#'
 #' @param key The variable's key (character scalar).
 #' @param state The participant's \code{state} object.
-#' @return The global variable with key equal to \code{key}.
+#'
+#' @return \code{get_global} and \code{get_local} return the respective
+#' variables with key equal to \code{key}, or \code{NULL} if the
+#' variable has yet to be defined.
+#'
+#' @md
+#' @rdname global_local
 #' @export
 get_global <- function(key, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
   state$passive$globals[[key]]
 }
 
-#' Set global variable
-#'
-#' Sets a global variable for the participant's testing session.
-#' @param key The variable's key (character scalar).
-#' @param value The value to set the variable to.
-#' @param state The participant's \code{state} object.
 #' @export
+#' @rdname global_local
 set_global <- function(key, value, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
   state$passive$globals[[key]] <- value
 }
 
-#' Get local variable
-#'
-#' Gets a local variable from the participant's testing session.
-#' @param key The variable's key (character scalar).
-#' @param state The participant's \code{state} object.
-#' @return The local variable with key equal to \code{key}.
+#' @rdname global_local
 #' @export
 get_local <- function(key, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
   state$passive$locals[[key]]
 }
 
-#' Set local variable
-#'
-#' Sets a local variable for the participant's testing session.
-#' @param key The variable's key (character scalar).
-#' @param value The value to set the variable to.
-#' @param state The participant's \code{state} object.
+#' @rdname global_local
 #' @export
 set_local <- function(key, value, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))

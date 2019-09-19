@@ -46,11 +46,7 @@ display_error <- function(...) {
   stop(msg)
 }
 
-#' Assert that a global variable is NULL
-#'
-#' Throws an error if a certain global variable is not \code{NULL}.
-#' @param key Key of the global variable that should be \code{NULL}.
-#' @param state The participant's \code{state} object.
+#' @rdname global_local
 #' @export
 assert_global_is_null <- function(key, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))

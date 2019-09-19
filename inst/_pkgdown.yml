@@ -28,17 +28,23 @@ reference:
   - '`reactive_page`'
   - '`page`'
 - title: Control logic
-  desc: By default, psychTestR steps through the list of test elements one by one. These control logic functions provide more complex behaviour.
+  desc: >
+      By default, psychTestR steps through the list of test elements one by one.
+      These control logic functions provide more complex behaviour.
   contents:
   - '`loop_while`'
   - '`skip_n_pages`'
 - title: Answers
-  desc: "At a given point in the test, the `answer` variable corresponds to the participant's most recent response."
+  desc: >
+      At a given point in the test, the `answer` variable corresponds
+      to the participant's most recent response.
   contents:
   - '`answer<-`'
   - '`answer`'
 - title: Results
-  desc: "During a psychTestR session, a `results` variable accumulates, incrementally storing the participant's results during the test."
+  desc: >
+      During a psychTestR session, a `results` variable accumulates,
+      incrementally storing the participant's results during the test.
   contents:
   - '`elt_save_results_to_disk`'
   - '`get_results`'
@@ -47,7 +53,10 @@ reference:
   - '`save_result`'
   - '`save_results_to_disk`'
 - title: Pre-made pages
-  desc: These functions define several pre-made page types that may be useful in test development, either for direct use, or for reference when constructing a new page type.
+  desc: >
+      These functions define several pre-made page types that may be useful
+      in test development, either for direct use, or for reference
+      when constructing a new page type.
   contents:
   - '`audio_NAFC_page`'
   - '`basic_demographics_default_intro`'
@@ -67,7 +76,9 @@ reference:
   - '`make_ui_NAFC`'
   - '`trigger_button`'
 - title: Global and local variables
-  desc: These functions support the creation and manipulation of global and local variables specific to a participant's testing session.
+  desc: >
+      These functions support the creation and manipulation of global
+      and local variables specific to a participant's testing session.
   contents:
   - '`assert_global_is_null`'
   - '`get_global`'
@@ -86,7 +97,9 @@ reference:
   - '`i18n`'
   - '`i18n_dict`'
 - title: Test opening/closing
-  desc: These functions are used for closing and opening tests, for example, when a participant quota has been reached.
+  desc: >
+      These functions are used for closing and opening tests, for example,
+      when a participant quota has been reached.
   contents:
   - '`close_test`'
   - '`open_test`'
