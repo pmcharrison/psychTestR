@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Framework for delivering psychological tests via Shiny • psychTestR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Framework for delivering psychological tests via Shiny">
 <meta property="og:description" content="Framework for delivering psychological tests via Shiny.">
 <meta name="twitter:card" content="summary">
@@ -38,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -76,7 +77,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/pmcharrison/psychTestR">
-    <span class="fa fa-github fa-lg"></span>
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -89,6 +90,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="contents col-md-9">
 <div id="psychtestr" class="section level1">
@@ -147,8 +149,8 @@
 <p>Harrison, Peter M. C. (2019). psychTestR v2.6.1. Zenodo. <a href="http://doi.org/10.5281/zenodo.1415355" class="uri">http://doi.org/10.5281/zenodo.1415355</a></p>
 </blockquote>
 <p>where you should replace the version number with the version number that you used, which you can find from R as follows:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(psychTestR)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">require</a></span>(devtools)) <span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(psychTestR)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="cf">if</span> (<span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span>(devtools)) <span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">x &lt;-<span class="st"> </span>devtools<span class="op">::</span><span class="kw">session_info</span>()</a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">x<span class="op">$</span>packages[x<span class="op">$</span>packages<span class="op">$</span>package <span class="op">==</span><span class="st"> "psychTestR"</span>, ]</a></code></pre></div>
 <p>Ideally you should also update the year to match the release date of the psychTestR version that you used, which you can find at the Zenodo link.</p>
@@ -160,15 +162,15 @@
 <p>If you don’t have R installed, <a href="https://cloud.r-project.org/">download</a> and install it first.</p>
 <p>We recommend also installing <a href="https://www.rstudio.com/">RStudio</a>, a popular integrated development environment for R.</p>
 <p>Then open R and install psychTestR:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/install.packages">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"devtools"</span>)</a>
 <a class="sourceLine" id="cb2-2" data-line-number="2">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">"pmcharrison/psychTestR"</span>)</a></code></pre></div>
 </div>
 <div id="local-demo" class="section level2">
 <h2 class="hasAnchor">
 <a href="#local-demo" class="anchor"></a>Local demo</h2>
 <p>Once psychTestR is installed on your local computer, open RStudio and enter the following to run an example psychTestR test:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(psychTestR)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/make_test.html">make_test</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(psychTestR)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw"><a href="reference/make_test.html">make_test</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
 <a class="sourceLine" id="cb3-3" data-line-number="3">  <span class="kw"><a href="reference/text_input_page.html">text_input_page</a></span>(</a>
 <a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="dt">label =</span> <span class="st">"name"</span>, </a>
 <a class="sourceLine" id="cb3-5" data-line-number="5">    <span class="dt">prompt =</span> <span class="st">"What's your name?"</span>, </a>
@@ -178,17 +180,17 @@
 <a class="sourceLine" id="cb3-9" data-line-number="9">      <span class="cf">else</span> <span class="ot">TRUE</span></a>
 <a class="sourceLine" id="cb3-10" data-line-number="10">    },</a>
 <a class="sourceLine" id="cb3-11" data-line-number="11">    <span class="dt">on_complete =</span> <span class="cf">function</span>(answer, state, ...) {</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">      <span class="kw"><a href="reference/set_global.html">set_global</a></span>(<span class="dt">key =</span> <span class="st">"name"</span>, <span class="dt">value =</span> answer,</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">      <span class="kw"><a href="reference/global_local.html">set_global</a></span>(<span class="dt">key =</span> <span class="st">"name"</span>, <span class="dt">value =</span> answer,</a>
 <a class="sourceLine" id="cb3-13" data-line-number="13">                 <span class="dt">state =</span> state)</a>
 <a class="sourceLine" id="cb3-14" data-line-number="14">    }),</a>
 <a class="sourceLine" id="cb3-15" data-line-number="15">  <span class="kw"><a href="reference/NAFC_page.html">NAFC_page</a></span>(</a>
 <a class="sourceLine" id="cb3-16" data-line-number="16">    <span class="dt">label =</span> <span class="st">"colour"</span>,</a>
 <a class="sourceLine" id="cb3-17" data-line-number="17">    <span class="dt">prompt =</span> <span class="st">"What's your favourite colour?"</span>,</a>
-<a class="sourceLine" id="cb3-18" data-line-number="18">    <span class="dt">choices =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>)),</a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">    <span class="dt">choices =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>)),</a>
 <a class="sourceLine" id="cb3-19" data-line-number="19">  <span class="kw"><a href="reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>),</a>
 <a class="sourceLine" id="cb3-20" data-line-number="20">  <span class="kw"><a href="reference/reactive_page.html">reactive_page</a></span>(<span class="cf">function</span>(state, ...) {</a>
-<a class="sourceLine" id="cb3-21" data-line-number="21">    <span class="kw"><a href="reference/final_page.html">final_page</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/paste">paste0</a></span>(<span class="st">"Thank you for participating, "</span>, </a>
-<a class="sourceLine" id="cb3-22" data-line-number="22">                      <span class="kw"><a href="reference/get_global.html">get_global</a></span>(<span class="st">"name"</span>, state),</a>
+<a class="sourceLine" id="cb3-21" data-line-number="21">    <span class="kw"><a href="reference/final_page.html">final_page</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"Thank you for participating, "</span>, </a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">                      <span class="kw"><a href="reference/global_local.html">get_global</a></span>(<span class="st">"name"</span>, state),</a>
 <a class="sourceLine" id="cb3-23" data-line-number="23">                      <span class="st">"."</span>))</a>
 <a class="sourceLine" id="cb3-24" data-line-number="24">  })))</a></code></pre></div>
 <p>Once you’ve recorded some data, try logging into the admin panel with the password ‘demo’ (as specified under the <code>opt</code> argument to <code><a href="reference/make_test.html">make_test()</a></code>). Here you can download your response data.</p>
@@ -241,17 +243,20 @@
 </div>
 </div>
 
+
       <footer><div class="copyright">
   <p>Developed by Peter M. C. Harrison.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

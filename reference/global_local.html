@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Skip pages — skip_n_pages • psychTestR</title>
+<title>Global and local variables — get_global • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,9 +35,10 @@
 
 
 
-<meta property="og:title" content="Skip pages — skip_n_pages" />
-<meta property="og:description" content="Skips a certain number of pages, typically in response to a
-participant action." />
+<meta property="og:title" content="Global and local variables — get_global" />
+<meta property="og:description" content="Global and local variables are useful when you want to compute
+some variable from the participant's responses and store
+this variable for later use." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -133,37 +134,75 @@ participant action." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Skip pages</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/server.R'><code>R/server.R</code></a></small>
-    <div class="hidden name"><code>skip_n_pages.Rd</code></div>
+    <h1>Global and local variables</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/state.R'><code>R/state.R</code></a>, <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>global_local.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Skips a certain number of pages, typically in response to a
-participant action.</p>
+    <p>Global and local variables are useful when you want to compute
+some variable from the participant's responses and store
+this variable for later use.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>skip_n_pages</span>(<span class='no'>state</span>, <span class='no'>n</span>)</pre>
+    <pre class="usage"><span class='fu'>get_global</span>(<span class='no'>key</span>, <span class='no'>state</span>)
+
+<span class='fu'>set_global</span>(<span class='no'>key</span>, <span class='no'>value</span>, <span class='no'>state</span>)
+
+<span class='fu'>get_local</span>(<span class='no'>key</span>, <span class='no'>state</span>)
+
+<span class='fu'>set_local</span>(<span class='no'>key</span>, <span class='no'>value</span>, <span class='no'>state</span>)
+
+<span class='fu'>assert_global_is_null</span>(<span class='no'>key</span>, <span class='no'>state</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>state</th>
-      <td><p>Participant's state object.</p></td>
+      <th>key</th>
+      <td><p>The variable's key (character scalar).</p></td>
     </tr>
     <tr>
-      <th>n</th>
-      <td><p>Number of pages to skip (negative numbers skip backwards).</p></td>
+      <th>state</th>
+      <td><p>The participant's <code>state</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>value</th>
+      <td><p>Value to set the variable to.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>get_global</code> and <code>get_local</code> return the respective
+variables with key equal to <code>key</code>, or <code>NULL</code> if the
+variable has yet to be defined.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>You can set global or local variables within expressions that are
+run during the participant's testing session,
+for example in code blocks (<code><a href='code_block.html'>code_block</a></code>),
+or during <code>on_complete</code> functions (see <code><a href='page.html'>page</a></code>).
+The variable will be preserved for the duration of the participant's
+testing session until it is overwritten.</p>
+<p>For tests without modules,
+global and local variables behave the same.
+The difference between local and global variables is that
+local variables are encapsulated within a given module (<code><a href='begin_module.html'>begin_module</a></code>),
+and are wiped at the end of the module (<code><a href='end_module.html'>end_module</a></code>).</p>
+<p>Use <code>get_global</code> and <code>get_local</code> to get variables.
+Use <code>set_global</code> and <code>set_local</code> to set them.</p>
+<p><code>assert_global_is_null</code> throws an error if the specified global variable
+is not <code>NULL</code>. This is useful to catch cases where the code
+would otherwise overwrite a pre-existing variable.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
     </ul>
 
   </div>
