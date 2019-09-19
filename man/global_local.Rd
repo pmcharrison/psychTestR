@@ -22,6 +22,8 @@ assert_global_is_null(key, state)
 \item{key}{The variable's key (character scalar).}
 
 \item{state}{The participant's \code{state} object.}
+
+\item{value}{Value to set the variable to.}
 }
 \value{
 \code{get_global} and \code{get_local} return the respective

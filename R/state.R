@@ -324,6 +324,7 @@ get_results <- function(state, complete, add_session_info = FALSE) {
 #' would otherwise overwrite a pre-existing variable.
 #'
 #' @param key The variable's key (character scalar).
+#' @param value Value to set the variable to.
 #' @param state The participant's \code{state} object.
 #'
 #' @return \code{get_global} and \code{get_local} return the respective
