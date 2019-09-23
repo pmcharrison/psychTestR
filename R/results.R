@@ -26,12 +26,21 @@ as.list.results <- function(x, ...) {
 }
 
 #' @export
-as.data.frame.results <- function(x, ...) {
+as_tibble.results <- function(x, ...) {
   y <- unlist(as.list(x), recursive = FALSE)
-  df <- as.data.frame(y, check.names = FALSE, ...)
+  y <- purrr::map(y,
+                  ~ if (is.atomic(.) && length(.) > 1 && !is.null(names(.)))
+                    as.list(.) else .)
+  y <- purrr::map(y, ~ if (is.null(names(.)) && length(.) > 1) list(.) else .)
+  df <- tibble::as_tibble(y, .name_repair = "minimal")
+  stopifnot(nrow(df) == 1)
   session_info_cols <- grepl("^session\\.", names(df))
-  cbind(df[, session_info_cols],
-        df[, !session_info_cols])
+  df[, c(which(session_info_cols), which(!session_info_cols))]
+}
+
+#' @export
+as.data.frame.results <- function(x, ...) {
+  as.data.frame(tibble::as_tibble(x))
 }
 
 # sections <- as.list(x)

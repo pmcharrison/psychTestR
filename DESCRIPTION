@@ -28,7 +28,8 @@ Imports:
     rstudioapi (>= 0.7),
     checkmate (>= 1.8.5),
     purrr,
-    codetools
+    codetools,
+    tibble
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.0.0),

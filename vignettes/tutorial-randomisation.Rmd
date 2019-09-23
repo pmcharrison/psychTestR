@@ -1,0 +1,176 @@
+---
+title: "Tutorial: Randomising item administration"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial: Randomising item administration}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Overview
+
+This tutorial addresses the common task of randomising the order 
+in which items are administered to participants.
+Such techniques can be useful for avoiding order effects.
+
+In the simplest randomisation scheme, 
+every participant receives the same set of items,
+and the order of these items is randomly permuted for each participant.
+However, many experiments require more sophisticated randomisation schemes,
+for example:
+
+- Choosing only short questions if the participant says
+they have a train to catch;
+- Using the participant's initials as the seed for the randomisation 
+algorithm;
+- Ensuring that each item is administered the same number of times
+across participants.
+
+psychTestR does not limit the researcher to specific randomisation schemes, 
+but instead encourages arbitrary randomisation schemes to be defined
+through R code, as described below.
+
+## Tutorial
+
+Suppose we wish to administer the three survey items,
+each with a yes or no response:
+
+1. Are you afraid of dogs?
+2. Are you afraid of birds?
+3. Are you afraid of heights?
+
+We can code these three items as a *tibble*:^[
+A *tibble* is a nicely formatted version of a data frame, 
+provide by the *tibble* package and exported by the *tidyverse* package.
+]
+
+```{r, message = FALSE, warning = FALSE}
+library(psychTestR)
+library(tibble)
+
+items <- tribble(
+  ~ id,       ~ prompt,
+  "dogs",    "Are you afraid of dogs?",
+  "birds",   "Are you afraid of birds?",
+  "heights", "Are you afraid of heights?"
+)
+items
+```
+
+There are three items in total, corresponding to the three rows of `items`.
+We want each participant to receive these three items in a random order,
+with this random order freshly determined for each participant.
+
+To achieve this, we define a *code block*, which will be run once for each participant,
+to determine the participant's randomisation order.
+
+```{r}
+num_items <- nrow(items)
+
+init_randomiser <- code_block(function(state, ...) {
+  item_order <- sample(x = num_items, 
+                       size = num_items,
+                       replace = FALSE)
+  save_result(place = state, 
+              label = "item_order", 
+              value = item_order)
+  set_local(key = "item_order",
+            value = item_order,
+            state = state)
+})
+```
+
+A code block is a piece of R code that runs during the participant's testing session.
+This particular code block comprises three functions:
+`sample`, `save_result`, and `set_local`.
+
+1. The `sample` function generates a random item order.
+Here it samples from the integers from 1 to `num_items`,
+taking `num_items` such samples without replacement.
+This corresponds to a random permutation of the integers from 1 to `num_items`.
+2. The `save_result` function saves the resulting randomisation order
+to the participant's results list.
+3. The `set_local` function stores the item order as a local variable
+so that it can easily be accessed in later parts of the testing session.
+
+Next we write a function that programmatically generates test pages.
+This function takes two inputs: `id` and `prompt`,
+corresponding to the two columns of `items`.
+
+```{r}
+item <- function(id, prompt) {
+  NAFC_page(
+    label = id,
+    prompt = prompt, 
+    choices = c("Yes", "No"),
+    on_complete = function(state, ...) {
+      set_local("item_pos", 
+                1L + get_local("item_pos", state),
+                state)
+    })
+}
+```
+
+The code above describes a simple two-alternative forced choice page,
+where the participant has to respond 'Yes' or 'No'.
+Once the page has finished, the `on_complete` function increments
+the local variable `item_pos` by 1. 
+This variable, `item_pos`, will track how far the participant is through
+the test.
+
+Now we write the code for showing the items to the participant.
+This code comprises two sections: an initial code block,
+followed by a while loop.
+The starting code block initialises the local variable `item_pos` to 1,
+signifying the fact that the participant is about to take the first test item.
+
+The while loop, meanwhile, is defined with two arguments: 
+`test` and `logic`.
+
+- The `test` argument describes a function that is evaluated to determine
+whether to administer the test elements described in `logic`.
+Here the `test` function checks whether the `item_pos` local variable
+is less than or equal to the total number of items in the test;
+if so, then another item should be administered.
+- The `logic` argument takes the form of a *reactive page*.
+A reactive page is a page whose content depends on variables generated
+during the participant's testing session, in this case 
+`item_pos` and `item_order`.
+The reactive page defined here refers to these local variables,
+looks up the appropriate item in `items`, 
+and then generates the required page with the `item` function.
+
+```{r}
+show_items <- c(
+  code_block(function(state, ...) set_local("item_pos", 1L, state)),
+  while_loop(
+    test = function(state, ...) get_local("item_pos", state) <= num_items,
+    logic = reactive_page(function(state, ...) {
+      item_pos <- get_local("item_pos", state)
+      item_id <- get_local("item_order", state)[item_pos]
+      item(id = items$id[item_id], prompt = items$prompt[item_id])
+    }))
+)
+```
+
+Finally, we can put together the whole test by combining three elements:
+
+1. The logic for item randomisation (`init_randomiser`);
+2. The logic for showing items (`show_items`);
+3. A prebuilt test element that saves the results to disk (`elt_save_results_to_disk`);
+4. A final page to terminate the test (`final_page`). 
+
+``` r
+make_test(c(
+  init_randomiser,
+  show_items,
+  elt_save_results_to_disk(complete = TRUE),
+  final_page("You completed the test.")
+))
+```
+
+This code should launch the test, complete with randomisation.^[
+In RStudio, this means running the code with the 'Run' button,
+not the 'Source' button. You can use 'Source' but then you have to wrap
+the code in `shiny::runApp`.]
+Results will be saved in the `output/results` directory.
