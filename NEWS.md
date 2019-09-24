@@ -1,3 +1,5 @@
+# psychTestR 2.7.0
+
 * Added randomisation tutorial.
 * Deprecated `loop_while`, introduced `while_loop`.
 * Added `as_tibble.results`.
