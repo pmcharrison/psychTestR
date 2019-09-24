@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Access results — results • psychTestR</title>
+<title>Loop — loop_while-deprecated • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,11 @@
 
 
 
-<meta property="og:title" content="Access results — results" />
-<meta property="og:description" content="Accesses the results slot in state." />
+<meta property="og:title" content="Loop — loop_while-deprecated" />
+<meta property="og:description" content="Repeatedly show a series of test elements to the participant
+while a condition is satisfied.
+The elements are shown at least once; at the end of each pass,
+the test function is checked." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,32 +138,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Access results</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/results.R'><code>R/results.R</code></a></small>
-    <div class="hidden name"><code>results.Rd</code></div>
+    <h1>Loop</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
+    <div class="hidden name"><code>loop_while-deprecated.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Accesses the <code>results</code> slot in <code>state</code>.</p>
+    <p>Repeatedly show a series of test elements to the participant
+while a condition is satisfied.
+The elements are shown at least once; at the end of each pass,
+the test function is checked.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>results</span>(<span class='no'>state</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>state</th>
-      <td><p>The participant's <code>state</code> object.</p></td>
+      <th>test</th>
+      <td><p>Test function to execute.
+Argument list should include <code>...</code>;
+further permitted arguments are:</p><ul>
+<li><p><code>state</code>, the participant's <code>state</code> object;</p></li>
+<li><p><code>input</code>, the Shiny <code>input</code> object for the current page;</p></li>
+<li><p><code>output</code>, the Shiny <code>output</code> object for the current page;</p></li>
+<li><p><code>session</code>, the Shiny <code>session</code> object;</p></li>
+<li><p><code>opt</code>, test options as created by <code><a href='test_options.html'>test_options()</a></code>.</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>logic</th>
+      <td><p>List of psychTestR test elements.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='psychTestR-deprecated.html'>psychTestR-deprecated</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>

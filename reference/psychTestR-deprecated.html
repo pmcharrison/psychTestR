@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Access results — results • psychTestR</title>
+<title>Deprecated functions in package <span class="pkg">psychTestR</span>. — psychTestR-deprecated • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,11 @@
 
 
 
-<meta property="og:title" content="Access results — results" />
-<meta property="og:description" content="Accesses the results slot in state." />
+<meta property="og:title" content="Deprecated functions in package <span class="pkg">psychTestR</span>. — psychTestR-deprecated" />
+<meta property="og:description" content="The functions listed below are deprecated and will be defunct in
+  the near future. When possible, alternative functions with similar
+  functionality are also mentioned. Help pages for deprecated functions are
+  available at help(&quot;-deprecated&quot;)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,32 +138,33 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Access results</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/results.R'><code>R/results.R</code></a></small>
-    <div class="hidden name"><code>results.Rd</code></div>
+    <h1>Deprecated functions in package <span class="pkg">psychTestR</span>.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/psychTestR-deprecated.R'><code>R/psychTestR-deprecated.R</code></a>, <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
+    <div class="hidden name"><code>psychTestR-deprecated.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Accesses the <code>results</code> slot in <code>state</code>.</p>
+    <p>The functions listed below are deprecated and will be defunct in
+  the near future. When possible, alternative functions with similar
+  functionality are also mentioned. Help pages for deprecated functions are
+  available at <code><a href='https://rdrr.io/r/utils/help.html'>help("-deprecated")</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>results</span>(<span class='no'>state</span>)</pre>
+    <pre class="usage"><span class='fu'>loop_while</span>(<span class='no'>test</span>, <span class='no'>logic</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>state</th>
-      <td><p>The participant's <code>state</code> object.</p></td>
-    </tr>
-    </table>
 
+    <h2 class="hasAnchor" id="loop-while"><a class="anchor" href="#loop-while"></a><code>loop_while</code></h2>
+
+    
+
+<p>We recommend that new projects use <code><a href='while_loop.html'>while_loop</a></code>,
+which better resembles while loops in traditional programming languages.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#loop-while"><code>loop_while</code></a></li>
     </ul>
 
   </div>

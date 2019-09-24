@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.7.0</span>
       </span>
     </div>
 
@@ -102,6 +102,9 @@
       <a href="../articles/tutorial-internationalised-questionnaire.html">Tutorial: Creating an internationalised questionnaire</a>
     </li>
     <li>
+      <a href="../articles/tutorial-randomisation.html">Tutorial: Randomising item administration</a>
+    </li>
+    <li>
       <a href="../articles/url-parameters.html">URL parameters</a>
     </li>
   </ul>
@@ -134,6 +137,16 @@
       <small>Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="psychtestr-2-7-0" class="section level1">
+<h1 class="page-header">
+<a href="#psychtestr-2-7-0" class="anchor"></a>psychTestR 2.7.0</h1>
+<ul>
+<li>Added randomisation tutorial.</li>
+<li>Deprecated <code>loop_while</code>, introduced <code>while_loop</code>.</li>
+<li>Added <code>as_tibble.results</code>.</li>
+<li>Improved the flexibility of <code>as.data.frame.results</code>, it can now deal with atomic vectors of length &gt; 1 in results slots.</li>
+</ul>
+</div>
     <div id="psychtestr-2-6-1" class="section level1">
 <h1 class="page-header">
 <a href="#psychtestr-2-6-1" class="anchor"></a>psychTestR 2.6.1</h1>
@@ -258,7 +271,7 @@
 <ul>
 <li>Internationalisation is now supported, allowing researchers to create tests that can be taken in multiple languages (see the function <code><a href="../reference/i18n.html">i18n()</a></code>). This functionality is still in alpha, as there are some loose ends to be tightened up (in particular, certain error messages appearing in English).</li>
 <li>
-<code><a href="../reference/loop_while.html">loop_while()</a></code> now loops while the test condition is satisfied, and stops when it is not satisfied (rather than vice versa).</li>
+<code><a href="../reference/psychTestR-deprecated.html">loop_while()</a></code> now loops while the test condition is satisfied, and stops when it is not satisfied (rather than vice versa).</li>
 <li>Added keyboard shortcuts for inserting <code><a href="../reference/i18n.html">i18n()</a></code>, <code><a href="../reference/i18n.html">psychTestR::i18n()</a></code>, and <code>psychTestR::</code>.</li>
 <li>Changed default theme to ‘yeti’ (previous theme was ‘readable’)</li>
 </ul>
@@ -269,6 +282,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#psychtestr-2-7-0">2.7.0</a></li>
         <li><a href="#psychtestr-2-6-1">2.6.1</a></li>
         <li><a href="#psychtestr-2-6-0">2.6.0</a></li>
         <li><a href="#psychtestr-2-5-1">2.5.1</a></li>

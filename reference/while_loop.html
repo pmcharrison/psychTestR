@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Access results — results • psychTestR</title>
+<title>While loop — while_loop • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,16 @@
 
 
 
-<meta property="og:title" content="Access results — results" />
-<meta property="og:description" content="Accesses the results slot in state." />
+<meta property="og:title" content="While loop — while_loop" />
+<meta property="og:description" content="This function creates a &quot;while loop&quot; in the participant's testing
+session. This &quot;while loop&quot; corresponds to the following procedure:
+Check whether a condition (termed test) is satisfied.
+If the condition is satisfied,
+execute a series of test elements (termed logic),
+otherwise exit the while loop.
+Loop back to step 1.
+
+" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,32 +143,57 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Access results</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/results.R'><code>R/results.R</code></a></small>
-    <div class="hidden name"><code>results.Rd</code></div>
+    <h1>While loop</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
+    <div class="hidden name"><code>while_loop.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Accesses the <code>results</code> slot in <code>state</code>.</p>
+    <p>This function creates a "while loop" in the participant's testing
+session. This "while loop" corresponds to the following procedure:</p><ol>
+<li><p>Check whether a condition (termed <code>test</code>) is satisfied.</p></li>
+<li><p>If the condition is satisfied,
+execute a series of test elements (termed <code>logic</code>),
+otherwise exit the while loop.</p></li>
+<li><p>Loop back to step 1.</p></li>
+</ol>
+
     </div>
 
-    <pre class="usage"><span class='fu'>results</span>(<span class='no'>state</span>)</pre>
+    <pre class="usage"><span class='fu'>while_loop</span>(<span class='no'>test</span>, <span class='no'>logic</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>state</th>
-      <td><p>The participant's <code>state</code> object.</p></td>
+      <th>test</th>
+      <td><p>Test function to execute.
+Argument list should include <code>...</code>;
+further permitted arguments are:
+<code>state</code>, the participant's <code>state</code> object;
+<code>input</code>, the Shiny <code>input</code> object for the current page;
+<code>output</code>, the Shiny <code>output</code> object for the current page;
+<code>session</code>, the Shiny <code>session</code> object;
+<code>opt</code>, test options as created by <code><a href='test_options.html'>test_options()</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>logic</th>
+      <td><p>List of psychTestR test elements.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The previous version of this function, <code>loop_while</code>,
+always executed the series of test elements at least once,
+even if the condition was never satisfied.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#note">Note</a></li>
     </ul>
 
   </div>
