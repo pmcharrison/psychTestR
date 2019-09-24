@@ -114,7 +114,7 @@ hello_world <- page(
   ui = ui,
   label = "hello_world",
   get_answer = function(input, ...) input$jspsych_results,
-  validate = function(answer, ...) nchar(answer) 0L,
+  validate = function(answer, ...) nchar(answer) > 0L,
   save_answer = TRUE
 )
 ```
@@ -126,6 +126,8 @@ the following code to `my-test.R`:
 make_test(list(
   one_button_page("You are about to take the 'Hello world' test."),
   hello_world,
-  final_page("You finished the test.)
+  final_page("You finished the test.")
 ))
 ```
+
+TODO - add option whereby the user can change the dimensions of the viewport.
