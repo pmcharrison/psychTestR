@@ -1,3 +1,11 @@
+# psychTestR 2.7.0
+
+* Added randomisation tutorial.
+* Deprecated `loop_while`, introduced `while_loop`.
+* Added `as_tibble.results`.
+* Improved the flexibility of `as.data.frame.results`,
+it can now deal with atomic vectors of length > 1 in results slots.
+
 # psychTestR 2.6.1
 
 * Added missing documentation for `i18n_dict$edit`.

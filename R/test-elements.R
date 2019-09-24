@@ -845,17 +845,32 @@ notify_new_participant <- function(opt) {
 #' while a condition is satisfied.
 #' The elements are shown at least once; at the end of each pass,
 #' the test function is checked.
+#'
 #' @param test Test function to execute.
 #' Argument list should include \code{...};
 #' further permitted arguments are:
-#' \code{state}, the participant's \code{state} object;
-#' \code{input}, the Shiny \code{input} object for the current page;
-#' \code{output}, the Shiny \code{output} object for the current page;
-#' \code{session}, the Shiny \code{session} object;
-#' \code{opt}, test options as created by \code{test_options()}.
+#' - \code{state}, the participant's \code{state} object;
+#' - \code{input}, the Shiny \code{input} object for the current page;
+#' - \code{output}, the Shiny \code{output} object for the current page;
+#' - \code{session}, the Shiny \code{session} object;
+#' - \code{opt}, test options as created by \code{test_options()}.
+#'
 #' @param logic List of psychTestR test elements.
+#'
+#' @md
+#' @name loop_while-deprecated
+#' @seealso \code{\link{psychTestR-deprecated}}
+#' @keywords internal
+NULL
+
+#' @rdname psychTestR-deprecated
+#' @section \code{loop_while}:
+#' We recommend that new projects use \code{\link{while_loop}},
+#' which better resembles while loops in traditional programming languages.
 #' @export
 loop_while <- function(test, logic) {
+  .Deprecated(new = "while_loop",
+              package = "psychTestR")
   if (!is.function(test)) stop("<test> must be a function")
   if (!(is.list(logic) ||
         is.test_element(logic) ||
@@ -873,6 +888,62 @@ loop_while <- function(test, logic) {
     if (res) skip_n_pages(state, - (n + 1L))
   })
   c(logic, elt)
+}
+
+#' While loop
+#'
+#' This function creates a "while loop" in the participant's testing
+#' session. This "while loop" corresponds to the following procedure:
+#' 1. Check whether a condition (termed \code{test}) is satisfied.
+#' 2. If the condition is satisfied,
+#' execute a series of test elements (termed \code{logic}),
+#' otherwise exit the while loop.
+#' 3. Loop back to step 1.
+#'
+#' @note
+#' The previous version of this function, \code{loop_while},
+#' always executed the series of test elements at least once,
+#' even if the condition was never satisfied.
+#'
+#' @param test Test function to execute.
+#' Argument list should include \code{...};
+#' further permitted arguments are:
+#' \code{state}, the participant's \code{state} object;
+#' \code{input}, the Shiny \code{input} object for the current page;
+#' \code{output}, the Shiny \code{output} object for the current page;
+#' \code{session}, the Shiny \code{session} object;
+#' \code{opt}, test options as created by \code{test_options()}.
+#'
+#' @param logic List of psychTestR test elements.
+#'
+#' @md
+#' @export
+while_loop <- function(test, logic) {
+  if (!is.function(test)) stop("<test> must be a function")
+  if (!(is.list(logic) ||
+        is.test_element(logic) ||
+        is.timeline(logic))) {
+    stop("<logic> must be either a test element, a list, or a timeline")
+  }
+  if (is.test_element(logic)) logic <- list(logic)
+  if (length(logic) == 0L) stop("<logic> may not be empty")
+
+  eval_test <- function(skip_len, skip_when) {
+    code_block(function(state, elts, input, output, session, opt, ...) {
+      res <- test(state = state, input = input, output = output,
+                  session = session, opt = opt)
+      if (!is.scalar.logical(res)) stop("<test> did not return a ",
+                                        "logical scalar")
+      if ((skip_when == "pass" && res) ||
+          (skip_when == "fail" && !res)) skip_n_pages(state, skip_len)
+    })
+  }
+
+  n <- length(logic)
+
+  c(eval_test(skip_len = n + 1, skip_when = "fail"),
+    logic,
+    eval_test(skip_len = - (n + 1), skip_when = "pass"))
 }
 
 #' Begin module
