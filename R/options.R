@@ -71,6 +71,8 @@ pt_options <- function(...) {
 #' @param logo Path to a logo to display in the header (optional).
 #' @param logo_width Logo width, e.g. \code{"100px"}.
 #' @param logo_height Logo height, e.g. \code{"50px"}.
+#' @param display A list of display options as created by
+#' \code{\link{display_options}}.
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -216,6 +218,64 @@ test_options <- function(title, admin_password,
        display = display)
 }
 
+#' Display options
+#'
+#' Creates a list of display options that may be passed to
+#' \code{\link{test_options}}.
+#'
+#' @param full_screen
+#' (Logical scalar)
+#' Whether the display element for the primary test content
+#' (corresponding to the \code{ui} slot of psychTestR pages)
+#' should be expanded to fill the whole screen.
+#' This is a convenience argument that works by overriding
+#' the following arguments:
+#' - \code{content_border_width} (set to \code{"0px"})
+#' - \code{show_header} (set to \code{FALSE})
+#' - \code{show_footer} (set to \code{FALSE})
+#' - \code{left_margin} (set to \code{0L})
+#' - \code{right_margin} (set to \code{0L})
+#'
+#' @param content_background_colour
+#' (Character scalar)
+#' Background colour for the display element for the primary test content;
+#' interpreted as a CSS expression.
+#'
+#' @param content_border_width
+#' (Character scalar)
+#' Border width for the display element for the primary test content;
+#' interpreted as a CSS expression.
+#'
+#' @param show_header
+#' (Logical scalar)
+#' Whether the header should be shown (typically contains the title
+#' and optionally a logo).
+#'
+#' @param show_footer
+#' (Logical scalar)
+#' Whether the footer should be shown (typically contains a link to the
+#' admin panel).
+#'
+#' @param left_margin
+#' (Integerish scalar)
+#' Width of the left margin, with 0 corresponding to no margin
+#' and 12 corresponding to the full screen width.
+#'
+#' @param right_margin
+#' (Integerish scalar)
+#' Width of the right margin, with 0 corresponding to no margin
+#' and 12 corresponding to the full screen width.
+#'
+#' @param css
+#' Character vector of file paths to CSS files for inclusion within the
+#' psychTestR test. CSS files are used for styling HTML.
+#' These file paths should be expressed relative to R's working directory
+#'
+#' @return
+#' A list for passing to the \code{display} argument of \code{test_options}.
+#'
+#' @md
+#'
 #' @export
 display_options <- function(
   full_screen = FALSE,

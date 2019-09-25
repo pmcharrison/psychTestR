@@ -12,3 +12,5 @@ psychTestR.pdf
 ^psychTestR\.pdf$
 ^vignettes/output$
 ^docs$
+^tmp$
+^test$

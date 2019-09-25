@@ -102,6 +102,9 @@ check for expired participant sessions (minutes).}
 \item{logo_width}{Logo width, e.g. \code{"100px"}.}
 
 \item{logo_height}{Logo height, e.g. \code{"50px"}.}
+
+\item{display}{A list of display options as created by
+\code{\link{display_options}}.}
 }
 \description{
 Defines the options for running a given test.
