@@ -129,3 +129,63 @@ you may consider wrapping it as a function and
 submitting it as a pull request to the 
 [psychTestR repository](https://github.com/pmcharrison/psychTestR),
 so that it can be incorporated into the psychTestR codebase.
+
+## Timelines
+
+A psychTestR test comprises a sequence of test elements,
+termed a *timeline*.
+There are three main types of test elements:
+
+- Pages;
+- Reactive pages;
+- Code blocks.
+
+We will get to reactive pages and code blocks in due course.
+First, we'll construct a timeline comprising solely pages.
+A timeline may be constructed using the `list` function from base R:
+
+```r
+library(psychTestR)
+timeline <- list(
+  one_button_page("Page 1"),
+  one_button_page("Page 2"),
+  final_page("The end")
+)
+```
+
+Note that we concluded the timeline with the `final_page` function.
+A *final page* is like a *one-button page*, but without a 
+button to advance to the next page. 
+
+```r
+final_page("The end")
+```
+
+```{r}
+knitr::include_graphics("img/introduction/final-page.png")
+```
+
+We can run the resulting test as follows:
+
+```r
+library(psychTestR)
+timeline <- list(
+  one_button_page("Page 1"),
+  one_button_page("Page 2"),
+  final_page("The end")
+)
+test <- make_test(elts = timeline)
+shiny::runApp(test)
+```
+
+The resulting test should display in your RStudio Viewer window, 
+or in your web browser, depending on your RStudio configuration.
+
+```{r}
+knitr::include_graphics("img/introduction/simple-test.png")
+```
+
+This test doesn't collect any data. 
+Let's define another test that does collect data:
+
+
