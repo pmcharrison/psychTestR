@@ -30,6 +30,17 @@ tagify <- function(x) {
   } else x
 }
 
+#' Is NULL or...?
+#'
+#' Returns \code{TRUE} if \code{x} is either \code{NULL} or \code{f(x)}
+#' is \code{TRUE}.
+#'
+#' @param x Object to check.
+#'
+#' @param f Function to apply.
+#'
+#' @keywords internal
+#' @export
 is.null.or <- function(x, f) {
   is.null(x) || f(x)
 }

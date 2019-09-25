@@ -18,3 +18,5 @@ scratch.R
 psychTestR.pdf
 docs
 vignettes/output
+tmp
+test

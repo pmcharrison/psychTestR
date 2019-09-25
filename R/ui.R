@@ -1,41 +1,60 @@
 ui <- function(opt) {
-  title_content <- shiny::wellPanel(
-    style = "padding: 3px; padding-left: 10px; padding-right: 10px; background-color: white;",
-    shiny::div(
-      style = "display: flex; justify-content: space-between; align-items: center;",
-      shiny::uiOutput("title"),
-      if (!is.null(opt$logo)) {
-        shiny::img(
-          src = opt$logo,
-          style = sprintf("width: %s; height: %s;",
-                          width = opt$logo_width,
-                          height = opt$logo_height))
-      } else " "
+  header <- if (opt$display$show_header) {
+    shiny::fluidRow(shiny::column(12, shiny::wellPanel(
+      style = paste("padding: 3px; padding-left: 10px; padding-right: 10px;",
+                    "background-color: white;"),
+      shiny::div(
+        style = paste("display: flex; justify-content: space-between;",
+                      "align-items: center;"),
+        shiny::uiOutput("title"),
+        if (!is.null(opt$logo)) {
+          shiny::img(
+            src = opt$logo,
+            style = sprintf("width: %s; height: %s;",
+                            width = opt$logo_width,
+                            height = opt$logo_height))
+        } else " "
       )
-    )
-  main_content <- shiny::wellPanel(align = "center",
-                                   style = "background-color: white",
-                                   shiny::uiOutput("ui"))
+    )))
+  }
+
+  content <- shiny::fluidRow(
+    id = "content",
+    if (opt$display$left_margin > 0) shiny::column(opt$display$left_margin),
+    shiny::column(
+      12L - opt$display$left_margin - opt$display$right_margin,
+      style = "padding-left: 0px; padding-right: 0px;",
+      shiny::wellPanel(
+        align = "center",
+        style = paste0(
+          "background-color: ", opt$display$content_background_colour, "; ",
+          "margin: 0px; ",
+          "border: ", opt$display$content_border
+        ),
+        shiny::uiOutput("ui")
+      )),
+    if (opt$display$right_margin > 0) shiny::column(opt$display$right_margin)
+  )
+
+  footer <- if (opt$display$show_footer) {
+    shiny::fluidRow(shiny::column(
+      12,
+      shiny::tags$div(
+        style = "padding: 10px",
+        align = "center",
+        shiny::p(shiny::textOutput("problems_info")),
+        shiny::uiOutput("admin_panel.ui"),
+        admin_panel.modals
+      )))
+  }
 
   shiny::fluidPage(
     theme = opt$theme,
+    lapply(opt$display$css, shiny::includeCSS),
     shinyjs::useShinyjs(),
-    shiny::fluidRow(shiny::column(12, title_content)),
-    shiny::fluidRow(
-      id = "content",
-      shiny::column(2),
-      shiny::column(8, main_content),
-      shiny::column(2)
-    ),
-    shiny::fluidRow(
-      shiny::column(12,
-                    shiny::tags$div(
-                      style = "padding: 10px",
-                      align = "center",
-                      shiny::p(shiny::textOutput("problems_info")),
-                      shiny::uiOutput("admin_panel.ui"),
-                      admin_panel.modals
-                    ))),
+    header,
+    content,
+    footer,
     include_scripts())
 }
 

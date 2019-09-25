@@ -85,10 +85,10 @@ setup_session <- function(state, input, output, elts, session, opt) {
 next_page <- function(state, input, output, elts, session, opt,
                       triggered_by_front_end = FALSE) {
   stopifnot(is.scalar.logical(triggered_by_front_end))
-  if (triggered_by_front_end && is.null(input$last_btn_pressed)) {
-    error(state) <- "An unexpected error occurred."
-    return()
-  }
+  # if (triggered_by_front_end && is.null(input$last_btn_pressed)) {
+  #   error(state) <- "An unexpected error occurred."
+  #   return()
+  # }
   elt  <- get_current_elt(state, elts, opt, eval = TRUE)
   success <- FALSE
   if (is(elt, "page")) {

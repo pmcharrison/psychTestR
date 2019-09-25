@@ -71,6 +71,8 @@ pt_options <- function(...) {
 #' @param logo Path to a logo to display in the header (optional).
 #' @param logo_width Logo width, e.g. \code{"100px"}.
 #' @param logo_height Logo height, e.g. \code{"50px"}.
+#' @param display A list of display options as created by
+#' \code{\link{display_options}}.
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -97,7 +99,8 @@ test_options <- function(title, admin_password,
                          clean_sessions_interval_min = 15,
                          logo = NULL,
                          logo_width = NULL,
-                         logo_height = NULL) {
+                         logo_height = NULL,
+                         display = display_options()) {
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
             is.null.or(researcher_email, is.scalar.character),
@@ -124,7 +127,8 @@ test_options <- function(title, admin_password,
             is.character(problems_info),
             is.null.or(logo, is.scalar.character),
             is.null(logo) ||
-              (is.scalar.character(logo_width) && is.scalar.character(logo_height)))
+              (is.scalar.character(logo_width) && is.scalar.character(logo_height)),
+            is.list(display))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   title <- iconv(enc2utf8(title), "UTF-8", "UTF-8", sub = "")
@@ -210,7 +214,100 @@ test_options <- function(title, admin_password,
        clean_sessions_interval_min = clean_sessions_interval_min,
        logo = logo,
        logo_width = logo_width,
-       logo_height = logo_height)
+       logo_height = logo_height,
+       display = display)
+}
+
+#' Display options
+#'
+#' Creates a list of display options that may be passed to
+#' \code{\link{test_options}}.
+#'
+#' @param full_screen
+#' (Logical scalar)
+#' Whether the display element for the primary test content
+#' (corresponding to the \code{ui} slot of psychTestR pages)
+#' should be expanded to fill the whole screen.
+#' This is a convenience argument that works by overriding
+#' the following arguments:
+#' - \code{content_border} (set to \code{"0px"})
+#' - \code{show_header} (set to \code{FALSE})
+#' - \code{show_footer} (set to \code{FALSE})
+#' - \code{left_margin} (set to \code{0L})
+#' - \code{right_margin} (set to \code{0L})
+#'
+#' @param content_background_colour
+#' (Character scalar)
+#' Background colour for the display element for the primary test content;
+#' interpreted as a CSS expression.
+#'
+#' @param content_border
+#' (Character scalar)
+#' Border format parameters for the display element for the primary test content;
+#' interpreted as a CSS expression.
+#'
+#' @param show_header
+#' (Logical scalar)
+#' Whether the header should be shown (typically contains the title
+#' and optionally a logo).
+#'
+#' @param show_footer
+#' (Logical scalar)
+#' Whether the footer should be shown (typically contains a link to the
+#' admin panel).
+#'
+#' @param left_margin
+#' (Integerish scalar)
+#' Width of the left margin, with 0 corresponding to no margin
+#' and 12 corresponding to the full screen width.
+#'
+#' @param right_margin
+#' (Integerish scalar)
+#' Width of the right margin, with 0 corresponding to no margin
+#' and 12 corresponding to the full screen width.
+#'
+#' @param css
+#' Character vector of file paths to CSS files for inclusion within the
+#' psychTestR test. CSS files are used for styling HTML.
+#' These file paths should be expressed relative to R's working directory
+#'
+#' @return
+#' A list for passing to the \code{display} argument of \code{test_options}.
+#'
+#' @md
+#'
+#' @export
+display_options <- function(
+  full_screen = FALSE,
+  content_background_colour = "white",
+  content_border = "1px solid #e8e8e8",
+  show_header = TRUE,
+  show_footer = TRUE,
+  left_margin = 2L,
+  right_margin = 2L,
+  css = character()
+) {
+  checkmate::qassert(show_header, "B1")
+  checkmate::qassert(show_footer, "B1")
+  checkmate::qassert(left_margin, "X1[0,12]")
+  checkmate::qassert(right_margin, "X1[0,12]")
+  checkmate::qassert(full_screen, "B1")
+  checkmate::qassert(content_background_colour, "S1")
+  checkmate::qassert(content_border, "S1")
+  stopifnot(is.character(css))
+  if (left_margin + right_margin >= 12)
+    stop("left_margin and right_margin must sum to less than 12")
+
+  arg <- as.list(environment())
+  if (full_screen) {
+    arg$show_header <- FALSE
+    arg$show_footer <- FALSE
+    arg$left_margin <- 0L
+    arg$right_margin <- 0L
+    arg$content_border <- "0px"
+  }
+
+  arg
 }
 
 #' Demo options

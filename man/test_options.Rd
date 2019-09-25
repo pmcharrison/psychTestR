@@ -15,7 +15,7 @@ test_options(title, admin_password, researcher_email = NULL,
   force_p_id_from_url = FALSE, enable_admin_panel = TRUE,
   output_dir = "output", session_timeout_min = 7 * 24 * 60,
   clean_sessions_interval_min = 15, logo = NULL, logo_width = NULL,
-  logo_height = NULL)
+  logo_height = NULL, display = display_options())
 }
 \arguments{
 \item{title}{The test's title.
@@ -102,6 +102,9 @@ check for expired participant sessions (minutes).}
 \item{logo_width}{Logo width, e.g. \code{"100px"}.}
 
 \item{logo_height}{Logo height, e.g. \code{"50px"}.}
+
+\item{display}{A list of display options as created by
+\code{\link{display_options}}.}
 }
 \description{
 Defines the options for running a given test.

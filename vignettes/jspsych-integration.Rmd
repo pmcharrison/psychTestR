@@ -1,75 +1,174 @@
 ---
-title: "jsPsych integration"
+title: "Tutorial: jsPsych integration"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{jsPsych integration}
+  %\VignetteIndexEntry{Tutorial: jsPsych integration}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-[jsPsych](https://www.jspsych.org/) is a powerful library for constructing behavioral experiments in Javascript.
+## About 
+
+[jsPsych](https://www.jspsych.org/) is a powerful library for constructing 
+behavioral experiments in Javascript.
 It is possible to embed jsPsych within psychTestR.
-This is useful when you want to take advantage of jsPsych's timed stimulus presentation facilities.
+This is useful when you want to take advantage of jsPsych's timed 
+stimulus presentation facilities.
 
-psychTestR does not yet provide dedicated helper functions for embedding jsPsych,
-partly because of recent changes to jsPsych's API.
-However, we give an example below of how this integration can be achieved.
-We intend to incorporate this functionality more explicitly into future releases of psychTestR.
+## Compatibility notes
 
-If you have trouble getting the following to work, please contact Peter Harrison at pmc.harrison@gmail.com -
-we'd appreciate a chance to update this documentation. 
+This tutorial was written with reference to jsPsych 6.1.0.
+Unfortunately the jsPsych API is subject to change, which means
+that the code provided in this tutorial may need some editing
+to work with future versions of jsPsych. Please contact the package maintainer
+if you notice problems along these lines.
 
-```r
-#' @param timeline Character string providing the jsPsych timeline (https://www.jspsych.org/overview/timeline/)
-#' @param plugins Character vector of paths to scripts containing jsPsych plugins to be loaded (https://www.jspsych.org/plugins/overview/)
-#' @param jspsych File path of the jsPsych library file (see below)
-#' @param jspsych_init File path to the jsPsych initialisation file (see below)
-#' @param jquery File path to the jQuery library file (see below)
-jspsych <- function(timeline, plugins, jspsych, jspsych_init, jquery) {
-  for (s in c(plugins, jspsych, jspsych_init, jquery)) 
-    if (!file.exists(s)) stop("couldn't find script ", s)
-  psychTestR::page(
-    ui = shiny::tags$div(
-      shiny::tags$head(lapply(c(jspsych, jquery, plugins), shiny::includeScript)),
-      shiny::tags$script(timeline),
-      shiny::includeScript(jspsych_init),
-      shiny::div(id = "js_psych")),
-    get_answer = function(input, ...) input$jspsych_results,
-    validate = function(answer, ...) nchar(answer > 0L),
-    save_answer = TRUE
-  )
+## Tutorial
+
+Normally we create a jsPsych test by writing an HTML file.
+Here is the 'Hello World' example from the 
+[jsPsych website](https://www.jspsych.org/tutorials/hello-world/):
+
+``` HTML
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My experiment</title>
+        <script src="jspsych-6.1.0/jspsych.js"></script>
+        <script src="jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"></script>
+        <link href="jspsych-6.1.0/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+    </head>
+    <body></body>
+    <script>
+
+    var hello_trial = {
+        type: 'html-keyboard-response',
+        stimulus: 'Hello world!'
+    }
+
+    jsPsych.init({
+        timeline: [hello_trial]
+    })
+
+    </script>
+</html>
+```
+
+We're going to get this example running in psychTestR.
+The first step is to download the jsPsych source code from
+the [GitHub repository](https://github.com/jspsych/jsPsych/releases),
+unzip the release file,
+and save the resulting directory as a subdirectory of your 
+current working directory, called for example `jspsych-6.1.0`.
+
+To incorporate this code into psychTestR, we first create a file
+called `new-timeline.js`, where we define a function that creates
+a jsPsych timeline.
+
+``` js
+function new_timeline() {
+  var hello_trial = {
+    type: 'html-keyboard-response',
+    stimulus: 'Hello world!'
+  };
+  return [hello_trial];
 }
 ```
 
-## jsPsych library file
+We then make a second Javascript file, `run-jspsych.js`, containing the following 
+boilerplate code:
 
-This core part of the jsPsych installation can be found here: https://github.com/jspsych/jsPsych
-
-## jsPsych initialization file
-
-This is the `jspsych_init` file of the `jspsych` function above.
-
-This file should look something like this:
-
-```js
-jsPsych.init({
-  display_element: $('#js_psych'), // some versions of jsPsych
-  // display_element: 'js_psych', // other versions of jsPsych
-  fullscreen: false,
-  timeline: timeline,
-  on_finish: function() {
-    var json_data = jsPsych.data.dataAsJSON();
-    Shiny.onInputChange("jspsych_results", json_data);
-    next_page();
-    // jsPsych.data.displayData();
-  }
-});
+``` js
+function run_jspsych() {
+  jsPsych.init({
+    timeline: new_timeline(),
+    display_element: 'js_psych',
+    on_finish: function() {
+      var json_data = jsPsych.data.get().json();
+      Shiny.onInputChange("jspsych_results", json_data);
+      next_page();
+    }
+  });
+}
+run_jspsych();
 ```
 
-Depending on the version of jsPsych the definition of `display_element`
-needs to change slightly, according to the comments above.
+Finally, we create an R file called `my-test.R`, 
+and define a psychTestR page that wraps the jsPsych test.
+We do this using helper functions from the `htmltools` package,
+which allow us to build HTML code programmatically from within R.
 
-## jQuery
+``` r
+library(htmltools)
+library(psychTestR)
 
-The jQuery library file can be downloaded from here: https://jquery.com/download/
-Later versions of jsPsych may not need jQuery to be loaded.
+jspsych_dir <- "jspsych-6.1.0"
+
+head <- tags$head(
+  includeScript(file.path(jspsych_dir, "jspsych.js")),
+  includeScript(file.path(jspsych_dir, "plugins/jspsych-html-keyboard-response.js"))
+)
+
+ui <- tags$div(
+  head, 
+  includeScript("new-timeline.js"),
+  includeScript("run-jspsych.js"),
+  tags$div(id = "js_psych")
+)
+
+hello_world <- page(
+  ui = ui,
+  label = "hello_world",
+  get_answer = function(input, ...) input$jspsych_results,
+  validate = function(answer, ...) nchar(answer) > 0L,
+  save_answer = TRUE
+)
+```
+
+We can then run this as a full psychTestR test by adding
+the following code to `my-test.R`:
+
+``` r
+elts <- list(
+  one_button_page("You are about to take the 'Hello world' test."),
+  one_button_page("When you see 'Hello world', press SPACE to continue."),
+  hello_world,
+  elt_save_results_to_disk(complete = TRUE),
+  final_page("You finished the test.")
+)
+
+test <- make_test(
+  elts = elts,
+  opt = demo_options(
+    display = display_options(
+      fullscreen = TRUE, 
+      css = file.path(jspsych_dir, "css/jspsych.css"))
+  ))
+  
+shiny::runApp(test)
+```
+
+Note that we've added two display options:
+
+- `full_screen = TRUE` sets the test to display in fullscreen, 
+to reflect the default display configuration of jsPsych.
+- `css = file.path(jspsych_dir, "css/jspsych.css")`
+tells psychTestR to incorporate the default jsPsych style sheet.
+You can provide multiple CSS files to this argument if you wish
+to incorporate your own CSS styling.
+
+We can now inspect the test results by loading the generated RDS file
+in `output/results/`. You can do this by clicking on the file 
+in the RStudio viewer, or by using the `readRDS` function.
+Using the function `as.list()` to coerce the results file to a readable format,
+we can see that the jsPsych output has been saved as a JSON string 
+in the slot `$results$hello_world`. 
+
+This proof of concept should extend naturally to more sophisticated 
+jsPsych tests. In particular, you will want to extend `new-timeline.js`
+to provide a timeline that describes your desired experimental structure.
+You can also extend `run-jspsych.js` to incorporate various options that 
+you would normally pass to `jsPsych.init()`,
+as well as passing additional CSS files to `display_options`.
+Good luck! Please contact the package maintainer if you encounter 
+any issues.

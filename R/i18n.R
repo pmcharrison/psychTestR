@@ -141,6 +141,17 @@ i18n_state <- R6::R6Class(
   )
 )
 
+#' i18n state
+#'
+#' This object captures the psychTestR package's current
+#' internationalisation state.
+#' This internationalisation state determines how calls to \code{\link{i18n}}
+#' are resolved into translations.
+#' Most users should not need to work with this object directly,
+#' and its API should not yet be considered stable.
+#'
+#' @keywords internal
+#' @export
 I18N_STATE <- i18n_state$new()
 
 # with_i18n_error <- function() {
@@ -215,13 +226,17 @@ i18n_check <- function(x) {
 #' together to form a test.
 #' They support internationalisation,
 #' defining parallel series of test elements for the available languages.
+#'
 #' @section Creation:
 #' Timelines are created using \code{\link{new_timeline}}.
+#'
 #' @section Manipulation:
 #' Timelines can be combined with other timelines and with test elements
 #' using \code{\link{c}}.
+#'
 #' @section Usage:
 #' Timelines are ultimately passed to \code{\link{make_test}}.
+#'
 #' @section Other methods:
 #' \code{x$get(language, i)} returns a list of test elements corresponding
 #' to \code{language} as extracted from the timeline \code{x},
@@ -230,6 +245,8 @@ i18n_check <- function(x) {
 #' \code{x$drop_languages(drop)} removes support for a set of languages
 #' from timeline \code{x}, where \code{drop} is the character vector
 #' of languages to remove.
+#'
+#' @export
 timeline <- R6::R6Class(
   "timeline",
   public = list(
@@ -350,27 +367,40 @@ as.timeline <- function(x, ...) {
 #' This helps to narrow down the source of any errors.
 #' @export
 new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
-  stopifnot(psychTestR:::is.null.or(dict, function(z) is(dict, "i18n_dict")),
-            psychTestR:::is.scalar.character(default_lang))
+  stopifnot(psychTestR::is.null.or(dict, function(z) is(dict, "i18n_dict")))
+  checkmate::qassert(default_lang, "S1")
   local({
     langs <- if (is.null(dict)) default_lang else dict$languages
     res <- list()
     for (i in seq_along(langs)) {
       lang <- langs[i]
       tmp <- if (is.null(dict)) x else
-        psychTestR:::with_i18n_state(dict = dict, lang = lang, x = x)
+        psychTestR::with_i18n_state(dict = dict, lang = lang, x = x)
       if (psychTestR::is.timeline(tmp)) {
-        return(psychTestR:::format_new_timeline(tmp, langs))
+        return(psychTestR::format_new_timeline(tmp, langs))
       } else {
-        res[[i]] <- psychTestR:::format_test_element_list(tmp, lang)
+        res[[i]] <- psychTestR::format_test_element_list(tmp, lang)
       }
     }
     names(res) <- langs
-    psychTestR:::timeline$new(res)
+    psychTestR::timeline$new(res)
   })
 })
 
-# To be called from within new_timeline()
+
+#' Format new timeline
+#'
+#' This function takes a timeline object as input and performs some
+#' postprocessing to check which languages are available
+#' and remove undesired languages.
+#' It is called automatically by \code{\link{new_timeline}};
+#' most users will never need to call this function directly.
+#'
+#' @param input Timeline to format.
+#' @param langs Character vector of desired languages.
+#' @return Formatted timeline.
+#' @keywords internal
+#' @export
 format_new_timeline <- function(input, langs) {
   stopifnot(is(input, "timeline"),
             is.character(langs))
@@ -386,10 +416,24 @@ format_new_timeline <- function(input, langs) {
   input
 }
 
-# To be called from within new_timeline()
-# Timelines are permitted within the input list.
-# However, an error will be thrown if these timelines don't
-# support the required languages.
+#' Format test element list
+#'
+#' This function formats its input as a list of test elements
+#' expressed in a given internalisation language.
+#' It is automatically called within \code{\link{new_timeline}};
+#' most users will never need to call this function directly.
+#'
+#' @param input Either a single test element or a list of either
+#' test elements or timelines.
+#'
+#' @param lang
+#' (Character scalar)
+#' The desired language of the output.
+#'
+#' @return A list of test elements expressed in the desired language.
+#'
+#' @keywords internal
+#' @export
 format_test_element_list <- function(input, lang) {
   stopifnot(is.scalar.character(lang))
   x <- if (psychTestR::is.test_element(input)) list(input) else input
@@ -442,21 +486,42 @@ format_test_element_list.dissolve_timelines <- function(x, lang) {
 #' @export
 is.timeline <- function(x) is(x, "timeline")
 
+#' With i18n state
+#'
+#' Sets the current internalisation state (\code{\link{I18N_STATE}})
+#' to a provided dictionary and language,
+#' and evaluates a provided expression.
+#' This macro is called automatically within \code{\link{new_timeline}}
+#' and most users will never need to call it directly.
+#'
+#' @param dictionary
+#' An internationalisation dictionary as created by \code{\link{i18n_dict}}.
+#'
+#' @param language
+#' A language code corresponding to a language supported in \code{dictionary}.
+#'
+#' @param x
+#' Expression to evaluate.
+#'
+#' @return
+#' The result of evaluating \code{x} using the provided dictionary and language.
+#'
+#' @export
 with_i18n_state <- gtools::defmacro(dictionary, language, x, expr = {
   local({
-    old_state <- list(dict = psychTestR:::I18N_STATE$dict,
-                      lang = psychTestR:::I18N_STATE$lang)
-    psychTestR:::I18N_STATE$set(dict = dictionary, lang = language)
+    old_state <- list(dict = psychTestR::I18N_STATE$dict,
+                      lang = psychTestR::I18N_STATE$lang)
+    psychTestR::I18N_STATE$set(dict = dictionary, lang = language)
     tryCatch(
       res <- eval(x),
       error = function(e) {
-        psychTestR:::I18N_STATE$set(dict = old_state$dict,
-                                    lang = old_state$lang)
+        psychTestR::I18N_STATE$set(dict = old_state$dict,
+                                   lang = old_state$lang)
         stop(e)
       }
     )
-    psychTestR:::I18N_STATE$set(dict = old_state$dict,
-                                lang = old_state$lang)
+    psychTestR::I18N_STATE$set(dict = old_state$dict,
+                               lang = old_state$lang)
     res
   })
 })
