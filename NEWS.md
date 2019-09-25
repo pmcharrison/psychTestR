@@ -1,3 +1,5 @@
+* Added tutorial on hosting media files.
+
 # psychTestR 2.8.0
 
 * Added `display_options` for greater control over display options.
