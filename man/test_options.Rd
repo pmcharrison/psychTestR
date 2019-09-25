@@ -15,7 +15,7 @@ test_options(title, admin_password, researcher_email = NULL,
   force_p_id_from_url = FALSE, enable_admin_panel = TRUE,
   output_dir = "output", session_timeout_min = 7 * 24 * 60,
   clean_sessions_interval_min = 15, logo = NULL, logo_width = NULL,
-  logo_height = NULL)
+  logo_height = NULL, display = display_options())
 }
 \arguments{
 \item{title}{The test's title.

@@ -97,7 +97,8 @@ test_options <- function(title, admin_password,
                          clean_sessions_interval_min = 15,
                          logo = NULL,
                          logo_width = NULL,
-                         logo_height = NULL) {
+                         logo_height = NULL,
+                         display = display_options()) {
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
             is.null.or(researcher_email, is.scalar.character),
@@ -124,7 +125,8 @@ test_options <- function(title, admin_password,
             is.character(problems_info),
             is.null.or(logo, is.scalar.character),
             is.null(logo) ||
-              (is.scalar.character(logo_width) && is.scalar.character(logo_height)))
+              (is.scalar.character(logo_width) && is.scalar.character(logo_height)),
+            is.list(display))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   title <- iconv(enc2utf8(title), "UTF-8", "UTF-8", sub = "")
@@ -210,7 +212,42 @@ test_options <- function(title, admin_password,
        clean_sessions_interval_min = clean_sessions_interval_min,
        logo = logo,
        logo_width = logo_width,
-       logo_height = logo_height)
+       logo_height = logo_height,
+       display = display)
+}
+
+#' @export
+display_options <- function(
+  full_screen = FALSE,
+  content_background_colour = "white",
+  content_border_width = "1px",
+  show_header = TRUE,
+  show_footer = TRUE,
+  left_margin = 2L,
+  right_margin = 2L,
+  css = character()
+) {
+  checkmate::qassert(show_header, "B1")
+  checkmate::qassert(show_footer, "B1")
+  checkmate::qassert(left_margin, "X1[0,12]")
+  checkmate::qassert(right_margin, "X1[0,12]")
+  checkmate::qassert(full_screen, "B1")
+  checkmate::qassert(content_background_colour, "S1")
+  checkmate::qassert(content_border_width, "S1")
+  stopifnot(is.character(css))
+  if (left_margin + right_margin >= 12)
+    stop("left_margin and right_margin must sum to less than 12")
+
+  arg <- as.list(environment())
+  if (full_screen) {
+    arg$show_header <- FALSE
+    arg$show_footer <- FALSE
+    arg$left_margin <- 0L
+    arg$right_margin <- 0L
+    arg$content_border_width <- "0px"
+  }
+
+  arg
 }
 
 #' Demo options

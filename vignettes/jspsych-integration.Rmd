@@ -15,6 +15,14 @@ It is possible to embed jsPsych within psychTestR.
 This is useful when you want to take advantage of jsPsych's timed 
 stimulus presentation facilities.
 
+## Compatibility notes
+
+This tutorial was written with reference to jsPsych 6.1.0.
+Unfortunately the jsPsych API is subject to change, which means
+that the code provided in this tutorial may need some editing
+to work with future versions of jsPsych. Please contact the package maintainer
+if you notice problems along these lines.
+
 ## Tutorial
 
 Normally we create a jsPsych test by writing an HTML file.
@@ -75,7 +83,6 @@ function run_jspsych() {
   jsPsych.init({
     timeline: new_timeline(),
     display_element: 'js_psych',
-    fullscreen: true,
     on_finish: function() {
       var json_data = jsPsych.data.get().json();
       Shiny.onInputChange("jspsych_results", json_data);
@@ -99,13 +106,12 @@ jspsych_dir <- "jspsych-6.1.0"
 
 head <- tags$head(
   includeScript(file.path(jspsych_dir, "jspsych.js")),
-  includeScript(file.path(jspsych_dir, "plugins/jspsych-html-keyboard-response.js")),
-  includeCSS(file.path(jspsych_dir, "css/jspsych.css"))
+  includeScript(file.path(jspsych_dir, "plugins/jspsych-html-keyboard-response.js"))
 )
 
 ui <- tags$div(
   head, 
-  includeScript("new-timeline.js")
+  includeScript("new-timeline.js"),
   includeScript("run-jspsych.js"),
   tags$div(id = "js_psych")
 )
@@ -119,15 +125,50 @@ hello_world <- page(
 )
 ```
 
-We can then run this as a full psychTestR test by appending
+We can then run this as a full psychTestR test by adding
 the following code to `my-test.R`:
 
 ``` r
-make_test(list(
+elts <- list(
   one_button_page("You are about to take the 'Hello world' test."),
+  one_button_page("When you see 'Hello world', press SPACE to continue."),
   hello_world,
+  elt_save_results_to_disk(complete = TRUE),
   final_page("You finished the test.")
-))
+)
+
+test <- make_test(
+  elts = elts,
+  opt = demo_options(
+    display = display_options(
+      fullscreen = TRUE, 
+      css = file.path(jspsych_dir, "css/jspsych.css"))
+  ))
+  
+shiny::runApp(test)
 ```
 
-TODO - add option whereby the user can change the dimensions of the viewport.
+Note that we've added two display options:
+
+- `full_screen = TRUE` sets the test to display in fullscreen, 
+to reflect the default display configuration of jsPsych.
+- `css = file.path(jspsych_dir, "css/jspsych.css")`
+tells psychTestR to incorporate the default jsPsych style sheet.
+You can provide multiple CSS files to this argument if you wish
+to incorporate your own CSS styling.
+
+We can now inspect the test results by loading the generated RDS file
+in `output/results/`. You can do this by clicking on the file 
+in the RStudio viewer, or by using the `readRDS` function.
+Using the function `as.list()` to coerce the results file to a readable format,
+we can see that the jsPsych output has been saved as a JSON string 
+in the slot `$results$hello_world`. 
+
+This proof of concept should extend naturally to more sophisticated 
+jsPsych tests. In particular, you will want to extend `new-timeline.js`
+to provide a timeline that describes your desired experimental structure.
+You can also extend `run-jspsych.js` to incorporate various options that 
+you would normally pass to `jsPsych.init()`,
+as well as passing additional CSS files to `display_options`.
+Good luck! Please contact the package maintainer if you encounter 
+any issues.

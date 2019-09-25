@@ -130,14 +130,20 @@ setMethod(
 
 view_page <- function(object) {
   htmltools::html_print(shiny::div(
-    shiny::includeCSS(system.file(shinythemes::shinytheme("readable"),
+    shiny::includeCSS(system.file(shinythemes::shinytheme("yeti"),
                                   package = "shinythemes")),
     shiny::fluidRow(shiny::wellPanel(
-      shiny::h3("<App title>", align = "center"))),
+      shiny::h3("<App title>", align = "center")),
+      style = paste("padding: 3px; padding-left: 10px; padding-right: 10px;",
+                    "background-color: white;")),
     shiny::fluidRow(
       id = "content",
       shiny::column(2),
-      shiny::column(8, shiny::wellPanel(align = "center", object@ui)),
+      shiny::column(8, shiny::wellPanel(
+        align = "center",
+        object@ui,
+        style = "background-color: white"
+      )),
       shiny::column(2)
     )))
 }
