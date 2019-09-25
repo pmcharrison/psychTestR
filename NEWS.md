@@ -1,3 +1,5 @@
+# psychTestR 2.8.0
+
 * Added `display_options` for greater control over display options.
 * Rewrote jsPsych integration tutorial.
 * Fixed CMD check complaint about `:::` calls.
