@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Is object a test element? — is.test_element • psychTestR</title>
+<title>Format test element list — format_test_element_list • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,11 @@
 
 
 
-<meta property="og:title" content="Is object a test element? — is.test_element" />
-<meta property="og:description" content="Checks whether an object is a test element." />
+<meta property="og:title" content="Format test element list — format_test_element_list" />
+<meta property="og:description" content="This function formats its input as a list of test elements
+expressed in a given internalisation language.
+It is automatically called within new_timeline;
+most users will never need to call this function directly." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,32 +138,45 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Is object a test element?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>is.test_element.Rd</code></div>
+    <h1>Format test element list</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/i18n.R'><code>R/i18n.R</code></a></small>
+    <div class="hidden name"><code>format_test_element_list.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks whether an object is a test element.</p>
+    <p>This function formats its input as a list of test elements
+expressed in a given internalisation language.
+It is automatically called within <code><a href='new_timeline.html'>new_timeline</a></code>;
+most users will never need to call this function directly.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is.test_element</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>format_test_element_list</span>(<span class='no'>input</span>, <span class='no'>lang</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Object to check.</p></td>
+      <th>input</th>
+      <td><p>Either a single test element or a list of either
+test elements or timelines.</p></td>
+    </tr>
+    <tr>
+      <th>lang</th>
+      <td><p>(Character scalar)
+The desired language of the output.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A list of test elements expressed in the desired language.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Is object a test element? — is.test_element • psychTestR</title>
+<title>i18n state — I18N_STATE • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,13 @@
 
 
 
-<meta property="og:title" content="Is object a test element? — is.test_element" />
-<meta property="og:description" content="Checks whether an object is a test element." />
+<meta property="og:title" content="i18n state — I18N_STATE" />
+<meta property="og:description" content="This object captures the psychTestR package's current
+internationalisation state.
+This internationalisation state determines how calls to i18n
+are resolved into translations.
+Most users should not need to work with this object directly,
+and its API should not yet be considered stable." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,32 +140,32 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Is object a test element?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>is.test_element.Rd</code></div>
+    <h1>i18n state</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/i18n.R'><code>R/i18n.R</code></a></small>
+    <div class="hidden name"><code>I18N_STATE.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks whether an object is a test element.</p>
+    <p>This object captures the psychTestR package's current
+internationalisation state.
+This internationalisation state determines how calls to <code><a href='i18n.html'>i18n</a></code>
+are resolved into translations.
+Most users should not need to work with this object directly,
+and its API should not yet be considered stable.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is.test_element</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='no'>I18N_STATE</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>Object to check.</p></td>
-    </tr>
-    </table>
 
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>An object of class <code>i18n_state</code> (inherits from <code>R6</code>) of length 8.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#format">Format</a></li>
     </ul>
 
   </div>

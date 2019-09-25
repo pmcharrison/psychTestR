@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Is object a test element? — is.test_element • psychTestR</title>
+<title>With i18n state — with_i18n_state • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,12 @@
 
 
 
-<meta property="og:title" content="Is object a test element? — is.test_element" />
-<meta property="og:description" content="Checks whether an object is a test element." />
+<meta property="og:title" content="With i18n state — with_i18n_state" />
+<meta property="og:description" content="Sets the current internalisation state (I18N_STATE)
+to a provided dictionary and language,
+and evaluates a provided expression.
+This macro is called automatically within new_timeline
+and most users will never need to call it directly." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,32 +139,49 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Is object a test element?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>is.test_element.Rd</code></div>
+    <h1>With i18n state</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/i18n.R'><code>R/i18n.R</code></a></small>
+    <div class="hidden name"><code>with_i18n_state.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks whether an object is a test element.</p>
+    <p>Sets the current internalisation state (<code><a href='I18N_STATE.html'>I18N_STATE</a></code>)
+to a provided dictionary and language,
+and evaluates a provided expression.
+This macro is called automatically within <code><a href='new_timeline.html'>new_timeline</a></code>
+and most users will never need to call it directly.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is.test_element</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>with_i18n_state</span>(<span class='kw'>dictionary</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>(<span class='st'>"dictionary not supplied"</span>),
+  <span class='kw'>language</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>(<span class='st'>"language not supplied"</span>), <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/stop.html'>stop</a></span>(<span class='st'>"x not supplied"</span>))</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>dictionary</th>
+      <td><p>An internationalisation dictionary as created by <code><a href='i18n_dict.html'>i18n_dict</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>language</th>
+      <td><p>A language code corresponding to a language supported in <code>dictionary</code>.</p></td>
+    </tr>
+    <tr>
       <th>x</th>
-      <td><p>Object to check.</p></td>
+      <td><p>Expression to evaluate.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>The result of evaluating <code>x</code> using the provided dictionary and language.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>

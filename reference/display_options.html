@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Is object a test element? — is.test_element • psychTestR</title>
+<title>Display options — display_options • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="Is object a test element? — is.test_element" />
-<meta property="og:description" content="Checks whether an object is a test element." />
+<meta property="og:title" content="Display options — display_options" />
+<meta property="og:description" content="Creates a list of display options that may be passed to
+test_options." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,32 +136,94 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Is object a test element?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>is.test_element.Rd</code></div>
+    <h1>Display options</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/options.R'><code>R/options.R</code></a></small>
+    <div class="hidden name"><code>display_options.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks whether an object is a test element.</p>
+    <p>Creates a list of display options that may be passed to
+<code><a href='test_options.html'>test_options</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is.test_element</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>display_options</span>(<span class='kw'>full_screen</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>content_background_colour</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
+  <span class='kw'>content_border</span> <span class='kw'>=</span> <span class='st'>"1px solid #e8e8e8"</span>, <span class='kw'>show_header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show_footer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>left_margin</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>right_margin</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
+  <span class='kw'>css</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Object to check.</p></td>
+      <th>full_screen</th>
+      <td><p>(Logical scalar)
+Whether the display element for the primary test content
+(corresponding to the <code>ui</code> slot of psychTestR pages)
+should be expanded to fill the whole screen.
+This is a convenience argument that works by overriding
+the following arguments:</p><ul>
+<li><p><code>content_border</code> (set to <code>"0px"</code>)</p></li>
+<li><p><code>show_header</code> (set to <code>FALSE</code>)</p></li>
+<li><p><code>show_footer</code> (set to <code>FALSE</code>)</p></li>
+<li><p><code>left_margin</code> (set to <code>0L</code>)</p></li>
+<li><p><code>right_margin</code> (set to <code>0L</code>)</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>content_background_colour</th>
+      <td><p>(Character scalar)
+Background colour for the display element for the primary test content;
+interpreted as a CSS expression.</p></td>
+    </tr>
+    <tr>
+      <th>content_border</th>
+      <td><p>(Character scalar)
+Border format parameters for the display element for the primary test content;
+interpreted as a CSS expression.</p></td>
+    </tr>
+    <tr>
+      <th>show_header</th>
+      <td><p>(Logical scalar)
+Whether the header should be shown (typically contains the title
+and optionally a logo).</p></td>
+    </tr>
+    <tr>
+      <th>show_footer</th>
+      <td><p>(Logical scalar)
+Whether the footer should be shown (typically contains a link to the
+admin panel).</p></td>
+    </tr>
+    <tr>
+      <th>left_margin</th>
+      <td><p>(Integerish scalar)
+Width of the left margin, with 0 corresponding to no margin
+and 12 corresponding to the full screen width.</p></td>
+    </tr>
+    <tr>
+      <th>right_margin</th>
+      <td><p>(Integerish scalar)
+Width of the right margin, with 0 corresponding to no margin
+and 12 corresponding to the full screen width.</p></td>
+    </tr>
+    <tr>
+      <th>css</th>
+      <td><p>Character vector of file paths to CSS files for inclusion within the
+psychTestR test. CSS files are used for styling HTML.
+These file paths should be expressed relative to R's working directory</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A list for passing to the <code>display</code> argument of <code>test_options</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>

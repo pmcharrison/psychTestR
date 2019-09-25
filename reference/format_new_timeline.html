@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Is object a test element? — is.test_element • psychTestR</title>
+<title>Format new timeline — format_new_timeline • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,12 @@
 
 
 
-<meta property="og:title" content="Is object a test element? — is.test_element" />
-<meta property="og:description" content="Checks whether an object is a test element." />
+<meta property="og:title" content="Format new timeline — format_new_timeline" />
+<meta property="og:description" content="This function takes a timeline object as input and performs some
+postprocessing to check which languages are available
+and remove undesired languages.
+It is called automatically by new_timeline;
+most users will never need to call this function directly." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,32 +139,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Is object a test element?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>is.test_element.Rd</code></div>
+    <h1>Format new timeline</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/i18n.R'><code>R/i18n.R</code></a></small>
+    <div class="hidden name"><code>format_new_timeline.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks whether an object is a test element.</p>
+    <p>This function takes a timeline object as input and performs some
+postprocessing to check which languages are available
+and remove undesired languages.
+It is called automatically by <code><a href='new_timeline.html'>new_timeline</a></code>;
+most users will never need to call this function directly.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is.test_element</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>format_new_timeline</span>(<span class='no'>input</span>, <span class='no'>langs</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>Object to check.</p></td>
+      <th>input</th>
+      <td><p>Timeline to format.</p></td>
+    </tr>
+    <tr>
+      <th>langs</th>
+      <td><p>Character vector of desired languages.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>Formatted timeline.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>

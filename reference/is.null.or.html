@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Is object a test element? — is.test_element • psychTestR</title>
+<title>Is NULL or...? — is.null.or • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,9 @@
 
 
 
-<meta property="og:title" content="Is object a test element? — is.test_element" />
-<meta property="og:description" content="Checks whether an object is a test element." />
+<meta property="og:title" content="Is NULL or...? — is.null.or" />
+<meta property="og:description" content="Returns TRUE if x is either NULL or f(x)
+is TRUE." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -135,16 +136,17 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Is object a test element?</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>is.test_element.Rd</code></div>
+    <h1>Is NULL or...?</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/utils.R'><code>R/utils.R</code></a></small>
+    <div class="hidden name"><code>is.null.or.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks whether an object is a test element.</p>
+    <p>Returns <code>TRUE</code> if <code>x</code> is either <code>NULL</code> or <code>f(x)</code>
+is <code>TRUE</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is.test_element</span>(<span class='no'>x</span>)</pre>
+    <pre class="usage"><span class='fu'>is.null.or</span>(<span class='no'>x</span>, <span class='no'>f</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -152,6 +154,10 @@
     <tr>
       <th>x</th>
       <td><p>Object to check.</p></td>
+    </tr>
+    <tr>
+      <th>f</th>
+      <td><p>Function to apply.</p></td>
     </tr>
     </table>
 
