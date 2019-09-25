@@ -2,11 +2,11 @@ pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
-  editing-dictionaries: editing-dictionaries.html
-  hosting-experiments-online: hosting-experiments-online.html
-  internationalised-questionnaire: internationalised-questionnaire.html
-  jspsych-integration: jspsych-integration.html
-  media-files: media-files.html
-  randomisation: randomisation.html
-  url-parameters: url-parameters.html
+  b-media-files: b-media-files.html
+  c-editing-dictionaries: c-editing-dictionaries.html
+  c-hosting-experiments-online: c-hosting-experiments-online.html
+  c-randomisation: c-randomisation.html
+  c-url-parameters: c-url-parameters.html
+  d-internationalised-questionnaire: d-internationalised-questionnaire.html
+  d-jspsych-integration: d-jspsych-integration.html
 
