@@ -1,0 +1,143 @@
+---
+title: "Tutorial: Media files"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial: Media files}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## About 
+
+Many experiments involve administering media files (images, audio, video)
+to the participant. This tutorial explains how to achieve this within
+psychTestR.
+
+## Externally hosted media
+
+If your media is already available via a public URL,
+then it is very easy to include this media within a psychTestR test.
+For example, the link https://via.placeholder.com/150 resolves
+to the following placeholder image:
+
+![Placeholder image (150 px x 150px)](img/150.png)
+
+You can display such an image using the `img` utility function from 
+the `htmltools` package. See below for a minimal example:
+
+```r
+library(psychTestR)
+library(htmltools)
+
+ui <- div(
+  img(src = "https://via.placeholder.com/150"),
+  p("What do you think of this image?")
+)
+
+shiny::runApp(
+  make_test(
+    list(
+      final_page(ui)
+    )
+  )
+)
+```
+
+Here we also used two other functions:
+
+- `div()` creates an HTML div, i.e. a container that can contain
+multiple HTML objects, in this case an image and some text.
+- `p()` creates a paragraph of text.
+
+To use this approach with your own media files, you will have to 
+upload your media files to a publicly accessible media server,
+We have had success using Amazon S3 for this task.
+
+## Self-hosted media
+
+It is also possible to host media from within the psychTestR app itself.
+This approach is useful if you wish to run your test on a local computer
+without relying on an internet connection.
+However, the approach has two main disadvantages:
+
+- It typically means that code and media are hosted in the same repository,
+which is not ideal because standard version-control systems (e.g. Git)
+don't work well with media files.
+- You may have to disable some browser security settings to get the media
+to display properly (more on that later).
+
+In the following example, we have created a file in the working directory
+called `app.R`, containing the following R code:
+
+```r
+library(psychTestR)
+library(htmltools)
+
+ui <- div(
+    img(src = "150.png"),
+    p("What do you think of this image?")
+)
+
+make_test(
+  list(
+    final_page(ui)
+  )
+)
+```
+
+We have also created a folder called `www` in the working directory,
+into which we have saved a file called `150.png`, as downloaded from
+https://via.placeholder.com/150.
+
+Note that the image path has now been replaced with `150.png`,
+reflecting the fact that media paths are expressed relative to the
+`www` directory.
+
+Here comes a slightly frustrating part. 
+There are many ways of launching a Shiny app
+(Shiny is the framework upon which psychTestR is built),
+but not all of them expose the `www` directory.
+If you just call `make_test`, as in the above example,
+Shiny will (probably) not expose the `www` directory, because
+it doesn't know where the relevant `www` directory is.
+Instead, you must leave the `app.R` file as is,
+and then launch the app by running the following code at the R terminal:
+
+``` r
+shiny::runApp(".")
+```
+
+This tells Shiny to look for an app in the current working directory
+(see `?shiny::runApp` for details).
+Launching the app in this way should mean that Shiny finds the 
+`www` directory correctly.
+
+The above example used an image, but the process for audio and video
+is basically the same. Instead of using the `img` function from `htmltools`,
+you instead use the function `tags$audio()` for audio, 
+and the function `tags$video()` for video.
+Each of these functions takes further arguments that correspond to 
+the analogous arguments you might use when constructing the equivalent
+HTML code, such as `autoplay` and `width`. 
+
+If you run into problems with your media not displaying properly,
+open your test in a web browser and open the Developer console.
+Here you should see an error message telling you more about the problem.
+If you see a 404 error, this means that the browser can't find
+the file you specified, maybe because you got the path wrong,
+or because the app wasn't launched in the way mentioned above.
+If you see a cross-origin resource error, this probably
+means that you need to change the security settings in your browser
+(Google the error message for more details).
+Note that this latter problem should disappear when you deploy the 
+test to a remote server.
+
+psychTestR includes some prebuilt page types for displaying media items:
+
+- `audio_NAFC_page`
+- `video_NAFC_page`
+
+You may find these to be useful templates for developing your own page types.
+If you develop your own page type that you think might be useful 
+to others, consider submitting a GitHub pull request so that your 
+page type can be incorporated into the psychTestR code base.
