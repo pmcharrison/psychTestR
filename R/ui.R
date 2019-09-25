@@ -29,7 +29,7 @@ ui <- function(opt) {
         style = paste0(
           "background-color: ", opt$display$content_background_colour, "; ",
           "margin: 0px; ",
-          "border: ", opt$display$content_border_width
+          "border: ", opt$display$content_border
         ),
         shiny::uiOutput("ui")
       )),

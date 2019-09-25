@@ -230,7 +230,7 @@ test_options <- function(title, admin_password,
 #' should be expanded to fill the whole screen.
 #' This is a convenience argument that works by overriding
 #' the following arguments:
-#' - \code{content_border_width} (set to \code{"0px"})
+#' - \code{content_border} (set to \code{"0px"})
 #' - \code{show_header} (set to \code{FALSE})
 #' - \code{show_footer} (set to \code{FALSE})
 #' - \code{left_margin} (set to \code{0L})
@@ -241,9 +241,9 @@ test_options <- function(title, admin_password,
 #' Background colour for the display element for the primary test content;
 #' interpreted as a CSS expression.
 #'
-#' @param content_border_width
+#' @param content_border
 #' (Character scalar)
-#' Border width for the display element for the primary test content;
+#' Border format parameters for the display element for the primary test content;
 #' interpreted as a CSS expression.
 #'
 #' @param show_header
@@ -280,7 +280,7 @@ test_options <- function(title, admin_password,
 display_options <- function(
   full_screen = FALSE,
   content_background_colour = "white",
-  content_border_width = "1px",
+  content_border = "1px solid #e8e8e8",
   show_header = TRUE,
   show_footer = TRUE,
   left_margin = 2L,
@@ -293,7 +293,7 @@ display_options <- function(
   checkmate::qassert(right_margin, "X1[0,12]")
   checkmate::qassert(full_screen, "B1")
   checkmate::qassert(content_background_colour, "S1")
-  checkmate::qassert(content_border_width, "S1")
+  checkmate::qassert(content_border, "S1")
   stopifnot(is.character(css))
   if (left_margin + right_margin >= 12)
     stop("left_margin and right_margin must sum to less than 12")
@@ -304,7 +304,7 @@ display_options <- function(
     arg$show_footer <- FALSE
     arg$left_margin <- 0L
     arg$right_margin <- 0L
-    arg$content_border_width <- "0px"
+    arg$content_border <- "0px"
   }
 
   arg

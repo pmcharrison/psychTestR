@@ -5,9 +5,10 @@
 \title{Display options}
 \usage{
 display_options(full_screen = FALSE,
-  content_background_colour = "white", content_border_width = "1px",
-  show_header = TRUE, show_footer = TRUE, left_margin = 2L,
-  right_margin = 2L, css = character())
+  content_background_colour = "white",
+  content_border = "1px solid #e8e8e8", show_header = TRUE,
+  show_footer = TRUE, left_margin = 2L, right_margin = 2L,
+  css = character())
 }
 \arguments{
 \item{full_screen}{(Logical scalar)
@@ -17,7 +18,7 @@ should be expanded to fill the whole screen.
 This is a convenience argument that works by overriding
 the following arguments:
 \itemize{
-\item \code{content_border_width} (set to \code{"0px"})
+\item \code{content_border} (set to \code{"0px"})
 \item \code{show_header} (set to \code{FALSE})
 \item \code{show_footer} (set to \code{FALSE})
 \item \code{left_margin} (set to \code{0L})
@@ -28,8 +29,8 @@ the following arguments:
 Background colour for the display element for the primary test content;
 interpreted as a CSS expression.}
 
-\item{content_border_width}{(Character scalar)
-Border width for the display element for the primary test content;
+\item{content_border}{(Character scalar)
+Border format parameters for the display element for the primary test content;
 interpreted as a CSS expression.}
 
 \item{show_header}{(Logical scalar)
