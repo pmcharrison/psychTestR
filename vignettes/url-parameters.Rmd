@@ -2,7 +2,7 @@
 title: "URL parameters"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{URL parameters}
+  %\VignetteIndexEntry{Tutorial (intermediate): URL parameters}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

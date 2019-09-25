@@ -1,8 +1,8 @@
 ---
-title: "Tutorial: Creating an internationalised questionnaire"
+title: "Creating an internationalised questionnaire"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Tutorial: Creating a simple questionnaire}
+  %\VignetteIndexEntry{Tutorial (basic): Creating a simple questionnaire}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

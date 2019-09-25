@@ -2,7 +2,7 @@
 title: "Editing dictionaries"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Editing dictionaries}
+  %\VignetteIndexEntry{Tutorial (intermediate): Editing dictionaries}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

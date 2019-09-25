@@ -1,8 +1,8 @@
 ---
-title: "Tutorial: Randomising item administration"
+title: "Randomising item administration"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Tutorial: Randomising item administration}
+  %\VignetteIndexEntry{Tutorial (intermediate): Randomising item administration}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

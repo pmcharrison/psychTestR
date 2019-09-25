@@ -2,7 +2,7 @@
 title: "Hosting experiments online"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Hosting experiments online}
+  %\VignetteIndexEntry{Tutorial (intermediate): Hosting experiments online}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

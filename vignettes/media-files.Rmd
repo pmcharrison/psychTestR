@@ -1,8 +1,8 @@
 ---
-title: "Tutorial: Media files"
+title: "Media files"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Tutorial: Media files}
+  %\VignetteIndexEntry{Tutorial (basic): Media files}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

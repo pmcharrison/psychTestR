@@ -1,8 +1,8 @@
 ---
-title: "Tutorial: jsPsych integration"
+title: "jsPsych integration"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Tutorial: jsPsych integration}
+  %\VignetteIndexEntry{Tutorial (sophisticated): jsPsych integration}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
