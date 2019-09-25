@@ -1,0 +1,131 @@
+---
+title: "An introduction to psychTestR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{An introduction to psychTestR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      out.width = "100%")
+```
+
+## About
+
+psychTestR is an R package for developing and administering 
+behavioural experiments. This vignette provides a first introduction 
+to psychTestR; by the end, you should feel ready to create a simple
+psychTestR test of your own.
+This introduction assumes that the reader is already moderately familiar
+with the programming language R.
+
+## Architecture
+
+psychTestR builds on the web application framework [Shiny](http://shiny.rstudio.com/).
+Shiny is a powerful open-source framework that is supported by 
+[RStudio, Inc.](http://www.rstudio.com).
+The Shiny framework was designed to allow users to construct interactive 
+dashboards in R that could easily be deployed to remote servers.
+psychTestR specialises Shiny to the application of psychological experiment design,
+providing a straightforward way to design linear sequences of test pages
+that elicit and record responses from the participant.
+
+Like Shiny, psychTestR uses the 
+[htmltools](https://cran.r-project.org/web/packages/htmltools/index.html)
+package to programmatically generate HTML code from R code.
+This package allows the user to design complex HTML interfaces by composing 
+R functions.
+htmltools functions can be used directly within psychTestR to construct
+highly customisable test interfaces.
+
+Like all Shiny apps, psychTestR tests are hosted on a server running R code.
+These tests can be hosted locally from one's own computer,
+which is useful both for test development and for conducting 
+in-person data collection.
+Tests can also be deployed to remote servers for online data collection
+without changing any of the underlying R code -- see 
+[Hosting experiments online](https://pmcharrison.github.io/psychTestR/articles/2-hosting-experiments-online.html)
+for details.
+
+## Pages
+
+The most essential unit of a psychTestR test is the *page*.
+Pages display content to the user and optionally collect responses.
+The most flexible way of creating psychTestR pages is with the `page`
+function.
+However, psychTestR provides many helper functions for creating particular
+types of pages, which can often be useful for saving legwork
+and increasing readability.
+For example, the function `one_button_page` defines a page 
+that displays a prompt to the user and provides a single button
+with which the user may advance to the next page.
+The below code defines a page that displays "Welcome to the test!"
+and a "Next" button:
+
+```r
+library(psychTestR)
+one_button_page("Welcome to the test!")
+```
+
+If you run this code in RStudio,
+it should display the test element in your Viewer window:
+
+```{r}
+knitr::include_graphics("img/introduction/welcome.png")
+```
+
+Here the prompt took the form of raw text, without any HTML specifications.
+We can use the `htmltools` package to create such specifications, for example:
+
+``` r
+library(psychTestR)
+library(htmltools)
+
+one_button_page(
+  div(
+    p("An example of ", tags$strong("bold"), "text;"),
+    p("An example of ", tags$em("italic"), "text.")
+  )
+)
+```
+
+```{r}
+knitr::include_graphics("img/introduction/htmltools.png")
+```
+
+This page doesn't collect any information from the participant.
+An example of a page that does collect information is the 
+*N-alternative forced choice* page, as created by the `NAFC_page` function.
+This function allows the user to specify several choices to the user
+which will be displayed as clickable buttons.
+The participant must click one of these buttons to advance to the next page,
+and their choice will be automatically recorded.
+
+```r
+library(psychTestR)
+NAFC_page("favourite_colour",
+          "What is your favourite colour?",
+          c("Red", "Green", "Blue"))
+```
+
+```{r}
+knitr::include_graphics("img/introduction/favourite-colour.png")
+```
+
+psychTestR contains various built-in page types like these, for example:
+
+- `text_input_page`
+- `audio_NAFC_page`
+- `video_NAFC_page`
+- `dropdown_NAFC_page`
+
+You can also define custom page types using the general-purpose `page` function.
+In our experience, it's useful to use the source code of pre-existing page types
+as templates for defining custom page types.
+If you think that your page type might be useful to other psychTestR users,
+you may consider wrapping it as a function and 
+submitting it as a pull request to the 
+[psychTestR repository](https://github.com/pmcharrison/psychTestR),
+so that it can be incorporated into the psychTestR codebase.
