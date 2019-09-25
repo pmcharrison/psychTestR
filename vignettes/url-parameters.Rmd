@@ -1,5 +1,5 @@
 ---
-title: "URL parameters"
+title: "Tutorial (intermediate): URL parameters"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Tutorial (intermediate): URL parameters}

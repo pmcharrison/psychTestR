@@ -1,5 +1,5 @@
 ---
-title: "Randomising item administration"
+title: "Tutorial (intermediate): Randomising item administration"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Tutorial (intermediate): Randomising item administration}

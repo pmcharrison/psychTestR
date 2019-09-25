@@ -1,5 +1,5 @@
 ---
-title: "Creating an internationalised questionnaire"
+title: "Tutorial (basic): Creating an internationalised questionnaire"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Tutorial (basic): Creating a simple questionnaire}

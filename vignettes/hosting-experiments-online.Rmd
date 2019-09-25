@@ -1,5 +1,5 @@
 ---
-title: "Hosting experiments online"
+title: "Tutorial (intermediate): Hosting experiments online"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Tutorial (intermediate): Hosting experiments online}
