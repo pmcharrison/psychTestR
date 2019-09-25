@@ -4,9 +4,9 @@ pkgdown_sha: ~
 articles:
   editing-dictionaries: editing-dictionaries.html
   hosting-experiments-online: hosting-experiments-online.html
-  tutorial-internationalised-questionnaire: tutorial-internationalised-questionnaire.html
-  tutorial-jspsych-integration: tutorial-jspsych-integration.html
-  tutorial-media-files: tutorial-media-files.html
-  tutorial-randomisation: tutorial-randomisation.html
+  internationalised-questionnaire: internationalised-questionnaire.html
+  jspsych-integration: jspsych-integration.html
+  media-files: media-files.html
+  randomisation: randomisation.html
   url-parameters: url-parameters.html
 
