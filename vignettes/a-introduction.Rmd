@@ -23,7 +23,13 @@ behavioural experiments. This vignette provides a first introduction
 to psychTestR; by the end, you should feel ready to create a simple
 psychTestR test of your own.
 This introduction assumes that the reader is already moderately familiar
-with the programming language R.
+with the programming language R. It also assumes that the reader
+has installed psychTestR (see README for instructions) and loaded
+it using the following command:
+
+```r
+library(psychTestR)
+```
 
 ## Architecture
 
@@ -59,7 +65,7 @@ The most essential unit of a psychTestR test is the *page*.
 Pages display content to the user and optionally collect responses.
 The most flexible way of creating psychTestR pages is with the `page`
 function.
-However, psychTestR provides many helper functions for creating particular
+However, psychTestR also provides many helper functions for creating particular
 types of pages, which can often be useful for saving legwork
 and increasing readability.
 For example, the function `one_button_page` defines a page 
@@ -69,7 +75,6 @@ The below code defines a page that displays "Welcome to the test!"
 and a "Next" button:
 
 ```r
-library(psychTestR)
 one_button_page("Welcome to the test!")
 ```
 
@@ -83,15 +88,14 @@ knitr::include_graphics("img/introduction/welcome.png")
 Here the prompt took the form of raw text, without any HTML specifications.
 We can use the `htmltools` package to create such specifications, for example:
 
-``` r
-library(psychTestR)
+```r
 library(htmltools)
 
 one_button_page(
-div(
-p("An example of ", tags$strong("bold"), "text;"),
-p("An example of ", tags$em("italic"), "text.")
-)
+  div(
+    p("An example of ", tags$strong("bold"), "text;"),
+    p("An example of ", tags$em("italic"), "text.")
+  )
 )
 ```
 
@@ -108,10 +112,9 @@ The participant must click one of these buttons to advance to the next page,
 and their choice will be automatically recorded.
 
 ```r
-library(psychTestR)
 NAFC_page("favourite_colour",
-"What is your favourite colour?",
-c("Red", "Green", "Blue"))
+          "What is your favourite colour?",
+          c("Red", "Green", "Blue"))
 ```
 
 ```{r}
@@ -154,11 +157,10 @@ First, we'll construct a timeline comprising solely pages.
 A timeline may be constructed using the `list` function from base R:
 
 ```r
-library(psychTestR)
 timeline <- list(
-one_button_page("Page 1"),
-one_button_page("Page 2"),
-final_page("The end")
+  one_button_page("Page 1"),
+  one_button_page("Page 2"),
+  final_page("The end")
 )
 ```
 
@@ -177,11 +179,10 @@ knitr::include_graphics("img/introduction/final-page.png")
 We can run the resulting test as follows:
 
 ```r
-library(psychTestR)
 timeline <- list(
-one_button_page("Page 1"),
-one_button_page("Page 2"),
-final_page("The end")
+  one_button_page("Page 1"),
+  one_button_page("Page 2"),
+  final_page("The end")
 )
 test <- make_test(elts = timeline)
 shiny::runApp(test)
@@ -198,13 +199,12 @@ This test doesn't collect any data.
 Let's define another test that does collect data:
 
 ```r
-library(psychTestR)
 timeline <- list(
-NAFC_page("favourite_colour",
-"What is your favourite colour?",
-c("Red", "Green", "Blue")),
-elt_save_results_to_disk(complete = TRUE),
-final_page("Thanks for completing the survey!")
+  NAFC_page("favourite_colour",
+            "What is your favourite colour?",
+            c("Red", "Green", "Blue")),
+  elt_save_results_to_disk(complete = TRUE),
+  final_page("Thanks for completing the survey!")
 )
 test <- make_test(elts = timeline)
 shiny::runApp(test)
@@ -238,8 +238,8 @@ extension `.rds`, and reads the first one into R:
 
 ```r
 rds_files <- list.files("output/results", 
-pattern = "\\.rds$", 
-full.names = TRUE)
+                        pattern = "\\.rds$", 
+                        full.names = TRUE)
 res <- readRDS(rds_files[1])
 res
 ```
@@ -291,7 +291,7 @@ and randomising stimulus administration.
 Readers who have written Shiny apps may have written server files 
 that look something like this:
 
-``` r
+```r
 library(shiny)
 
 # Run once on app launch
@@ -299,10 +299,10 @@ data <- read.csv("data.csv")[, 2]
 
 # Run separately for each user
 shinyServer(function(input, output) {
-output$distPlot <- renderPlot({
-bins <- seq(min(data), max(data), length.out = input$bins + 1)
-hist(data, breaks = bins, col = 'darkgray', border = 'white')
-})
+  output$distPlot <- renderPlot({
+    bins <- seq(min(data), max(data), length.out = input$bins + 1)
+    hist(data, breaks = bins, col = 'darkgray', border = 'white')
+  })
 })
 ```
 
@@ -312,7 +312,7 @@ variables specific to that user's session.
 This corresponds to our 'run-time code' in psychTestR.
 
 However, the code example also contains a call to `read.csv` prior 
-to the `shinyServer` function, in order to the `data` object.
+to the `shinyServer` function, in order to create the `data` object.
 This call only happens once, on app launch, and creates an 
 R object that is shared by all users sessions.
 This corresponds to our 'build-time code' in psychTestR.
@@ -404,11 +404,10 @@ Here is an example of a code block that stores the time
 when the run-time code was executed:
 
 ```r
-library(psychTestR)
 code_block(function(state, ...) {
-set_global(key = "time_started", 
-value = Sys.time(), 
-state = state)
+  set_global(key = "time_started", 
+             value = Sys.time(), 
+             state = state)
 })
 ```
 
@@ -417,8 +416,6 @@ to compute the total time taken,
 as in the following example:
 
 ```r
-library(psychTestR)
-
 save_time_started <- code_block(function(state, ...) {
   set_global(key = "time_started", 
              value = Sys.time(), 
@@ -449,7 +446,7 @@ or other information that is only available at run time.
 Reactive pages are defined using the `reactive_page` function.
 Like code blocks, the primary argument to this function is the
 argument `fun`, taking the form of an R function that must 
-accept the argument `...`.
+accept the argument '`...`'.
 At run-time, this function will be called with several input arguments,
 including most importantly:
 
@@ -468,8 +465,6 @@ that has side effects, like incrementing counters or saving results.
 Here is an example test with a reactive page that displays the current time:
 
 ```r
-library(psychTestR)
-
 make_test(list(
   reactive_page(function(...) {
     msg <- format(Sys.time(), "The current time is %H:%M:%S.")
@@ -483,8 +478,6 @@ Note that the time updates if you refresh the page.
 Here is a second example demonstrating the use of the `answer` argument:
 
 ```r
-library(psychTestR)
-
 make_test(list(
   NAFC_page("q1", "What is your favourite colour?",
             c("Red", "Green", "Blue")),
@@ -542,8 +535,6 @@ usually to give the user a chance to revise their input.
 The following code provides a simple example:
 
 ```r
-library(psychTestR)
-
 make_test(
   list(
     text_input_page("example", 
@@ -564,8 +555,6 @@ and all validation checks have passed successfully.
 The below example shows a pop-up notification with the current time.
 
 ```r
-library(psychTestR)
-
 make_test(
   list(
     one_button_page("Hello!", on_complete = function(...) {
@@ -647,10 +636,122 @@ given unexpected results if the original results take unusual data structures.
 of a data frame.
 
 With online tests it is often convenient to monitor and download results
-from the admin panel (see below).
+from the admin panel, which will be described in the next section.
 
 ## Admin panel
 
-## Best practice
+The admin panel provides an interface to the "back end" of the 
+testing environment.
+By default, the testing interface contains a link at the bottom of the 
+screen labelled "Admin login":
 
-## Further reading
+```{r, out.width = '50%', fig.align = 'center'}
+knitr::include_graphics("img/introduction/admin-login.png")
+```
+
+Clicking this link launches a login screen, where you are prompted
+to enter your password. This password should be provided 
+as part of the `opt` argument to `make_test`; 
+the default password is "demo".
+
+This activates a range of admin controls at the bottom of the screen.
+
+```{r, out.width = '100%', fig.align = 'center'}
+knitr::include_graphics("img/introduction/admin-panel.png")
+```
+
+These admin controls provide access to various functionalities.
+
+### Downloading results
+
+Results can be downloaded either as RDS or CSV files.
+CSV files are derived by applying the `as.data.frame` function
+to the participants' results objects,
+and should comprise one row per participant.
+
+### Piloting
+
+It is possible to switch the test between 'pilot' and 'live' modes.
+These two modes behave exactly the same,
+except pilot participants do not contribute to participation statistics,
+and pilot participants are marked as such in their results files.
+Mode switching persists across multiple sessions and multiple test launches;
+it currently works by writing a file to the working directory.
+
+### Availability
+
+This feature allows the researcher to close the test to new participants
+via the admin panel. This is mainly useful for online studies.
+Like the piloting control, this command persists across multiple sessions
+and multiple test launches by writing to the working directory.
+
+### Statistics
+
+This button launches another panel that summarises participation statistics
+for the current test, including numbers of partial and completed sessions
+as well as mean completion times.
+
+```{r, out.width = '85%', fig.align = 'center'}
+knitr::include_graphics("img/introduction/participation-stats.png")
+```
+
+### Custom admin panel components
+
+It is also possible to construct custom admin panel components using
+the `custom_admin_panel` component of `make_test`.
+This process is a bit complicated and will not be covered here - 
+see instead `?make_test`.
+
+### Error logs
+
+Error logging functionality has yet to be completed.
+Instead we recommend using the error logging capabilities present in 
+base R and Shiny Server.
+
+## Best practice in test construction
+
+Several best-practice programming principles apply equally well to psychTestR:
+
+1. **Avoid copying and pasting**. 
+If you find yourself using the same code twice,
+ask yourself whether the code can be better expressed as some kind of function
+(or similar) that can be called multiple times.
+Such code is typically easier to read and easier to maintain.
+These functions can span in scale from single page templates
+all the way to modules representing entire perceptual tests.
+2. **Avoid long blocks of code**.
+Long blocks of code are hard to read and maintain because they place 
+greater demands on working memory. Where possible, try to break up long
+blocks of code into functions or other R objects that are defined separately.
+3. **Separate data from code**.
+Questionnaires are often most naturally expressed in some kind of tabular format.
+We recommend storing the textual content of such questionnaires 
+in tabular format (CSV files, data frames, tibbles)
+and programmatically generating psychTestR content from these tables.
+
+As mentioned previously, psychTestR includes various prebuilt test components
+that can facilitate test construction 
+(e.g. `one_button_page`, `NAFC_page`, `text_input_page`).
+However, particular tests will often demand additional customisability
+over what is supported by these prebuilt elements.
+In these cases, we recommend defining new page builder functions with
+reference to psychTestR's prebuilt functions, and taking advantage of the 
+way in which the htmltools and shiny packages allow you to construct
+complex user interfaces through R code.
+This process is more involved than simply using psychTestR builder functions,
+but it allows for a huge flexibility in the kinds of pages that can be 
+administered.
+
+## Conclusion
+
+This article has provided an overview of the core functionality of psychTestR.
+If you understand the principles described here,
+then you should be able to construct sophisticated behavioural experiments
+completely within the R programming language.
+
+Two other sources of documentation should prove useful as you progress
+with psychTestR. One is the 
+[function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html), which is also available from the R console using commands such as 
+`?while_loop`. The other documentation source is the collection of 
+documentation articles hosted on the
+[psychTestR website](https://pmcharrison.github.io/psychTestR).
