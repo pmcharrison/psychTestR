@@ -2,6 +2,7 @@ pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
+  a-introduction: a-introduction.html
   b-media-files: b-media-files.html
   c-editing-dictionaries: c-editing-dictionaries.html
   c-hosting-experiments-online: c-hosting-experiments-online.html
