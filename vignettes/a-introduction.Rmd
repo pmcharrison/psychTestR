@@ -2,15 +2,15 @@
 title: "An introduction to psychTestR"
 output: rmarkdown::html_vignette
 vignette: >
-%\VignetteIndexEntry{An introduction to psychTestR}
+  %\VignetteIndexEntry{An introduction to psychTestR}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
-  ---
-  
-  ```{r setup, include = FALSE}
+---
+
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-echo = FALSE,
-out.width = "100%"
+  echo = FALSE,
+  out.width = "100%"
 )
 
 library(psychTestR)
@@ -416,7 +416,7 @@ We could then refer to this variable later in the test
 to compute the total time taken, 
 as in the following example:
 
-```{r}
+```r
 library(psychTestR)
 
 save_time_started <- code_block(function(state, ...) {
@@ -511,11 +511,11 @@ any input elements that have been defined as part of the page UI.
 For example, the UI for `text_input_page` includes a text-box input
 defined as follows:
 
-``` r 
+``` r
 shiny::textInput("text_input", 
-label = NULL,
-placeholder = placeholder,
-width = width)
+                 label = NULL,
+                 placeholder = placeholder,
+                 width = width)
 ```
 
 The first argument to `shiny::textInput` determines the input slot
@@ -541,17 +541,19 @@ If validation fails then the page will be refreshed,
 usually to give the user a chance to revise their input.
 The following code provides a simple example:
 
-```{r}
+```r
 library(psychTestR)
 
 make_test(
-list(
-text_input_page("example", "What is 1 + 1?", validate = function(answer, ...) {
-res <- suppressWarnings(as.numeric(answer))
-if (!is.na(res) && res == 2) TRUE else "Try again!"
-}),
-final_page("End."))
-)
+  list(
+    text_input_page("example", 
+                    "What is 1 + 1?", 
+                    validate = function(answer, ...) {
+                      res <- suppressWarnings(as.numeric(answer))
+                      if (!is.na(res) && res == 2) TRUE else "Try again!"
+                    }),
+    final_page("End.")
+  )
 )
 ```
 
@@ -561,7 +563,7 @@ final_page("End."))
 and all validation checks have passed successfully.
 The below example shows a pop-up notification with the current time.
 
-```{r}
+```r
 library(psychTestR)
 
 make_test(
@@ -573,3 +575,82 @@ make_test(
   )
 )
 ```
+
+## Results
+
+It is typically useful to save some or all of the participant's responses
+in a persistent form.
+This can be achieved in a fully customisable manner using 
+combinations of session variables and run-time code.
+However, psychTestR also provides a built-in result management system
+that works well for many practical applications.
+
+This system works as follows.
+Pages with response options have an associated `get_answer` function
+that extracts the participant's answer from the user interface.
+If the `save_answer` option is enabled for a given page,
+then this answer will be automatically appended to the participant's results store,
+with the result's label corresponding to the page's `label` slot.
+The results store may optionally be organised into sections,
+where each section typically corresponds to a test module.
+For example, a results store might look like this:
+
+- Demographics
+  - Gender
+  - Age
+- Personality
+  - Openness
+  - Extraversion
+  - ...
+- Admin
+  - Preferred payment type
+  - Payment code
+  
+At any one point in time, only one results section will be active.
+Saved results will be automatically appended to the active result section.
+A new results section may be started by calling the function
+`register_next_results_section`.
+This function is automatically called at the beginning of a new module.
+
+Where relevant, prebuilt page types (e.g. `NAFC_page`, `text_input_page`)
+typically come with automatic results saving.
+This automatic saving may be disabled by setting `save_answer = FALSE`.
+
+It is straightforward to implement automatic results saving for new page types.
+All that is required is to implement a `get_answer` function
+(see `?page`), which shows how to extract the participant's answer
+from the user interface, and then save `save_answer` to `TRUE`.
+See the source code for prebuilt page types, for example `text_input_page`,
+for examples.
+
+The participant's results will not be saved to disk without 
+an explicit command. The easiest way to achieve this is with the function
+`elt_save_results_to_disk`;
+this defines a code block that saves the participant's current results
+to the `output/results` directory.
+This function may be called multiple times in the test
+so as to keep an incrementally updated record of the participant's progress.
+Intermediate results should be saved with the argument `complete = FALSE`;
+finalised results should be saved with `complete = TRUE`.
+
+Results may then be read into R using the `readRDS` command.
+This produces a psychTestR `results` object which can be explored
+with various commands:
+
+- `as.list` - converts the object to a list, a format which closely
+resembles the original object's data structure.
+- `as.data.frame` - attempts to convert the object to a one-row data frame.
+This can be useful for combining multiple participants' data into a 
+tabular format. However, the function is experimental and might 
+given unexpected results if the original results take unusual data structures.
+- `as_tibble` - like `as.data.frame` but produces a `tibble` version
+of a data frame.
+
+With online tests it is often convenient to monitor and download results
+from the admin panel (see below).
+
+## Admin panel
+
+## Best practice
+
+## Further reading
