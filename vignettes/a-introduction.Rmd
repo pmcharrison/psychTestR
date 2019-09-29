@@ -708,6 +708,100 @@ Error logging functionality has yet to be completed.
 Instead we recommend using the error logging capabilities present in 
 base R and Shiny Server.
 
+## Internationalisation
+
+It is sometimes useful to construct psychTestR tests
+that support multiple languages.
+The first step in creating such a test is to define a *dictionary*.
+A dictionary comprises a collection of *keys*,
+e.g. "welcome_message" or "correct_feedback",
+with each of these keys being associated with one or more translations
+in various languages.
+For example, the key `"colour"` might return "What's your favourite colour?"
+if the language is English, or "Quelle est ta couleur préférée?"
+if the language is French.
+
+psychTestR dictionaries are created as instantiations of the R6 class
+`i18n_dict`. A dictionary may be created by calling the `$new()` method
+with a data frame as the first argument,
+where the data frame satisfies the following properties:
+
+- Each row corresponds to a term to be translated.
+- There is a character column entitled `key` that defines the key for each term.
+- The remaining columns provide translations into different languages,
+with the languages being identified by the column names, according
+to ISO 639-2 conventions.
+
+By default the text is parsed according to Markdown conventions, 
+with one addition: two successive backslashes 
+(written `\` in a text file, or `\\` in R) are interpreted as a new paragraph.
+This behaviour can be disabled by calling the `$new()` method with
+`markdown = FALSE`.
+
+Let's define a simple dictionary:
+
+```{r, echo = TRUE}
+df <- data.frame(key = c("name", "hello", "bye"),
+                 EN = c("Peter", "Hello", "Goodbye"),
+                 FR = c("Pierre", "Bonjour", "Au revoir"))
+df
+dict <- i18n_dict$new(df)
+```
+
+<!-- We then need to modify our workflow in two ways to incorporate internationalisation: -->
+
+Whenever we want to include internationalised text in our test elements,
+we use the `i18n` function with the appropriate key as its first argument.
+For example, to translate a name using the above dictionary, we would write
+`i18n("Peter")`.
+However, it is not possible to call `i18n("Peter")` by itself, because the function
+will not know what dictionary to use or what language to translate to.
+Instead, `i18n` must be wrapped somewhere inside a call to `new_timeline`.
+This `new_timeline` is a macro that takes two primary arguments -- 
+an expression that evaluates to a list of test elements, 
+and a dictionary --
+and evaluates the expression multiple times,
+once for each language in the dictionary,
+translating calls to `i18n` into the relevant languages.
+
+The resulting timeline object comprises one list of test elements
+for each available language.
+This timeline object can be passed to `make_test` to produce
+an internationalised test.
+
+Note that previously we just passed `make_test` a list of test elements.
+In this case, the function internally coerces this list into a timeline
+representation, assuming that these test elements all correspond to the
+same language. We could have equally passed `make_test` a timeline
+created by `new_timeline` without any calls to `i18n`.
+
+Here is a straightforward example that uses the dictionary defined above:
+
+```r
+timeline <- new_timeline(
+  list(
+    one_button_page(paste0(i18n("hello"), " ", i18n("name"))),
+    final_page(i18n("bye"))
+  ),
+  dict = dict
+)
+```
+
+The following code should launch the test in English:
+
+```r
+make_test(timeline, opt = demo_options(languages = "EN"))
+```
+
+The following code should launch it in French:
+
+```r
+make_test(timeline, opt = demo_options(languages = "FR"))
+```
+
+For a more involved example, see 
+[Creating an internationalised questionnaire](https://pmcharrison.github.io/psychTestR/articles/d-internationalised-questionnaire.html).
+
 ## Best practice in test construction
 
 Several best-practice programming principles apply equally well to psychTestR:

@@ -10,7 +10,7 @@
 #' and provides the context for the evaluation of calls to
 #' \code{\link{i18n}}, responsible for translating individual terms.
 #' @section Methods:
-#' \code{i18n_dict$new()} defines and returns a new dictionary
+#' \code{i18n_dict$new(x, markdown)} defines and returns a new dictionary
 #' which can be saved as an object.
 #' Its first argument, \code{x}, should be a data frame defining the dictionary.
 #' Each row of this data frame should correspond to a term to be translated.
@@ -19,7 +19,7 @@
 #' All other columns should provide translations into different languages,
 #' with the language being identified by the column name,
 #' according to ISO 639-2 conventions.
-#' The second argument, \code{markdown}, is a scalar Boolean
+#' The second argument, \code{markdown}, is a scalar Boolean (default = \code{TRUE})
 #' that determines whether the data frame is formatted in
 #' Markdown or not (Markdown allows for efficient and readable
 #' text markup, e.g. italic and bold).
