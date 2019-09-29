@@ -3,6 +3,7 @@
 S3method(as.data.frame,i18n_dict)
 S3method(as.data.frame,results)
 S3method(as.list,results)
+S3method(as.list,test_element)
 S3method(as_tibble,results)
 S3method(c,test_element)
 S3method(c,timeline)

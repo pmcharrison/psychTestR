@@ -15,7 +15,7 @@ print.results <- function(x, ...) {
   cat(sprintf("psychTestR results list (%i result%s in %s section%s)\n",
               num_results, if (num_results != 1L) "s" else "",
               num_sections, if (num_sections != 1L) "s" else ""),
-      "(visualise with as.list() or as.data.frame())\n")
+      "(visualise with as.list(), as_tibble(), or as.data.frame())\n")
 }
 
 #' @export

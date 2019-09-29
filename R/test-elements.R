@@ -14,6 +14,19 @@ setMethod("initialize", "test_element", function(.Object, ...) {
   callNextMethod()
 })
 
+#' @export
+as.list.test_element <- function(x, ...) {
+  slotNames(x) %>%
+    {purrr::set_names(., .)} %>%
+    purrr::map(~ slot(x, .))
+}
+
+# setMethod("as.list", "test_element", function(x, ...) {
+#   slotNames(x) %>%
+#     {purrr::set_names(., .)} %>%
+#     purrr::map(~ slot(x, .))
+# })
+
 #' Is object a test element?
 #'
 #' Checks whether an object is a test element.
