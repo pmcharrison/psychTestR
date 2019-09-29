@@ -635,13 +635,76 @@ given unexpected results if the original results take unusual data structures.
 - `as_tibble` - like `as.data.frame` but produces a `tibble` version
 of a data frame.
 
-With online tests it is often convenient to monitor and download results
-from the admin panel, which will be described in the next section.
+Sometimes it is useful to save results that are not directly returned
+from a test page, but instead computed by a code block.
+For example, suppose we wanted to evaluate someone's general liking for cheese
+on a scale from 1--7, by averaging ratings that they provide for 
+three individual cheeses. We could construct the following test:
+
+```r
+cheeses <- c("Cheddar", "Brie", "Camembert")
+items <- purrr::map(cheeses, function(cheese) {
+  NAFC_page(
+    label = cheese,
+    prompt = paste0("How much do you like ", cheese, "?"),
+    choices = as.character(1:4), 
+    arrange_vertically = FALSE,
+    on_complete = function(answer, state, ...) {
+      set_local(cheese, as.numeric(answer), state)
+    }
+  )
+})
+save_res <- code_block(function(state, ...) {
+  scores <- purrr::map_dbl(cheeses, get_local, state)
+  save_result(place = state, 
+              label = "cheese_liking",
+              value = mean(scores))
+})
+make_test(c(
+  items, 
+  save_res,
+  elt_save_results_to_disk(complete = TRUE),
+  final_page("End")
+))
+```
+
+Some aside points about the code above:
+
+- We created a list of items using the `purrr::map` function.
+This is a nice way of creating a collection of test elements
+that only vary along one particular parameter.
+See `purrr::pmap` for a more powerful alternative.
+- The `save_res` code block refers to an external variable, 
+`cheeses`. This is called a "closure": the function "closes over"
+the external variable, and carries a permanent reference to it.
+This is a useful way to avoid copying constants. Be careful 
+though: changes to this external variable after the definition 
+of the code block will be propagated to that same code block.
+It's best to restrict the use of closures to static variables.
+- `purrr::map_dbl` creates a numeric vector where the ith element
+is the result of applying the `get_local` function to the ith element
+of `cheeses`, with `state` as a supplementary argument.
+- In `make_test`, we used the `c` function rather than the `list` function
+to combine test elements. This is because `items` was already a list;
+the `c` function combines this list with the remaining test elements,
+with the outcome being a single list of test elements
+rather than a nested list.
+
+Having taken the test once, and reading the results from disk,
+we get something like this:
+
+```{r, echo = TRUE}
+as.list(readRDS("sample-results/ex-2.rds"))$results
+```
+
+So, we've successfully created a new result termed `"cheese_liking"`
+corresponding to the mean score for the three cheeses.
 
 ## Admin panel
 
 The admin panel provides an interface to the "back end" of the 
-testing environment.
+testing environment. 
+Ths is particularly useful for online testing.
 By default, the testing interface contains a link at the bottom of the 
 screen labelled "Admin login":
 
