@@ -1,3 +1,7 @@
+# psychTestR 2.9.0
+
+* Added `as.list.test_element`.
+* Added introductory vignette.
 * Added tutorial on hosting media files.
 
 # psychTestR 2.8.0

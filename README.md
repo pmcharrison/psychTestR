@@ -4,7 +4,8 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1415355.svg)](https://doi.org/10.5281/zenodo.1415355)
 [![Travis build status](https://travis-ci.org/pmcharrison/psychTestR.svg?branch=master)](https://travis-ci.org/pmcharrison/psychTestR)
 
-psychTestR is an R package for creating behavioural experiment interfaces.
+[psychTestR](https://pmcharrison.github.io/psychTestR) 
+is an R package for creating behavioural experiment interfaces.
 Key benefits of psychTestR include:
 
 - Easy installation
@@ -17,9 +18,17 @@ Key benefits of psychTestR include:
 
 ## Documentation
 
-- [Online documentation](https://pmcharrison.github.io/psychTestR)
-- Function documentation: available by running e.g. `?one_button_page` at the R terminal
-- [Example tests](https://pmcharrison.github.io/psychTestR/#examples)
+We recommend you begin by reading psychTestR's 
+[introductory article](https://pmcharrison.github.io/psychTestR/articles/a-introduction),
+and then exploring the other articles on the 
+[documentation website](https://pmcharrison.github.io/psychTestR) 
+as and when they become relevant to your queries.
+Once you start writing psychTestR code, we 
+recommend referring to the 
+[function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html),
+which can also be accessed by running e.g. `?one_button_page` at the R terminal.
+It may also be helpful to refer to the source code of pre-existing test implementations
+(see [Example tests](https://pmcharrison.github.io/psychTestR/#examples)).
 
 ## Examples
 
@@ -38,20 +47,6 @@ Key benefits of psychTestR include:
 - Pitch imagery arrow task (PIAT):
 [demo](http://shiny.pmcharrison.com/piat-demo),
 [source](https://github.com/pmcharrison/piat)
-
-## Status
-
-psychTestR is still under active development.
-Our research groups have successfully used psychTestR for several studies,
-but we want to address various issues before advertising it for wider use:
-
-- Adding comprehensive documentation and tutorials; 
-- Adding more user-friendly type-checking and error catching;
-- Improving test coverage.
-
-You are still welcome to use psychTestR before these steps are complete, of course.
-Peter (p.m.c.harrison@qmul.ac.uk) is happy to provide advice/technical support,
-especially because feedback at this stage can easily be fed into the development process.
 
 ## Citation
 
