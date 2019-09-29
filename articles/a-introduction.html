@@ -204,8 +204,8 @@
 ## {
 ##     save_results_to_disk(complete, state, opt)
 ## }
-## &lt;bytecode: 0x60b3cd0&gt;
-## &lt;environment: 0x60b3870&gt;</code></pre>
+## &lt;bytecode: 0x71f1550&gt;
+## &lt;environment: 0x71f10f0&gt;</code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct the server to run a specified function. This function can take several inputs, but most important is the <code>state</code> object, which stores information relevant to that particular participant’s testing session, such as their responses to N-alternative forced choice pages. This particular function takes the <code>state</code> object as input and saves the participant’s results to disk, paying attention to certain test configuration options as specified in <code>opt</code>.</p>
 <p>Having run this test, we should see that it generates an RDS file in the directory <code>output/results</code>. The name of this RDS file will contain the participant’s ID, which by default is randomly generated. RDS files provided compressed versions of R objects. We can read our RDS file into R using the <code>readRDS</code> function. The code below lists all files in the results directory with the extension <code>.rds</code>, and reads the first one into R:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">rds_files &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">"output/results"</span>, </a>
@@ -297,8 +297,8 @@
 ## $get_answer
 ## function (input, ...) 
 ## input$last_btn_pressed
-## &lt;bytecode: 0x306c000&gt;
-## &lt;environment: 0x306ce38&gt;
+## &lt;bytecode: 0x3bf0f40&gt;
+## &lt;environment: 0x3bf1c98&gt;
 ## 
 ## $save_answer
 ## [1] TRUE
@@ -306,8 +306,8 @@
 ## $validate
 ## function (answer, ...) 
 ## !is.null(answer)
-## &lt;bytecode: 0x306c188&gt;
-## &lt;environment: 0x306ce38&gt;
+## &lt;bytecode: 0x3bf1100&gt;
+## &lt;environment: 0x3bf1c98&gt;
 ## 
 ## $on_complete
 ## NULL
@@ -540,6 +540,45 @@
 <p>Error logging functionality has yet to be completed. Instead we recommend using the error logging capabilities present in base R and Shiny Server.</p>
 </div>
 </div>
+<div id="internationalisation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#internationalisation" class="anchor"></a>Internationalisation</h2>
+<p>It is sometimes useful to construct psychTestR tests that support multiple languages. The first step in creating such a test is to define a <em>dictionary</em>. A dictionary comprises a collection of <em>keys</em>, e.g. “welcome_message” or “correct_feedback”, with each of these keys being associated with one or more translations in various languages. For example, the key <code>"colour"</code> might return “What’s your favourite colour?” if the language is English, or “Quelle est ta couleur préférée?” if the language is French.</p>
+<p>psychTestR dictionaries are created as instantiations of the R6 class <code>i18n_dict</code>. A dictionary may be created by calling the <code>$new()</code> method with a data frame as the first argument, where the data frame satisfies the following properties:</p>
+<ul>
+<li>Each row corresponds to a term to be translated.</li>
+<li>There is a character column entitled <code>key</code> that defines the key for each term.</li>
+<li>The remaining columns provide translations into different languages, with the languages being identified by the column names, according to ISO 639-2 conventions.</li>
+</ul>
+<p>By default the text is parsed according to Markdown conventions, with one addition: two successive backslashes (written <code>\</code> in a text file, or <code>\\</code> in R) are interpreted as a new paragraph. This behaviour can be disabled by calling the <code>$new()</code> method with <code>markdown = FALSE</code>.</p>
+<p>Let’s define a simple dictionary:</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">key =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"name"</span>, <span class="st">"hello"</span>, <span class="st">"bye"</span>),</a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">                 <span class="dt">EN =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Peter"</span>, <span class="st">"Hello"</span>, <span class="st">"Goodbye"</span>),</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3">                 <span class="dt">FR =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Pierre"</span>, <span class="st">"Bonjour"</span>, <span class="st">"Au revoir"</span>))</a>
+<a class="sourceLine" id="cb28-4" data-line-number="4">df</a></code></pre></div>
+<pre><code>##     key      EN        FR
+## 1  name   Peter    Pierre
+## 2 hello   Hello   Bonjour
+## 3   bye Goodbye Au revoir</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">dict &lt;-<span class="st"> </span>i18n_dict<span class="op">$</span><span class="kw">new</span>(df)</a></code></pre></div>
+<!-- We then need to modify our workflow in two ways to incorporate internationalisation: -->
+<p>Whenever we want to include internationalised text in our test elements, we use the <code>i18n</code> function with the appropriate key as its first argument. For example, to translate a name using the above dictionary, we would write <code><a href="../reference/i18n.html">i18n("Peter")</a></code>. However, it is not possible to call <code><a href="../reference/i18n.html">i18n("Peter")</a></code> by itself, because the function will not know what dictionary to use or what language to translate to. Instead, <code>i18n</code> must be wrapped somewhere inside a call to <code>new_timeline</code>. This <code>new_timeline</code> is a macro that takes two primary arguments – an expression that evaluates to a list of test elements, and a dictionary – and evaluates the expression multiple times, once for each language in the dictionary, translating calls to <code>i18n</code> into the relevant languages.</p>
+<p>The resulting timeline object comprises one list of test elements for each available language. This timeline object can be passed to <code>make_test</code> to produce an internationalised test.</p>
+<p>Note that previously we just passed <code>make_test</code> a list of test elements. In this case, the function internally coerces this list into a timeline representation, assuming that these test elements all correspond to the same language. We could have equally passed <code>make_test</code> a timeline created by <code>new_timeline</code> without any calls to <code>i18n</code>.</p>
+<p>Here is a straightforward example that uses the dictionary defined above:</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">timeline &lt;-<span class="st"> </span><span class="kw"><a href="../reference/new_timeline.html">new_timeline</a></span>(</a>
+<a class="sourceLine" id="cb31-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(</a>
+<a class="sourceLine" id="cb31-3" data-line-number="3">    <span class="kw"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="kw"><a href="../reference/i18n.html">i18n</a></span>(<span class="st">"hello"</span>), <span class="st">" "</span>, <span class="kw"><a href="../reference/i18n.html">i18n</a></span>(<span class="st">"name"</span>))),</a>
+<a class="sourceLine" id="cb31-4" data-line-number="4">    <span class="kw"><a href="../reference/final_page.html">final_page</a></span>(<span class="kw"><a href="../reference/i18n.html">i18n</a></span>(<span class="st">"bye"</span>))</a>
+<a class="sourceLine" id="cb31-5" data-line-number="5">  ),</a>
+<a class="sourceLine" id="cb31-6" data-line-number="6">  <span class="dt">dict =</span> dict</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">)</a></code></pre></div>
+<p>The following code should launch the test in English:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1"><span class="kw"><a href="../reference/make_test.html">make_test</a></span>(timeline, <span class="dt">opt =</span> <span class="kw"><a href="../reference/demo_options.html">demo_options</a></span>(<span class="dt">languages =</span> <span class="st">"EN"</span>))</a></code></pre></div>
+<p>The following code should launch it in French:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="../reference/make_test.html">make_test</a></span>(timeline, <span class="dt">opt =</span> <span class="kw"><a href="../reference/demo_options.html">demo_options</a></span>(<span class="dt">languages =</span> <span class="st">"FR"</span>))</a></code></pre></div>
+<p>For a more involved example, see <a href="https://pmcharrison.github.io/psychTestR/articles/d-internationalised-questionnaire.html">Creating an internationalised questionnaire</a>.</p>
+</div>
 <div id="best-practice-in-test-construction" class="section level2">
 <h2 class="hasAnchor">
 <a href="#best-practice-in-test-construction" class="anchor"></a>Best practice in test construction</h2>
@@ -585,6 +624,7 @@
       <li><a href="#simple-pages-and-run-time-code">Simple pages and run-time code</a></li>
       <li><a href="#results">Results</a></li>
       <li><a href="#admin-panel">Admin panel</a></li>
+      <li><a href="#internationalisation">Internationalisation</a></li>
       <li><a href="#best-practice-in-test-construction">Best practice in test construction</a></li>
       <li><a href="#conclusion">Conclusion</a></li>
       </ul>
