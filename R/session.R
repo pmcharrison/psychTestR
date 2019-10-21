@@ -1,23 +1,31 @@
 manage_sessions <- function(state,
                             opt,
                             session = shiny::getDefaultReactiveDomain()) {
+  manage_url_params(state, session, opt)
   if (opt$enable_resume_session) {
-    initialise_session(state, session, opt)
+    manage_p_id(state, session, opt)
     list(shiny::observe(save_session(state, opt = opt)),
          clean_session_dir(session = session, opt = opt))
   }
 }
 
-initialise_session <- function(state, session, opt) {
+manage_url_params <- function(state, session, opt) {
   shiny::isolate({
     url_params(state) <- get_url_params_from_browser(session)
+
     language <- get_url_params(state)$language
+
     if (is.null(language) || !language %in% opt$languages) {
       language <- opt$languages[1]
       set_url_param("language", language, session, state)
     }
 
     language(state) <- language
+  })
+}
+
+manage_p_id <- function(state, session, opt) {
+  shiny::isolate({
     p_id_url <- get_url_params(state)$p_id
     if (!is.null(p_id_url)) {
       if (is_p_id_valid(p_id_url)){
@@ -36,7 +44,6 @@ initialise_session <- function(state, session, opt) {
         p_id <- generate_new_p_id(opt)
         p_id(state) <- p_id
         set_url_param("p_id", p_id, session, state)
-        # session$sendCustomMessage("push_p_id_to_url", p_id)
       }
     }
   })
@@ -68,6 +75,7 @@ set_url_param <- function(key, value, session, state) {
 }
 
 set_url_params <- function(params, session, state) {
+  if (!allow_url_rewrite(state)) return(NULL)
   stopifnot(is.list(params))
   keys <- vapply(names(params), function(x) utils::URLencode(x, reserved = TRUE,
                                                              repeated = TRUE),

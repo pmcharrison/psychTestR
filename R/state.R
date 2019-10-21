@@ -9,10 +9,11 @@ STATE <- R6::R6Class(
         admin = FALSE,
         pilot = FALSE
       )
-      self$passive[c("results", "time_started", "language")] <- list(
+      self$passive[c("results", "time_started", "language", "allow_url_rewrite")] <- list(
         new_results(),
         Sys.time(),
-        opt$languages[1]
+        opt$languages[1],
+        opt$allow_url_rewrite
       )
     },
     refresh_ui = function() {
@@ -60,7 +61,8 @@ STATE <- R6::R6Class(
       answer = NULL,
       closed = FALSE,
       allow_session_saving = TRUE,
-      url_params = list()
+      url_params = list(),
+      allow_url_rewrite = as.logical(NA)
     )
   )
 )
@@ -108,6 +110,11 @@ save_id <- function(state) {
             is.integer(value))
   state$passive$save_id <- value
   state
+}
+
+allow_url_rewrite <- function(state) {
+  stopifnot(is(state, "state"))
+  state$passive$allow_url_rewrite
 }
 
 previous_save_path <- function(state) {
@@ -194,6 +201,7 @@ demo <- function(state) {
 #'
 #' Gets the current URL parameters as stored in \code{state}.
 #' @param state The participant's \code{state} object.
+#' @return A named list of URL parameters.
 #' @export
 get_url_params <- function(state) {
   stopifnot(is(state, "state"))

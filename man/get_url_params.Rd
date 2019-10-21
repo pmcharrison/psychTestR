@@ -9,6 +9,9 @@ get_url_params(state)
 \arguments{
 \item{state}{The participant's \code{state} object.}
 }
+\value{
+A named list of URL parameters.
+}
 \description{
 Gets the current URL parameters as stored in \code{state}.
 }
