@@ -1,3 +1,5 @@
+# psychTestR 2.10.0
+
 - Now the test will accept URL parameters even when enable_resume_sessions = FALSE.
 - Introduced allow_url_rewrite option; when FALSE, URL rewriting is disabled.
 
