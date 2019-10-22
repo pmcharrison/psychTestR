@@ -15,7 +15,8 @@ test_options(title, admin_password, researcher_email = NULL,
   force_p_id_from_url = FALSE, enable_admin_panel = TRUE,
   output_dir = "output", session_timeout_min = 7 * 24 * 60,
   clean_sessions_interval_min = 15, logo = NULL, logo_width = NULL,
-  logo_height = NULL, display = display_options())
+  logo_height = NULL, display = display_options(),
+  allow_url_rewrite = TRUE)
 }
 \arguments{
 \item{title}{The test's title.
@@ -105,6 +106,10 @@ check for expired participant sessions (minutes).}
 
 \item{display}{A list of display options as created by
 \code{\link{display_options}}.}
+
+\item{allow_url_rewrite}{Whether to allow psychTestR to rewrite the page's URL. This is required
+for psychTestR's built-in session management system, but
+can be disabled as long as \code{enable_resume_session} is also set to \code{FALSE}.}
 }
 \description{
 Defines the options for running a given test.

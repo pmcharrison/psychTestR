@@ -73,6 +73,10 @@ pt_options <- function(...) {
 #' @param logo_height Logo height, e.g. \code{"50px"}.
 #' @param display A list of display options as created by
 #' \code{\link{display_options}}.
+#' @param allow_url_rewrite
+#' Whether to allow psychTestR to rewrite the page's URL. This is required
+#' for psychTestR's built-in session management system, but
+#' can be disabled as long as \code{enable_resume_session} is also set to \code{FALSE}.
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -100,7 +104,8 @@ test_options <- function(title, admin_password,
                          logo = NULL,
                          logo_width = NULL,
                          logo_height = NULL,
-                         display = display_options()) {
+                         display = display_options(),
+                         allow_url_rewrite = TRUE) {
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
             is.null.or(researcher_email, is.scalar.character),
@@ -128,8 +133,13 @@ test_options <- function(title, admin_password,
             is.null.or(logo, is.scalar.character),
             is.null(logo) ||
               (is.scalar.character(logo_width) && is.scalar.character(logo_height)),
-            is.list(display))
+            is.list(display),
+            is.scalar.logical(allow_url_rewrite))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
+
+  if (!allow_url_rewrite && enable_resume_session) {
+    stop("if allow_url_rewrite is FALSE then enable_resume_session must also be FALSE")
+  }
 
   title <- iconv(enc2utf8(title), "UTF-8", "UTF-8", sub = "")
   if (any(nchar(title) > 100L))
@@ -215,7 +225,8 @@ test_options <- function(title, admin_password,
        logo = logo,
        logo_width = logo_width,
        logo_height = logo_height,
-       display = display)
+       display = display,
+       allow_url_rewrite = allow_url_rewrite)
 }
 
 #' Display options
