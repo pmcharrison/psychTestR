@@ -17,9 +17,21 @@ get_p_id(prompt = "Please enter your participant ID.",
 
 \item{width}{Width of the text box (character scalar, should be valid HTML).}
 
-\item{validate}{See \code{\link{page}}.}
+\item{validate}{Optional validation function.
+The argument list should include \code{...},
+and any of:
+\code{answer}, the participant's most recent answer;
+\code{state}, the participant's state object;
+\code{input}, the current page's Shiny input object;
+\code{opt}, the test's option list as created by \code{test_options()};
+\code{session}, the current Shiny session object.
+It should return \code{TRUE} for a successful validation;
+for an unsuccessful validation, it should return either \code{FALSE}
+or a character scalar error message.
+If validation fails then the page will be refreshed, usually
+to give the user a chance to revise their input.}
 
-\item{admin_ui}{See \code{\link{page}}.}
+\item{admin_ui}{Optional UI component for the admin panel.}
 }
 \description{
 A psychTestR page that gets the participant to enter their ID.

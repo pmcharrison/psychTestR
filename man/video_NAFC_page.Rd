@@ -8,7 +8,8 @@ video_NAFC_page(label, prompt, choices, url, labels = NULL,
   type = tools::file_ext(url), save_answer = TRUE,
   on_complete = NULL, video_width = "100\%",
   arrange_choices_vertically = length(choices) > 2L, wait = TRUE,
-  loop = FALSE, admin_ui = NULL)
+  loop = FALSE, admin_ui = NULL,
+  btn_play_prompt = "Click here to play")
 }
 \arguments{
 \item{label}{Label for the current page (character scalar).}
@@ -34,9 +35,17 @@ or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
 
 \item{type}{Video type (e.g. 'mp4'). Defaults to the provided file extension.}
 
-\item{save_answer}{See \code{\link{page}}.}
+\item{save_answer}{Whether or not to save the answer.}
 
-\item{on_complete}{See \code{\link{page}}.}
+\item{on_complete}{Optional function to execute on leaving the page
+(after successful validation).
+The argument list should include \code{...},
+and any of:
+\code{state}, the participant's state object;
+\code{answer}, the participant's most recent answer;
+\code{input}, the current page's Shiny input object;
+\code{session}, the current Shiny session object;
+\code{opt}, the test's option list as created by \code{test_options()}.}
 
 \item{video_width}{Video width, as passed to HTML (e.g. '50px').}
 
@@ -48,7 +57,12 @@ the response buttons.}
 
 \item{loop}{Whether the video should loop.}
 
-\item{admin_ui}{See \code{\link{page}}.}
+\item{admin_ui}{Optional UI component for the admin panel.}
+
+\item{btn_play_prompt}{Text to display as a prompt for starting the audio.
+Ordinarily the participant will not see this,
+but it might appear if the internet connection is poor,
+or if the participant refreshes the page.}
 }
 \description{
 Creates an n-alternative forced-foced choice page with a video prompt.

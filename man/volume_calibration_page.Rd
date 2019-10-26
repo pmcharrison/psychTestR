@@ -20,9 +20,17 @@ a sensible English prompt is provided.}
 
 \item{button_text}{Button text (character scalar).}
 
-\item{on_complete}{See \code{\link{page}}.}
+\item{on_complete}{Optional function to execute on leaving the page
+(after successful validation).
+The argument list should include \code{...},
+and any of:
+\code{state}, the participant's state object;
+\code{answer}, the participant's most recent answer;
+\code{input}, the current page's Shiny input object;
+\code{session}, the current Shiny session object;
+\code{opt}, the test's option list as created by \code{test_options()}.}
 
-\item{admin_ui}{See \code{\link{page}}.}
+\item{admin_ui}{Optional UI component for the admin panel.}
 }
 \description{
 Creates a page for the participant to calibrate their volume,

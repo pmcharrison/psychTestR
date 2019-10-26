@@ -11,7 +11,7 @@ final_page(body, admin_ui = NULL)
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. \code{shiny::tags$p("Welcome to the test!")}.}
 
-\item{admin_ui}{See \code{\link{page}}.}
+\item{admin_ui}{Optional UI component for the admin panel.}
 }
 \description{
 Creates a page that concludes the test.

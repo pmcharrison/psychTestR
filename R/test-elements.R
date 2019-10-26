@@ -251,13 +251,16 @@ page <- function(ui, admin_ui = NULL, label = NULL,
 #' advances to the next page.
 #' This is typically used for giving the participant information
 #' about the test.
+#'
 #' @param body Page body. Can be either a character scalar (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
-#' @param admin_ui See \code{\link{page}}.
+#'
 #' @param button_text Text to display on the button.
 #' Should be a character scalar.
-#' @param on_complete See \code{\link{page}}.
+#'
+#' @inheritParams page
+#'
 #' @export
 one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
                             on_complete = NULL) {
@@ -270,10 +273,13 @@ one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
 #' New final page
 #'
 #' Creates a page that concludes the test.
+#'
 #' @param body Page body. Can be either a character scalar (e.g.
 #' "Welcome to the test!") or an object of class "shiny.tag",
 #' e.g. \code{shiny::tags$p("Welcome to the test!")}.
-#' @param admin_ui See \code{\link{page}}.
+#'
+#' @inheritParams page
+#'
 #' @export
 final_page <- function(body, admin_ui = NULL) {
   body <- tagify(body)
@@ -284,17 +290,23 @@ final_page <- function(body, admin_ui = NULL) {
 #'
 #' Creates a page where the participant puts their
 #' answer in a text box.
+#'
 #' @param label Label for the current page (character scalar).
+#'
 #' @param prompt Prompt to display (character scalar or Shiny tag object).
+#'
 #' @param one_line Whether the answer box only has one line of text.
-#' @param save_answer See \code{\link{page}}.
+
 #' @param placeholder Placeholder text for the text box (character scalar).
+#'
 #' @param button_text Text for the submit button (character scalar).
+#'
 #' @param width Width of the text box (character scalar, should be valid HTML).
+#'
 #' @param height Height of the text box (character scalar, should be valid HTML).
-#' @param validate See \code{\link{page}}.
-#' @param on_complete See \code{\link{page}}.
-#' @param admin_ui See \code{\link{page}}.
+#'
+#' @inheritParams page
+#'
 #' @export
 text_input_page <- function(label, prompt,
                             one_line = TRUE,
@@ -333,14 +345,20 @@ text_input_page <- function(label, prompt,
 #' Get participant ID
 #'
 #' A psychTestR page that gets the participant to enter their ID.
+#'
 #' @param prompt Prompt to display (character scalar or Shiny tag object)
+#'
 #' @param placeholder Placeholder text for the text box (character scalar).
+#'
 #' @param button_text Text for the submit button (character scalar).
+#'
 #' @param width Width of the text box (character scalar, should be valid HTML).
-#' @param validate See \code{\link{page}}.
-#' @param admin_ui See \code{\link{page}}.
+#'
+#' @inheritParams page
+#'
 #' @note Participant IDs must be between 1 and 100 characters long,
 #' and solely comprise alphanumeric characters and underscores.
+#'
 #' @export
 get_p_id <- function(prompt = "Please enter your participant ID.",
                      placeholder = "e.g. 10492817",
@@ -395,29 +413,37 @@ describe_valid_p_id <- function() {
 #' New NAFC page
 #'
 #' Creates an n-alternative forced-foced choice page.
+#'
 #' @param label Label for the current page (character scalar).
+#'
 #' @param prompt Prompt to be displayed above the response choices.
 #' Can be either a character scalar (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
+#'
 #' @param choices Character vector of choices for the participant.
 #' If unnamed, then these values will be used both for button IDs
 #' and for button labels.
 #' If named, then values will be used for button IDs and names
 #' will be used for button labels.
+#'
 #' @param labels Optional vector of labels for the NAFC choices.
 #' If not \code{NULL}, will overwrite the names of \code{choices}.
 #' This vector of labels can either be a character vector
 #' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
-#' @param save_answer See \code{\link{page}}.
+#'
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
+#'
 #' @param hide_response_ui Whether to begin with the response interface hidden
 #' (it can be subsequently made visible through Javascript,
 #' using the element ID as set in \code{response_ui_id}.
 #' See \code{audio_NAFC_page} for an example.).
+#'
 #' @param response_ui_id HTML ID for the response user interface.
-#' @param on_complete See \code{\link{page}}.
-#' @param admin_ui See \code{\link{page}}.
+#'
+#' @inheritParams page
+#' @inheritParams make_ui_NAFC
+#'
 #' @export
 NAFC_page <- function(label, prompt, choices, labels = NULL,
                       save_answer = TRUE,
@@ -446,20 +472,26 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
 #' Make NAFC buttons
 #'
 #' Creates HTML code for n-alternative forced-choice response options.
+#'
 #' @param choices Character vector of choices for the participant.
 #' If unnamed, then these values will be used both for button IDs
 #' and for button labels.
 #' If named, then values will be used for button IDs and names
 #' will be used for button labels.
+#'
 #' @param labels Optional vector of labels for the NAFC choices.
 #' If not \code{NULL}, will overwrite the names of \code{choices}.
 #' This vector of labels can either be a character vector
 #' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
+#'
 #' @param hide Whether the response buttons should be hidden
 #' (possibly to be shown later).
+#'
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
+#'
 #' @param id HTML ID for the div containing the response buttons.
+#'
 #' @export
 make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
                          arrange_vertically = length(choices) > 2L,
@@ -482,32 +514,28 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
 #' Make NAFC video page
 #'
 #' Creates an n-alternative forced-foced choice page with a video prompt.
-#' @param label Label for the current page (character scalar).
-#' @param prompt Prompt to be displayed above the response choices.
-#' Can be either a character scalar (e.g. "What is 2 + 2?")
-#' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
-#' @param choices Character vector of choices for the participant.
-#' If unnamed, then these values will be used both for button IDs
-#' and for button labels.
-#' If named, then values will be used for button IDs and names
-#' will be used for button labels.
+#'
 #' @param url URL to the video.
 #' Can be an absolute URL (e.g. "http://mysite.com/video.mp4")
 #' or a URL relative to the /www directory (e.g. "video.mp4").
-#' @param labels Optional vector of labels for the NAFC choices.
-#' If not \code{NULL}, will overwrite the names of \code{choices}.
-#' This vector of labels can either be a character vector
-#' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
+#'
 #' @param type Video type (e.g. 'mp4'). Defaults to the provided file extension.
-#' @param save_answer See \code{\link{page}}.
-#' @param on_complete See \code{\link{page}}.
+#'
 #' @param video_width Video width, as passed to HTML (e.g. '50px').
-#' @param arrange_choices_vertically Whether to arrange the response buttons vertically
+#'
+#' @param arrange_choices_vertically
+#' Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
+#'
 #' @param wait Whether to wait for the video to finish before displaying
 #' the response buttons.
+#'
 #' @param loop Whether the video should loop.
-#' @param admin_ui See \code{\link{page}}.
+#'
+#' @inheritParams NAFC_page
+#' @inheritParams audio_NAFC_page
+#' @inheritParams make_ui_NAFC
+#'
 #' @export
 video_NAFC_page <- function(label, prompt, choices, url,
                             labels = NULL,
@@ -518,7 +546,8 @@ video_NAFC_page <- function(label, prompt, choices, url,
                             arrange_choices_vertically = length(choices) > 2L,
                             wait = TRUE,
                             loop = FALSE,
-                            admin_ui = NULL) {
+                            admin_ui = NULL,
+                            btn_play_prompt = "Click here to play") {
   stopifnot(is.scalar.character(label),
             is.character(choices), is.scalar.character(url),
             is.scalar.character(url), is.scalar.character(video_width),
@@ -535,7 +564,7 @@ video_NAFC_page <- function(label, prompt, choices, url,
       oncanplaythrough = media.js$show_media_btn,
       onplay = paste0(media.js$media_played, media.js$hide_media_btn),
       onended = if (wait) media.js$show_responses else "null"),
-    media_mobile_play_button)
+    media_mobile_play_button(btn_play_prompt))
   prompt2 <- shiny::div(tagify(prompt), video_ui)
   NAFC_page(label = label, prompt = prompt2, choices = choices, labels = labels,
             save_answer = save_answer,
@@ -557,40 +586,43 @@ media.js <- list(
   show_responses = "document.getElementById('response_ui').style.visibility = 'inherit';"
 )
 
-media_mobile_play_button <- shiny::tags$p(
-  shiny::tags$strong("Click here to play"),
+media_mobile_play_button <- function(btn_play_prompt) shiny::tags$p(
+  shiny::tags$strong(btn_play_prompt,
   id = "btn_play_media",
   style = "visibility: hidden",
-  onclick = media.js$play_media)
+  onclick = media.js$play_media))
 
 #' Make NAFC audio page
 #'
 #' Creates an n-alternative forced-foced choice page with an audio prompt.
 #' @param label Label for the current page (character scalar).
+#'
 #' @param prompt Prompt to be displayed above the response choices.
 #' Can be either a character scalar (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
-#' @param choices Character vector of choices for the participant.
-#' If unnamed, then these values will be used both for button IDs
-#' and for button labels.
-#' If named, then values will be used for button IDs and names
-#' will be used for button labels.
-#' @param labels Optional vector of labels for the NAFC choices.
-#' If not \code{NULL}, will overwrite the names of \code{choices}.
-#' This vector of labels can either be a character vector
-#' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
+#'
 #' @param url URL to the audio
 #' Can be an absolute URL (e.g. "http://mysite.com/audio.mp3")
 #' or a URL relative to the /www directory (e.g. "audio.mp3").
+#'
 #' @param type Audio type (e.g. 'mp3'). Defaults to the provided file extension.
-#' @param save_answer See \code{\link{page}}.
-#' @param on_complete See \code{\link{page}}.
+#'
 #' @param arrange_choices_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
+#'
 #' @param wait Whether to wait for the audio to finish before displaying
 #' the response buttons.
+#'
 #' @param loop Whether the audio should loop.
-#' @param admin_ui See \code{\link{page}}.
+#'
+#' @param btn_play_prompt
+#' Text to display as a prompt for starting the audio.
+#' Ordinarily the participant will not see this,
+#' but it might appear if the internet connection is poor,
+#' or if the participant refreshes the page.
+#'
+#' @inheritParams NAFC_page
+#'
 #' @export
 audio_NAFC_page <- function(label, prompt, choices, url,
                             labels = NULL,
@@ -599,7 +631,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
                             on_complete = NULL,
                             arrange_choices_vertically = length(choices) > 2L,
                             wait = TRUE, loop = FALSE,
-                            admin_ui = NULL) {
+                            admin_ui = NULL,
+                            btn_play_prompt = "Click here to play") {
   stopifnot(is.scalar.character(label),
             is.character(choices), is.scalar.character(url),
             is.scalar.character(url),
@@ -615,7 +648,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     oncanplaythrough = media.js$show_media_btn,
     onplay = paste0(media.js$media_played, media.js$hide_media_btn),
     onended = if (wait) media.js$show_responses else "null"
-  ), media_mobile_play_button)
+  ), media_mobile_play_button(btn_play_prompt))
   prompt2 <- shiny::div(tagify(prompt), audio_ui)
   NAFC_page(label = label, prompt = prompt2, choices = choices, labels = labels,
             save_answer = save_answer,
@@ -629,15 +662,20 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 #'
 #' Creates a page for the participant to calibrate their volume,
 #' using example audio, and the volume controls on their computer.
+#'
 #' @param url URL to the audio.
 #' Can be an absolute URL (e.g. "http://mysite.com/audio.mp3")
 #' or a URL relative to the /www directory (e.g. "audio.mp3").
+#'
 #' @param type Audio type (e.g. 'mp3'). Defaults to the provided file extension.
+#'
 #' @param prompt Prompt to be displayed. If left \code{NULL},
 #' a sensible English prompt is provided.
+#'
 #' @param button_text Button text (character scalar).
-#' @param on_complete See \code{\link{page}}.
-#' @param admin_ui See \code{\link{page}}.
+#'
+#' @inheritParams page
+#'
 #' @export
 volume_calibration_page <- function(url, type = tools::file_ext(url),
                                     prompt = NULL,
@@ -666,25 +704,31 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 #' Make dropdown list page
 #'
 #' Creates a page where the response is to be selected from a dropdown list.
+#'
 #' @param label Page label (character scalar).
+#'
 #' @param prompt Prompt to be displayed above the response choices.
 #' Can be either a character scalar (e.g. "What is 2 + 2?")
 #' or an object of class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
+#'
 #' @param choices Character vector of choices for the participant.
 #' If names are provided, then these names will be used for display,
 #' whereas the values will be stored in the results.
+#'
 #' @param alternative_choice Whether or not to give the participant
 #' the option of providing a free-text response instead of
 #' selecting one of the dropdown options.
+#'
 #' @param alternative_text Prompt for the free-text box (only relevant
 #' if \code{alternative_choice} is set to \code{TRUE}).
-#' @param save_answer See \code{\link{page}}.
-#' @param validate See \code{\link{page}}.
-#' @param on_complete See \code{\link{page}}.
+#'
 #' @param next_button_text Text to display on the next-page button
 #' (character scalar).
+#'
 #' @param max_width_pixels Maximum width of the response UI, in pixels.
-#' @param admin_ui See \code{\link{page}}.
+#'
+#' @inheritParams page
+#'
 #' @export
 dropdown_page <- function(label, prompt, choices,
                           alternative_choice = FALSE,
@@ -749,12 +793,12 @@ dropdown_page.get_answer <- function(alternative_text) {
 #'
 #' A version of \code{shiny::actionButton} that triggers
 #' the next psychTestR page.
-#' @param inputId See \link[shiny]{actionButton}
-#' @param label See \link[shiny]{actionButton}
-#' @param icon See \link[shiny]{actionButton}
-#' @param width See \link[shiny]{actionButton}
+
 #' @param enable_after Number of seconds after which responses should be permitted.
 #' @param ... Additional arguments to pass to \link[shiny]{actionButton}.
+#'
+#' @inheritParams shiny::actionButton
+#'
 #' @export
 trigger_button <- function(inputId, label, icon = NULL, width = NULL,
                            enable_after = 0,
@@ -779,6 +823,7 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL,
 #' New results section
 #'
 #' Returns a test element that initialises a new results section.
+#'
 #' @param label Label to give the new results section.
 #' @export
 new_results_section <- function(label) {
@@ -789,8 +834,10 @@ new_results_section <- function(label) {
 #' Save results to disk (test element version)
 #'
 #' Returns a test element that saves the current participant's results to disk.
+#'
 #' @param complete Whether or not the participant
 #' has now completed the test (scalar Boolean).
+#'
 #' @export
 elt_save_results_to_disk <- function(complete) {
   stopifnot(is.scalar.logical(complete))
