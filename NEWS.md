@@ -1,3 +1,6 @@
+- Allowed users to customise the text used to trigger audio/video playback.
+- Minor improvements to documentation.
+
 # psychTestR 2.10.0
 
 - Now the test will accept URL parameters even when enable_resume_sessions = FALSE.

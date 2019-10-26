@@ -8,13 +8,15 @@ trigger_button(inputId, label, icon = NULL, width = NULL,
   enable_after = 0, ...)
 }
 \arguments{
-\item{inputId}{See \link[shiny]{actionButton}}
+\item{inputId}{The \code{input} slot that will be used to access the value.}
 
-\item{label}{See \link[shiny]{actionButton}}
+\item{label}{The contents of the button or link--usually a text label, but
+you could also use any other HTML, like an image.}
 
-\item{icon}{See \link[shiny]{actionButton}}
+\item{icon}{An optional \code{\link[=icon]{icon()}} to appear on the button.}
 
-\item{width}{See \link[shiny]{actionButton}}
+\item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'};
+see \code{\link[=validateCssUnit]{validateCssUnit()}}.}
 
 \item{enable_after}{Number of seconds after which responses should be permitted.}
 

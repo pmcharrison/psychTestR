@@ -12,12 +12,20 @@ one_button_page(body, admin_ui = NULL, button_text = "Next",
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. \code{shiny::tags$p("Welcome to the test!")}.}
 
-\item{admin_ui}{See \code{\link{page}}.}
+\item{admin_ui}{Optional UI component for the admin panel.}
 
 \item{button_text}{Text to display on the button.
 Should be a character scalar.}
 
-\item{on_complete}{See \code{\link{page}}.}
+\item{on_complete}{Optional function to execute on leaving the page
+(after successful validation).
+The argument list should include \code{...},
+and any of:
+\code{state}, the participant's state object;
+\code{answer}, the participant's most recent answer;
+\code{input}, the current page's Shiny input object;
+\code{session}, the current Shiny session object;
+\code{opt}, the test's option list as created by \code{test_options()}.}
 }
 \description{
 Creates a page with a prompt and one button which, when clicked,

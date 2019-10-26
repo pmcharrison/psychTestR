@@ -27,7 +27,7 @@ If not \code{NULL}, will overwrite the names of \code{choices}.
 This vector of labels can either be a character vector
 or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
 
-\item{save_answer}{See \code{\link{page}}.}
+\item{save_answer}{Whether or not to save the answer.}
 
 \item{arrange_vertically}{Whether to arrange the response buttons vertically
 (the default) as opposed to horizontally.}
@@ -39,9 +39,17 @@ See \code{audio_NAFC_page} for an example.).}
 
 \item{response_ui_id}{HTML ID for the response user interface.}
 
-\item{on_complete}{See \code{\link{page}}.}
+\item{on_complete}{Optional function to execute on leaving the page
+(after successful validation).
+The argument list should include \code{...},
+and any of:
+\code{state}, the participant's state object;
+\code{answer}, the participant's most recent answer;
+\code{input}, the current page's Shiny input object;
+\code{session}, the current Shiny session object;
+\code{opt}, the test's option list as created by \code{test_options()}.}
 
-\item{admin_ui}{See \code{\link{page}}.}
+\item{admin_ui}{Optional UI component for the admin panel.}
 }
 \description{
 Creates an n-alternative forced-foced choice page.

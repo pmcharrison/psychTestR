@@ -28,18 +28,38 @@ selecting one of the dropdown options.}
 \item{alternative_text}{Prompt for the free-text box (only relevant
 if \code{alternative_choice} is set to \code{TRUE}).}
 
-\item{save_answer}{See \code{\link{page}}.}
+\item{save_answer}{Whether or not to save the answer.}
 
-\item{validate}{See \code{\link{page}}.}
+\item{validate}{Optional validation function.
+The argument list should include \code{...},
+and any of:
+\code{answer}, the participant's most recent answer;
+\code{state}, the participant's state object;
+\code{input}, the current page's Shiny input object;
+\code{opt}, the test's option list as created by \code{test_options()};
+\code{session}, the current Shiny session object.
+It should return \code{TRUE} for a successful validation;
+for an unsuccessful validation, it should return either \code{FALSE}
+or a character scalar error message.
+If validation fails then the page will be refreshed, usually
+to give the user a chance to revise their input.}
 
-\item{on_complete}{See \code{\link{page}}.}
+\item{on_complete}{Optional function to execute on leaving the page
+(after successful validation).
+The argument list should include \code{...},
+and any of:
+\code{state}, the participant's state object;
+\code{answer}, the participant's most recent answer;
+\code{input}, the current page's Shiny input object;
+\code{session}, the current Shiny session object;
+\code{opt}, the test's option list as created by \code{test_options()}.}
 
 \item{next_button_text}{Text to display on the next-page button
 (character scalar).}
 
 \item{max_width_pixels}{Maximum width of the response UI, in pixels.}
 
-\item{admin_ui}{See \code{\link{page}}.}
+\item{admin_ui}{Optional UI component for the admin panel.}
 }
 \description{
 Creates a page where the response is to be selected from a dropdown list.
