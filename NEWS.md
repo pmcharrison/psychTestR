@@ -1,3 +1,5 @@
+# psychTestR 2.11.0
+
 - Allowed users to customise the text used to trigger audio/video playback.
 - Minor improvements to documentation.
 
