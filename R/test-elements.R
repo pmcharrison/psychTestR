@@ -1006,6 +1006,32 @@ while_loop <- function(test, logic) {
     eval_test(skip_len = - (n + 1), skip_when = "pass"))
 }
 
+#' Conditional test block
+#'
+#' This function evalutes a test function at run time to decide
+#' whether to administer a series of test elements to the participant.
+#' If the test returns \code{TRUE}, then the test elements are shown,
+#' otherwise these test elements are skipped.
+#'
+#' @param test Function to evaluate at run time.
+#' This function must accept the argument \code{...},
+#' and optionally the following named arguments:
+#' - \code{state}, the participant's state object;
+#' - \code{input}, the current page's Shiny input object;
+#' - \code{output}, the current page's Shiny output object;
+#' - \code{session}, the current Shiny session object;
+#' - \code{opt}, the test's option list as created by \code{\link{test_options}}.
+#'
+#' @param logic
+#' Either a single test element, a list of test elements, or a timeline,
+#' which will be displayed conditionally on the basis of the outcome
+#' of \code{test}.
+#'
+#' @return
+#' A list of test elements, or equivalently a timeline, which can be combined
+#' with other test elements or timelines.
+#'
+#' @md
 #' @export
 conditional <- function(test, logic) {
   if (!is.function(test)) stop("<test> must be a function")

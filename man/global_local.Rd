@@ -10,11 +10,11 @@
 \usage{
 get_global(key, state)
 
-set_global(key, value, state)
+set_global(key, value, state, allow_dots = FALSE)
 
 get_local(key, state)
 
-set_local(key, value, state)
+set_local(key, value, state, allow_dots = FALSE)
 
 assert_global_is_null(key, state)
 }
@@ -24,6 +24,9 @@ assert_global_is_null(key, state)
 \item{state}{The participant's \code{state} object.}
 
 \item{value}{Value to set the variable to.}
+
+\item{allow_dots}{Set to \code{TRUE} to allow keys beginning with periods,
+which are typically reserved for internal use by psychTestR.}
 }
 \value{
 \code{get_global} and \code{get_local} return the respective
