@@ -413,7 +413,8 @@ admin_panel.handle_downloads.current_results.csv <- function(state, output) {
     content = function(file) {
       df <- tryCatch({
         as.data.frame(get_results(
-          state, complete = FALSE, add_session_info = TRUE))
+          state, complete = FALSE, add_session_info = TRUE)) %>%
+          list_cols_to_json()
       }, error = function(e) {
         msg <- "Failed to create csv file. Try saving an RDS file instead."
         shiny::showNotification(msg, type = "error")
@@ -443,7 +444,8 @@ admin_panel.handle_downloads.all_results.csv <- function(state, output, opt) {
     filename = "results.csv",
     content = function(file) {
       df <- tryCatch({
-        df_all_results(opt$results_dir)
+        df_all_results(opt$results_dir) %>%
+          list_cols_to_json()
       }, error = function(e) {
         print(e)
         msg <- "Failed to create csv file. Try saving an RDS file instead."
@@ -453,6 +455,14 @@ admin_panel.handle_downloads.all_results.csv <- function(state, output, opt) {
       write.csv(df, file, row.names = FALSE)
     }
   )
+}
+
+list_cols_to_json <- function(df) {
+  which_list <- purrr::map_lgl(df, is.list) %>% which()
+  for (i in which_list) {
+    df[[i]] <- purrr::map_chr(df[[i]], jsonlite::toJSON)
+  }
+  df
 }
 
 zip_dir <- function(dir, output_file) {

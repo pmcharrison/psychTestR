@@ -1,3 +1,10 @@
+# psychTestR 2.12.0
+
+- Added `conditional()`, which allows test elements to be displayed conditionally at run time.
+- Added `order_at_run_time()`, which orders test elements at run time.
+- Added `randomise_at_run_time()`, which randomises test elements at run time.
+- CSV export now supports columns containing atomic vectors.
+
 # psychTestR 2.11.0
 
 - Allowed users to customise the text used to trigger audio/video playback.

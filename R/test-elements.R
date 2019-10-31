@@ -1006,6 +1006,59 @@ while_loop <- function(test, logic) {
     eval_test(skip_len = - (n + 1), skip_when = "pass"))
 }
 
+#' Conditional test block
+#'
+#' This function evalutes a test function at run time to decide
+#' whether to administer a series of test elements to the participant.
+#' If the test returns \code{TRUE}, then the test elements are shown,
+#' otherwise these test elements are skipped.
+#'
+#' @param test Function to evaluate at run time.
+#' This function must accept the argument \code{...},
+#' and optionally the following named arguments:
+#' - \code{state}, the participant's state object;
+#' - \code{input}, the current page's Shiny input object;
+#' - \code{output}, the current page's Shiny output object;
+#' - \code{session}, the current Shiny session object;
+#' - \code{opt}, the test's option list as created by \code{\link{test_options}}.
+#'
+#' @param logic
+#' Either a single test element, a list of test elements, or a timeline,
+#' which will be displayed conditionally on the basis of the outcome
+#' of \code{test}.
+#'
+#' @return
+#' A list of test elements, or equivalently a timeline, which can be combined
+#' with other test elements or timelines.
+#'
+#' @md
+#' @export
+conditional <- function(test, logic) {
+  if (!is.function(test)) stop("<test> must be a function")
+  if (!(is.list(logic) ||
+        is.test_element(logic) ||
+        is.timeline(logic))) {
+    stop("<logic> must be either a test element, a list, or a timeline")
+  }
+  if (is.test_element(logic)) logic <- list(logic)
+  if (length(logic) == 0L) stop("<logic> may not be empty")
+
+  n <- length(logic)
+
+  eval_test <- code_block(function(state, elts, input, output, session, opt, ...) {
+    res <- test(state = state, input = input, output = output,
+                session = session, opt = opt)
+    if (!is.scalar.logical(res)) stop("<test> did not return a ",
+                                      "logical scalar")
+    if (!res) skip_n_pages(state, n)
+  })
+
+  c(
+    eval_test,
+    logic
+  )
+}
+
 #' Begin module
 #'
 #' Returns a code block that begins a psychTestR module.
