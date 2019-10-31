@@ -29,7 +29,8 @@ Imports:
     checkmate (>= 1.8.5),
     purrr,
     codetools,
-    tibble
+    tibble,
+    jsonlite
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.0.0),
