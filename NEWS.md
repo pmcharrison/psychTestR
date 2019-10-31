@@ -1,3 +1,5 @@
+# psychTestR 2.13.0
+
 - Updated `order_at_run_time()` and `randomise_at_run_time()`
 so that they can be nested arbitrarily many times.
 
