@@ -334,6 +334,8 @@ get_results <- function(state, complete, add_session_info = FALSE) {
 #' @param key The variable's key (character scalar).
 #' @param value Value to set the variable to.
 #' @param state The participant's \code{state} object.
+#' @param allow_dots Set to \code{TRUE} to allow keys beginning with periods,
+#' which are typically reserved for internal use by psychTestR.
 #'
 #' @return \code{get_global} and \code{get_local} return the respective
 #' variables with key equal to \code{key}, or \code{NULL} if the
@@ -347,10 +349,21 @@ get_global <- function(key, state) {
   state$passive$globals[[key]]
 }
 
+check_key <- function(key, allow_dots) {
+  if (substr(key, 1, 1) == "." && !allow_dots) {
+    stop("Variable names beginning with '.' are reserved for use by psychTestR. ",
+         "If you are sure you want to overwrite this variable, ",
+         "set allow_dots = TRUE.")
+  }
+}
+
 #' @export
 #' @rdname global_local
-set_global <- function(key, value, state) {
-  stopifnot(is.scalar.character(key), is(state, "state"))
+set_global <- function(key, value, state, allow_dots = FALSE) {
+  stopifnot(is.scalar.character(key),
+            is(state, "state"),
+            is.scalar.logical(allow_dots))
+  check_key(key, allow_dots)
   state$passive$globals[[key]] <- value
 }
 
@@ -363,8 +376,11 @@ get_local <- function(key, state) {
 
 #' @rdname global_local
 #' @export
-set_local <- function(key, value, state) {
-  stopifnot(is.scalar.character(key), is(state, "state"))
+set_local <- function(key, value, state, allow_dots = FALSE) {
+  stopifnot(is.scalar.character(key),
+            is(state, "state"),
+            is.scalar.logical(allow_dots))
+  check_key(key, allow_dots)
   state$passive$locals[[key]] <- value
 }
 
