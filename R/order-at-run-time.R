@@ -3,6 +3,8 @@
 #' This helper function constructs a timeline where the order of
 #' test elements (or blocks of test elements) is determined at run time.
 #'
+#' @note This function can be nested arbitrarily many times.
+#'
 #' @param label
 #' (Character scalar)
 #' A label for storing the generated order of test elements.
@@ -43,33 +45,56 @@ order_at_run_time <- function(
   logic,
   save_order = function(order, state, ...) save_result(state, label, order)
 ) {
+  get_block_queues <- function(state) get_global(".block_queues", state)
+
+  set_block_queues <- function(block_queues, state) {
+    set_global(".block_queues", block_queues, state, allow_dots = TRUE)
+  }
+
+  add_queue <- function(block_queues, queue) {
+    block_queues[[length(block_queues) + 1]] <- queue
+    block_queues
+  }
+
   init_block_queue <- code_block(function(state, ...) {
     order <- get_order(state = state, ...)
     stopifnot(is.numeric(order),
               !anyDuplicated(order),
               all(order %in% seq_along(logic)))
-    set_global(".block_queue", order, state, allow_dots = TRUE)
-    save_order(order = order,
-               state = state,
-               ...)
+    set_block_queues(get_block_queues(state) %>% add_queue(order), state)
+    save_order(order = order, state = state, ...)
   })
 
-  is_next_block <- function(i) function(state, ...) {
-    queue <- get_global(".block_queue", state)
-    checkmate::qassert(i, "X1")
-    stopifnot(length(queue) > 0)
-    queue[1] == i
+  get_current_queue <- function(state) {
+    block_queues <- get_block_queues(state)
+    block_queues[[length(block_queues)]]
   }
 
-  any_more_blocks <- function(state, ...) length(get_global(".block_queue", state)) > 0
+  pop_queue <- function(block_queues) {
+    stopifnot(length(block_queues) > 0)
+    block_queues[- length(block_queues)]
+  }
+
+  is_next_block <- function(i) function(state, ...) {
+    checkmate::qassert(i, "X1")
+    current_queue <- get_current_queue(state)
+    stopifnot(length(current_queue) > 0)
+    current_queue[1] == i
+  }
+
+  any_more_blocks <- function(state, ...) {
+    length(get_current_queue(state)) > 0
+  }
 
   clear_block_queue <- code_block(function(state, ...)
-    set_global(".block_queue", NULL, state, allow_dots = TRUE))
+    set_block_queues(get_block_queues(state) %>% pop_queue(), state))
 
   pop_block <- code_block(function(state, ...) {
-    queue <- get_global(".block_queue", state)
+    queue <- get_current_queue(state)
     stopifnot(is.numeric(queue), length(queue) > 0)
-    set_global(".block_queue", queue[-1], state, allow_dots = TRUE)
+    block_queues <- get_block_queues(state)
+    block_queues[[length(block_queues)]] <- queue[-1]
+    set_block_queues(block_queues, state)
   })
 
   conditional_blocks <- purrr::map2(logic, seq_along(logic), function(block, i) {

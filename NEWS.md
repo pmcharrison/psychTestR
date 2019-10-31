@@ -1,3 +1,6 @@
+- Updated `order_at_run_time()` and `randomise_at_run_time()`
+so that they can be nested arbitrarily many times.
+
 # psychTestR 2.12.0
 
 - Added `conditional()`, which allows test elements to be displayed conditionally at run time.
