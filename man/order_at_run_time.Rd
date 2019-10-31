@@ -38,6 +38,9 @@ afresh for each new participant.
 This helper function constructs a timeline where the order of
 test elements (or blocks of test elements) is determined at run time.
 }
+\note{
+This function can be nested arbitrarily many times.
+}
 \seealso{
 \code{\link{randomise_at_run_time}} for the common application
 of randomising the order of test elements anew for each participant.
