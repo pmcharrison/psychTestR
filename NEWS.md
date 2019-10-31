@@ -1,3 +1,5 @@
+# psychTestR 2.12.0
+
 - Added `conditional()`, which allows test elements to be displayed conditionally at run time.
 - Added `order_at_run_time()`, which orders test elements at run time.
 - Added `randomise_at_run_time()`, which randomises test elements at run time.
