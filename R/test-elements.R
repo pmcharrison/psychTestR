@@ -1006,6 +1006,33 @@ while_loop <- function(test, logic) {
     eval_test(skip_len = - (n + 1), skip_when = "pass"))
 }
 
+#' @export
+conditional <- function(test, logic) {
+  if (!is.function(test)) stop("<test> must be a function")
+  if (!(is.list(logic) ||
+        is.test_element(logic) ||
+        is.timeline(logic))) {
+    stop("<logic> must be either a test element, a list, or a timeline")
+  }
+  if (is.test_element(logic)) logic <- list(logic)
+  if (length(logic) == 0L) stop("<logic> may not be empty")
+
+  n <- length(logic)
+
+  eval_test <- code_block(function(state, elts, input, output, session, opt, ...) {
+    res <- test(state = state, input = input, output = output,
+                session = session, opt = opt)
+    if (!is.scalar.logical(res)) stop("<test> did not return a ",
+                                      "logical scalar")
+    if (!res) skip_n_pages(state, n)
+  })
+
+  c(
+    eval_test,
+    logic
+  )
+}
+
 #' Begin module
 #'
 #' Returns a code block that begins a psychTestR module.
