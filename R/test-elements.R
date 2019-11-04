@@ -588,9 +588,9 @@ media.js <- list(
 
 media_mobile_play_button <- function(btn_play_prompt) shiny::tags$p(
   shiny::tags$strong(btn_play_prompt,
-  id = "btn_play_media",
-  style = "visibility: hidden",
-  onclick = media.js$play_media))
+                     id = "btn_play_media",
+                     style = "visibility: hidden",
+                     onclick = media.js$play_media))
 
 #' Make NAFC audio page
 #'
@@ -1101,18 +1101,20 @@ end_module <- function() {
 finish_test_and_give_code <- function(researcher_email) {
   c(
     begin_module("finish"),
-    code_block(function(state, ...) {
+    code_block(function(state, opt, ...) {
       code <- generate_id(16)
       save_result(state, "code", code)
       set_local("code", code, state)
-      save_results_to_disk(complete = TRUE)
+      save_results_to_disk(complete = TRUE,
+                           state = state,
+                           opt = opt)
     }),
     reactive_page(function(state, options, ...) {
       final_page(shiny::div(
         shiny::p("Thank you very much for participating in this study."),
         shiny::p("Your completion code is:",
                  shiny::strong(get_local("code", state))),
-        shiny::p(sprintf(
-          "If you have any further questions or feedback, please feel free to",
-          "contact the research team at %s.", researcher_email))))}))
+        shiny::p(sprintf(paste0(
+          "If you have any further questions or feedback, please feel free to ",
+          "contact the lead researcher at %s."), researcher_email))))}))
 }
