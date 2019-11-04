@@ -55,6 +55,7 @@ order_at_run_time <- function(
   }
 
   add_queue <- function(block_queues, queue) {
+    block_queues <- as.list(block_queues)
     block_queues[[length(block_queues) + 1]] <- queue
     block_queues
   }
