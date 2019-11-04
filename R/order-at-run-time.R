@@ -45,6 +45,9 @@ order_at_run_time <- function(
   logic,
   save_order = function(order, state, ...) save_result(state, label, order)
 ) {
+  checkmate::qassert(label, "S1")
+  stopifnot(is.list(logic))
+
   get_block_queues <- function(state) get_global(".block_queues", state)
 
   set_block_queues <- function(block_queues, state) {

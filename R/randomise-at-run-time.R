@@ -48,8 +48,6 @@ randomise_at_run_time <- function(
   logic,
   save_order = function(order, state, ...) save_result(state, label, order)
 ) {
-  checkmate::qassert(label, "S1")
-  stopifnot(is.list(logic))
   n <- length(logic)
 
   order_at_run_time(
