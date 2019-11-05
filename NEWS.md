@@ -1,3 +1,5 @@
+# psychTestR 2.13.1
+
 - Fixed `finish_test_and_give_code()`, which was not working properly.
 - Fixed bug where `order_at_run_time()` failed when there was only one block to randomise.
 
