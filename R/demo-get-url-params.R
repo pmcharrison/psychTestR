@@ -3,7 +3,7 @@
 #' Demonstrates how psychTestR can get URL parameters.
 #' @export
 demo.get_url_params <- function() {
-  elts <- c(
+  elts <- join(
     psychTestR::one_button_page("We will now demonstrate getting URL parameters."),
     psychTestR::reactive_page(function(state, ...) {
       msg <- psychTestR::get_url_params(state)$print

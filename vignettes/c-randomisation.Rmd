@@ -141,7 +141,7 @@ looks up the appropriate item in `items`,
 and then generates the required page with the `item` function.
 
 ```{r}
-show_items <- c(
+show_items <- join(
   code_block(function(state, ...) set_local("item_pos", 1L, state)),
   while_loop(
     test = function(state, ...) get_local("item_pos", state) <= num_items,
@@ -161,7 +161,7 @@ Finally, we can put together the whole test by combining three elements:
 4. A final page to terminate the test (`final_page`). 
 
 ``` r
-make_test(c(
+make_test(join(
   init_randomiser,
   show_items,
   elt_save_results_to_disk(complete = TRUE),
