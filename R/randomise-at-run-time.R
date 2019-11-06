@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' \donttest{
-#' c(
+#' join(
 #'   randomise_at_run_time(
 #'     "main",
 #'     list(
@@ -39,7 +39,7 @@
 #'       )
 #'     )
 #'   )
-#' ) %>% c(final_page("End")) %>% make_test()
+#' ) %>% join(final_page("End")) %>% make_test()
 #' }
 #'
 #' @export

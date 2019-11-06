@@ -117,7 +117,7 @@ you can install it with `install.packages("tidyverse")`.
 library(tidyverse)
 
 questionnaire <- new_timeline(
-  c(
+  join(
     begin_module("my_questionnaire"),
     definition %>% 
       select(item_number, key_type, key) %>% 
@@ -203,7 +203,7 @@ note that this must be called interactively or else
 placed within a call to `shiny::runApp`.
 
 ```r
-logic <- c(
+logic <- join(
   questionnaire,
   elt_save_results_to_disk(complete = TRUE),
   final_page("FIN")

@@ -14,7 +14,7 @@ get_basic_demographics <- function(intro = basic_demographics_default_intro(),
                                    occupation = TRUE,
                                    education = TRUE) {
   stopifnot(is.null(intro) || is(intro, "page"))
-  c(
+  join(
     begin_module("demographics"),
     intro,
     if (gender) get_basic_demographics.gender(),

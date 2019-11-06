@@ -1,3 +1,8 @@
+- Fixed issue where `c()` didn't work well for all combinations 
+of element types, replacing it with a new function `join()`,
+a more reliable method for achieving the same result.
+This in turn addresses some problems observed with `order_at_run_time()`.
+
 # psychTestR 2.13.1
 
 - Fixed `finish_test_and_give_code()`, which was not working properly.

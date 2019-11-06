@@ -1,4 +1,4 @@
-elts <- c(
+elts <- join(
   psychTestR::one_button_page(
     shiny::div(shiny::p("This demo demonstrates the dynamic admin UI functionality."),
                shiny::p("If you login to the admin panel (password = demo),",

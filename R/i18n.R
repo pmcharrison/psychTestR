@@ -309,17 +309,17 @@ c.timeline <- function(...) {
     lst <- if (x_is_timeline && y_is_timeline) {
       langs <- sort(intersect(x$languages, y$languages))
       sapply(langs, function(lang) {
-        c(x$get(lang), y$get(lang))
+        join(x$get(lang), y$get(lang))
       }, simplify = FALSE)
     } else if (x_is_timeline && !y_is_timeline) {
       langs <- sort(x$languages)
       sapply(langs, function(lang) {
-        c(x$get(lang), y)
+        join(x$get(lang), y)
       }, simplify = FALSE)
     } else if (!x_is_timeline && y_is_timeline) {
       langs <- sort(y$languages)
       sapply(langs, function(lang) {
-        c(x, y$get(lang))
+        join(x, y$get(lang))
       }, simplify = FALSE)
     } else {
       list(EN = c(x, y))

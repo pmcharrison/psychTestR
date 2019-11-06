@@ -3,7 +3,7 @@
 #' Demonstrates how psychTestR can set URL parameters.
 #' @export
 demo.set_url_params <- function() {
-  elts <- c(
+  elts <- join(
     psychTestR::one_button_page("We will now demonstrate the setting of URL parameters."),
     psychTestR::text_input_page(
       label = "input",

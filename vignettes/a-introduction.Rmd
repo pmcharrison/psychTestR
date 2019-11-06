@@ -660,7 +660,7 @@ save_res <- code_block(function(state, ...) {
               label = "cheese_liking",
               value = mean(scores))
 })
-make_test(c(
+make_test(join(
   items, 
   save_res,
   elt_save_results_to_disk(complete = TRUE),

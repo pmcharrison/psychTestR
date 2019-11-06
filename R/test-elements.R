@@ -30,6 +30,23 @@ is.test_element <- function(x) is(x, "test_element")
 
 #' @export
 c.test_element <- function(...) {
+  join(...)
+}
+
+#' Join test elements
+#'
+#' Joins a series of test elements or timelines into
+#' one list or timeline.
+#' Often one can equivalently use `c(...)` in such situations,
+#' but this approach is safer.
+#'
+#' @param ... Test elements or timelines to combine.
+#'
+#' @return A list of test elements if the input didn't contain
+#' any timelines, otherwise a timeline.
+#'
+#' @export
+join <- function(...) {
   input <- list(...)
   input <- Filter(f = Negate(is.null), input)
   stopifnot(all(vapply(input, function(x) {
@@ -947,7 +964,7 @@ loop_while <- function(test, logic) {
                                       "logical scalar")
     if (res) skip_n_pages(state, - (n + 1L))
   })
-  c(logic, elt)
+  join(logic, elt)
 }
 
 #' While loop
@@ -1001,9 +1018,11 @@ while_loop <- function(test, logic) {
 
   n <- length(logic)
 
-  c(eval_test(skip_len = n + 1, skip_when = "fail"),
+  join(
+    eval_test(skip_len = n + 1, skip_when = "fail"),
     logic,
-    eval_test(skip_len = - (n + 1), skip_when = "pass"))
+    eval_test(skip_len = - (n + 1), skip_when = "pass")
+  )
 }
 
 #' Conditional test block
@@ -1053,7 +1072,7 @@ conditional <- function(test, logic) {
     if (!res) skip_n_pages(state, n)
   })
 
-  c(
+  join(
     eval_test,
     logic
   )
@@ -1099,7 +1118,7 @@ end_module <- function() {
 #' (given in case the participant has any further questions).
 #' @export
 finish_test_and_give_code <- function(researcher_email) {
-  c(
+  join(
     begin_module("finish"),
     code_block(function(state, opt, ...) {
       code <- generate_id(16)

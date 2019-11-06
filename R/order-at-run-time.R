@@ -105,8 +105,8 @@ order_at_run_time <- function(
     conditional(is_next_block(i), block)
   })
 
-  loop <- while_loop(logic = c(do.call(c, conditional_blocks), pop_block),
+  loop <- while_loop(logic = join(do.call(join, conditional_blocks), pop_block),
                      test = any_more_blocks)
 
-  c(init_block_queue, loop, clear_block_queue)
+  join(init_block_queue, loop, clear_block_queue)
 }
