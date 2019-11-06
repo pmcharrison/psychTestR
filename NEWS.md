@@ -1,3 +1,5 @@
+# psychTestR 2.13.2
+
 - Fixed issue where `c()` didn't work well for all combinations 
 of element types, replacing it with a new function `join()`,
 a more reliable method for achieving the same result.
