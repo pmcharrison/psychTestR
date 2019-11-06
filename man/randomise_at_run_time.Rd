@@ -37,7 +37,7 @@ This function can be nested arbitrarily many times.
 }
 \examples{
 \donttest{
-c(
+join(
   randomise_at_run_time(
     "main",
     list(
@@ -61,7 +61,7 @@ c(
       )
     )
   )
-) \%>\% c(final_page("End")) \%>\% make_test()
+) \%>\% join(final_page("End")) \%>\% make_test()
 }
 
 }
