@@ -4,7 +4,7 @@
 \name{I18N_STATE}
 \alias{I18N_STATE}
 \title{i18n state}
-\format{An object of class \code{i18n_state} (inherits from \code{R6}) of length 8.}
+\format{An object of class \code{i18n_state} (inherits from \code{R6}) of length 11.}
 \usage{
 I18N_STATE
 }

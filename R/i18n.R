@@ -111,9 +111,20 @@ i18n_state <- R6::R6Class(
   public = list(
     dict = NULL,
     lang = NULL,
+    in_new_timeline = FALSE,
     initialize = function() {
       self$dict <- NULL
       self$lang <- NULL
+    },
+    enter_new_timeline = function() {
+      if (self$in_new_timeline) warning("tried to enter new_timeline(), ",
+                                        "but was already in new_timeline()")
+      self$in_new_timeline <- TRUE
+    },
+    exit_new_timeline = function() {
+      if (!self$in_new_timeline) warning("tried to exit new_timeline(), ",
+                                         "but was not in new_timeline()")
+      self$in_new_timeline <- FALSE
     },
     set = function(dict, lang) {
       stopifnot(is.null(dict) ||
@@ -366,7 +377,12 @@ as.timeline <- function(x, ...) {
 #' first and subsequently combining them.
 #' This helps to narrow down the source of any errors.
 #' @export
-new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
+new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = tryCatch({
+  if (psychTestR::I18N_STATE$in_new_timeline) {
+    stop("Nested calls to new_timeline() are not supported. ",
+         "Instead you should use the join() function to connect multiple timelines.")
+  }
+  psychTestR::I18N_STATE$enter_new_timeline()
   stopifnot(psychTestR::is.null.or(dict, function(z) is(dict, "i18n_dict")))
   checkmate::qassert(default_lang, "S1")
   local({
@@ -384,8 +400,10 @@ new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = {
     }
     names(res) <- langs
     psychTestR::timeline$new(res)
+  })}, finally = {
+    psychTestR::I18N_STATE$exit_new_timeline()
   })
-})
+)
 
 
 #' Format new timeline
@@ -514,14 +532,9 @@ with_i18n_state <- gtools::defmacro(dictionary, language, x, expr = {
     psychTestR::I18N_STATE$set(dict = dictionary, lang = language)
     tryCatch(
       res <- eval(x),
-      error = function(e) {
-        psychTestR::I18N_STATE$set(dict = old_state$dict,
-                                   lang = old_state$lang)
-        stop(e)
-      }
+      finally = psychTestR::I18N_STATE$set(dict = old_state$dict,
+                                           lang = old_state$lang)
     )
-    psychTestR::I18N_STATE$set(dict = old_state$dict,
-                               lang = old_state$lang)
     res
   })
 })
