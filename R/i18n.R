@@ -532,14 +532,9 @@ with_i18n_state <- gtools::defmacro(dictionary, language, x, expr = {
     psychTestR::I18N_STATE$set(dict = dictionary, lang = language)
     tryCatch(
       res <- eval(x),
-      error = function(e) {
-        psychTestR::I18N_STATE$set(dict = old_state$dict,
-                                   lang = old_state$lang)
-        stop(e)
-      }
+      finally = psychTestR::I18N_STATE$set(dict = old_state$dict,
+                                           lang = old_state$lang)
     )
-    psychTestR::I18N_STATE$set(dict = old_state$dict,
-                               lang = old_state$lang)
     res
   })
 })
