@@ -1,3 +1,5 @@
+# psychTestR 2.13.3
+
 - psychTestR now throws an error on nested calls to `new_timeline()`,
 which sometimes worked as intended, sometimes not...
 
