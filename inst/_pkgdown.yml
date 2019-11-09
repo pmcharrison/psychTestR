@@ -7,11 +7,13 @@ reference:
   contents:
   - '`make_test`'
   - '`test_options`'
+  - '`display_options`'
 - title: Timelines
   desc: Timelines are sequences of test elements that define a psychTestR test.
   contents:
   - '`as.timeline`'
   - '`is.timeline`'
+  - - '`join`'
   - '`new_timeline`'
   - '`new_results_section`'
   - '`timeline`'
@@ -32,8 +34,12 @@ reference:
       By default, psychTestR steps through the list of test elements one by one.
       These control logic functions provide more complex behaviour.
   contents:
+  - '`conditional`'
   - '`loop_while`'
+  - '`order_at_run_time`'
+  - '`randomise_at_run_time`'
   - '`skip_n_pages`'
+  - '`while_loop`'
 - title: Answers
   desc: >
       At a given point in the test, the `answer` variable corresponds
@@ -128,6 +134,11 @@ reference:
   - '`check_dirs`'
   - '`register_next_results_section`'
   - '`test_permissions`'
+  - '`with_i18n_state`'
+- title: Misc.
+  desc: Miscellaneous other functions.
+  contents:
+  - '`imports`'
 - title: Deprecated
   desc: These are functions that are supported for backwards compatibility, but whose use are not encouraged.
   contents:
