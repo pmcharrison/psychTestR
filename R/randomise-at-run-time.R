@@ -14,7 +14,7 @@
 #' order for each participant.
 #'
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' join(
 #'   randomise_at_run_time(
 #'     "main",

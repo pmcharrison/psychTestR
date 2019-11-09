@@ -36,7 +36,7 @@ test elements (or blocks of test elements) is determined at run time.
 This function can be nested arbitrarily many times.
 }
 \examples{
-\donttest{
+\dontrun{
 join(
   randomise_at_run_time(
     "main",
