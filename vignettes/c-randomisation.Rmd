@@ -106,7 +106,7 @@ Arbitrary randomisation schemes can be implemented using the
 For example, suppose that we wish to randomly choose between 
 two item orders, 1-2-3 or 3-2-1. We can implement this as follows:
 
-``` {r}
+``` r
 randomised <- order_at_run_time(
   label = "item_order",
   logic = item_pages,
