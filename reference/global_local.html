@@ -71,7 +71,7 @@ this variable for later use." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.3</span>
       </span>
     </div>
 
@@ -156,11 +156,11 @@ this variable for later use.</p>
 
     <pre class="usage"><span class='fu'>get_global</span>(<span class='no'>key</span>, <span class='no'>state</span>)
 
-<span class='fu'>set_global</span>(<span class='no'>key</span>, <span class='no'>value</span>, <span class='no'>state</span>)
+<span class='fu'>set_global</span>(<span class='no'>key</span>, <span class='no'>value</span>, <span class='no'>state</span>, <span class='kw'>allow_dots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>get_local</span>(<span class='no'>key</span>, <span class='no'>state</span>)
 
-<span class='fu'>set_local</span>(<span class='no'>key</span>, <span class='no'>value</span>, <span class='no'>state</span>)
+<span class='fu'>set_local</span>(<span class='no'>key</span>, <span class='no'>value</span>, <span class='no'>state</span>, <span class='kw'>allow_dots</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>assert_global_is_null</span>(<span class='no'>key</span>, <span class='no'>state</span>)</pre>
 
@@ -178,6 +178,11 @@ this variable for later use.</p>
     <tr>
       <th>value</th>
       <td><p>Value to set the variable to.</p></td>
+    </tr>
+    <tr>
+      <th>allow_dots</th>
+      <td><p>Set to <code>TRUE</code> to allow keys beginning with periods,
+which are typically reserved for internal use by psychTestR.</p></td>
     </tr>
     </table>
 

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.3</span>
       </span>
     </div>
 
@@ -191,7 +191,7 @@
 <li>The <code>test</code> argument describes a function that is evaluated to determine whether to administer the test elements described in <code>logic</code>. Here the <code>test</code> function checks whether the <code>item_pos</code> local variable is less than or equal to the total number of items in the test; if so, then another item should be administered.</li>
 <li>The <code>logic</code> argument takes the form of a <em>reactive page</em>. A reactive page is a page whose content depends on variables generated during the participant’s testing session, in this case <code>item_pos</code> and <code>item_order</code>. The reactive page defined here refers to these local variables, looks up the appropriate item in <code>items</code>, and then generates the required page with the <code>item</code> function.</li>
 </ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">show_items &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">show_items &lt;-<span class="st"> </span><span class="kw"><a href="../reference/join.html">join</a></span>(</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="kw"><a href="../reference/code_block.html">code_block</a></span>(<span class="cf">function</span>(state, ...) <span class="kw"><a href="../reference/global_local.html">set_local</a></span>(<span class="st">"item_pos"</span>, 1L, state)),</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="kw"><a href="../reference/while_loop.html">while_loop</a></span>(</a>
 <a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="dt">test =</span> <span class="cf">function</span>(state, ...) <span class="kw"><a href="../reference/global_local.html">get_local</a></span>(<span class="st">"item_pos"</span>, state) <span class="op">&lt;=</span><span class="st"> </span>num_items,</a>
@@ -208,7 +208,7 @@
 <li>A prebuilt test element that saves the results to disk (<code>elt_save_results_to_disk</code>);</li>
 <li>A final page to terminate the test (<code>final_page</code>).</li>
 </ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/make_test.html">make_test</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/make_test.html">make_test</a></span>(<span class="kw"><a href="../reference/join.html">join</a></span>(</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">  init_randomiser,</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">  show_items,</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="kw"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>),</a>

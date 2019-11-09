@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.3</span>
       </span>
     </div>
 
@@ -148,7 +148,7 @@
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tidyverse)</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb5-3" data-line-number="3">questionnaire &lt;-<span class="st"> </span><span class="kw"><a href="../reference/new_timeline.html">new_timeline</a></span>(</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="kw"><a href="../reference/join.html">join</a></span>(</a>
 <a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="kw"><a href="../reference/begin_module.html">begin_module</a></span>(<span class="st">"my_questionnaire"</span>),</a>
 <a class="sourceLine" id="cb5-6" data-line-number="6">    definition <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="st">      </span><span class="kw">select</span>(item_number, key_type, key) <span class="op">%&gt;%</span><span class="st"> </span></a>
@@ -170,7 +170,7 @@
 <li><p><a href="https://pmcharrison.github.io/psychTestR/reference/new_timeline.html"><code>new_timeline</code></a> is a psychTestR function that creates a <em>timeline</em>, i.e. a series of test elements. Timelines support internationalisation, in that one timeline object can define test elements in multiple languages. When making an internationalised timeline, you must pass a dictionary (such as the one we defined earlier) to the <code>dict</code> argument.</p></li>
 <li><p>The function <code>c</code> combines different timelines or test elements together.</p></li>
 <li><p><a href="https://pmcharrison.github.io/psychTestR/reference/begin_module.html"><code>begin_module</code></a> is a psychTestR function signifying that the test is now beginning a new <em>module</em>. Modules are self-contained entities that are identified by a textual label, in this case “my_questionnaire”. Modules are usually only necessary if you intend your test to be incorporated into larger test batteries; in this case, the module label helps to identify the results from your particular test component.</p></li>
-<li><p>The <code>%&gt;%</code> operation takes an R object on one line and ‘pipes’ it forward to the next line as the input of a function. See <a href="https://magrittr.tidyverse.org/">magrittr</a> for details.</p></li>
+<li><p>The <code><a href="../reference/pipe.html">%&gt;%</a></code> operation takes an R object on one line and ‘pipes’ it forward to the next line as the input of a function. See <a href="https://magrittr.tidyverse.org/">magrittr</a> for details.</p></li>
 <li><p><code>select</code> takes the input tibble (<code>definition</code>) and selects the columns <code>item_number</code>, <code>key_type</code>, and <code>key</code> (we could have also used the <code><a href="https://rdrr.io/r/base/Extract.html">[</a></code> operator, like before).</p></li>
 <li><p><code>spread</code> turns the tibble from long format to wide format, where each row now represents a different item.</p></li>
 <li><p><code>pmap</code> iterates over each row of the tibble, and calls a provided function on the elements of this row.</p></li>
@@ -179,7 +179,7 @@
 <li><p><a href="https://pmcharrison.github.io/psychTestR/reference/end_module.html"><code>end_module</code></a> signifies the end of the “my_questionnaire” module.</p></li>
 </ul>
 <p>That’s it! You’ve defined your internationalised questionnaire. You can now run this questionnaire independently, or insert it into a longer test battery. For now, let’s try running it independently. Before we do so, we’ll add two elements to the timeline: an element to save the results to disk (using <a href="https://pmcharrison.github.io/psychTestR/reference/elt_save_results_to_disk.html"><code>elt_save_results_to_disk</code></a>) and a <a href="https://pmcharrison.github.io/psychTestR/reference/final_page.html"><code>final_page</code></a> object to terminate the test. We can then run the test using <a href="https://pmcharrison.github.io/psychTestR/reference/make_test.html"><code>make_test</code></a>; note that this must be called interactively or else placed within a call to <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html">shiny::runApp</a></code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">logic &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(</a>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">logic &lt;-<span class="st"> </span><span class="kw"><a href="../reference/join.html">join</a></span>(</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">  questionnaire,</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3">  <span class="kw"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>),</a>
 <a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="kw"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"FIN"</span>)</a>

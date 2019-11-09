@@ -70,7 +70,7 @@ using example audio, and the volume controls on their computer." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.3</span>
       </span>
     </div>
 
@@ -180,11 +180,19 @@ a sensible English prompt is provided.</p></td>
     </tr>
     <tr>
       <th>on_complete</th>
-      <td><p>See <code><a href='page.html'>page</a></code>.</p></td>
+      <td><p>Optional function to execute on leaving the page
+(after successful validation).
+The argument list should include <code>...</code>,
+and any of:
+<code>state</code>, the participant's state object;
+<code>answer</code>, the participant's most recent answer;
+<code>input</code>, the current page's Shiny input object;
+<code>session</code>, the current Shiny session object;
+<code>opt</code>, the test's option list as created by <code><a href='test_options.html'>test_options()</a></code>.</p></td>
     </tr>
     <tr>
       <th>admin_ui</th>
-      <td><p>See <code><a href='page.html'>page</a></code>.</p></td>
+      <td><p>Optional UI component for the admin panel.</p></td>
     </tr>
     </table>
 

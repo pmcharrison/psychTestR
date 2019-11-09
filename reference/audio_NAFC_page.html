@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.3</span>
       </span>
     </div>
 
@@ -153,7 +153,8 @@
     <pre class="usage"><span class='fu'>audio_NAFC_page</span>(<span class='no'>label</span>, <span class='no'>prompt</span>, <span class='no'>choices</span>, <span class='no'>url</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw pkg'>tools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/fileutils.html'>file_ext</a></span>(<span class='no'>url</span>), <span class='kw'>save_answer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>on_complete</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>arrange_choices_vertically</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>choices</span>) <span class='kw'>&gt;</span>
-  <span class='fl'>2L</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>loop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>admin_ui</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='fl'>2L</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>loop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>admin_ui</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>btn_play_prompt</span> <span class='kw'>=</span> <span class='st'>"Click here to play"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -195,11 +196,19 @@ or a list of Shiny tag objects, e.g. as created by <code><a href='https://rdrr.i
     </tr>
     <tr>
       <th>save_answer</th>
-      <td><p>See <code><a href='page.html'>page</a></code>.</p></td>
+      <td><p>Whether or not to save the answer.</p></td>
     </tr>
     <tr>
       <th>on_complete</th>
-      <td><p>See <code><a href='page.html'>page</a></code>.</p></td>
+      <td><p>Optional function to execute on leaving the page
+(after successful validation).
+The argument list should include <code>...</code>,
+and any of:
+<code>state</code>, the participant's state object;
+<code>answer</code>, the participant's most recent answer;
+<code>input</code>, the current page's Shiny input object;
+<code>session</code>, the current Shiny session object;
+<code>opt</code>, the test's option list as created by <code><a href='test_options.html'>test_options()</a></code>.</p></td>
     </tr>
     <tr>
       <th>arrange_choices_vertically</th>
@@ -217,7 +226,14 @@ the response buttons.</p></td>
     </tr>
     <tr>
       <th>admin_ui</th>
-      <td><p>See <code><a href='page.html'>page</a></code>.</p></td>
+      <td><p>Optional UI component for the admin panel.</p></td>
+    </tr>
+    <tr>
+      <th>btn_play_prompt</th>
+      <td><p>Text to display as a prompt for starting the audio.
+Ordinarily the participant will not see this,
+but it might appear if the internet connection is poor,
+or if the participant refreshes the page.</p></td>
     </tr>
     </table>
 

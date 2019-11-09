@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deprecated functions in package <span class="pkg">psychTestR</span>. — psychTestR-deprecated • psychTestR</title>
+<title>Order at run time — order_at_run_time • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,11 +35,9 @@
 
 
 
-<meta property="og:title" content="Deprecated functions in package <span class="pkg">psychTestR</span>. — psychTestR-deprecated" />
-<meta property="og:description" content="The functions listed below are deprecated and will be defunct in
-  the near future. When possible, alternative functions with similar
-  functionality are also mentioned. Help pages for deprecated functions are
-  available at help(&quot;-deprecated&quot;)." />
+<meta property="og:title" content="Order at run time — order_at_run_time" />
+<meta property="og:description" content="This helper function constructs a timeline where the order of
+test elements (or blocks of test elements) is determined at run time." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -144,33 +142,74 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deprecated functions in package <span class="pkg">psychTestR</span>.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/psychTestR-deprecated.R'><code>R/psychTestR-deprecated.R</code></a>, <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>psychTestR-deprecated.Rd</code></div>
+    <h1>Order at run time</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/order-at-run-time.R'><code>R/order-at-run-time.R</code></a></small>
+    <div class="hidden name"><code>order_at_run_time.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The functions listed below are deprecated and will be defunct in
-  the near future. When possible, alternative functions with similar
-  functionality are also mentioned. Help pages for deprecated functions are
-  available at <code><a href='https://rdrr.io/r/utils/help.html'>help("-deprecated")</a></code>.</p>
+    <p>This helper function constructs a timeline where the order of
+test elements (or blocks of test elements) is determined at run time.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>loop_while</span>(<span class='no'>test</span>, <span class='no'>logic</span>)</pre>
+    <pre class="usage"><span class='fu'>order_at_run_time</span>(<span class='no'>label</span>, <span class='no'>get_order</span>, <span class='no'>logic</span>, <span class='kw'>save_order</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>order</span>,
+  <span class='no'>state</span>, <span class='no'>...</span>) <span class='fu'><a href='save_result.html'>save_result</a></span>(<span class='no'>state</span>, <span class='no'>label</span>, <span class='no'>order</span>))</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>label</th>
+      <td><p>(Character scalar)
+A label for storing the generated order of test elements.</p></td>
+    </tr>
+    <tr>
+      <th>get_order</th>
+      <td><p>Function that should accept the arguments <code>state</code> and <code>...</code>.
+It will be called at run time, being passed the participant's
+state object. It should return a permutation of the integers 1 to N,
+where N is the length of the <code>logic</code> argument.</p></td>
+    </tr>
+    <tr>
+      <th>logic</th>
+      <td><p>List where each top-level element corresponds to a randomisation unit.
+These randomisation units may be either single test elements,
+lists of test elements, or timelines.</p></td>
+    </tr>
+    <tr>
+      <th>save_order</th>
+      <td><p>A function called at run time to save the result of <code>get_order</code>.
+It should accept three arguments: <code>order</code>, <code>state</code>, and <code>...</code>.
+<code>order</code> corresponds to the output of <code>get_order</code>,
+whereas <code>state</code> corresponds to the participant's state object.
+The default setting saves the generated order in psychTestR's
+default results repository, under the label <code>label</code>.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="loop-while"><a class="anchor" href="#loop-while"></a><code>loop_while</code></h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p>A list of test elements, or equivalently a timeline, which can be combined
+with other test elements or timelines.
+These test elements will be presented in the order defined by the
+<code>get_order</code> function, with this function being called
+afresh for each new participant.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-<p>We recommend that new projects use <code><a href='while_loop.html'>while_loop</a></code>,
-which better resembles while loops in traditional programming languages.</p>
+    <p>This function can be nested arbitrarily many times.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='randomise_at_run_time.html'>randomise_at_run_time</a></code> for the common application
+of randomising the order of test elements anew for each participant.</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#loop-while"><code>loop_while</code></a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#note">Note</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>

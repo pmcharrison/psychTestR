@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Deprecated functions in package <span class="pkg">psychTestR</span>. — psychTestR-deprecated • psychTestR</title>
+<title>Conditional test block — conditional • psychTestR</title>
 
 
 <!-- jquery -->
@@ -35,11 +35,11 @@
 
 
 
-<meta property="og:title" content="Deprecated functions in package <span class="pkg">psychTestR</span>. — psychTestR-deprecated" />
-<meta property="og:description" content="The functions listed below are deprecated and will be defunct in
-  the near future. When possible, alternative functions with similar
-  functionality are also mentioned. Help pages for deprecated functions are
-  available at help(&quot;-deprecated&quot;)." />
+<meta property="og:title" content="Conditional test block — conditional" />
+<meta property="og:description" content="This function evalutes a test function at run time to decide
+whether to administer a series of test elements to the participant.
+If the test returns TRUE, then the test elements are shown,
+otherwise these test elements are skipped." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -144,33 +144,54 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Deprecated functions in package <span class="pkg">psychTestR</span>.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/psychTestR-deprecated.R'><code>R/psychTestR-deprecated.R</code></a>, <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>psychTestR-deprecated.Rd</code></div>
+    <h1>Conditional test block</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
+    <div class="hidden name"><code>conditional.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The functions listed below are deprecated and will be defunct in
-  the near future. When possible, alternative functions with similar
-  functionality are also mentioned. Help pages for deprecated functions are
-  available at <code><a href='https://rdrr.io/r/utils/help.html'>help("-deprecated")</a></code>.</p>
+    <p>This function evalutes a test function at run time to decide
+whether to administer a series of test elements to the participant.
+If the test returns <code>TRUE</code>, then the test elements are shown,
+otherwise these test elements are skipped.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>loop_while</span>(<span class='no'>test</span>, <span class='no'>logic</span>)</pre>
+    <pre class="usage"><span class='fu'>conditional</span>(<span class='no'>test</span>, <span class='no'>logic</span>)</pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>test</th>
+      <td><p>Function to evaluate at run time.
+This function must accept the argument <code>...</code>,
+and optionally the following named arguments:</p><ul>
+<li><p><code>state</code>, the participant's state object;</p></li>
+<li><p><code>input</code>, the current page's Shiny input object;</p></li>
+<li><p><code>output</code>, the current page's Shiny output object;</p></li>
+<li><p><code>session</code>, the current Shiny session object;</p></li>
+<li><p><code>opt</code>, the test's option list as created by <code><a href='test_options.html'>test_options</a></code>.</p></li>
+</ul></td>
+    </tr>
+    <tr>
+      <th>logic</th>
+      <td><p>Either a single test element, a list of test elements, or a timeline,
+which will be displayed conditionally on the basis of the outcome
+of <code>test</code>.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="loop-while"><a class="anchor" href="#loop-while"></a><code>loop_while</code></h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
-
-<p>We recommend that new projects use <code><a href='while_loop.html'>while_loop</a></code>,
-which better resembles while loops in traditional programming languages.</p>
+    <p>A list of test elements, or equivalently a timeline, which can be combined
+with other test elements or timelines.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#loop-while"><code>loop_while</code></a></li>
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>

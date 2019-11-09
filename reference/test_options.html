@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.3</span>
       </span>
     </div>
 
@@ -161,7 +161,8 @@
   <span class='kw'>force_p_id_from_url</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>enable_admin_panel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='st'>"output"</span>, <span class='kw'>session_timeout_min</span> <span class='kw'>=</span> <span class='fl'>7</span> * <span class='fl'>24</span> * <span class='fl'>60</span>,
   <span class='kw'>clean_sessions_interval_min</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>logo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>logo_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>logo_height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>display</span> <span class='kw'>=</span> <span class='fu'><a href='display_options.html'>display_options</a></span>())</pre>
+  <span class='kw'>logo_height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>display</span> <span class='kw'>=</span> <span class='fu'><a href='display_options.html'>display_options</a></span>(),
+  <span class='kw'>allow_url_rewrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -309,6 +310,12 @@ check for expired participant sessions (minutes).</p></td>
       <th>display</th>
       <td><p>A list of display options as created by
 <code><a href='display_options.html'>display_options</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>allow_url_rewrite</th>
+      <td><p>Whether to allow psychTestR to rewrite the page's URL. This is required
+for psychTestR's built-in session management system, but
+can be disabled as long as <code>enable_resume_session</code> is also set to <code>FALSE</code>.</p></td>
     </tr>
     </table>
 

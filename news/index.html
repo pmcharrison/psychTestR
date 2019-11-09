@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.9.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.3</span>
       </span>
     </div>
 
@@ -143,6 +143,61 @@
       <small>Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="psychtestr-2-13-3" class="section level1">
+<h1 class="page-header">
+<a href="#psychtestr-2-13-3" class="anchor"></a>psychTestR 2.13.3</h1>
+<ul>
+<li>psychTestR now throws an error on nested calls to <code><a href="../reference/new_timeline.html">new_timeline()</a></code>, which sometimes worked as intended, sometimes not…</li>
+</ul>
+</div>
+    <div id="psychtestr-2-13-2" class="section level1">
+<h1 class="page-header">
+<a href="#psychtestr-2-13-2" class="anchor"></a>psychTestR 2.13.2</h1>
+<ul>
+<li>Fixed issue where <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> didn’t work well for all combinations of element types, replacing it with a new function <code><a href="../reference/join.html">join()</a></code>, a more reliable method for achieving the same result. This in turn addresses some problems observed with <code><a href="../reference/order_at_run_time.html">order_at_run_time()</a></code>.</li>
+</ul>
+</div>
+    <div id="psychtestr-2-13-1" class="section level1">
+<h1 class="page-header">
+<a href="#psychtestr-2-13-1" class="anchor"></a>psychTestR 2.13.1</h1>
+<ul>
+<li>Fixed <code><a href="../reference/finish_test_and_give_code.html">finish_test_and_give_code()</a></code>, which was not working properly.</li>
+<li>Fixed bug where <code><a href="../reference/order_at_run_time.html">order_at_run_time()</a></code> failed when there was only one block to randomise.</li>
+</ul>
+</div>
+    <div id="psychtestr-2-13-0" class="section level1">
+<h1 class="page-header">
+<a href="#psychtestr-2-13-0" class="anchor"></a>psychTestR 2.13.0</h1>
+<ul>
+<li>Updated <code><a href="../reference/order_at_run_time.html">order_at_run_time()</a></code> and <code><a href="../reference/randomise_at_run_time.html">randomise_at_run_time()</a></code> so that they can be nested arbitrarily many times.</li>
+</ul>
+</div>
+    <div id="psychtestr-2-12-0" class="section level1">
+<h1 class="page-header">
+<a href="#psychtestr-2-12-0" class="anchor"></a>psychTestR 2.12.0</h1>
+<ul>
+<li>Added <code><a href="../reference/conditional.html">conditional()</a></code>, which allows test elements to be displayed conditionally at run time.</li>
+<li>Added <code><a href="../reference/order_at_run_time.html">order_at_run_time()</a></code>, which orders test elements at run time.</li>
+<li>Added <code><a href="../reference/randomise_at_run_time.html">randomise_at_run_time()</a></code>, which randomises test elements at run time.</li>
+<li>CSV export now supports columns containing atomic vectors.</li>
+</ul>
+</div>
+    <div id="psychtestr-2-11-0" class="section level1">
+<h1 class="page-header">
+<a href="#psychtestr-2-11-0" class="anchor"></a>psychTestR 2.11.0</h1>
+<ul>
+<li>Allowed users to customise the text used to trigger audio/video playback.</li>
+<li>Minor improvements to documentation.</li>
+</ul>
+</div>
+    <div id="psychtestr-2-10-0" class="section level1">
+<h1 class="page-header">
+<a href="#psychtestr-2-10-0" class="anchor"></a>psychTestR 2.10.0</h1>
+<ul>
+<li>Now the test will accept URL parameters even when enable_resume_sessions = FALSE.</li>
+<li>Introduced allow_url_rewrite option; when FALSE, URL rewriting is disabled.</li>
+</ul>
+</div>
     <div id="psychtestr-2-9-0" class="section level1">
 <h1 class="page-header">
 <a href="#psychtestr-2-9-0" class="anchor"></a>psychTestR 2.9.0</h1>
@@ -306,6 +361,13 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#psychtestr-2-13-3">2.13.3</a></li>
+        <li><a href="#psychtestr-2-13-2">2.13.2</a></li>
+        <li><a href="#psychtestr-2-13-1">2.13.1</a></li>
+        <li><a href="#psychtestr-2-13-0">2.13.0</a></li>
+        <li><a href="#psychtestr-2-12-0">2.12.0</a></li>
+        <li><a href="#psychtestr-2-11-0">2.11.0</a></li>
+        <li><a href="#psychtestr-2-10-0">2.10.0</a></li>
         <li><a href="#psychtestr-2-9-0">2.9.0</a></li>
         <li><a href="#psychtestr-2-8-0">2.8.0</a></li>
         <li><a href="#psychtestr-2-7-0">2.7.0</a></li>
