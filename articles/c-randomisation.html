@@ -123,11 +123,10 @@
 <li>Using the participant’s initials as the seed for the randomisation algorithm;</li>
 <li>Ensuring that each item is administered the same number of times across participants.</li>
 </ul>
-<p>psychTestR does not limit the researcher to specific randomisation schemes, but instead encourages arbitrary randomisation schemes to be defined through R code, as described below.</p>
 </div>
-<div id="tutorial" class="section level2">
+<div id="simple-randomisation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#tutorial" class="anchor"></a>Tutorial</h2>
+<a href="#simple-randomisation" class="anchor"></a>Simple randomisation</h2>
 <p>Suppose we wish to administer the three survey items, each with a yes or no response:</p>
 <ol style="list-style-type: decimal">
 <li>Are you afraid of dogs?</li>
@@ -136,85 +135,60 @@
 </ol>
 <p>We can code these three items as a <em>tibble</em>:<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(psychTestR)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tibble)</a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4">items &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5">  <span class="op">~</span><span class="st"> </span>id,       <span class="op">~</span><span class="st"> </span>prompt,</a>
-<a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="st">"dogs"</span>,    <span class="st">"Are you afraid of dogs?"</span>,</a>
-<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="st">"birds"</span>,   <span class="st">"Are you afraid of birds?"</span>,</a>
-<a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="st">"heights"</span>, <span class="st">"Are you afraid of heights?"</span></a>
-<a class="sourceLine" id="cb1-9" data-line-number="9">)</a>
-<a class="sourceLine" id="cb1-10" data-line-number="10">items</a></code></pre></div>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(purrr)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(tibble)</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">items &lt;-<span class="st"> </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">  <span class="op">~</span><span class="st"> </span>id,       <span class="op">~</span><span class="st"> </span>prompt,</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">  <span class="st">"dogs"</span>,    <span class="st">"Are you afraid of dogs?"</span>,</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">  <span class="st">"birds"</span>,   <span class="st">"Are you afraid of birds?"</span>,</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">  <span class="st">"heights"</span>, <span class="st">"Are you afraid of heights?"</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">)</a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">items</a></code></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   id      prompt                    
 ##   &lt;chr&gt;   &lt;chr&gt;                     
 ## 1 dogs    Are you afraid of dogs?   
 ## 2 birds   Are you afraid of birds?  
 ## 3 heights Are you afraid of heights?</code></pre>
-<p>There are three items in total, corresponding to the three rows of <code>items</code>. We want each participant to receive these three items in a random order, with this random order freshly determined for each participant.</p>
-<p>To achieve this, we define a <em>code block</em>, which will be run once for each participant, to determine the participant’s randomisation order.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">num_items &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(items)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb3-3" data-line-number="3">init_randomiser &lt;-<span class="st"> </span><span class="kw"><a href="../reference/code_block.html">code_block</a></span>(<span class="cf">function</span>(state, ...) {</a>
-<a class="sourceLine" id="cb3-4" data-line-number="4">  item_order &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dt">x =</span> num_items, </a>
-<a class="sourceLine" id="cb3-5" data-line-number="5">                       <span class="dt">size =</span> num_items,</a>
-<a class="sourceLine" id="cb3-6" data-line-number="6">                       <span class="dt">replace =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb3-7" data-line-number="7">  <span class="kw"><a href="../reference/save_result.html">save_result</a></span>(<span class="dt">place =</span> state, </a>
-<a class="sourceLine" id="cb3-8" data-line-number="8">              <span class="dt">label =</span> <span class="st">"item_order"</span>, </a>
-<a class="sourceLine" id="cb3-9" data-line-number="9">              <span class="dt">value =</span> item_order)</a>
-<a class="sourceLine" id="cb3-10" data-line-number="10">  <span class="kw"><a href="../reference/global_local.html">set_local</a></span>(<span class="dt">key =</span> <span class="st">"item_order"</span>,</a>
-<a class="sourceLine" id="cb3-11" data-line-number="11">            <span class="dt">value =</span> item_order,</a>
-<a class="sourceLine" id="cb3-12" data-line-number="12">            <span class="dt">state =</span> state)</a>
-<a class="sourceLine" id="cb3-13" data-line-number="13">})</a></code></pre></div>
-<p>A code block is a piece of R code that runs during the participant’s testing session. This particular code block comprises three functions: <code>sample</code>, <code>save_result</code>, and <code>set_local</code>.</p>
-<ol style="list-style-type: decimal">
-<li>The <code>sample</code> function generates a random item order. Here it samples from the integers from 1 to <code>num_items</code>, taking <code>num_items</code> such samples without replacement. This corresponds to a random permutation of the integers from 1 to <code>num_items</code>.</li>
-<li>The <code>save_result</code> function saves the resulting randomisation order to the participant’s results list.</li>
-<li>The <code>set_local</code> function stores the item order as a local variable so that it can easily be accessed in later parts of the testing session.</li>
-</ol>
-<p>Next we write a function that programmatically generates test pages. This function takes two inputs: <code>id</code> and <code>prompt</code>, corresponding to the two columns of <code>items</code>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">item &lt;-<span class="st"> </span><span class="cf">function</span>(id, prompt) {</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">    <span class="dt">label =</span> id,</a>
-<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="dt">prompt =</span> prompt, </a>
-<a class="sourceLine" id="cb4-5" data-line-number="5">    <span class="dt">choices =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>),</a>
-<a class="sourceLine" id="cb4-6" data-line-number="6">    <span class="dt">on_complete =</span> <span class="cf">function</span>(state, ...) {</a>
-<a class="sourceLine" id="cb4-7" data-line-number="7">      <span class="kw"><a href="../reference/global_local.html">set_local</a></span>(<span class="st">"item_pos"</span>, </a>
-<a class="sourceLine" id="cb4-8" data-line-number="8">                1L <span class="op">+</span><span class="st"> </span><span class="kw"><a href="../reference/global_local.html">get_local</a></span>(<span class="st">"item_pos"</span>, state),</a>
-<a class="sourceLine" id="cb4-9" data-line-number="9">                state)</a>
-<a class="sourceLine" id="cb4-10" data-line-number="10">    })</a>
-<a class="sourceLine" id="cb4-11" data-line-number="11">}</a></code></pre></div>
-<p>The code above describes a simple two-alternative forced choice page, where the participant has to respond ‘Yes’ or ‘No’. Once the page has finished, the <code>on_complete</code> function increments the local variable <code>item_pos</code> by 1. This variable, <code>item_pos</code>, will track how far the participant is through the test.</p>
-<p>Now we write the code for showing the items to the participant. This code comprises two sections: an initial code block, followed by a while loop. The starting code block initialises the local variable <code>item_pos</code> to 1, signifying the fact that the participant is about to take the first test item.</p>
-<p>The while loop, meanwhile, is defined with two arguments: <code>test</code> and <code>logic</code>.</p>
-<ul>
-<li>The <code>test</code> argument describes a function that is evaluated to determine whether to administer the test elements described in <code>logic</code>. Here the <code>test</code> function checks whether the <code>item_pos</code> local variable is less than or equal to the total number of items in the test; if so, then another item should be administered.</li>
-<li>The <code>logic</code> argument takes the form of a <em>reactive page</em>. A reactive page is a page whose content depends on variables generated during the participant’s testing session, in this case <code>item_pos</code> and <code>item_order</code>. The reactive page defined here refers to these local variables, looks up the appropriate item in <code>items</code>, and then generates the required page with the <code>item</code> function.</li>
-</ul>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">show_items &lt;-<span class="st"> </span><span class="kw"><a href="../reference/join.html">join</a></span>(</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="kw"><a href="../reference/code_block.html">code_block</a></span>(<span class="cf">function</span>(state, ...) <span class="kw"><a href="../reference/global_local.html">set_local</a></span>(<span class="st">"item_pos"</span>, 1L, state)),</a>
-<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="kw"><a href="../reference/while_loop.html">while_loop</a></span>(</a>
-<a class="sourceLine" id="cb5-4" data-line-number="4">    <span class="dt">test =</span> <span class="cf">function</span>(state, ...) <span class="kw"><a href="../reference/global_local.html">get_local</a></span>(<span class="st">"item_pos"</span>, state) <span class="op">&lt;=</span><span class="st"> </span>num_items,</a>
-<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="dt">logic =</span> <span class="kw"><a href="../reference/reactive_page.html">reactive_page</a></span>(<span class="cf">function</span>(state, ...) {</a>
-<a class="sourceLine" id="cb5-6" data-line-number="6">      item_pos &lt;-<span class="st"> </span><span class="kw"><a href="../reference/global_local.html">get_local</a></span>(<span class="st">"item_pos"</span>, state)</a>
-<a class="sourceLine" id="cb5-7" data-line-number="7">      item_id &lt;-<span class="st"> </span><span class="kw"><a href="../reference/global_local.html">get_local</a></span>(<span class="st">"item_order"</span>, state)[item_pos]</a>
-<a class="sourceLine" id="cb5-8" data-line-number="8">      <span class="kw">item</span>(<span class="dt">id =</span> items<span class="op">$</span>id[item_id], <span class="dt">prompt =</span> items<span class="op">$</span>prompt[item_id])</a>
-<a class="sourceLine" id="cb5-9" data-line-number="9">    }))</a>
-<a class="sourceLine" id="cb5-10" data-line-number="10">)</a></code></pre></div>
-<p>Finally, we can put together the whole test by combining three elements:</p>
-<ol style="list-style-type: decimal">
-<li>The logic for item randomisation (<code>init_randomiser</code>);</li>
-<li>The logic for showing items (<code>show_items</code>);</li>
-<li>A prebuilt test element that saves the results to disk (<code>elt_save_results_to_disk</code>);</li>
-<li>A final page to terminate the test (<code>final_page</code>).</li>
-</ol>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw"><a href="../reference/make_test.html">make_test</a></span>(<span class="kw"><a href="../reference/join.html">join</a></span>(</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">  init_randomiser,</a>
-<a class="sourceLine" id="cb6-3" data-line-number="3">  show_items,</a>
-<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="kw"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5">  <span class="kw"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"You completed the test."</span>)</a>
-<a class="sourceLine" id="cb6-6" data-line-number="6">))</a></code></pre></div>
-<p>This code should launch the test, complete with randomisation.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Results will be saved in the <code>output/results</code> directory.</p>
+<p>There are three items in total, corresponding to the three rows of <code>items</code>. First, let’s imagine that we want each participant to receive these three items in a random order, with this random order freshly determined for each participant. We can achieve this using the psychTestR function <code>randomise_at_run_time</code>.</p>
+<p>First, we construct a list of test elements corresponding to our three questions:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">item_pages &lt;-<span class="st"> </span><span class="kw"><a href="https://purrr.tidyverse.org/reference/map2.html">pmap</a></span>(items, <span class="cf">function</span>(id, prompt) {</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">  <span class="kw"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="dt">label =</span> id,</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="dt">prompt =</span> prompt, </a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">    <span class="dt">choices =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">  )</a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">})</a></code></pre></div>
+<p>Note that we used the <code>pmap</code> function from the <code>purrr</code> package to iterate over the rows of <code>items</code>, mapping each row to a list element. We then simply pass this list of pages to <code>randomise_at_run_time</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">timeline &lt;-<span class="st"> </span><span class="kw"><a href="../reference/join.html">join</a></span>(</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">  <span class="kw"><a href="../reference/randomise_at_run_time.html">randomise_at_run_time</a></span>(<span class="dt">label =</span> <span class="st">"item_order"</span>,</a>
+<a class="sourceLine" id="cb4-3" data-line-number="3">                        <span class="dt">logic =</span> item_pages),</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">  <span class="kw"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">  <span class="kw"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"You completed the test."</span>)</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6">)</a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="kw"><a href="../reference/make_test.html">make_test</a></span>(timeline)</a></code></pre></div>
+<p>This code should launch the test, complete with randomisation.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Results will be saved in the <code>output/results</code> directory. Login to the admin panel using the password <code>demo</code>, download the results as a csv file, and observe how the order of test elements varies between test runs, and how the order for a given participant is saved as the variable <code>results.item_order</code>.</p>
+</div>
+<div id="complex-randomisation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#complex-randomisation" class="anchor"></a>Complex randomisation</h2>
+<p>Arbitrary randomisation schemes can be implemented using the <code>order_at_run_time</code> function. For example, suppose that we wish to randomly choose between two item orders, 1-2-3 or 3-2-1. We can implement this as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">randomised &lt;-<span class="st"> </span><span class="kw"><a href="../reference/order_at_run_time.html">order_at_run_time</a></span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="dt">label =</span> <span class="st">"item_order"</span>,</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="dt">logic =</span> item_pages,</a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  get_order &lt;-<span class="st"> </span><span class="cf">function</span>(...) {</a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">    <span class="cf">if</span> (<span class="kw"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="dv">2</span>, <span class="dv">1</span>) <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) <span class="dv">1</span><span class="op">:</span><span class="dv">3</span> <span class="cf">else</span> <span class="dv">3</span><span class="op">:</span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6">  }</a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">)</a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">timeline &lt;-<span class="st"> </span><span class="kw"><a href="../reference/join.html">join</a></span>(</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">  randomised,</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">  <span class="kw"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="dt">complete =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb5-12" data-line-number="12">  <span class="kw"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"You completed the test."</span>)</a>
+<a class="sourceLine" id="cb5-13" data-line-number="13">)</a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="kw"><a href="../reference/make_test.html">make_test</a></span>(timeline)</a></code></pre></div>
+<div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div>
 </div>
 <div class="footnotes">
 <hr>
@@ -232,7 +206,8 @@
 <a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#overview">Overview</a></li>
-      <li><a href="#tutorial">Tutorial</a></li>
+      <li><a href="#simple-randomisation">Simple randomisation</a></li>
+      <li><a href="#complex-randomisation">Complex randomisation</a></li>
       </ul>
 </div>
       </div>
