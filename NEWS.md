@@ -1,3 +1,5 @@
+# psychTestR 2.14.0
+
 - Added \code{admin_panel} argument to \code{test_options},
 allowing the researcher to disable the admin panel.
 
