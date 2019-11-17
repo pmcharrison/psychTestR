@@ -43,8 +43,12 @@ ui <- function(opt) {
         style = "padding: 10px",
         align = "center",
         shiny::p(shiny::textOutput("problems_info")),
-        shiny::uiOutput("admin_panel.ui"),
-        admin_panel.modals
+        if (opt$display$admin_panel) {
+          shiny::tags$div(
+            shiny::uiOutput("admin_panel.ui"),
+            admin_panel.modals
+          )
+        }
       )))
   }
 

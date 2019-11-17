@@ -1,3 +1,6 @@
+- Added \code{admin_panel} argument to \code{test_options},
+allowing the researcher to disable the admin panel.
+
 # psychTestR 2.13.3
 
 - psychTestR now throws an error on nested calls to `new_timeline()`,

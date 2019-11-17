@@ -8,7 +8,7 @@ display_options(full_screen = FALSE,
   content_background_colour = "white",
   content_border = "1px solid #e8e8e8", show_header = TRUE,
   show_footer = TRUE, left_margin = 2L, right_margin = 2L,
-  css = character())
+  css = character(), admin_panel = TRUE)
 }
 \arguments{
 \item{full_screen}{(Logical scalar)
@@ -52,6 +52,10 @@ and 12 corresponding to the full screen width.}
 \item{css}{Character vector of file paths to CSS files for inclusion within the
 psychTestR test. CSS files are used for styling HTML.
 These file paths should be expressed relative to R's working directory}
+
+\item{admin_panel}{(Logical scalar)
+Whether to display a link for logging in to the admin panel
+(defaults to \code{TRUE}).}
 }
 \value{
 A list for passing to the \code{display} argument of \code{test_options}.
