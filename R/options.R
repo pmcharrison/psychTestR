@@ -282,6 +282,11 @@ test_options <- function(title, admin_password,
 #' psychTestR test. CSS files are used for styling HTML.
 #' These file paths should be expressed relative to R's working directory
 #'
+#' @param admin_panel
+#' (Logical scalar)
+#' Whether to display a link for logging in to the admin panel
+#' (defaults to \code{TRUE}).
+#'
 #' @return
 #' A list for passing to the \code{display} argument of \code{test_options}.
 #'
@@ -296,7 +301,8 @@ display_options <- function(
   show_footer = TRUE,
   left_margin = 2L,
   right_margin = 2L,
-  css = character()
+  css = character(),
+  admin_panel = TRUE
 ) {
   checkmate::qassert(show_header, "B1")
   checkmate::qassert(show_footer, "B1")
@@ -305,6 +311,7 @@ display_options <- function(
   checkmate::qassert(full_screen, "B1")
   checkmate::qassert(content_background_colour, "S1")
   checkmate::qassert(content_border, "S1")
+  checkmate::qassert(admin_panel, "B1")
   stopifnot(is.character(css))
   if (left_margin + right_margin >= 12)
     stop("left_margin and right_margin must sum to less than 12")
