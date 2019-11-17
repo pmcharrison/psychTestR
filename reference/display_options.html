@@ -70,7 +70,7 @@ test_options." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.13.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.14.0</span>
       </span>
     </div>
 
@@ -156,7 +156,7 @@ test_options." />
   <span class='kw'>content_background_colour</span> <span class='kw'>=</span> <span class='st'>"white"</span>,
   <span class='kw'>content_border</span> <span class='kw'>=</span> <span class='st'>"1px solid #e8e8e8"</span>, <span class='kw'>show_header</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>show_footer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>left_margin</span> <span class='kw'>=</span> <span class='fl'>2L</span>, <span class='kw'>right_margin</span> <span class='kw'>=</span> <span class='fl'>2L</span>,
-  <span class='kw'>css</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())</pre>
+  <span class='kw'>css</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(), <span class='kw'>admin_panel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -217,6 +217,12 @@ and 12 corresponding to the full screen width.</p></td>
       <td><p>Character vector of file paths to CSS files for inclusion within the
 psychTestR test. CSS files are used for styling HTML.
 These file paths should be expressed relative to R's working directory</p></td>
+    </tr>
+    <tr>
+      <th>admin_panel</th>
+      <td><p>(Logical scalar)
+Whether to display a link for logging in to the admin panel
+(defaults to <code>TRUE</code>).</p></td>
     </tr>
     </table>
 
