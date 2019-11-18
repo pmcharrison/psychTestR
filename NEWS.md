@@ -1,3 +1,5 @@
+# psychTestR 2.15.0
+
 - Added option to manually show the admin panel when show_footer = FALSE.
 
 # psychTestR 2.14.0
