@@ -36,7 +36,10 @@ ui <- function(opt) {
     if (opt$display$right_margin > 0) shiny::column(opt$display$right_margin)
   )
 
-  footer <- if (opt$display$show_footer) {
+  footer <- shiny::div(
+    # hidden = !opt$display$show_footer,
+    id = "footer",
+    hidden = if (opt$display$show_footer) NULL else "hidden",
     shiny::fluidRow(shiny::column(
       12,
       shiny::tags$div(
@@ -49,8 +52,7 @@ ui <- function(opt) {
             admin_panel.modals
           )
         }
-      )))
-  }
+      ))))
 
   shiny::fluidPage(
     theme = opt$theme,
@@ -71,6 +73,7 @@ include_scripts <- function() {
     "js/hide-content.js",
     "js/next-page.js",
     "js/reset-p-id-and-refresh-browser.js",
+    "js/show-footer.js",
     "js/trigger-button.js"
   )
   lapply(scripts, function(x) shiny::includeScript(system.file(
