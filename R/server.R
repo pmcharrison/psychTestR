@@ -19,6 +19,7 @@ server <- function(elts, opt, custom_admin_panel) {
         state = state, input = input, output = output, session = session,
         opt = opt)
     manage_sessions(state, opt = opt, session = session)
+    shiny::outputOptions(output, "admin_panel.ui", suspendWhenHidden = FALSE)
   }
 }
 

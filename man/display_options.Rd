@@ -23,7 +23,10 @@ the following arguments:
 \item \code{show_footer} (set to \code{FALSE})
 \item \code{left_margin} (set to \code{0L})
 \item \code{right_margin} (set to \code{0L})
-}}
+}
+
+Note that this will hide the admin panel.
+See \code{show_footer} for further information.}
 
 \item{content_background_colour}{(Character scalar)
 Background colour for the display element for the primary test content;
@@ -39,7 +42,12 @@ and optionally a logo).}
 
 \item{show_footer}{(Logical scalar)
 Whether the footer should be shown (typically contains a link to the
-admin panel).}
+admin panel).
+To show the admin panel manually, enter the Javascript console
+once the app is running
+(you'll need to be using a proper web browser, rather than RStudio)
+and enter the command \code{show_admin_panel()}.
+To hide it again, log out and then enter \code{hide_admin_panel()}.}
 
 \item{left_margin}{(Integerish scalar)
 Width of the left margin, with 0 corresponding to no margin
@@ -55,7 +63,9 @@ These file paths should be expressed relative to R's working directory}
 
 \item{admin_panel}{(Logical scalar)
 Whether to display a link for logging in to the admin panel
-(defaults to \code{TRUE}).}
+(defaults to \code{TRUE}).
+Note that this admin panel will by default be invisible if \code{show_footer = FALSE},
+but this can be changed by calling the Javascript function \code{show_admin_panel()}.}
 }
 \value{
 A list for passing to the \code{display} argument of \code{test_options}.
