@@ -1,3 +1,5 @@
+# psychTestR 2.16.0
+
 - Exposed `btn_play_prompt` in `volume_calibration_page`.
 - Added dialog to check whether user is sure they want to quit the test.
 
