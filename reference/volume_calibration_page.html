@@ -70,7 +70,7 @@ using example audio, and the volume controls on their computer." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.15.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.16.0</span>
       </span>
     </div>
 
@@ -154,7 +154,7 @@ using example audio, and the volume controls on their computer.</p>
 
     <pre class="usage"><span class='fu'>volume_calibration_page</span>(<span class='no'>url</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw pkg'>tools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/fileutils.html'>file_ext</a></span>(<span class='no'>url</span>),
   <span class='kw'>prompt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>button_text</span> <span class='kw'>=</span> <span class='st'>"Next"</span>, <span class='kw'>on_complete</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>admin_ui</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+  <span class='kw'>admin_ui</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>btn_play_prompt</span> <span class='kw'>=</span> <span class='st'>"Click here to play"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -193,6 +193,13 @@ and any of:
     <tr>
       <th>admin_ui</th>
       <td><p>Optional UI component for the admin panel.</p></td>
+    </tr>
+    <tr>
+      <th>btn_play_prompt</th>
+      <td><p>Text to display as a prompt for starting the audio.
+Ordinarily the participant will not see this,
+but it might appear if the internet connection is poor,
+or if the participant refreshes the page.</p></td>
     </tr>
     </table>
 
