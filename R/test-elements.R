@@ -692,13 +692,15 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 #' @param button_text Button text (character scalar).
 #'
 #' @inheritParams page
+#' @inheritParams audio_NAFC_page
 #'
 #' @export
 volume_calibration_page <- function(url, type = tools::file_ext(url),
                                     prompt = NULL,
                                     button_text = "Next",
                                     on_complete = NULL,
-                                    admin_ui = NULL) {
+                                    admin_ui = NULL,
+                                    btn_play_prompt = "Click here to play") {
   if (is.null(prompt)) prompt <- shiny::div(
     shiny::p(
       "You should hear some audio playing.",
@@ -715,7 +717,8 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
                   on_complete = on_complete,
                   url = url, type = type,
                   wait = FALSE, loop = TRUE,
-                  admin_ui = admin_ui)
+                  admin_ui = admin_ui,
+                  btn_play_prompt = btn_play_prompt)
 }
 
 #' Make dropdown list page

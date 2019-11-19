@@ -1,3 +1,6 @@
+- Exposed `btn_play_prompt` in `volume_calibration_page`.
+- Added dialog to check whether user is sure they want to quit the test.
+
 # psychTestR 2.15.0
 
 - Added option to manually show the admin panel when show_footer = FALSE.

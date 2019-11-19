@@ -74,7 +74,8 @@ include_scripts <- function() {
     "js/next-page.js",
     "js/reset-p-id-and-refresh-browser.js",
     "js/show-footer.js",
-    "js/trigger-button.js"
+    "js/trigger-button.js",
+    "js/navigate-away.js"
   )
   lapply(scripts, function(x) shiny::includeScript(system.file(
     x, package = "psychTestR")))
