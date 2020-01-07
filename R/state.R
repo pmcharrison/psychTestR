@@ -48,7 +48,7 @@ STATE <- R6::R6Class(
       elt_index = 1L,
       p_id = NULL,
       globals = list(),
-      locals = list(),
+      locals = list(.module = "results"),
       parent_locals = list(),
       results = NULL,
       time_started = as.POSIXct(NA),
@@ -395,6 +395,7 @@ leave_local_environment <- function(state) {
   stopifnot(is(state, "state"))
   ind <- length(state$passive$parent_locals)
   state$passive$locals <- state$passive$parent_locals[[ind]]
+  state$passive$parent_locals <- state$passive$parent_locals[seq_len(ind) - 1]
 }
 
 #' Get participant ID
