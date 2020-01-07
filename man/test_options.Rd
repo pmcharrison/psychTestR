@@ -16,7 +16,7 @@ test_options(title, admin_password, researcher_email = NULL,
   output_dir = "output", session_timeout_min = 7 * 24 * 60,
   clean_sessions_interval_min = 15, logo = NULL, logo_width = NULL,
   logo_height = NULL, display = display_options(),
-  allow_url_rewrite = TRUE, advance_delay = 0.5)
+  allow_url_rewrite = TRUE, advance_delay = 0)
 }
 \arguments{
 \item{title}{The test's title.

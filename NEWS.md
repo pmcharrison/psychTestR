@@ -1,5 +1,7 @@
 - Added `advance_delay` option, customising the delay before advancing 
-the next page.
+the next page. 
+This replaces the hardcoded 500 ms in previous psychTestR versions.
+The new default is 0 ms.
 
 # psychTestR 2.16.0
 

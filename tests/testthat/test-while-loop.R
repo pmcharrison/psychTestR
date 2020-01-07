@@ -14,5 +14,11 @@ test_that("main", {
   app$set_inputs(No = "click")
   app$expect_ui_text("End.")
 
+  app$get_results() %>%
+    as.list() %>%
+    unlist() %>%
+    as.character() %>%
+    expect_equal(c("Yes", "Yes", "No"))
+
   app$stop()
 })
