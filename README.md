@@ -127,7 +127,7 @@ Here you can download your response data.
 
 psychTestR was created by Peter M. C. Harrison
 with useful feedback from 
-Daniel Müllensiefen, Klaus Frieler, and Marcus Pearce.
+Daniel Müllensiefen, Klaus Frieler, Marcus Pearce, and Nicolas Ruth.
 The work was was supported by Peter's PhD studentship from 
 the EPSRC and AHRC Centre for Doctoral Training
 in Media and Arts Technology (EP/L01632X/1)
