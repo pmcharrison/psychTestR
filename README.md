@@ -22,7 +22,7 @@ are production-ready
 ## Documentation
 
 We recommend you begin by reading 
-[Is psychTestR right for me?](https://pmcharrison.github.io/psychTestR/articles/a-right-for-me),,
+[Is psychTestR right for me?](https://pmcharrison.github.io/psychTestR/articles/a-right-for-me),
 then psychTestR's 
 [introductory article](https://pmcharrison.github.io/psychTestR/articles/b-introduction),
 and then exploring the other articles on the 
