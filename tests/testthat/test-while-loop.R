@@ -1,19 +1,18 @@
 context("while_loop")
 
 test_that("main", {
-  app_dir <- "apps/while-loop"
-  app <- new_app_tester(app_dir)
+  app <- AppTester$new("apps/while-loop")
 
-  expect_ui_text(app, "Keep looping? Yes No")
+  app$expect_ui_text("Keep looping? Yes No")
 
-  set_inputs(app, Yes = "click")
-  expect_ui_text(app, "Keep looping? Yes No")
+  app$set_inputs(Yes = "click")
+  app$expect_ui_text("Keep looping? Yes No")
 
-  set_inputs(app, Yes = "click")
-  expect_ui_text(app, "Keep looping? Yes No")
+  app$set_inputs(Yes = "click")
+  app$expect_ui_text("Keep looping? Yes No")
 
-  set_inputs(app, No = "click")
-  expect_ui_text(app, "End.")
+  app$set_inputs(No = "click")
+  app$expect_ui_text("End.")
 
-  clean_output(app_dir)
+  app$stop()
 })

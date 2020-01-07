@@ -25,6 +25,8 @@ server <- function(elts, opt, custom_admin_panel) {
       ui_text = get_current_elt(
         state, elts, opt, eval = TRUE
       )@ui %>% as.character() %>% htm2txt::htm2txt(),
+      title = i18n_title(opt, state),
+      problems_info = i18n_problems_info(opt, state),
       globals = state$passive$globals,
       locals = state$passive$locals
     )
