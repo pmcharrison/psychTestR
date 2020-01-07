@@ -127,6 +127,7 @@ psychTestR contains various built-in page types like these, for example:
 - `audio_NAFC_page`
 - `video_NAFC_page`
 - `dropdown_NAFC_page`
+- `slider_page`
 - `final_page`
 
 See the [function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html)
