@@ -1,6 +1,8 @@
 context("while_loop_timeline")
 
 test_that("main", {
+  skip_on_cran()
+
   app <- AppTester$new("apps/while-loop-timeline")
 
   app$click_next()

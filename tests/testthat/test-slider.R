@@ -1,6 +1,8 @@
 context("text_slider")
 
 test_that("main", {
+  skip_on_cran()
+
   app <- AppTester$new("apps/slider")
 
   app$set_inputs(slider = 75)

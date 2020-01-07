@@ -1,6 +1,8 @@
 context("test_results")
 
 test_that("main", {
+  skip_on_cran()
+
   run_participant <- function(answers) {
     app <- AppTester$new("apps/results")
 

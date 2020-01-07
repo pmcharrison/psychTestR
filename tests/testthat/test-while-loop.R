@@ -1,6 +1,8 @@
 context("while_loop")
 
 test_that("main", {
+  skip_on_cran()
+
   app <- AppTester$new("apps/while-loop")
 
   app$expect_ui_text("Keep looping? Yes No")

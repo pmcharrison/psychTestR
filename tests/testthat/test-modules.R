@@ -1,6 +1,8 @@
 context("test_modules")
 
 test_that("main", {
+  skip_on_cran()
+
   app <- AppTester$new("apps/modules")
 
   app$expect_ui_text("We begin in the global environment. Next")

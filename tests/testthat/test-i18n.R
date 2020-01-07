@@ -34,6 +34,8 @@ test_that("I18N_GLOBAL_DICT", {
 })
 
 test_that("i18n_app_en", {
+  skip_on_cran()
+
   app <- AppTester$new("apps/i18n/i18n-en")
 
   app$expect_ui_text("Hello Next")
@@ -46,6 +48,8 @@ test_that("i18n_app_en", {
 })
 
 test_that("i18n_app_fr", {
+  skip_on_cran()
+
   app <- AppTester$new("apps/i18n/i18n-fr")
 
   app$expect_ui_text("Bonjour Next")
