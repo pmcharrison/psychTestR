@@ -17,6 +17,14 @@ AppTester <- R6::R6Class(
       )
     },
 
+    get_locals = function() {
+      self$getAllValues(input = FALSE, output = FALSE, export = TRUE)$export$locals
+    },
+
+    get_globals = function() {
+      self$getAllValues(input = FALSE, output = FALSE, export = TRUE)$export$globals
+    },
+
     get_title = function() {
       self$getAllValues(input = FALSE, output = FALSE, export = TRUE)$export$title
     },
