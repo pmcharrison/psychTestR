@@ -1,0 +1,218 @@
+---
+title: "Tutorial (intermediate): Building custom page types"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial (intermediate): Building custom page types}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  out.width = "100%"
+)
+
+library(psychTestR)
+```
+
+psychTestR comes with a collection of built-in page types, including the following:
+
+- `text_input_page`
+- `audio_NAFC_page`
+- `video_NAFC_page`
+- `dropdown_NAFC_page`
+- `slider_page`
+- `final_page`
+
+Sometimes you will want to create a new page type that doesn't 
+obviously fit into any of these categories.
+The most general way of achieving this is using the `page` function,
+which takes the following arguments:
+`ui`, `admin_ui`, `label`, `final`, `get_answer`, `save_answer`,
+`validate`, `on_complete`, and `next_elt`.
+We'll now discuss these arguments in turn;
+also see the documentation available at `?page`.
+
+### `ui`
+
+The `ui` argument defines the HTML that is presented to the participant.
+This HTML should be generated programmatically using the 
+helper functions in the `shiny` package
+(which often themselves come from the `htmltools` package).
+There's lots of documentation online for these packages, but we'll
+give some conceptual examples here.
+
+Different HTML tags are associated with different functions.
+These functions can be nested in the same way as HTML.
+
+```{r}
+library(shiny)
+
+html <- div(
+  id = "my_div",
+  h3("Heading 1"),
+  p("Here is a paragraph of text.", 
+    "A paragraph can contain multiple sentences."),
+  h3("Heading 2"),
+  p("Here is another paragragh.",
+    strong("This sentence is in bold."),
+    "This sentence is in the same paragraph but it's not in bold.")
+)
+```
+
+When combined, the functions define an HTML object that will
+render as HTML code to psychTestR app:
+
+```{r}
+html %>% as.character() %>% cat()
+```
+
+This HTML code can incorporate Shiny widgets, such 
+as text input boxes, sliders, etc.
+
+```{r}
+html2 <- div(
+  p("Here is a slider input:"),
+  sliderInput("slider", NULL, 0, 100, 50)
+) 
+
+html2 %>% as.character() %>% cat()
+```
+
+The UI can also incorporate Javascript elements:
+
+```{r}
+html3 <- div(
+  p("This code sets the variable x to 3."),
+  tags$script("var x = 3;")
+)
+
+html3 %>% as.character() %>% cat()
+```
+
+### `admin_ui`
+
+The `admin_ui` argument allows you to specify additional UI elements
+that are only visible to the test administrator.
+We won't discuss these here, they're not necessary for most applications.
+
+### `label`
+
+This is a textual label for the page; it's not displayed to the participant,
+but it's typically stored in the psychTestR results accumulator.
+
+### `final`
+
+Set this to `TRUE` to mark the final page in the test.
+
+### `get_answer`
+
+This is a function for extracting the participant's answer from the test page.
+If `NULL` (default), no answer is extracted.
+If a function is provided, it should accept the parameters
+`input` and `...`. For example, the `get_answer` function
+for `text_input_page` is defined as follows:
+
+``` r
+function(input, ...) input$text_input
+```
+
+The `input` parameter is equivalent to the `input` parameter
+in conventional Shiny apps;
+in particular, if the UI contains a Shiny input widget with an `id` of
+`my_id`, then the value of this input widget can be accessed with 
+`input$my_id`.
+
+### `save_answer`
+
+If `TRUE`, the answer will be saved in the psychTestR results accumulator;
+otherwise, the answer won't be actively retained,
+but it'll be available (until overwritten) by calling `answer(state)`
+within a code block or similar.
+
+### `validate`
+
+This is an optional function that can be called to validate the participant's response;
+if it fails, then the participant is told to try again.
+See `?page` for details.
+
+### `on_complete`
+
+This is an optional function to be executed upon leaving the page.
+See `?page` for details.
+
+
+### `next_elt`
+
+This is almost always `TRUE`, but see `?page` for details.
+
+There's quite a lot of arguments here to master,
+but in practice, most effort tends to go into the `ui` function,
+and the others are typically quick to fill out.
+A useful strategy when constructing a new page type is to find
+a similar page type in psychTestR,
+copy the source code of the corresponding function,
+and edit it until it does what you want.
+For example, see the following code for `text_input_page`:
+
+``` r
+#' Text input page
+#'
+#' Creates a page where the participant puts their
+#' answer in a text box.
+#'
+#' @param label Label for the current page (character scalar).
+#'
+#' @param prompt Prompt to display (character scalar or Shiny tag object).
+#'
+#' @param one_line Whether the answer box only has one line of text.
+
+#' @param placeholder Placeholder text for the text box (character scalar).
+#'
+#' @param button_text Text for the submit button (character scalar).
+#'
+#' @param width Width of the text box (character scalar, should be valid HTML).
+#'
+#' @param height Height of the text box (character scalar, should be valid HTML).
+#'
+#' @inheritParams page
+#'
+#' @export
+text_input_page <- function(label, prompt,
+                            one_line = TRUE,
+                            save_answer = TRUE,
+                            placeholder = NULL,
+                            button_text = "Next",
+                            width = "300px",
+                            height = "100px", # only relevant if one_line == FALSE
+                            validate = NULL,
+                            on_complete = NULL,
+                            admin_ui = NULL) {
+  stopifnot(is.scalar.character(label),
+            is.scalar.logical(one_line))
+  text_input <- if (one_line) {
+    shiny::textInput("text_input", label = NULL,
+                     placeholder = placeholder,
+                     width = width)
+  } else {
+    shiny::textAreaInput("text_input", label = NULL,
+                         placeholder = placeholder,
+                         width = width,
+                         height = height)
+  }
+  get_answer <- function(input, ...) input$text_input
+  body = shiny::div(
+    onload = "document.getElementById('text_input').value = '';",
+    tagify(prompt),
+    text_input
+  )
+  ui <- shiny::div(body, trigger_button("next", button_text))
+  page(ui = ui, label = label, get_answer = get_answer, save_answer = save_answer,
+       validate = validate, on_complete = on_complete, final = FALSE,
+       admin_ui = admin_ui)
+}
+```
+
+Though there are quite a few customisable parameters here,
+the core definition is actually pretty simple.
