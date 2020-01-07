@@ -67,7 +67,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.16.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.0</span>
       </span>
     </div>
 
@@ -90,28 +90,40 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/a-introduction.html">An introduction to psychTestR</a>
+      <a href="../articles/a-right-for-me.html">Is psychTestR right for me?</a>
     </li>
     <li>
-      <a href="../articles/b-media-files.html">Tutorial (basic): Media files</a>
+      <a href="../articles/b-introduction.html">An introduction to psychTestR</a>
     </li>
     <li>
-      <a href="../articles/c-editing-dictionaries.html">Tutorial (intermediate): Editing dictionaries</a>
+      <a href="../articles/c-media-files.html">Tutorial (basic): Media files</a>
     </li>
     <li>
-      <a href="../articles/c-hosting-experiments-online.html">Tutorial (intermediate): Hosting experiments online</a>
+      <a href="../articles/c-modularisation.html">Tutorial (basic): Modularisation</a>
     </li>
     <li>
-      <a href="../articles/c-randomisation.html">Tutorial (intermediate): Randomising item administration</a>
+      <a href="../articles/d-automated-testing.html">Tutorial (intermediate): Automated testing</a>
     </li>
     <li>
-      <a href="../articles/c-url-parameters.html">Tutorial (intermediate): URL parameters</a>
+      <a href="../articles/d-building-custom-page-types.html">Tutorial (intermediate): Building custom page types</a>
     </li>
     <li>
-      <a href="../articles/d-internationalised-questionnaire.html">Tutorial (expert): Creating an internationalised questionnaire</a>
+      <a href="../articles/d-editing-dictionaries.html">Tutorial (intermediate): Editing dictionaries</a>
     </li>
     <li>
-      <a href="../articles/d-jspsych-integration.html">Tutorial (expert): jsPsych integration</a>
+      <a href="../articles/d-hosting-experiments-online.html">Tutorial (intermediate): Hosting experiments online</a>
+    </li>
+    <li>
+      <a href="../articles/d-randomisation.html">Tutorial (intermediate): Randomising item administration</a>
+    </li>
+    <li>
+      <a href="../articles/d-url-parameters.html">Tutorial (intermediate): URL parameters</a>
+    </li>
+    <li>
+      <a href="../articles/e-internationalised-questionnaire.html">Tutorial (expert): Creating an internationalised questionnaire</a>
+    </li>
+    <li>
+      <a href="../articles/e-jspsych-integration.html">Tutorial (expert): jsPsych integration</a>
     </li>
   </ul>
 </li>
@@ -143,6 +155,18 @@
       <small>Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="psychtestr-2-17-0" class="section level1">
+<h1 class="page-header">
+<a href="#psychtestr-2-17-0" class="anchor"></a>psychTestR 2.17.0</h1>
+<ul>
+<li>Added <code>advance_delay</code> option, customising the delay before advancing the next page. This replaces the hardcoded 500 ms in previous psychTestR versions. The new default is 0 ms.</li>
+<li>Created new automated tests using <code>shinytest</code> package, which supplement and replace the original manual tests.</li>
+<li>Exposed the <code>AppTester</code> class for creating custom automated tests.</li>
+<li>Improved and documented the treatment of nested modules.</li>
+<li>Introduced the <code>slider_page</code> test element.</li>
+<li>Wrote a series of new vignettes.</li>
+</ul>
+</div>
     <div id="psychtestr-2-16-0" class="section level1">
 <h1 class="page-header">
 <a href="#psychtestr-2-16-0" class="anchor"></a>psychTestR 2.16.0</h1>
@@ -383,6 +407,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#psychtestr-2-17-0">2.17.0</a></li>
         <li><a href="#psychtestr-2-16-0">2.16.0</a></li>
         <li><a href="#psychtestr-2-15-0">2.15.0</a></li>
         <li><a href="#psychtestr-2-14-0">2.14.0</a></li>

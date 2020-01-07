@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.16.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.17.0</span>
       </span>
     </div>
 
@@ -92,28 +92,40 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/a-introduction.html">An introduction to psychTestR</a>
+      <a href="../articles/a-right-for-me.html">Is psychTestR right for me?</a>
     </li>
     <li>
-      <a href="../articles/b-media-files.html">Tutorial (basic): Media files</a>
+      <a href="../articles/b-introduction.html">An introduction to psychTestR</a>
     </li>
     <li>
-      <a href="../articles/c-editing-dictionaries.html">Tutorial (intermediate): Editing dictionaries</a>
+      <a href="../articles/c-media-files.html">Tutorial (basic): Media files</a>
     </li>
     <li>
-      <a href="../articles/c-hosting-experiments-online.html">Tutorial (intermediate): Hosting experiments online</a>
+      <a href="../articles/c-modularisation.html">Tutorial (basic): Modularisation</a>
     </li>
     <li>
-      <a href="../articles/c-randomisation.html">Tutorial (intermediate): Randomising item administration</a>
+      <a href="../articles/d-automated-testing.html">Tutorial (intermediate): Automated testing</a>
     </li>
     <li>
-      <a href="../articles/c-url-parameters.html">Tutorial (intermediate): URL parameters</a>
+      <a href="../articles/d-building-custom-page-types.html">Tutorial (intermediate): Building custom page types</a>
     </li>
     <li>
-      <a href="../articles/d-internationalised-questionnaire.html">Tutorial (expert): Creating an internationalised questionnaire</a>
+      <a href="../articles/d-editing-dictionaries.html">Tutorial (intermediate): Editing dictionaries</a>
     </li>
     <li>
-      <a href="../articles/d-jspsych-integration.html">Tutorial (expert): jsPsych integration</a>
+      <a href="../articles/d-hosting-experiments-online.html">Tutorial (intermediate): Hosting experiments online</a>
+    </li>
+    <li>
+      <a href="../articles/d-randomisation.html">Tutorial (intermediate): Randomising item administration</a>
+    </li>
+    <li>
+      <a href="../articles/d-url-parameters.html">Tutorial (intermediate): URL parameters</a>
+    </li>
+    <li>
+      <a href="../articles/e-internationalised-questionnaire.html">Tutorial (expert): Creating an internationalised questionnaire</a>
+    </li>
+    <li>
+      <a href="../articles/e-jspsych-integration.html">Tutorial (expert): jsPsych integration</a>
     </li>
   </ul>
 </li>
@@ -162,7 +174,7 @@
   <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='st'>"output"</span>, <span class='kw'>session_timeout_min</span> <span class='kw'>=</span> <span class='fl'>7</span> * <span class='fl'>24</span> * <span class='fl'>60</span>,
   <span class='kw'>clean_sessions_interval_min</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>logo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>logo_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>logo_height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>display</span> <span class='kw'>=</span> <span class='fu'><a href='display_options.html'>display_options</a></span>(),
-  <span class='kw'>allow_url_rewrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+  <span class='kw'>allow_url_rewrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>advance_delay</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -316,6 +328,11 @@ check for expired participant sessions (minutes).</p></td>
       <td><p>Whether to allow psychTestR to rewrite the page's URL. This is required
 for psychTestR's built-in session management system, but
 can be disabled as long as <code>enable_resume_session</code> is also set to <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>advance_delay</th>
+      <td><p>Number of seconds to wait before advancing to the next page
+upon button press.</p></td>
     </tr>
     </table>
 
