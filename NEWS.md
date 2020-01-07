@@ -2,6 +2,8 @@
 the next page. 
 This replaces the hardcoded 500 ms in previous psychTestR versions.
 The new default is 0 ms.
+- Created new automated tests using `shinytest` package,
+which supplement and replace the original manual tests.
 
 # psychTestR 2.16.0
 
