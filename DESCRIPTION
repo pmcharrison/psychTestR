@@ -31,10 +31,11 @@ Imports:
     codetools,
     tibble,
     jsonlite,
-    htm2txt
+    htm2txt,
+    shinytest,
+    testthat (>= 2.0.0)
 RoxygenNote: 6.1.1
 Suggests: 
-    testthat (>= 2.0.0),
     knitr,
     rmarkdown,
     stringr

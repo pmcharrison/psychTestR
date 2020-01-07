@@ -9,7 +9,7 @@ get_ui_text <- function(app_tester, squish = TRUE) {
 }
 
 expect_ui_text <- function(app_tester, text, squish = TRUE) {
-  expect_equal(
+  testthat::expect_equal(
     get_ui_text(app_tester, squish = squish),
     text
   )
