@@ -56,7 +56,7 @@ which is useful both for test development and for conducting
 in-person data collection.
 Tests can also be deployed to remote servers for online data collection
 without changing any of the underlying R code -- see 
-[Hosting experiments online](https://pmcharrison.github.io/psychTestR/articles/2-hosting-experiments-online.html)
+[Hosting experiments online](https://pmcharrison.github.io/psychTestR/articles/d-hosting-experiments-online.html)
 for details.
 
 ## Pages
@@ -877,7 +877,7 @@ make_test(timeline, opt = demo_options(languages = "FR"))
 ```
 
 For a more involved example, see 
-[Creating an internationalised questionnaire](https://pmcharrison.github.io/psychTestR/articles/d-internationalised-questionnaire.html).
+[Creating an internationalised questionnaire](https://pmcharrison.github.io/psychTestR/articles/e-internationalised-questionnaire.html).
 
 ## Best practice in test construction
 

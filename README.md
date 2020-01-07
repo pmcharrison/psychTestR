@@ -19,7 +19,7 @@ Key benefits of psychTestR include:
 ## Documentation
 
 We recommend you begin by reading psychTestR's 
-[introductory article](https://pmcharrison.github.io/psychTestR/articles/a-introduction),
+[introductory article](https://pmcharrison.github.io/psychTestR/articles/b-introduction),
 and then exploring the other articles on the 
 [documentation website](https://pmcharrison.github.io/psychTestR) 
 as and when they become relevant to your queries.
