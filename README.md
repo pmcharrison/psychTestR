@@ -15,11 +15,16 @@ Key benefits of psychTestR include:
 - Scales well to hundreds of concurrent users
 - Compatible with all major operating systems (Windows, Mac, Linux)
 - Easy to modularise and share your designs with other researchers
+- Provides automated testing utilities to ensure that your implementations
+are production-ready
+
 
 ## Documentation
 
-We recommend you begin by reading psychTestR's 
-[introductory article](https://pmcharrison.github.io/psychTestR/articles/a-introduction),
+We recommend you begin by reading 
+[Is psychTestR right for me?](https://pmcharrison.github.io/psychTestR/articles/a-right-for-me),,
+then psychTestR's 
+[introductory article](https://pmcharrison.github.io/psychTestR/articles/b-introduction),
 and then exploring the other articles on the 
 [documentation website](https://pmcharrison.github.io/psychTestR) 
 as and when they become relevant to your queries.
@@ -127,7 +132,7 @@ Here you can download your response data.
 
 psychTestR was created by Peter M. C. Harrison
 with useful feedback from 
-Daniel Müllensiefen, Klaus Frieler, and Marcus Pearce.
+Daniel Müllensiefen, Klaus Frieler, Marcus Pearce, and Nicolas Ruth.
 The work was was supported by Peter's PhD studentship from 
 the EPSRC and AHRC Centre for Doctoral Training
 in Media and Arts Technology (EP/L01632X/1)

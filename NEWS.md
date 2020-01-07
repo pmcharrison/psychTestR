@@ -1,3 +1,16 @@
+# psychTestR 2.17.0
+
+- Added `advance_delay` option, customising the delay before advancing 
+the next page. 
+This replaces the hardcoded 500 ms in previous psychTestR versions.
+The new default is 0 ms.
+- Created new automated tests using `shinytest` package,
+which supplement and replace the original manual tests.
+- Exposed the `AppTester` class for creating custom automated tests.
+- Improved and documented the treatment of nested modules.
+- Introduced the `slider_page` test element.
+- Wrote a series of new vignettes.
+
 # psychTestR 2.16.0
 
 - Exposed `btn_play_prompt` in `volume_calibration_page`.

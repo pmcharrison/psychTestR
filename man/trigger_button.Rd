@@ -20,7 +20,7 @@ see \code{\link[=validateCssUnit]{validateCssUnit()}}.}
 
 \item{enable_after}{Number of seconds after which responses should be permitted.}
 
-\item{...}{Additional arguments to pass to \link[shiny]{actionButton}.}
+\item{...}{Named attributes to be applied to the button or link.}
 }
 \description{
 A version of \code{shiny::actionButton} that triggers

@@ -1,0 +1,229 @@
+---
+title: "Tutorial (intermediate): Automated testing"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial (intermediate): Automated testing}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  out.width = "100%"
+)
+
+library(psychTestR)
+```
+
+## Introduction
+
+Automated testing is essential in modern software development.
+In the context of psychological experiment development,
+automated tests help you to ensure the robustness of your experiment's implementation
+without having to invest tedious hours in manual testing.
+
+To construct an automated test in psychTestR,
+you first need a test implementation saved in a file named `app.R`.
+Suppose we've implemented the following minimal example:
+
+```{r, results = "hide", message = FALSE}
+library(psychTestR)
+
+display_number <- function(i) {
+  one_button_page(paste("Page", i))
+}
+
+timeline <- join(
+  lapply(1:5, display_number),
+  final_page("End.")
+)
+
+test <- make_test(timeline, opt = test_options("Minimal test", "password"))
+```
+
+Now make a new file, called `test.R` (or whatever you want).
+Within this file, we construct an automated tester using the `AppTester` class:
+
+```{r}
+library(psychTestR)
+
+dir <- system.file("demos/minimal-test", package = "psychTestR", mustWork = TRUE)
+
+app <- AppTester$new(dir)
+
+```
+
+We've put a sample `app.R` file in the psychTestR package, 
+an  the above example finds that file using `system.file`;
+to point the code to your own `app.R` file, simply replace 
+the `system.file` call with the path to the directory containing your
+`app.R` file.
+
+This `AppTester` object instantiates a headless browser which 
+then navigates your psychTestR test, just like a real participant.
+This object has various methods that are useful for interacting
+with the psychTestR test and probing its internal state.
+For example, we can probe the current UI text:
+
+```{r}
+app$get_ui_text()
+```
+
+We can click the "Next" button:
+
+```{r}
+app$click_next()
+app$get_ui_text()
+```
+
+We can pull local variables:
+
+```{r}
+app$get_locals()
+```
+
+We can run assertions that throw an error
+if a given condition is not satisfied:
+
+```{r}
+app$expect_ui_text("Page 2 Next")
+```
+
+And we can combine all of this together into an
+automated script that checks that our test runs as expected:
+
+```{r}
+library(testthat) # for the expect_equal function
+
+app <- AppTester$new(dir)
+
+app$expect_title("Minimal test") # check the test's title
+
+expect_equal(
+  app$get_locals(),
+  list(.module = NULL,
+       .results_label = "results")
+)
+
+for (i in 1:5) {
+  app$expect_ui_text(sprintf("Page %i Next", i))
+  app$click_next()
+}
+
+app$expect_ui_text("End.")
+
+app$stop() # shuts down the testing process
+```
+
+See `?AppTester` for more information on automated testing utilities.
+
+## A real-world example
+
+The above example was rather simple, but automated testing
+comes into its own with more complex implementations.
+Here is an example from the test suite in the psychTestR package,
+designed to check that nested modules work as intended.
+
+### The app tester
+
+``` r
+context("test_modules")
+
+test_that("main", {
+  app <- AppTester$new("apps/modules")
+
+  app$expect_ui_text("We begin in the global environment. Next")
+  app$get_locals() %>% expect_equal(list(.module = NULL,
+                                         .results_label = "results"))
+
+  app$click_next()
+  app$expect_ui_text("We've now entered the parent environment. Next")
+  app$get_locals() %>% expect_equal(list(.module = "parent",
+                                         .results_label = "parent"))
+
+  app$click_next()
+  app$expect_ui_text("In the parent environment, we define a local variable, x = 42. Next")
+  app$get_locals()$x %>% expect_equal(42)
+
+  app$click_next()
+  app$expect_ui_text("Now we enter the child environment. Next")
+  app$get_locals() %>% expect_equal(list(.module = "child",
+                                         .results_label = "parent.child"))
+
+  app$click_next()
+  app$expect_ui_text("We can't see x any more: x is now NULL. Next")
+  app$get_locals()$x %>% expect_equal(NULL)
+
+  app$click_next()
+  app$expect_ui_text("We can set it to a new value, though: x = 65. Next")
+  app$get_locals()$x %>% expect_equal(65)
+
+  app$click_next()
+  app$expect_ui_text("Now we return to the parent environment. Next")
+  app$get_locals() %>% expect_equal(list(.module = "parent",
+                                         .results_label = "parent",
+                                         x = 42))
+
+  app$click_next()
+  app$expect_ui_text("We see that x = 42 again. Next")
+
+  app$click_next()
+  app$expect_ui_text("Now we return to the global environment. Next")
+  app$get_locals() %>% expect_equal(list(.module = NULL,
+                                         .results_label = "results"))
+
+  app$click_next()
+  app$expect_ui_text("We see that x is is NULL again.")
+  app$get_locals()$x %>% expect_equal(NULL)
+
+  app$get_results() %>% as.list() %>% expect_equal(list(
+    parent = list(x = 42),
+    parent.child = list(x = 65)
+  ))
+
+  app$stop()
+})
+```
+
+### The app code
+
+``` r
+library(psychTestR)
+
+elts <- join(
+  one_button_page("We begin in the global environment."),
+  module(
+    "parent",
+
+    one_button_page("We've now entered the parent environment."),
+    code_block(function(state, ...) {
+      x <- 42
+      set_local("x", x, state)
+      save_result(state, "x", x)
+    }),
+    one_button_page("In the parent environment, we define a local variable, x = 42."),
+
+    module(
+      "child",
+      one_button_page("Now we enter the child environment."),
+      one_button_page("We can't see x any more: x is now NULL."),
+      code_block(function(state, ...) {
+        x <- 65
+        set_local("x", x, state)
+        save_result(state, "x", x)
+      }),
+      one_button_page("We can set it to a new value, though: x = 65.")
+    ),
+
+    one_button_page("Now we return to the parent environment."),
+    one_button_page("We see that x = 42 again.")
+  ),
+
+  one_button_page("Now we return to the global environment."),
+  final_page("We see that x is is NULL again.")
+)
+
+make_test(elts)
+
+```

@@ -48,7 +48,8 @@ STATE <- R6::R6Class(
       elt_index = 1L,
       p_id = NULL,
       globals = list(),
-      locals = list(),
+      locals = list(.module = NULL,
+                    .results_label = "results"),
       parent_locals = list(),
       results = NULL,
       time_started = as.POSIXct(NA),
@@ -395,6 +396,17 @@ leave_local_environment <- function(state) {
   stopifnot(is(state, "state"))
   ind <- length(state$passive$parent_locals)
   state$passive$locals <- state$passive$parent_locals[[ind]]
+  state$passive$parent_locals <- state$passive$parent_locals[seq_len(ind) - 1]
+}
+
+get_results_label <- function(state) {
+  current_module <- get_local(".module", state)
+  if (is.null(current_module)) {
+    "results"
+  } else {
+    parent_modules <- state$passive$parent_locals[-1] %>% purrr::map_chr(".module")
+    c(parent_modules, current_module) %>% paste(collapse = ".")
+  }
 }
 
 #' Get participant ID
