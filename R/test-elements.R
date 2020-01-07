@@ -367,6 +367,8 @@ text_input_page <- function(label, prompt,
 #'
 #' @param prompt Prompt to display (character scalar or Shiny tag object).
 #'
+#' @param button_text Text for the submit button (character scalar).
+#'
 #' @inheritParams shiny::sliderInput
 #'
 #' @inheritParams page

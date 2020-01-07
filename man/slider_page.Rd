@@ -26,6 +26,8 @@ fit between \code{min} and \code{max}.}
 
 \item{save_answer}{Whether or not to save the answer.}
 
+\item{button_text}{Text for the submit button (character scalar).}
+
 \item{on_complete}{Optional function to execute on leaving the page
 (after successful validation).
 The argument list should include \code{...},
