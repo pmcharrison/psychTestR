@@ -815,7 +815,6 @@ dropdown_page.get_answer <- function(alternative_text) {
 #' the next psychTestR page.
 
 #' @param enable_after Number of seconds after which responses should be permitted.
-#' @param ... Additional arguments to pass to \link[shiny]{actionButton}.
 #'
 #' @inheritParams shiny::actionButton
 #'
