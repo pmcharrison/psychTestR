@@ -33,7 +33,7 @@ Imports:
     jsonlite,
     htm2txt,
     shinytest,
-    testthat (>= 2.0.0)
+    testthat (>= 2.0.0),
     R (>= 3.5.0)
 RoxygenNote: 6.1.1
 Suggests: 
