@@ -15,6 +15,9 @@ Key benefits of psychTestR include:
 - Scales well to hundreds of concurrent users
 - Compatible with all major operating systems (Windows, Mac, Linux)
 - Easy to modularise and share your designs with other researchers
+- Provides automated testing utilities to ensure that your implementations
+are production-ready
+
 
 ## Documentation
 
