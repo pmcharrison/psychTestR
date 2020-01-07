@@ -1080,18 +1080,50 @@ conditional <- function(test, logic) {
   )
 }
 
+
+#' Create module
+#'
+#' Creates a psychTestR module.
+#' A module encapsulates a portion of a psychTestR timeline,
+#' providing it with its own environment of local variables.
+#' Entering a module begins a new section in the psychTestR results object.
+#' Modules are useful for wrapping particular tests or paradigms into
+#' distributable units.
+#'
+#' @param label Label for the module; should ideally be limited
+#' to alphanumeric characters and underscores, but this is not essential.
+#'
+#' @param ... The psychTestR test elements that will constitute the module.
+#'
+#' @seealso This function wraps the low-level functions
+#' \code{\link{begin_module}} and \code{\link{end_module}}.
+#'
+#' @export
+module <- function(label, ...) {
+  join(
+    begin_module(label),
+    join(...),
+    end_module()
+  )
+}
+
 #' Begin module
 #'
 #' Returns a code block that begins a psychTestR module.
 #' Modules have their own set of local variables.
 #' They also have identifying labels that are stored alongside
 #' result entries created during the module.
+#'
 #' @param label Module label (character scalar).
+#'
+#' @note Usually it is better to call \code{\link{module}} instead.
+#'
 #' @export
 begin_module <- function(label) {
   stopifnot(is.scalar.character(label))
   code_block(function(state, ...) {
     enter_local_environment(state)
+    set_local(".module", label, state, allow_dots = TRUE)
     register_next_results_section(state, label)
   })
 }
@@ -1102,11 +1134,15 @@ begin_module <- function(label) {
 #' Modules have their own set of local variables.
 #' They also have identifying labels that are stored alongside
 #' result entries created during the module.
+#'
+#' @note Usually it is better to call \code{\link{module}} instead.
+#'
 #' @export
 end_module <- function() {
   code_block(function(state, ...) {
     leave_local_environment(state)
-    register_next_results_section(state, "results")
+    parent_module_label <- get_local(".module", state)
+    register_next_results_section(state, parent_module_label)
   })
 }
 

@@ -12,3 +12,6 @@ Modules have their own set of local variables.
 They also have identifying labels that are stored alongside
 result entries created during the module.
 }
+\note{
+Usually it is better to call \code{\link{module}} instead.
+}
