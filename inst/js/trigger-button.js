@@ -3,5 +3,5 @@ trigger_button = function(inputId) {
   document.getElementById("current_page.ui").style.visibility = "hidden";
   setTimeout(function() {
     next_page();
-  }, 500);
+  }, test_options.advance_delay * 1000);
 };

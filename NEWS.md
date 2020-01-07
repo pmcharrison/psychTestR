@@ -1,3 +1,6 @@
+- Added `advance_delay` option, customising the delay before advancing 
+the next page.
+
 # psychTestR 2.16.0
 
 - Exposed `btn_play_prompt` in `volume_calibration_page`.

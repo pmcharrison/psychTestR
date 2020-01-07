@@ -16,7 +16,7 @@ test_options(title, admin_password, researcher_email = NULL,
   output_dir = "output", session_timeout_min = 7 * 24 * 60,
   clean_sessions_interval_min = 15, logo = NULL, logo_width = NULL,
   logo_height = NULL, display = display_options(),
-  allow_url_rewrite = TRUE)
+  allow_url_rewrite = TRUE, advance_delay = 0.5)
 }
 \arguments{
 \item{title}{The test's title.
@@ -110,6 +110,9 @@ check for expired participant sessions (minutes).}
 \item{allow_url_rewrite}{Whether to allow psychTestR to rewrite the page's URL. This is required
 for psychTestR's built-in session management system, but
 can be disabled as long as \code{enable_resume_session} is also set to \code{FALSE}.}
+
+\item{advance_delay}{Number of seconds to wait before advancing to the next page
+upon button press.}
 }
 \description{
 Defines the options for running a given test.
