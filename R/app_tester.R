@@ -75,8 +75,14 @@ AppTester <- R6::R6Class(
       self$setInputs(...)
     },
 
+    click = function(buttons) {
+      call <- rep("click", times = length(buttons)) %>% setNames(buttons) %>% as.list()
+      do.call(self$set_inputs, args = call)
+    },
+
     click_next = function() {
-      self$set_inputs("next" = "click")
+      # self$set_inputs("next" = "click")
+      self$click("next")
     }
 
   )
