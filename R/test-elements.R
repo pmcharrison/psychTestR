@@ -1147,15 +1147,33 @@ conditional <- function(test, logic) {
 
 #' Create module
 #'
-#' Creates a psychTestR module.
-#' A module encapsulates a portion of a psychTestR timeline,
-#' providing it with its own environment of local variables.
-#' Entering a module begins a new section in the psychTestR results object.
-#' Modules are useful for wrapping particular tests or paradigms into
-#' distributable units.
+#' In psychTestR, modules are ways of wrapping sequences of test elements
+#' into coherent logical units.
+#' Putting a sequence of test elements into a module has three main consequences:
+#' 1. Readability: It makes it clear to the reader that this sequence
+#' of test elements forms a single logical unit.
+#' 2. Results organisation:
+#' Any results generated in this module will be assigned to a special
+#' section in the psychTestR results object,
+#' labelled with the name of the module.
+#' 3. Protected local environment:
+#' The module will receive a fresh local environment where it can create
+#' its own local variables (see \code{\link{set_local}}).
+#' This local environment is protected from other modules,
+#' which is useful to avoid unexpected side effects when
+#' multiple modules are chained together.
 #'
-#' @param label Label for the module; should ideally be limited
-#' to alphanumeric characters and underscores, but this is not essential.
+#' In many cases modules will typically be used in one flat layer.
+#' However, it is perfectly possible to nest modules to arbitrary depths;
+#' at any point in time, only the local variables from the lowest-level module
+#' will be visible.
+#' The results object will use a composite label derived
+#' by concatenating the names of the modules, separated by periods,
+#' for example \code{parent.child.grandchild}.
+#'
+#' @md
+#'
+#' @inheritParams begin_module
 #'
 #' @param ... The psychTestR test elements that will constitute the module.
 #'
@@ -1178,17 +1196,21 @@ module <- function(label, ...) {
 #' They also have identifying labels that are stored alongside
 #' result entries created during the module.
 #'
-#' @param label Module label (character scalar).
+#' @param label Label for the module; must be limited
+#' to alphanumeric characters and underscores.
 #'
 #' @note Usually it is better to call \code{\link{module}} instead.
 #'
 #' @export
 begin_module <- function(label) {
-  stopifnot(is.scalar.character(label))
+  stopifnot(is.scalar.character(label),
+            grepl("^[A-Za-z0-9_]*$", label))
   code_block(function(state, ...) {
     enter_local_environment(state)
     set_local(".module", label, state, allow_dots = TRUE)
-    register_next_results_section(state, label)
+    results_label <- get_results_label(state)
+    set_local(".results_label", results_label, state, allow_dots = TRUE)
+    register_next_results_section(state, results_label)
   })
 }
 
@@ -1205,8 +1227,8 @@ begin_module <- function(label) {
 end_module <- function() {
   code_block(function(state, ...) {
     leave_local_environment(state)
-    parent_module_label <- get_local(".module", state)
-    register_next_results_section(state, parent_module_label)
+    new_results_label <- get_local(".results_label", state)
+    register_next_results_section(state, new_results_label)
   })
 }
 

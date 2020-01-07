@@ -228,6 +228,14 @@ Now we can pass the desired number of items to our `fruit_module` function:
 fruit_module(3) # a module with 3 fruits
 ```
 
+In many cases modules will typically be used in one flat layer.
+However, it is perfectly possible to nest modules to arbitrary depths;
+at any point in time, only the local variables from the lowest-level module
+will be visible.
+The results object will use a composite label derived
+by concatenating the names of the modules, separated by periods,
+for example `parent.child.grandchild`.
+
 Modules are not so important for one-off test implementations.
 However, they do become very useful when constructing batteries
 of multiple test implementations.
