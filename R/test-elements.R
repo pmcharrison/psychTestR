@@ -359,6 +359,68 @@ text_input_page <- function(label, prompt,
        admin_ui = admin_ui)
 }
 
+#' Slider page
+#'
+#' Creates a page where the participant responds by manipulating a slider.
+#'
+#' @param label Label for the current page (character scalar).
+#'
+#' @param prompt Prompt to display (character scalar or Shiny tag object).
+#'
+#' @inheritParams shiny::sliderInput
+#'
+#' @inheritParams page
+#'
+#' @note The RStudio preview function seems not to work
+#' for slider pages on some machines.
+#'
+#' @export
+slider_page <- function(label, prompt,
+                        min, max, value,
+                        save_answer = TRUE,
+                        button_text = "Next",
+                        on_complete = NULL,
+                        admin_ui = NULL,
+                        step = NULL, round = FALSE,
+                        ticks = TRUE, animate = FALSE,
+                        width = NULL, sep = ",",
+                        pre = NULL, post = NULL,
+                        timeFormat = NULL,
+                        timezone = NULL, dragRange = TRUE) {
+  stopifnot(is.scalar.character(label))
+
+  slider <- shiny::sliderInput(
+    "slider",
+    label = NULL,
+    min = min,
+    max = max,
+    value = value,
+    step = step,
+    round = round,
+    ticks = ticks,
+    animate = animate,
+    width = width,
+    sep = sep,
+    pre = pre,
+    post = post,
+    timeFormat = timeFormat,
+    timezone = timezone,
+    dragRange = dragRange
+  )
+
+  get_answer <- function(input, ...) input$slider
+
+  body = shiny::div(
+    tagify(prompt),
+    slider
+  )
+  ui <- shiny::div(body, trigger_button("next", button_text))
+
+  page(ui = ui, label = label, get_answer = get_answer, save_answer = save_answer,
+       on_complete = on_complete, final = FALSE,
+       admin_ui = admin_ui)
+}
+
 #' Get participant ID
 #'
 #' A psychTestR page that gets the participant to enter their ID.
