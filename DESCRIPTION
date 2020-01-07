@@ -30,12 +30,14 @@ Imports:
     purrr,
     codetools,
     tibble,
-    jsonlite
+    jsonlite,
+    htm2txt
 RoxygenNote: 6.1.1
 Suggests: 
     testthat (>= 2.0.0),
     knitr,
-    rmarkdown
+    rmarkdown,
+    stringr
 Byte-Compile: yes
 URL: https://github.com/pmcharrison/psychTestR
 BugReports: https://github.com/pmcharrison/psychTestR/issues

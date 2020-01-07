@@ -20,6 +20,14 @@ server <- function(elts, opt, custom_admin_panel) {
         opt = opt)
     manage_sessions(state, opt = opt, session = session)
     shiny::outputOptions(output, "admin_panel.ui", suspendWhenHidden = FALSE)
+
+    shiny::exportTestValues(
+      ui_text = get_current_elt(
+        state, elts, opt, eval = TRUE
+      )@ui %>% as.character() %>% htm2txt::htm2txt(),
+      globals = state$passive$globals,
+      locals = state$passive$locals
+    )
   }
 }
 
