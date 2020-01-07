@@ -46,4 +46,6 @@ test_that("main", {
     parent = list(x = 42),
     child = list(x = 65)
   ))
+
+  app$stop()
 })

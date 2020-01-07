@@ -3,14 +3,17 @@ AppTester <- R6::R6Class(
   inherit = shinytest::ShinyDriver,
   public = list(
 
+    get_ui = function() {
+      self$getAllValues(input = FALSE, output = FALSE, export = TRUE)$export$ui
+    },
+
     get_ui_text = function(squish = TRUE) {
-      val <- self$getAllValues(input = FALSE, output = FALSE, export = TRUE)$export$ui_text
+      val <- self$get_ui() %>% as.character() %>% htm2txt::htm2txt()
       if (squish) val <- stringr::str_squish(val)
       val
     },
 
     expect_ui_text = function(text, squish = TRUE) {
-      # Sys.sleep(0.05)
       testthat::expect_equal(
         self$get_ui_text(squish = squish),
         text

@@ -22,9 +22,7 @@ server <- function(elts, opt, custom_admin_panel) {
     shiny::outputOptions(output, "admin_panel.ui", suspendWhenHidden = FALSE)
 
     shiny::exportTestValues(
-      ui_text = get_current_elt(
-        state, elts, opt, eval = TRUE
-      )@ui %>% as.character() %>% htm2txt::htm2txt(),
+      ui = get_current_elt(state, elts, opt, eval = TRUE)@ui,
       title = i18n_title(opt, state),
       problems_info = i18n_problems_info(opt, state),
       globals = state$passive$globals,
