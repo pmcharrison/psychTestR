@@ -28,7 +28,8 @@ server <- function(elts, opt, custom_admin_panel) {
       title = i18n_title(opt, state),
       problems_info = i18n_problems_info(opt, state),
       globals = state$passive$globals,
-      locals = state$passive$locals
+      locals = state$passive$locals,
+      results = get_results(state, complete = FALSE)
     )
   }
 }

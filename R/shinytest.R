@@ -39,6 +39,17 @@ AppTester <- R6::R6Class(
       )
     },
 
+    get_results = function() {
+      self$getAllValues(input = FALSE, output = FALSE, export = TRUE)$export$results
+    },
+
+    expect_results = function(val) {
+      testthat::expect_equal(
+        self$get_results() %>% as.list(),
+        val
+      )
+    },
+
     stop = function(clean = TRUE) {
       super$stop()
       if (clean) self$clean_output()
