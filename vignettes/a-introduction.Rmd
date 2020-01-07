@@ -129,6 +129,10 @@ psychTestR contains various built-in page types like these, for example:
 - `dropdown_NAFC_page`
 - `final_page`
 
+See the [function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html)
+(accessible at the R console with e.g. `?text_input_page`)
+for more details.
+
 Tests should generally conclude with a *final page*, as produced
 by `final_page`: these final pages have no buttons to advance
 to the next page, and so provide a good way to end the test.
@@ -188,6 +192,11 @@ test <- make_test(elts = timeline)
 shiny::runApp(test)
 ```
 
+As you can see, the function `make_test` takes the input timeline
+and turns it into a Shiny app object that can then be run 
+with \code{shiny::runApp}.
+See `?make_test` for more details.
+
 The resulting test should display in your RStudio Viewer window, 
 or in your web browser, depending on your RStudio configuration.
 
@@ -231,7 +240,7 @@ test configuration options as specified in `opt`.
 Having run this test, we should see that it generates an RDS file 
 in the directory `output/results`. The name of this RDS file will contain the 
 participant's ID, which by default is randomly generated.
-RDS files provided compressed versions of R objects.
+RDS files provide compressed versions of R objects.
 We can read our RDS file into R using the `readRDS` function.
 The code below lists all files in the results directory with the 
 extension `.rds`, and reads the first one into R:
@@ -244,7 +253,7 @@ res <- readRDS(rds_files[1])
 res
 ```
 
-```{r}
+```{r, echo = FALSE}
 res <- readRDS("sample-results/ex-1.rds")
 res
 ```
@@ -269,7 +278,7 @@ At this point it's worth explaining the difference between *build time*
 and *test time*. Build time corresponds to the moment when you create
 a list of test elements and pass them to `make_test`.
 psychTestR takes all of your builder functions, such as `NAFC_page` and 
-`one_button_page`, and evaluates them to produe a series of test elements,
+`one_button_page`, and evaluates them to produce a series of test elements,
 where an individual test element looks like this under the hood:
 
 ```{r, echo = TRUE}
@@ -333,7 +342,7 @@ which will now be introduced.
 ## Session states
 
 Each participant has a so-called 'session state', which characterises
-their current position in the test as well any results or other variables
+their current position in the test as well as any results or other variables
 that have accumulated along the way.
 By default, session states are saved to disk in the directory `output/sessions`.^[
 If you are interested, you can inspect these session states in R 
@@ -404,12 +413,16 @@ Here is an example of a code block that stores the time
 when the run-time code was executed:
 
 ```r
-code_block(function(state, ...) {
+code_block(fun = function(state, ...) {
   set_global(key = "time_started", 
              value = Sys.time(), 
              state = state)
 })
 ```
+
+Here the \code{key} argument determines the name of the global variable;
+the \code{value} argument determines the value that is assigned to the variable;
+\code{state} is the state object we've seen before.
 
 We could then refer to this variable later in the test 
 to compute the total time taken, 
@@ -793,7 +806,7 @@ where the data frame satisfies the following properties:
 - There is a character column entitled `key` that defines the key for each term.
 - The remaining columns provide translations into different languages,
 with the languages being identified by the column names, according
-to ISO 639-2 conventions.
+to [ISO 639-2 conventions](http://www.loc.gov/standards/iso639-2/php/code_list.php).
 
 By default the text is parsed according to Markdown conventions, 
 with one addition: two successive backslashes 
