@@ -6,7 +6,7 @@ tags:
 - online data collection
 authors:
 - name: Peter M. C. Harrison
-orcid: XXX
+orcid: 0000-0002-9851-9462
 affiliation: "1, 2" # (Multiple affiliations must be quoted)
 affiliations:
 - name: Max Planck Institute for Empirical Aesthetics, Frankfurt, Germany
@@ -16,8 +16,6 @@ index: 2
 date: 31 January 2020
 bibliography: paper.bib
 ---
-
-# Statement of Need
 
 # Summary
 
