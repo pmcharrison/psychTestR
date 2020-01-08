@@ -219,8 +219,8 @@
 ## {
 ##     save_results_to_disk(complete, state, opt)
 ## }
-## &lt;bytecode: 0x71ee9b0&gt;
-## &lt;environment: 0x71ee550&gt;</code></pre>
+## &lt;bytecode: 0x620a9b0&gt;
+## &lt;environment: 0x620a550&gt;</code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct the server to run a specified function. This function can take several inputs, but most important is the <code>state</code> object, which stores information relevant to that particular participant’s testing session, such as their responses to N-alternative forced choice pages. This particular function takes the <code>state</code> object as input and saves the participant’s results to disk, paying attention to certain test configuration options as specified in <code>opt</code>.</p>
 <p>Having run this test, we should see that it generates an RDS file in the directory <code>output/results</code>. The name of this RDS file will contain the participant’s ID, which by default is randomly generated. RDS files provide compressed versions of R objects. We can read our RDS file into R using the <code>readRDS</code> function. The code below lists all files in the results directory with the extension <code>.rds</code>, and reads the first one into R:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">rds_files &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">"output/results"</span>, </a>
@@ -312,8 +312,8 @@
 ## $get_answer
 ## function (input, ...) 
 ## input$last_btn_pressed
-## &lt;bytecode: 0x62fdfa8&gt;
-## &lt;environment: 0x6301240&gt;
+## &lt;bytecode: 0x531a130&gt;
+## &lt;environment: 0x531d518&gt;
 ## 
 ## $save_answer
 ## [1] TRUE
@@ -321,8 +321,8 @@
 ## $validate
 ## function (answer, ...) 
 ## !is.null(answer)
-## &lt;bytecode: 0x6301c50&gt;
-## &lt;environment: 0x6301240&gt;
+## &lt;bytecode: 0x5319fa8&gt;
+## &lt;environment: 0x531d518&gt;
 ## 
 ## $on_complete
 ## NULL
