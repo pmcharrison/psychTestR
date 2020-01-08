@@ -77,6 +77,9 @@ pt_options <- function(...) {
 #' Whether to allow psychTestR to rewrite the page's URL. This is required
 #' for psychTestR's built-in session management system, but
 #' can be disabled as long as \code{enable_resume_session} is also set to \code{FALSE}.
+#' @param advance_delay
+#' Number of seconds to wait before advancing to the next page
+#' upon button press.
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -105,7 +108,8 @@ test_options <- function(title, admin_password,
                          logo_width = NULL,
                          logo_height = NULL,
                          display = display_options(),
-                         allow_url_rewrite = TRUE) {
+                         allow_url_rewrite = TRUE,
+                         advance_delay = 0) {
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
             is.null.or(researcher_email, is.scalar.character),
@@ -134,7 +138,8 @@ test_options <- function(title, admin_password,
             is.null(logo) ||
               (is.scalar.character(logo_width) && is.scalar.character(logo_height)),
             is.list(display),
-            is.scalar.logical(allow_url_rewrite))
+            is.scalar.logical(allow_url_rewrite),
+            is.scalar.numeric(advance_delay))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   if (!allow_url_rewrite && enable_resume_session) {
@@ -226,7 +231,8 @@ test_options <- function(title, admin_password,
        logo_width = logo_width,
        logo_height = logo_height,
        display = display,
-       allow_url_rewrite = allow_url_rewrite)
+       allow_url_rewrite = allow_url_rewrite,
+       js_opt = list(advance_delay = advance_delay))
 }
 
 #' Display options

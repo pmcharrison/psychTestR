@@ -1,6 +1,6 @@
 template:
   params:
-    bootswatch: cerulean
+    bootswatch: flatly
 reference:
 - title: Top level
   desc: These are the top-level functions used to launch a psychTestR test.
@@ -20,6 +20,7 @@ reference:
 - title: Modules
   desc: Modules group test elements into self-contained units.
   contents:
+  - '`module`'
   - '`begin_module`'
   - '`end_module`'
 - title: Fundamental test elements
@@ -73,6 +74,7 @@ reference:
   - '`get_p_id`'
   - '`NAFC_page`'
   - '`one_button_page`'
+  - '`slider_page`'
   - '`text_input_page`'
   - '`video_NAFC_page`'
   - '`volume_calibration_page`'
@@ -91,6 +93,11 @@ reference:
   - '`get_local`'
   - '`set_global`'
   - '`set_local`'
+- title: Automated testing
+  desc: >
+      These functions support automated testing of psychTestR experiments.
+  contents:
+  - '`AppTester`'
 - title: Errors
   desc: These functions support displaying errors to the participant.
   contents:

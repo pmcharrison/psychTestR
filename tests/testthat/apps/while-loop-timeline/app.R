@@ -1,13 +1,11 @@
 library(psychTestR)
 
-# Should loop from pages 1 to 3.
-
 x <- list(
   one_button_page("Welcome."),
   code_block(function(state, ...) {
     set_local("counter", 1L, state)
   }),
-  loop_while(
+  while_loop(
     test = function(state, ...) get_local(state = state, key = "counter") < 4L,
     new_timeline(x = list(reactive_page(function(state, ...) {
       one_button_page(paste("Page", get_local("counter", state)),

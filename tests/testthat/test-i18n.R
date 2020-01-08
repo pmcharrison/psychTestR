@@ -32,3 +32,31 @@ test_that("I18N_GLOBAL_DICT", {
   expect_warning(psychTestR:::I18N_STATE$translate("A"),
                  "undefined i18n dictionary/language, key left untranslated")
 })
+
+test_that("i18n_app_en", {
+  skip_on_cran()
+
+  app <- AppTester$new("apps/i18n/i18n-en")
+
+  app$expect_ui_text("Hello Next")
+  app$click_next()
+  app$expect_ui_text("Goodbye")
+  app$expect_title("English title")
+  app$expect_problems_info("English problems info")
+
+  app$stop()
+})
+
+test_that("i18n_app_fr", {
+  skip_on_cran()
+
+  app <- AppTester$new("apps/i18n/i18n-fr")
+
+  app$expect_ui_text("Bonjour Next")
+  app$click_next()
+  app$expect_ui_text("Au revoir")
+  app$expect_title("French title")
+  app$expect_problems_info("French problems info")
+
+  app$stop()
+})

@@ -61,7 +61,15 @@ ui <- function(opt) {
     header,
     content,
     footer,
-    include_scripts())
+    include_scripts(),
+    include_js_opt(opt)
+  )
+}
+
+include_js_opt <- function(opt) {
+  shiny::tags$script(sprintf("var test_options = JSON.parse('%s');",
+                             jsonlite::toJSON(opt$js_opt, auto_unbox = TRUE)))
+
 }
 
 include_scripts <- function() {

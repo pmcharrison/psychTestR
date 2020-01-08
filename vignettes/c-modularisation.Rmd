@@ -1,0 +1,274 @@
+---
+title: "Tutorial (basic): Modularisation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Tutorial (basic): Modularisation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  out.width = "100%"
+)
+
+library(psychTestR)
+```
+
+## About 
+
+Modularisation is a key feature of psychTestR.
+By parcelling your code into reusable components,
+you can make your implementations quicker to write,
+easier to read,
+easier to maintain,
+and easier to use.
+This tutorial discusses a few strategies for modularisation in psychTestR.
+
+## Functions
+
+The function is the basic unit of modularisation in computer programming.
+A function takes a set of inputs, performs some operation upon them,
+and (optionally) returns an output:
+
+``` {r}
+f <- function(person, fruit) {
+  sprintf("Greetings, %s. Would you like some %s?",
+          person, fruit)
+}
+
+f(person = "fellow researcher",
+  fruit = "apples")
+```
+
+When creating psychTestR tests, functions are useful for creating 
+series of test elements that all share a common schema.
+For example, suppose we wanted to ask someone about their
+preferences for different kinds of fruit.
+We could write our code like this:
+
+``` r
+join(
+  NAFC_page(
+    "apples", 
+    "How much do you like apples, on a scale from 1 (not at all) to 7 (lots?)",
+    choices = as.character(1:7), 
+    arrange_vertically = FALSE
+  ),
+  NAFC_page(
+    "pears", 
+    "How much do you like pears, on a scale from 1 (not at all) to 7 (lots?)",
+    choices = as.character(1:7), 
+    arrange_vertically = FALSE
+  ),
+  NAFC_page(
+    "plums", 
+    "How much do you like plums, on a scale from 1 (not at all) to 7 (lots?)",
+    choices = as.character(1:7), 
+    arrange_vertically = FALSE
+  ),
+  NAFC_page(
+    "apricots", 
+    "How much do you like apricots, on a scale from 1 (not at all) to 7 (lots?)",
+    choices = as.character(1:7), 
+    arrange_vertically = FALSE
+  ),
+  NAFC_page(
+    "pineapples", 
+    "How much do you like pineapples, on a scale from 1 (not at all) to 7 (lots?)",
+    choices = as.character(1:7), 
+    arrange_vertically = FALSE
+  ),
+  NAFC_page(
+    "cherries", 
+    "How much do you like cherries, on a scale from 1 (not at all) to 7 (lots?)",
+    choices = as.character(1:7), 
+    arrange_vertically = FALSE
+  ),
+)
+
+```
+
+Clearly this is very inefficient: almost all the code is copy-pasted 
+from page to page. This code is slow to read because it takes up 
+so much space, and slow to maintain, because any change to the general
+schema needs to be repeated six times.
+
+Functions provide a much better way to do this. 
+Consider the following:
+
+``` r
+ask_liking <- function(fruit) {
+  NAFC_page(
+    fruit, 
+    sprintf("How much do you like %s, on a scale from 1 (not at all) to 7 (lots?)",
+            fruit),
+    choices = as.character(1:7), 
+    arrange_vertically = FALSE
+  )
+}
+fruits <- c("apples", "pears", "plums", "apricots", "pineapples", "cherries")
+lapply(fruits, ask_liking)
+```
+
+There are a couple of new functions here that you may or may not 
+have seen before:
+
+- `sprintf` - splices variables into a template string.
+- `lapply` - takes a function and applies it to each element of a list.
+
+Our new function `ask_liking` takes one input, `fruit`, and splices it into a 
+standardised schema for eliciting a 7-point liking response from the
+participant.
+We apply it to each element of the vector `fruits` in turn,
+using the function `lapply`, 
+and it returns the same list of elements that we had before,
+but with many fewer lines of code.
+
+Underneath everything, many psychTestR functions operate under 
+similar principles: they programmaticaly generate test elements
+according to certain schema.
+If designed correctly, these functions can generalise well to many 
+different applications.
+
+## Modules
+
+In psychTestR, 
+modules are ways of wrapping sequences of test elements
+into coherent logical units.^[
+You may have already heard of the [modules](https://cran.r-project.org/web/packages/modules/)
+package in R; despite the shared name, psychTestR modules are something different.
+]
+Putting a sequence of test elements into a module has three main consequences:
+
+1. **Readability**: It makes it clear to the reader that this sequence
+of test elements forms a single logical unit.
+2. **Results organisation**: 
+Any results generated in this module will be assigned to a special
+section in the psychTestR results object,
+labelled with the name of the module.
+3. **Protected local environment**: 
+The module will receive a fresh local environment where it can create
+its own local variables (see `?set_local`).
+This local environment is protected from other modules,
+which is useful to avoid unexpected side effects when 
+multiple modules are chained together.
+
+Here is a simple example of module use
+using the `ask_liking` function from above:
+
+```r
+ask_liking <- function(object) {
+  NAFC_page(
+    object, 
+    sprintf("How much do you like %s, on a scale from 1 (not at all) to 7 (lots?)",
+            object),
+    choices = as.character(1:7), 
+    arrange_vertically = FALSE
+  )
+}
+
+fruits <-  c("apples", "pears", "plums")
+animals <- c("dogs", "cats", "sheep")
+
+fruit_module <- module(
+  label = "fruits",
+  lapply(fruits, ask_liking)
+)
+
+animal_module <- module(
+  label = "animals",
+  lapply(animals, ask_liking)
+)
+
+timeline <- join(
+  fruit_module,
+  animal_module,
+  elt_save_results_to_disk(complete = TRUE),
+  final_page("End.")
+)
+
+make_test(timeline)
+```
+
+If you run this code on your local computer, 
+and complete the resulting test, 
+then you should find your response data stored as an RDS file
+in `output/results`.
+Call `as.list(readRDS(file))[1:2]` in your R console,
+replacing `file` with the path to the RDS file, and you should
+get something like this:
+
+```{r, echo = FALSE}
+as.list(readRDS("sample-results/ex-3.rds"))[1:2]
+```
+
+As you can see, the results from the two modules have been
+organised into two separate sections: one labelled `fruits`,
+and one labelled `animals`.
+
+It is often useful to wrap modules in functions that provide
+a degree of customisation.
+For example, suppose we wish to make `fruit_module` to have customisable length.
+We could do something like this:
+
+```{r}
+fruit_module <- function(num_items) {
+  stopifnot(num_items > 0, num_items <= 6)
+  all_fruits <- c("apples", "pears", "plums", "apricots", "pineapples", "cherries")
+  chosen_fruits <- all_fruits[1:num_items]
+  lapply(chosen_fruits, ask_liking)
+}
+```
+
+Now we can pass the desired number of items to our `fruit_module` function:
+
+``` r
+fruit_module(3) # a module with 3 fruits
+```
+
+In many cases modules will typically be used in one flat layer.
+However, it is perfectly possible to nest modules to arbitrary depths;
+at any point in time, only the local variables from the lowest-level module
+will be visible.
+The results object will use a composite label derived
+by concatenating the names of the modules, separated by periods,
+for example `parent.child.grandchild`.
+
+Modules are not so important for one-off test implementations.
+However, they do become very useful when constructing batteries
+of multiple test implementations.
+
+## Packages
+
+A simple way of distributing R code is by sharing R source files.
+The new user can read this source file into their R session
+and take advantage of its contents:
+for example, this source file could provide helper functions
+for creating particular page types,
+or it could define modules implementing entire psychological tests.
+
+Packages are formalised ways of sharing R source files.
+They stipulate particular ways of organising and documenting 
+these source files, and they encapsulate these source files
+within a namespace that prevents the resulting R objects
+from overwriting pre-existing objects in the user's global namespace.
+It is outside the scope of this tutorial to provide an introduction
+to package creation in R,
+but there are excellent tutorials available online,
+for example [Hadley Wickham's 'R packages' book site](http://r-pkgs.had.co.nz/).
+Packages are well-suited to distributing psychTestR helper functions
+and modules that implement specific psychological paradigms or measures.
+Here are some examples of such packages:
+
+- [psychTestRCAT](https://pmcharrison.github.io/psychTestRCAT/) - 
+helper functions for creating adaptive tests.
+- [mdt](https://github.com/pmcharrison/mdt) - 
+an adaptive melodic discrimination test.
+- [cabat](https://github.com/pmcharrison/cabat) - 
+an adaptive beat perception test.
+- [mpt](https://github.com/pmcharrison/mpt) -
+an adaptive mistuning perception test.
+- [piat](https://github.com/pmcharrison/piat) - 
+the 'Pitch Imagery Arrow Task'.

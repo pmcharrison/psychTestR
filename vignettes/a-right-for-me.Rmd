@@ -1,0 +1,99 @@
+---
+title: "Is psychTestR right for me?"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Is psychTestR right for me?}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  out.width = "100%"
+)
+
+library(psychTestR)
+```
+
+The modern psychologist has access to many different software
+packages for developing and administering psychological tests.
+Each of these packages is better suited to certain use cases than others.
+For example, if the test is just a simple one-off questionnaire,
+straightforward tools such as [Survey Monkey](https://www.surveymonkey.co.uk/)
+and [Google Forms](https://www.google.co.uk/forms/about/)
+may well be sufficient.
+If the test depends on specialist lab hardware
+and requires highly accurate response time measurement,
+then one might use [PsychoPy](https://www.psychopy.org/index.html),
+a powerful cross-platform package written in Python.
+The Javascript package [jsPsych](https://www.jspsych.org/) is 
+a strong alternative to PsychoPy that is targeted instead at 
+web data collection.
+If the test depends heavily on modern psychometric techniques,
+such as item response theory and adaptive testing,
+the R-based framework [Concerto](https://concertoplatform.com/about)
+may be preferable.
+If the test requires many online participants to interact
+in complex networks, the 
+[Dallinger framework](http://docs.dallinger.io/en/latest/index.html#)
+is arguably the best option.
+These are just a few of the many packages available for psychological testing.
+
+A primary focus of psychTestR is **modularisation**.
+psychTestR is well-suited for developing modular psychological tests
+(e.g. IQ tests, memory tests, personality questionnaires)
+that can be easily distributed as R packages,
+chained together into long test batteries,
+and deployed online.
+In contrast, most other tools are optimised for implementing 
+individual experiments.
+We think that psychTestR is a great option if you want to create
+an experimental paradigm or individual-differences measure
+that can easily be reused by other scientists
+and easily incorporated into larger experiments.
+
+A second focus of psychTestR is **internationalisation**.
+We developed psychTestR in tandem with the [LongGold project](https://longgold.org/),
+a longitudinal study of musical abilities, intelligence, self-concepts, 
+and personality that collects data from many schoolchildren in different countries.
+A key priority was to facilitate the construction of tests
+that support multiple languages that can be switched between
+with minimum effort.
+psychTestR is a great option if you wish to construct psychological 
+tests that generalise well to different languages.
+
+A third focus of psychTestR is **powerful server-side computation**.
+psychTestR is written in the programming language R, 
+and each participant session interacts continuously with an R server
+to guide the participant's progress through the experient.
+This is in contrast to client-side frameworks such as [jsPsych](https://www.jspsych.org/),
+where the majority of the processing happens in the participant's web browser.
+As a result, psychTestR can take advantage of the full set of 
+free software packages on the [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/),
+including many advanced statistical packages 
+such as [catR](https://cran.r-project.org/web/packages/catR/index.html)
+and [brms](https://paul-buerkner.github.io/brms/).
+This is particularly useful for implementing complex stimulus selection 
+procedures such as [IRT-based adaptive testing](https://pmcharrison.github.io/psychTestRCAT/).
+It also makes psychTestR a natural option for psychology researchers
+whose primary programming language is R.
+
+A fourth focus of psychTestR is **exposing the power of Shiny**.
+[Shiny](https://shiny.rstudio.com/) is a powerful web framework
+for developing interactive web apps,
+heavily supported by [RStudio](https://rstudio.com/)
+and used by many thousands of developers.
+By exposing Shiny's tools for creating interactive widgets and programmatically
+generating HTML,
+psychTestR makes it easy to construct customised experiment interfaces
+without having to learn HTML or Javascript.
+However, Shiny is a server-side framework, and hence does not contribute
+much to experiments that need precise timing of visual stimuli
+and response recording, which generally require client-side programming.
+For such applications it is best to rely more on Javascript frameworks
+such as [jsPsych](https://www.jspsych.org/),
+which can themselves be 
+[embedded within psychTestR](https://pmcharrison.github.io/psychTestR/articles/e-jspsych-integration.html).
+
+Still interested? Continue with [*An introduction to psychTestR*](https://pmcharrison.github.io/psychTestR/articles/b-introduction.html) !

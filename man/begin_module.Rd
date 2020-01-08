@@ -7,11 +7,15 @@
 begin_module(label)
 }
 \arguments{
-\item{label}{Module label (character scalar).}
+\item{label}{Label for the module; must be limited
+to alphanumeric characters and underscores.}
 }
 \description{
 Returns a code block that begins a psychTestR module.
 Modules have their own set of local variables.
 They also have identifying labels that are stored alongside
 result entries created during the module.
+}
+\note{
+Usually it is better to call \code{\link{module}} instead.
 }
