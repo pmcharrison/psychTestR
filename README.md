@@ -136,7 +136,7 @@ Daniel Müllensiefen, Klaus Frieler, Marcus Pearce, and Nicolas Ruth.
 The work was was supported by Peter's PhD studentship from 
 the EPSRC and AHRC Centre for Doctoral Training
 in Media and Arts Technology (EP/L01632X/1)
-and by the Humboldt’s foundation Anneliese Maier research prize awarded to Daniel Müllensiefen.
+and by the Humboldt foundation's Anneliese Maier research prize as awarded to Daniel Müllensiefen.
 
 ## License
 
