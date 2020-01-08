@@ -1,0 +1,19 @@
+---
+title: "psychTestR: An R package for designing and conducting behavioral experiments^[This is an unpublished preprint that has yet to undergo peer review (`r format(Sys.time(), format = '%B %d, %Y')`).]"
+author: "Peter M. C. Harrison"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+bibliography: paper.bib
+geometry: margin=4cm
+keep_tex: true
+urlcolor: blue
+date: "Max Planck Institute for Empirical Aesthetics, Frankfurt"
+---
+
+```{r, results = "asis", echo = FALSE}
+text <- readLines("paper-body.md")
+header_boundaries <- which(grepl("---", text))
+body <- text[- c(1:18)]
+cat(body, sep = "\n")
+```
