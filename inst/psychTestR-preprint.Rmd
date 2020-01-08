@@ -9,6 +9,7 @@ geometry: margin=4cm
 keep_tex: true
 urlcolor: blue
 date: "Max Planck Institute for Empirical Aesthetics, Frankfurt"
+csl: apa.csl
 ---
 
 ```{r, results = "asis", echo = FALSE}
