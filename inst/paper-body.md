@@ -1,5 +1,5 @@
 ---
-title: 'psychTestR: An R package for designing and conducting psychological experiments'
+title: 'psychTestR: An R package for designing and conducting behavioural psychological experiments'
 tags:
   - R
   - psychology
@@ -33,10 +33,6 @@ one might instead adopt the Python package
 For experiments administered over the Internet,
 one could also consider the Javascript package
 [jsPsych](https://www.jspsych.org/) [@de2015jspsych].
-For experiments incorporating modern psychometric techniques,
-such as item response theory and adaptive testing,
-the R framework [Concerto](https://concertoplatform.com/about) [@scalise2015use]
-will often be preferable.
 For experiments involving many online participants interacting
 in complex networks, the 
 [Dallinger](http://docs.dallinger.io/en/latest/index.html#) framework
@@ -58,49 +54,65 @@ with many researchers adopting R as their primary programming language.
 psychTestR is ideal for such users,
 enabling them to take their existing knowledge of R and apply it to experiment design,
 and thereby creating a coherent pipeline for psychological data collection and analysis within the R ecosystem.
-2. **Modularisation.**
+2. **Complex experiment design.**
+psychTestR is well-suited to complex experiments
+where stimulus selection is guided by online analysis of response data.
+Such experiment implementations can leverage the many statistical packages in the
+[Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/),
+especially the 
+[Psychometric Models & Methods](https://cran.r-project.org/web/views/Psychometrics.html)
+and the
+[Design of Experiments & Analysis of Experimental Data](https://cran.r-project.org/web/views/ExperimentalDesign.html)
+package collections.
+This implementation process can be facilitated by psychTestR extensions
+such as [psychTestRCAT](http://psychtestrcat.pmcharrison.com/),
+a package for constructing computerised adaptive tests using
+item response theory [@magis2012random].
+3. **Modularisation.**
 psychTestR encourages a modular approach to test design,
 where code is parcelled up into functions, modules, and packages.
 This modularity makes code easier to test, distribute, and reuse.
 As a result, psychTestR is particularly well-suited to
 large test batteries combining multiple psychological measures,
 including for example IQ tests, memory tests, and personality questionnaires.
-3. **Internationalisation.**
+4. **Internationalisation.**
 psychTestR provides a sophisticated internationalisation paradigm
 whereby experiments are implemented with reference to a multilingual dictionary.
 This makes psychTestR particularly well-suited for developing psychological measures
 to be used in different countries.
-4. **Local and online deployment.**
+5. **Local and online deployment.**
 psychTestR experiments may be deployed either to a local computer for lab testing
 or to a remote server for large-scale online data collection.
 The psychTestR server model is designed with scalability in mind, 
 using an efficient single-process model that shares memory between sessions
-and easily scales to hundreds of simultaneous participants.
-5. **Automated testing.**
-psychTestR exposes powerful tools for automated testing.
+and hence easily scales to hundreds of simultaneous participants.
+6. **Automated software testing.**
+psychTestR exposes powerful tools for automated software testing.
 Using these tools, the researcher can quickly simulate 
 a participant's progression through a given experiment
 and thereby validate the robustness of the experiment implementation.
-6. **Exposing the power of Shiny.**
+7. **Exposing the power of Shiny.**
 psychTestR is built on [Shiny](https://shiny.rstudio.com/), 
 a powerful web framework for developing interactive web apps
 that is heavily supported by [RStudio](https://rstudio.com/) 
 and used by many thousands of developers.
 psychTestR users can therefore take advantage of Shiny's many tools
-for programmatically generating HTML and developing interactive widgets.
-7. **Open source**.
+for developing interactive web apps.
+8. **Open source**.
 The open-source license gives researchers freedom
 to use psychTestR without cost or restriction.
 Researchers have full access to the source code,
 and are free to customise the software as they see fit.
 
-psychTestR has already been used in various published studies.
-Several adaptive musical ability tests have been developed using the software,
+psychTestR has already been used in various academic studies.
+Several adaptive ability tests have been developed using the software,
 including
 a [melody discrimination test](https://github.com/pmcharrison/mdt) [@Harrison2017], 
 a [beat perception test](https://github.com/pmcharrison/cabat) [@Harrison2018],
 a [mistuning perception test](https://github.com/pmcharrison/mpt) [@LarrouyMaestri2019],
-and a [pitch imagery test](https://github.com/pmcharrison/piat) [@gelding2019developing].
+a [pitch imagery test](https://github.com/pmcharrison/piat) [@gelding2019developing],
+a [working memory test](https://github.com/klausfrieler/JAJ) [@frielerJAJ],
+and a [rhythmic ability test](https://github.com/klausfrieler/RAT) [@frielerRAT].
 psychTestR also provides the underlying framework for data collection in 
 the [LongGold study](https://longgold.org/),
 a longitudinal investigation of intelligence, musical ability, and personal

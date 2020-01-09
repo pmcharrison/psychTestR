@@ -1,5 +1,5 @@
 ---
-title: "psychTestR: An R package for designing and conducting behavioral experiments^[This is an unpublished preprint that has yet to undergo peer review (`r format(Sys.time(), format = '%B %d, %Y')`).]"
+title: "psychTestR: An R package for designing and conducting behavioural psychological experiments^[This is an unpublished preprint that has yet to undergo peer review (`r format(Sys.time(), format = '%B %d, %Y')`).]"
 author: "Peter M. C. Harrison"
 output: 
   pdf_document:
