@@ -20,7 +20,7 @@ bibliography: paper.bib
 
 Today's psychologists can choose from many different software packages
 for developing and administering psychological experiments,
-with the most appropriate package typically depending on the task at hand.
+with the most appropriate package typically varying from task to task.
 For simple experiments based on short questionnaires,
 straightforward tools such as [Survey Monkey](https://www.surveymonkey.co.uk/)
 or [Google Forms](https://www.google.co.uk/forms/about/)
@@ -110,7 +110,7 @@ a [melody discrimination test](https://github.com/pmcharrison/mdt) [@Harrison201
 a [beat perception test](https://github.com/pmcharrison/cabat) [@Harrison2018],
 a [mistuning perception test](https://github.com/pmcharrison/mpt) [@LarrouyMaestri2019],
 a [pitch imagery test](https://github.com/pmcharrison/piat) [@gelding2019developing],
-a [working memory test](https://github.com/klausfrieler/JAJ) [@frielerJAJ],
+a [visuospatial working memory test](https://github.com/klausfrieler/JAJ) [@frielerJAJ],
 and a [rhythmic ability test](https://github.com/klausfrieler/RAT) [@frielerRAT].
 psychTestR also provides the underlying framework for data collection in 
 the [LongGold study](https://longgold.org/),
