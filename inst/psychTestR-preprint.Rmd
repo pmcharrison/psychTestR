@@ -8,7 +8,9 @@ bibliography: paper.bib
 geometry: margin=4cm
 keep_tex: true
 urlcolor: blue
-date: "Max Planck Institute for Empirical Aesthetics, Frankfurt"
+date: |
+  | Max Planck Institute for Empirical Aesthetics, Frankfurt
+  | Queen Mary University of London, UK 
 csl: apa.csl
 ---
 

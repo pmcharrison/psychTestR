@@ -17,7 +17,6 @@ date: 31 January 2020
 bibliography: paper.bib
 ---
 
-# Overview 
 
 Today's psychologists can choose from many different software packages
 for developing and administering psychological experiments,
