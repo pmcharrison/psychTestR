@@ -1,0 +1,16 @@
+citHeader("To cite psychTestR in publications use:")
+
+citEntry(entry = "Article",
+         title        = "{psychTestR}: An {R} package for designing and conducting behavioural psychological experiments",
+         author       = personList(as.person("Peter M. C. Harrison")),
+         journal      = "PsyArXiv",
+         year         = "2020",
+         doi          = "10.31234/osf.io/dyar7",
+
+         textVersion  =
+           paste("Harrison, Peter M. C. (2020).",
+                 "psychTestR: An R package for designing and",
+                 "conducting behavioural psychological experiments.",
+                 "PsyArXiv. https://doi.org/10.31234/osf.io/dyar7"
+           )
+)
