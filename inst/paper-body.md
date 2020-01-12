@@ -52,10 +52,12 @@ R has become increasingly popular in psychological research communities,
 with many researchers adopting R as their primary programming language.
 psychTestR is ideal for such users,
 enabling them to take their existing knowledge of R and apply it to experiment design,
-and thereby creating a coherent pipeline for psychological data collection and analysis within the R ecosystem.
+and thereby creating a coherent pipeline that integrates collection and analysis
+of psychological data within the R ecosystem.
 2. **Complex experiment design.**
-psychTestR is well-suited to complex experiments
-where stimulus selection is guided by online analysis of response data.
+Integrating data collection and data analysis allows psychTestR to 
+support complex experiments where stimulus selection is guided by
+online analysis of previous response data.
 Such experiment implementations can leverage the many statistical packages in the
 [Comprehensive R Archive Network (CRAN)](https://cran.r-project.org/),
 especially the 
@@ -91,12 +93,11 @@ Using these tools, the researcher can quickly simulate
 a participant's progression through a given experiment
 and thereby validate the robustness of the experiment implementation.
 7. **Exposing the power of Shiny.**
-psychTestR is built on [Shiny](https://shiny.rstudio.com/), 
-a powerful web framework for developing interactive web apps
-that is heavily supported by [RStudio](https://rstudio.com/) 
-and used by many thousands of developers.
-psychTestR users can therefore take advantage of Shiny's many tools
-for developing interactive web apps.
+psychTestR is built on a powerful web development framework called
+[Shiny](https://shiny.rstudio.com/).
+psychTestR users can easily integrate Shiny web elements into their psychTestR experiments,
+thereby taking advantage of the rich array of open-source Shiny utilities
+available online.
 8. **Open source**.
 The open-source license gives researchers freedom
 to use psychTestR without cost or restriction.
@@ -118,7 +119,10 @@ a longitudinal investigation of intelligence, musical ability, and personal
 development throughout adolescence.
 We are eager to see how psychTestR will be used in future research.
 For more information,
-please visit the psychTestR website: http://psychtestr.com.
+please visit the psychTestR website, http://psychtestr.com,
+which provides 
+software download links, introductory articles, tutorials, 
+and function-level documentation.
 
 # Acknowledgments
 
