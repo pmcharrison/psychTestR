@@ -5,12 +5,12 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tutorial (intermediate): URL parameters • psychTestR</title>
+<title>Research examples • psychTestR</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Tutorial (intermediate): URL parameters">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Research examples">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -118,34 +118,28 @@
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1>Tutorial (intermediate): URL parameters</h1>
+      <h1>Research examples</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/pmcharrison/psychTestR/blob/master/vignettes/d-url-parameters.Rmd"><code>vignettes/d-url-parameters.Rmd</code></a></small>
-      <div class="hidden name"><code>d-url-parameters.Rmd</code></div>
+      <small class="dont-index">Source: <a href="https://github.com/pmcharrison/psychTestR/blob/master/vignettes/a2-research-examples.Rmd"><code>vignettes/a2-research-examples.Rmd</code></a></small>
+      <div class="hidden name"><code>a2-research-examples.Rmd</code></div>
 
     </div>
 
     
     
-<p>URL parameters are ways of passing information to a website through the URL. For example, the URL <a href="http://www.server/app?message=Hello" class="uri">http://www.server/app?message=Hello</a> would send the message ‘Hello’.</p>
-<p>psychTestR can both get and set URL parameters. This can be useful when chaining multiple parts of a web-based experiment.</p>
-<p>For a demo of this functionality in action, open R and execute the following:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(psychTestR)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># Demo: getting URL parameters</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw"><a href="../reference/demo.get_url_params.html">demo.get_url_params</a></span>()</a>
-<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co"># Demo: setting URL parameters</span></a>
-<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw"><a href="../reference/demo.set_url_params.html">demo.set_url_params</a></span>()</a></code></pre></div>
-<p>To see how to use this functionality in your own experiments, simply inspect the source code.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(psychTestR)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co"># Source code: getting URL parameters</span></a>
-<a class="sourceLine" id="cb2-4" data-line-number="4"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(demo.get_url_params)</a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co"># Source code: setting URL parameters</span></a>
-<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw"><a href="https://rdrr.io/r/base/print.html">print</a></span>(demo.set_url_params)</a></code></pre></div>
+<p>The following research projects show psychTestR as applied to real research problems:</p>
+<ul>
+<li>Computerised Adaptive Beat Alignment Test (CA-BAT): <a href="http://shiny.pmcharrison.com/cabat-demo">demo</a>, <a href="https://github.com/pmcharrison/cabat">source</a>, <a href="https://doi.org/10.1038/s41598-018-30318-8">paper</a>
+</li>
+<li>Melodic Discrimination Test (MDT): <a href="http://shiny.pmcharrison.com/mdt-demo">demo</a>, <a href="https://github.com/pmcharrison/mdt">source</a>, <a href="https://doi.org/10.1038/s41598-017-03586-z">paper</a>
+</li>
+<li>Mistuning Perception Test (MPT): <a href="http://shiny.pmcharrison.com/mpt-demo">demo</a>, <a href="https://github.com/pmcharrison/mpt">source</a>, <a href="https://doi.org/10.3758/s13428-019-01225-1">paper</a>
+</li>
+<li>Pitch imagery arrow task (PIAT): <a href="http://shiny.pmcharrison.com/piat-demo">demo</a>, <a href="https://github.com/pmcharrison/piat">source</a>
+</li>
+</ul>
+<p>Interested in applying psychTestR to your own research problems? See <a href="https://pmcharrison.github.io/psychTestR/articles/b-introduction.html">Introduction</a> for a tutorial.</p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

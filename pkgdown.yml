@@ -2,7 +2,8 @@ pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
-  a-right-for-me: a-right-for-me.html
+  a1-simple-demo: a1-simple-demo.html
+  a2-research-examples: a2-research-examples.html
   b-introduction: b-introduction.html
   c-media-files: c-media-files.html
   c-modularisation: c-modularisation.html
