@@ -1,3 +1,5 @@
+- Misc improvements to website.
+
 # psychTestR 2.18.0
 
 - Drafted introductory paper (in `inst/`) which has now 
