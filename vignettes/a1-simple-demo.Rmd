@@ -1,0 +1,47 @@
+---
+title: "Demos"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Demos}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+The following code provides a quick local demo of psychTestR.
+You can use it to check that your installation worked
+(see https://pmcharrison.github.io/psychTestR/ for installation instructions).
+
+```r
+library(psychTestR)
+make_test(list(
+  text_input_page(
+    label = "name", 
+    prompt = "What's your name?", 
+    validate = function(answer, ...) {
+      if (answer == "")
+        "Name cannot be left blank."
+      else TRUE
+    },
+    on_complete = function(answer, state, ...) {
+      set_global(key = "name", value = answer,
+                 state = state)
+    }),
+  NAFC_page(
+    label = "colour",
+    prompt = "What's your favourite colour?",
+    choices = c("Red", "Green", "Blue")),
+  elt_save_results_to_disk(complete = TRUE),
+  reactive_page(function(state, ...) {
+    final_page(paste0("Thank you for participating, ", 
+                      get_global("name", state),
+                      "."))
+  })))
+```
+
+Once you've recorded some data, try logging into the admin panel with the
+password 'demo' (as specified under the `opt` argument to `make_test()`). Here
+you can download your response data.
+
+Of course, real psychTestR experiments tend to be much more complex!
+See [Research examples](https://pmcharrison.github.io/psychTestR/articles/a2-research-examples.html)
+for some example applications.

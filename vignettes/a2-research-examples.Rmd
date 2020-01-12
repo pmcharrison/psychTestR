@@ -1,0 +1,32 @@
+---
+title: "Research examples"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Research examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+The following research projects show psychTestR as applied to 
+real research problems:
+
+- Computerised Adaptive Beat Alignment Test (CA-BAT):
+[demo](http://shiny.pmcharrison.com/cabat-demo), 
+[source](https://github.com/pmcharrison/cabat),
+[paper](https://doi.org/10.1038/s41598-018-30318-8)
+- Melodic Discrimination Test (MDT):
+[demo](http://shiny.pmcharrison.com/mdt-demo),
+[source](https://github.com/pmcharrison/mdt),
+[paper](https://doi.org/10.1038/s41598-017-03586-z)
+- Mistuning Perception Test (MPT):
+[demo](http://shiny.pmcharrison.com/mpt-demo),
+[source](https://github.com/pmcharrison/mpt),
+[paper](https://doi.org/10.3758/s13428-019-01225-1)
+- Pitch imagery arrow task (PIAT):
+[demo](http://shiny.pmcharrison.com/piat-demo),
+[source](https://github.com/pmcharrison/piat)
+
+Interested in applying psychTestR to your own research problems?
+See [Introduction](https://pmcharrison.github.io/psychTestR/articles/b-introduction.html)
+for a tutorial.
