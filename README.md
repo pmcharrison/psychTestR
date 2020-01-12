@@ -57,26 +57,24 @@ It may also be helpful to refer to the source code of pre-existing test implemen
 
 You can cite psychTestR as follows:
 
-> Harrison, Peter M. C. (2019). 
-psychTestR v2.6.1. Zenodo. http://doi.org/10.5281/zenodo.1415355
+> Harrison, Peter M. C. (2020).
+> psychTestR: An R package for designing and
+> conducting behavioural psychological experiments.
+> *PsyArXiv*. http://doi.org/10.31234/osf.io/dyar7
 
-where you should replace the version number with the 
-version number that you used, 
-which you can find from R as follows:
+The psychTestR source code is also permanently archived
+on Zenodo. You can find this permanent archive at the following DOI:
+http://doi.org/10.5281/zenodo.1415355.
+This DOI will always point to the latest release of 
+the `psychTestR` package,
+but you can also find version-specific DOIs on the Zenodo page.
+
+You might also want to mention the particular version of the package you used.
+To check the installed version, you can run the following code in your R console:
 
 ``` r
-library(psychTestR)
-if (!require(devtools)) install.packages("devtools")
-x <- devtools::session_info()
-x$packages[x$packages$package == "psychTestR", ]
+asNamespace("psychTestR")$`.__NAMESPACE__.`$spec[["version"]]
 ```
-
-Ideally you should also update the year to match the release date
-of the psychTestR version that you used,
-which you can find at the Zenodo link.
-
-Note that the DOI link provided above is constant between versions,
-but you can find version-specific DOI links on Zenodo.
 
 ## Local installation
 
