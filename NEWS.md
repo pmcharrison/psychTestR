@@ -1,3 +1,5 @@
+# psychTestR 2.18.0
+
 - Drafted introductory paper (in `inst/`) which has now 
 been deposited on PsyArXiv.
 - Updated citation information in README.
