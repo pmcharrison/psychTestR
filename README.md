@@ -60,7 +60,7 @@ You can cite psychTestR as follows:
 > Harrison, Peter M. C. (2020).
 > psychTestR: An R package for designing and
 > conducting behavioural psychological experiments.
-> *PsyArXiv*. http://doi.org/10.31234/osf.io/dyar7
+> *PsyArXiv*. https://doi.org/10.31234/osf.io/dyar7
 
 The psychTestR source code is also permanently archived
 on Zenodo. You can find this permanent archive at the following DOI:
