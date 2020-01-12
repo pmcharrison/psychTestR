@@ -23,9 +23,9 @@ behavioural experiments. This vignette provides a first introduction
 to psychTestR; by the end, you should feel ready to create a simple
 psychTestR test of your own.
 This introduction assumes that the reader is already moderately familiar
-with the programming language R. It also assumes that the reader
-has installed psychTestR (see README for instructions) and loaded
-it using the following command:
+with the programming language R. It also assumes that the reader has installed
+psychTestR (see https://pmcharrison.github.io/psychTestR/ for instructions) and
+loaded it using the following command:
 
 ```r
 library(psychTestR)
@@ -159,15 +159,37 @@ There are three main types of test elements:
 
 We will get to reactive pages and code blocks in due course.
 First, we'll construct a timeline comprising solely pages.
-A timeline may be constructed using the `list` function from base R:
+A timeline may be constructed using the `join` function from psychTestR:
 
 ```r
-timeline <- list(
+timeline <- join(
   one_button_page("Page 1"),
   one_button_page("Page 2"),
   final_page("The end")
 )
 ```
+
+The `join` function is similar to the `c` function in base R:
+it joins any combination of test elements, lists of test elements, and timelines,
+and returns a 'flat' (i.e. non-nested) timeline:
+
+
+``` r
+t1 <- join(
+  one_button_page("Page 1"),
+  one_button_page("Page 2")
+)
+t2 <- join(
+  one_button_page("Page 3"),
+  one_button_page("Page 4")
+)
+join(t1, t2, final_page("End"))
+```
+
+Timelines without internationalisation are represented as lists,
+which you can manipulate using standard functions from base R.
+Internationalised timelines are more complicated,
+but we'll get to that later.
 
 Note that we concluded the timeline with the `final_page` function.
 A *final page* is like a *one-button page*, but without a 
@@ -184,7 +206,7 @@ knitr::include_graphics("img/introduction/final-page.png")
 We can run the resulting test as follows:
 
 ```r
-timeline <- list(
+timeline <- join(
   one_button_page("Page 1"),
   one_button_page("Page 2"),
   final_page("The end")
@@ -209,7 +231,7 @@ This test doesn't collect any data.
 Let's define another test that does collect data:
 
 ```r
-timeline <- list(
+timeline <- join(
   NAFC_page("favourite_colour",
             "What is your favourite colour?",
             c("Red", "Green", "Blue")),
@@ -277,7 +299,7 @@ as_tibble(res)
 
 At this point it's worth explaining the difference between *build time*
 and *test time*. Build time corresponds to the moment when you create
-a list of test elements and pass them to `make_test`.
+a timeline of test elements and pass it to `make_test`.
 psychTestR takes all of your builder functions, such as `NAFC_page` and 
 `one_button_page`, and evaluates them to produce a series of test elements,
 where an individual test element looks like this under the hood:
@@ -443,7 +465,7 @@ compute_time_taken <- code_block(function(state, ...) {
 })
 
 make_test(
-  list(
+  join(
     save_time_started,
     one_button_page("Continue when you're ready."),
     compute_time_taken,
@@ -479,7 +501,7 @@ that has side effects, like incrementing counters or saving results.
 Here is an example test with a reactive page that displays the current time:
 
 ```r
-make_test(list(
+make_test(join(
   reactive_page(function(...) {
     msg <- format(Sys.time(), "The current time is %H:%M:%S.")
     final_page(msg)
@@ -492,7 +514,7 @@ Note that the time updates if you refresh the page.
 Here is a second example demonstrating the use of the `answer` argument:
 
 ```r
-make_test(list(
+make_test(join(
   NAFC_page("q1", "What is your favourite colour?",
             c("Red", "Green", "Blue")),
   reactive_page(function(answer, ...) {
@@ -550,7 +572,7 @@ The following code provides a simple example:
 
 ```r
 make_test(
-  list(
+  join(
     text_input_page("example", 
                     "What is 1 + 1?", 
                     validate = function(answer, ...) {
@@ -570,7 +592,7 @@ The below example shows a pop-up notification with the current time.
 
 ```r
 make_test(
-  list(
+  join(
     one_button_page("Hello!", on_complete = function(...) {
       shiny::showNotification(paste0("The current time is ", Sys.time(), "."))
     }),
@@ -698,11 +720,6 @@ It's best to restrict the use of closures to static variables.
 - `purrr::map_dbl` creates a numeric vector where the ith element
 is the result of applying the `get_local` function to the ith element
 of `cheeses`, with `state` as a supplementary argument.
-- In `make_test`, we used the `c` function rather than the `list` function
-to combine test elements. This is because `items` was already a list;
-the `c` function combines this list with the remaining test elements,
-with the outcome being a single list of test elements
-rather than a nested list.
 
 Having taken the test once, and reading the results from disk,
 we get something like this:
@@ -835,7 +852,8 @@ However, it is not possible to call `i18n("Peter")` by itself, because the funct
 will not know what dictionary to use or what language to translate to.
 Instead, `i18n` must be wrapped somewhere inside a call to `new_timeline`.
 This `new_timeline` is a macro that takes two primary arguments -- 
-an expression that evaluates to a list of test elements, 
+an expression that evaluates to a list of test elements
+(e.g. as created by `join`), 
 and a dictionary --
 and evaluates the expression multiple times,
 once for each language in the dictionary,
@@ -846,17 +864,17 @@ for each available language.
 This timeline object can be passed to `make_test` to produce
 an internationalised test.
 
-Note that previously we just passed `make_test` a list of test elements.
-In this case, the function internally coerces this list into a timeline
-representation, assuming that these test elements all correspond to the
-same language. We could have equally passed `make_test` a timeline
-created by `new_timeline` without any calls to `i18n`.
+Note that previously we just passed `make_test` a list of test elements. In this
+case, the function internally coerces this list into a one-language timeline
+object, assuming that these test elements all correspond to the same language.
+We could have equally passed `make_test` a timeline created by `new_timeline`
+without any calls to `i18n`.
 
 Here is a straightforward example that uses the dictionary defined above:
 
 ```r
 timeline <- new_timeline(
-  list(
+  join(
     one_button_page(paste0(i18n("hello"), " ", i18n("name"))),
     final_page(i18n("bye"))
   ),

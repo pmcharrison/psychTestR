@@ -1,3 +1,14 @@
+# psychTestR 2.19.0
+
+- Misc improvements to website.
+
+# psychTestR 2.18.0
+
+- Drafted introductory paper (in `inst/`) which has now 
+been deposited on PsyArXiv.
+- Updated citation information in README.
+- Added CITATION file.
+
 # psychTestR 2.17.0
 
 - Added `advance_delay` option, customising the delay before advancing 
