@@ -493,7 +493,7 @@ describe_valid_p_id <- function() {
 
 #' New NAFC page
 #'
-#' Creates an n-alternative forced-foced choice page.
+#' Creates an n-alternative forced choice page.
 #'
 #' @param label Label for the current page (character scalar).
 #'
@@ -594,7 +594,7 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
 
 #' Make NAFC video page
 #'
-#' Creates an n-alternative forced-foced choice page with a video prompt.
+#' Creates an n-alternative forced choice page with a video prompt.
 #'
 #' @param url URL to the video.
 #' Can be an absolute URL (e.g. "http://mysite.com/video.mp4")
@@ -675,7 +675,7 @@ media_mobile_play_button <- function(btn_play_prompt) shiny::tags$p(
 
 #' Make NAFC audio page
 #'
-#' Creates an n-alternative forced-foced choice page with an audio prompt.
+#' Creates an n-alternative forced choice page with an audio prompt.
 #' @param label Label for the current page (character scalar).
 #'
 #' @param prompt Prompt to be displayed above the response choices.
