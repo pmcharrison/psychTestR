@@ -13,7 +13,7 @@ affiliations:
     index: 1
   - name: Queen Mary University of London, UK
     index: 2
-date: 31 January 2020
+date: 6 February 2020
 bibliography: paper.bib
 ---
 
