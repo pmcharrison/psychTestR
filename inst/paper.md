@@ -6,13 +6,13 @@ tags:
   - experiment design
 authors:
   - name: Peter M. C. Harrison
-  orcid: 0000-0002-9851-9462
-  affiliation: "1, 2" # (Multiple affiliations must be quoted)
+    orcid: 0000-0002-9851-9462
+    affiliation: "1, 2" # (Multiple affiliations must be quoted)
 affiliations:
   - name: Max Planck Institute for Empirical Aesthetics, Frankfurt, Germany
-  index: 1
+    index: 1
   - name: Queen Mary University of London, UK
-  index: 2
+    index: 2
 date: 31 January 2020
 bibliography: paper.bib
 ---
