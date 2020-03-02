@@ -55,3 +55,17 @@ To check the installed version, you can run the following code in your R console
 ``` r
 asNamespace("psychTestR")$`.__NAMESPACE__.`$spec[["version"]]
 ```
+
+## Community guidelines
+
+The [psychTestR documentation website](https://pmcharrison.github.io/psychTestR/)
+answers many common questions about psychTestR usage.
+Further questions are welcomed via the 
+[GitHub issue tracker](https://github.com/pmcharrison/psychTestR/issues).
+This issue tracker is also the place to report issues or software problems.
+We welcome software contributions in the form of 
+[GitHub pull requests](https://github.com/pmcharrison/psychTestR/pulls);
+if you are thinking of making a contribution, consider first beginning
+a discussion on the issue tracker so that we can discuss implementation details.
+
+
