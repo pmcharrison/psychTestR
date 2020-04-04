@@ -902,7 +902,8 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL,
       sprintf("setTimeout(function() {
                  document.getElementById('%s').disabled = false;
                }, %i);",
-              inputId, round(enable_after * 1e3))
+              inputId, round(enable_after * 1e3)),
+      sprintf("$('#p_id').focus();")
     ))
 }
 
