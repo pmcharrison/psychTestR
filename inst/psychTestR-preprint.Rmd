@@ -15,7 +15,7 @@ csl: apa.csl
 ---
 
 ```{r, results = "asis", echo = FALSE}
-text <- readLines("paper-body.md")
+text <- readLines("paper.md")
 header_boundaries <- which(grepl("---", text))
 body <- text[- c(1:18)]
 cat(body, sep = "\n")
