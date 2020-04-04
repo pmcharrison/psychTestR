@@ -53,7 +53,7 @@ ui <- function(opt) {
             admin_panel.modals
           )
         },
-        shiny::p("psyquest version: 0.99.0")
+        shiny::p(shiny::h6(opt$app_info))
       ))))
 
   shiny::fluidPage(
