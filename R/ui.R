@@ -48,10 +48,12 @@ ui <- function(opt) {
         shiny::p(shiny::textOutput("problems_info")),
         if (opt$display$admin_panel) {
           shiny::tags$div(
+            style = "font-weight: bold",
             shiny::uiOutput("admin_panel.ui"),
             admin_panel.modals
           )
-        }
+        },
+        shiny::p("psyquest version: 0.99.0")
       ))))
 
   shiny::fluidPage(
