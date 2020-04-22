@@ -903,7 +903,14 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL,
                  document.getElementById('%s').disabled = false;
                }, %i);",
               inputId, round(enable_after * 1e3)),
-      sprintf("$('#p_id').focus();")
+      sprintf("$('#p_id').focus();"),
+      sprintf("var input = document.getElementById('p_id');
+               input.addEventListener('keyup', function(event) {
+                 if (event.keyCode === 13) {
+                   event.preventDefault();
+                   $('#next').click();
+                 }
+               });")
     ))
 }
 
