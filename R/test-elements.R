@@ -1138,6 +1138,11 @@ conditional <- function(test, logic) {
   }
   if (is.test_element(logic)) logic <- list(logic)
   if (length(logic) == 0L) stop("<logic> may not be empty")
+  if (is.list(logic)) {
+    if (!all(purrr::map_lgl(logic, is.test_element))) {
+      stop("If conditional() is passed a list, every list element must be a test element.")
+    }
+  }
 
   n <- length(logic)
 
