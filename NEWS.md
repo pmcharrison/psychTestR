@@ -1,3 +1,7 @@
+# psychTestR 2.19.1
+
+- Adding an input check for conditional().
+
 # psychTestR 2.19.0
 
 - Misc improvements to website.
