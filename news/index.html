@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -53,7 +57,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -67,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.19.1</span>
       </span>
     </div>
 
@@ -136,7 +140,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/pmcharrison/psychTestR">
+  <a href="https://github.com/pmcharrison/psychTestR/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -154,19 +158,26 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="psychtestr-2-19-1" class="section level1">
+<h1 class="page-header" data-toc-text="2.19.1">
+<a href="#psychtestr-2-19-1" class="anchor"></a>psychTestR 2.19.1</h1>
+<ul>
+<li>Adding an input check for conditional().</li>
+</ul>
+</div>
     <div id="psychtestr-2-19-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.19.0">
 <a href="#psychtestr-2-19-0" class="anchor"></a>psychTestR 2.19.0</h1>
 <ul>
 <li>Misc improvements to website.</li>
 </ul>
 </div>
     <div id="psychtestr-2-18-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.18.0">
 <a href="#psychtestr-2-18-0" class="anchor"></a>psychTestR 2.18.0</h1>
 <ul>
 <li>Drafted introductory paper (in <code>inst/</code>) which has now been deposited on PsyArXiv.</li>
@@ -175,7 +186,7 @@
 </ul>
 </div>
     <div id="psychtestr-2-17-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.17.0">
 <a href="#psychtestr-2-17-0" class="anchor"></a>psychTestR 2.17.0</h1>
 <ul>
 <li>Added <code>advance_delay</code> option, customising the delay before advancing the next page. This replaces the hardcoded 500 ms in previous psychTestR versions. The new default is 0 ms.</li>
@@ -187,7 +198,7 @@
 </ul>
 </div>
     <div id="psychtestr-2-16-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.16.0">
 <a href="#psychtestr-2-16-0" class="anchor"></a>psychTestR 2.16.0</h1>
 <ul>
 <li>Exposed <code>btn_play_prompt</code> in <code>volume_calibration_page</code>.</li>
@@ -195,35 +206,35 @@
 </ul>
 </div>
     <div id="psychtestr-2-15-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.15.0">
 <a href="#psychtestr-2-15-0" class="anchor"></a>psychTestR 2.15.0</h1>
 <ul>
 <li>Added option to manually show the admin panel when show_footer = FALSE.</li>
 </ul>
 </div>
     <div id="psychtestr-2-14-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.14.0">
 <a href="#psychtestr-2-14-0" class="anchor"></a>psychTestR 2.14.0</h1>
 <ul>
 <li>Added \code{admin_panel} argument to \code{test_options}, allowing the researcher to disable the admin panel.</li>
 </ul>
 </div>
     <div id="psychtestr-2-13-3" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.13.3">
 <a href="#psychtestr-2-13-3" class="anchor"></a>psychTestR 2.13.3</h1>
 <ul>
 <li>psychTestR now throws an error on nested calls to <code><a href="../reference/new_timeline.html">new_timeline()</a></code>, which sometimes worked as intended, sometimes not…</li>
 </ul>
 </div>
     <div id="psychtestr-2-13-2" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.13.2">
 <a href="#psychtestr-2-13-2" class="anchor"></a>psychTestR 2.13.2</h1>
 <ul>
 <li>Fixed issue where <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> didn’t work well for all combinations of element types, replacing it with a new function <code><a href="../reference/join.html">join()</a></code>, a more reliable method for achieving the same result. This in turn addresses some problems observed with <code><a href="../reference/order_at_run_time.html">order_at_run_time()</a></code>.</li>
 </ul>
 </div>
     <div id="psychtestr-2-13-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.13.1">
 <a href="#psychtestr-2-13-1" class="anchor"></a>psychTestR 2.13.1</h1>
 <ul>
 <li>Fixed <code><a href="../reference/finish_test_and_give_code.html">finish_test_and_give_code()</a></code>, which was not working properly.</li>
@@ -231,14 +242,14 @@
 </ul>
 </div>
     <div id="psychtestr-2-13-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.13.0">
 <a href="#psychtestr-2-13-0" class="anchor"></a>psychTestR 2.13.0</h1>
 <ul>
 <li>Updated <code><a href="../reference/order_at_run_time.html">order_at_run_time()</a></code> and <code><a href="../reference/randomise_at_run_time.html">randomise_at_run_time()</a></code> so that they can be nested arbitrarily many times.</li>
 </ul>
 </div>
     <div id="psychtestr-2-12-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.12.0">
 <a href="#psychtestr-2-12-0" class="anchor"></a>psychTestR 2.12.0</h1>
 <ul>
 <li>Added <code><a href="../reference/conditional.html">conditional()</a></code>, which allows test elements to be displayed conditionally at run time.</li>
@@ -248,7 +259,7 @@
 </ul>
 </div>
     <div id="psychtestr-2-11-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.11.0">
 <a href="#psychtestr-2-11-0" class="anchor"></a>psychTestR 2.11.0</h1>
 <ul>
 <li>Allowed users to customise the text used to trigger audio/video playback.</li>
@@ -256,7 +267,7 @@
 </ul>
 </div>
     <div id="psychtestr-2-10-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.10.0">
 <a href="#psychtestr-2-10-0" class="anchor"></a>psychTestR 2.10.0</h1>
 <ul>
 <li>Now the test will accept URL parameters even when enable_resume_sessions = FALSE.</li>
@@ -264,7 +275,7 @@
 </ul>
 </div>
     <div id="psychtestr-2-9-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.9.0">
 <a href="#psychtestr-2-9-0" class="anchor"></a>psychTestR 2.9.0</h1>
 <ul>
 <li>Added <code>as.list.test_element</code>.</li>
@@ -273,7 +284,7 @@
 </ul>
 </div>
     <div id="psychtestr-2-8-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.8.0">
 <a href="#psychtestr-2-8-0" class="anchor"></a>psychTestR 2.8.0</h1>
 <ul>
 <li>Added <code>display_options</code> for greater control over display options.</li>
@@ -282,7 +293,7 @@
 </ul>
 </div>
     <div id="psychtestr-2-7-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.7.0">
 <a href="#psychtestr-2-7-0" class="anchor"></a>psychTestR 2.7.0</h1>
 <ul>
 <li>Added randomisation tutorial.</li>
@@ -292,70 +303,70 @@
 </ul>
 </div>
     <div id="psychtestr-2-6-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.6.1">
 <a href="#psychtestr-2-6-1" class="anchor"></a>psychTestR 2.6.1</h1>
 <ul>
 <li>Added missing documentation for <code>i18n_dict$edit</code>.</li>
 </ul>
 </div>
     <div id="psychtestr-2-6-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.6.0">
 <a href="#psychtestr-2-6-0" class="anchor"></a>psychTestR 2.6.0</h1>
 <ul>
 <li>Added functionality for editing dictionaries.</li>
 </ul>
 </div>
     <div id="psychtestr-2-5-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.5.1">
 <a href="#psychtestr-2-5-1" class="anchor"></a>psychTestR 2.5.1</h1>
 <ul>
 <li>Fixed encoding issue in markdown (<a href='https://github.com/pmcharrison/psychTestR/issues/44'>#44</a>).</li>
 </ul>
 </div>
     <div id="psychtestr-2-5-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.5.0">
 <a href="#psychtestr-2-5-0" class="anchor"></a>psychTestR 2.5.0</h1>
 <ul>
 <li>Added internationalisation for <code><a href="../reference/test_options.html">test_options()</a></code>.</li>
 </ul>
 </div>
     <div id="psychtestr-2-4-3" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.4.3">
 <a href="#psychtestr-2-4-3" class="anchor"></a>psychTestR 2.4.3</h1>
 <ul>
 <li>Fixed <a href='https://github.com/pmcharrison/psychTestR/issues/37'>#37</a>.</li>
 </ul>
 </div>
     <div id="psychtestr-2-4-2" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.4.2">
 <a href="#psychtestr-2-4-2" class="anchor"></a>psychTestR 2.4.2</h1>
 <ul>
 <li>Bugfix for implicit timeline combination.</li>
 </ul>
 </div>
     <div id="psychtestr-2-4-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.4.1">
 <a href="#psychtestr-2-4-1" class="anchor"></a>psychTestR 2.4.1</h1>
 <ul>
 <li>Minor edit.</li>
 </ul>
 </div>
     <div id="psychtestr-2-4-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.4.0">
 <a href="#psychtestr-2-4-0" class="anchor"></a>psychTestR 2.4.0</h1>
 <ul>
 <li>Created psychTestR website.</li>
 </ul>
 </div>
     <div id="psychtestr-2-3-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.3.0">
 <a href="#psychtestr-2-3-0" class="anchor"></a>psychTestR 2.3.0</h1>
 <ul>
 <li>Changed UI panel backgrounds from grey to white.</li>
 </ul>
 </div>
     <div id="psychtestr-2-2-2" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.2.2">
 <a href="#psychtestr-2-2-2" class="anchor"></a>psychTestR 2.2.2</h1>
 <ul>
 <li>Improved checks in timeline creation</li>
@@ -364,14 +375,14 @@
 </ul>
 </div>
     <div id="psychtestr-2-2-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.2.1">
 <a href="#psychtestr-2-2-1" class="anchor"></a>psychTestR 2.2.1</h1>
 <ul>
 <li>Fixed a bug in test session resuming using <code><a href="../reference/get_p_id.html">get_p_id()</a></code> pages.</li>
 </ul>
 </div>
     <div id="psychtestr-2-2-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.2.0">
 <a href="#psychtestr-2-2-0" class="anchor"></a>psychTestR 2.2.0</h1>
 <ul>
 <li>Allowing extra attributes to be passed to <code><a href="../reference/trigger_button.html">trigger_button()</a></code>.</li>
@@ -379,7 +390,7 @@
 </ul>
 </div>
     <div id="psychtestr-2-1-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.1.0">
 <a href="#psychtestr-2-1-0" class="anchor"></a>psychTestR 2.1.0</h1>
 <ul>
 <li>Adding <code><a href="../reference/as.timeline.html">as.timeline()</a></code>.</li>
@@ -389,28 +400,28 @@
 </ul>
 </div>
     <div id="psychtestr-2-0-3" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.0.3">
 <a href="#psychtestr-2-0-3" class="anchor"></a>psychTestR 2.0.3</h1>
 <ul>
 <li>Bugfix - Implicit timeline creation with <code><a href="https://rdrr.io/r/base/c.html">c()</a></code> no longer throws an error when given <code>NULL</code> elements.</li>
 </ul>
 </div>
     <div id="psychtestr-2-0-2" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.0.2">
 <a href="#psychtestr-2-0-2" class="anchor"></a>psychTestR 2.0.2</h1>
 <ul>
 <li>Bugfix - Allowing <code>NULL</code> <code>researcher_email</code> argument in <code><a href="../reference/test_options.html">test_options()</a></code>.</li>
 </ul>
 </div>
     <div id="psychtestr-2-0-1" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.0.1">
 <a href="#psychtestr-2-0-1" class="anchor"></a>psychTestR 2.0.1</h1>
 <ul>
 <li>Bugfix - language compatibility checks were not being performed properly</li>
 </ul>
 </div>
     <div id="psychtestr-2-0-0" class="section level1">
-<h1 class="page-header">
+<h1 class="page-header" data-toc-text="2.0.0">
 <a href="#psychtestr-2-0-0" class="anchor"></a>psychTestR 2.0.0</h1>
 <ul>
 <li>Internationalisation is now supported, allowing researchers to create tests that can be taken in multiple languages (see the function <code><a href="../reference/i18n.html">i18n()</a></code>). This functionality is still in alpha, as there are some loose ends to be tightened up (in particular, certain error messages appearing in English).</li>
@@ -422,45 +433,10 @@
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#psychtestr-2-19-0">2.19.0</a></li>
-        <li><a href="#psychtestr-2-18-0">2.18.0</a></li>
-        <li><a href="#psychtestr-2-17-0">2.17.0</a></li>
-        <li><a href="#psychtestr-2-16-0">2.16.0</a></li>
-        <li><a href="#psychtestr-2-15-0">2.15.0</a></li>
-        <li><a href="#psychtestr-2-14-0">2.14.0</a></li>
-        <li><a href="#psychtestr-2-13-3">2.13.3</a></li>
-        <li><a href="#psychtestr-2-13-2">2.13.2</a></li>
-        <li><a href="#psychtestr-2-13-1">2.13.1</a></li>
-        <li><a href="#psychtestr-2-13-0">2.13.0</a></li>
-        <li><a href="#psychtestr-2-12-0">2.12.0</a></li>
-        <li><a href="#psychtestr-2-11-0">2.11.0</a></li>
-        <li><a href="#psychtestr-2-10-0">2.10.0</a></li>
-        <li><a href="#psychtestr-2-9-0">2.9.0</a></li>
-        <li><a href="#psychtestr-2-8-0">2.8.0</a></li>
-        <li><a href="#psychtestr-2-7-0">2.7.0</a></li>
-        <li><a href="#psychtestr-2-6-1">2.6.1</a></li>
-        <li><a href="#psychtestr-2-6-0">2.6.0</a></li>
-        <li><a href="#psychtestr-2-5-1">2.5.1</a></li>
-        <li><a href="#psychtestr-2-5-0">2.5.0</a></li>
-        <li><a href="#psychtestr-2-4-3">2.4.3</a></li>
-        <li><a href="#psychtestr-2-4-2">2.4.2</a></li>
-        <li><a href="#psychtestr-2-4-1">2.4.1</a></li>
-        <li><a href="#psychtestr-2-4-0">2.4.0</a></li>
-        <li><a href="#psychtestr-2-3-0">2.3.0</a></li>
-        <li><a href="#psychtestr-2-2-2">2.2.2</a></li>
-        <li><a href="#psychtestr-2-2-1">2.2.1</a></li>
-        <li><a href="#psychtestr-2-2-0">2.2.0</a></li>
-        <li><a href="#psychtestr-2-1-0">2.1.0</a></li>
-        <li><a href="#psychtestr-2-0-3">2.0.3</a></li>
-        <li><a href="#psychtestr-2-0-2">2.0.2</a></li>
-        <li><a href="#psychtestr-2-0-1">2.0.1</a></li>
-        <li><a href="#psychtestr-2-0-0">2.0.0</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -472,7 +448,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
