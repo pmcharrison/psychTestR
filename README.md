@@ -15,6 +15,9 @@ on the psychTestR website.
 For more documentation on designing and deploying psychTestR tests,
 see the other vignettes and the
 [function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html).
+For documentation on setting up a self-hosted psychTestR server, see 
+[Guide to creating a server for online *R* experiments using *psychTestR*](https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/R+Server+Guide+20200502.pdf)
+by [Anthony Chmiel](https://www.westernsydney.edu.au/marcs/our_team/research_assistants/dr_anthony_chmiel).
 
 ## Installation
 
