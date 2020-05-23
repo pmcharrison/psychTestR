@@ -1,6 +1,7 @@
 # psychTestR
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![DOI](https://joss.theoj.org/papers/10.21105/joss.02088/status.svg)](https://doi.org/10.21105/joss.02088)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1415355.svg)](https://doi.org/10.5281/zenodo.1415355)
 [![Travis build status](https://travis-ci.org/pmcharrison/psychTestR.svg?branch=master)](https://travis-ci.org/pmcharrison/psychTestR)
 
@@ -15,6 +16,9 @@ on the psychTestR website.
 For more documentation on designing and deploying psychTestR tests,
 see the other vignettes and the
 [function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html).
+For documentation on setting up a self-hosted psychTestR server, see 
+[Guide to creating a server for online *R* experiments using *psychTestR*](https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/R+Server+Guide+20200502.pdf)
+by [Anthony Chmiel](https://www.westernsydney.edu.au/marcs/our_team/research_assistants/dr_anthony_chmiel).
 
 ## Installation
 
@@ -40,7 +44,7 @@ You can cite psychTestR as follows:
 > Harrison, Peter M. C. (2020).
 > psychTestR: An R package for designing and
 > conducting behavioural psychological experiments.
-> *PsyArXiv*. https://doi.org/10.31234/osf.io/dyar7
+> *Journal of Open Source Software*. https://doi.org/10.21105/joss.02088
 
 The psychTestR source code is also permanently archived
 on Zenodo. You can find this permanent archive at the following DOI:

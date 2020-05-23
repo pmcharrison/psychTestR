@@ -12,6 +12,12 @@ This software can be installed on a Linux server.
 The following instructions detail how you can provision your own server 
 if you don't already have one.
 
+**Note:** [Anthony Chmiel](https://www.westernsydney.edu.au/marcs/our_team/research_assistants/dr_anthony_chmiel)
+has very kindly put together a much more detailed guide that is available as
+a [Word document](https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/R+Server+Guide+20200502.docx)
+and as a [PDF document](https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/R+Server+Guide+20200502.pdf).
+You are highly recommended to refer to this guide when setting up your own server.
+
 ## Shiny Server
 
 [Shiny Server](https://www.rstudio.com/products/shiny/shiny-server/)
