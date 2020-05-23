@@ -481,7 +481,8 @@ get_p_id.validate <- function(validate) {
 is_p_id_valid <- function(p_id) {
   stopifnot(is.scalar.character(p_id))
   n <- nchar(p_id)
-  n > 0L && n <= 100L && grepl("^[A-Za-z0-9_]*$", p_id)
+  # disable ascii check to allow for russian letters
+  n > 0L && n <= 100L # && grepl("^[A-Za-z0-9_]*$", p_id)
 }
 
 describe_valid_p_id <- function() {
