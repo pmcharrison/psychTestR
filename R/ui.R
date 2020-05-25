@@ -52,8 +52,7 @@ ui <- function(opt) {
             shiny::uiOutput("admin_panel.ui"),
             admin_panel.modals
           )
-        },
-        shiny::p(shiny::h6(opt$app_info))
+        }
       ))))
 
   shiny::fluidPage(
