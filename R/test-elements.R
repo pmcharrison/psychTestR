@@ -893,11 +893,12 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL,
       inputId = inputId, label = label,
       icon = icon, width = width,
       onclick = "trigger_button(this.id);",
-      disabled = TRUE
+      disabled = TRUE,
       ...),
-    sprintf("setTimeout(function() {
-               document.getElementById('%s').disabled = false;
-             }, %i);",
+    shiny::tags$script(
+      sprintf("setTimeout(function() {
+                 document.getElementById('%s').disabled = false;
+               }, %i);",
     ))
 }
 
