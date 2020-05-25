@@ -481,8 +481,7 @@ get_p_id.validate <- function(validate) {
 is_p_id_valid <- function(p_id) {
   stopifnot(is.scalar.character(p_id))
   n <- nchar(p_id)
-  # disable ascii check to allow for russian letters
-  n > 0L && n <= 100L # && grepl("^[A-Za-z0-9_]*$", p_id)
+  n > 0L && n <= 100L && grepl("^[A-Za-z0-9_]*$", p_id)
 }
 
 describe_valid_p_id <- function() {
@@ -494,7 +493,7 @@ describe_valid_p_id <- function() {
 
 #' New NAFC page
 #'
-#' Creates an n-alternative forced choice page.
+#' Creates an n-alternative forced-foced choice page.
 #'
 #' @param label Label for the current page (character scalar).
 #'
@@ -574,6 +573,8 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
 #'
+#' @param style CSS style information (character scalar).
+#'
 #' @param id HTML ID for the div containing the response buttons.
 #'
 #' @export
@@ -597,7 +598,7 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
 
 #' Make NAFC video page
 #'
-#' Creates an n-alternative forced choice page with a video prompt.
+#' Creates an n-alternative forced-foced choice page with a video prompt.
 #'
 #' @param url URL to the video.
 #' Can be an absolute URL (e.g. "http://mysite.com/video.mp4")
@@ -678,7 +679,7 @@ media_mobile_play_button <- function(btn_play_prompt) shiny::tags$p(
 
 #' Make NAFC audio page
 #'
-#' Creates an n-alternative forced choice page with an audio prompt.
+#' Creates an n-alternative forced-foced choice page with an audio prompt.
 #' @param label Label for the current page (character scalar).
 #'
 #' @param prompt Prompt to be displayed above the response choices.
@@ -883,11 +884,13 @@ dropdown_page.get_answer <- function(alternative_text) {
 
 #' @param enable_after Number of seconds after which responses should be permitted.
 #'
+#' @param style CSS style information (character scalar).
+#'
 #' @inheritParams shiny::actionButton
 #'
 #' @export
 trigger_button <- function(inputId, label, icon = NULL, width = NULL,
-                           enable_after = 0, style = "", disabled = FALSE,
+                           enable_after = 0, style = "",
                            ...) {
   checkmate::qassert(enable_after, "N1[0,)")
   inputId <- htmltools::htmlEscape(inputId, attribute = TRUE)
@@ -896,13 +899,13 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL,
       inputId = inputId, label = label,
       icon = icon, width = width,
       onclick = "trigger_button(this.id);",
-      disabled = FALSE,
+      disabled = TRUE,
       style = style,
       ...),
     shiny::tags$script(
-      if (!disabled) sprintf("setTimeout(function() {
-                                document.getElementById('%s').disabled = false;
-                              }, %i);",
+      sprintf("setTimeout(function() {
+                 document.getElementById('%s').disabled = false;
+               }, %i);",
               inputId, round(enable_after * 1e3))
     ))
 }
