@@ -887,7 +887,7 @@ dropdown_page.get_answer <- function(alternative_text) {
 #'
 #' @export
 trigger_button <- function(inputId, label, icon = NULL, width = NULL,
-                           enable_after = 0, style = "",
+                           enable_after = 0, style = "", disabled = FALSE,
                            ...) {
   checkmate::qassert(enable_after, "N1[0,)")
   inputId <- htmltools::htmlEscape(inputId, attribute = TRUE)
@@ -896,22 +896,14 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL,
       inputId = inputId, label = label,
       icon = icon, width = width,
       onclick = "trigger_button(this.id);",
-      disabled = TRUE,
+      disabled = FALSE,
       style = style,
       ...),
     shiny::tags$script(
-      sprintf("setTimeout(function() {
-                 document.getElementById('%s').disabled = false;
-               }, %i);",
-              inputId, round(enable_after * 1e3)),
-      sprintf("$('#p_id').focus();"),
-      sprintf("var input = document.getElementById('p_id');
-               input.addEventListener('keyup', function(event) {
-                 if (event.keyCode === 13) {
-                   event.preventDefault();
-                   $('#next').click();
-                 }
-               });")
+      if (!disabled) sprintf("setTimeout(function() {
+                                document.getElementById('%s').disabled = false;
+                              }, %i);",
+              inputId, round(enable_after * 1e3))
     ))
 }
 
