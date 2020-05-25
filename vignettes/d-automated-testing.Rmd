@@ -54,13 +54,13 @@ app <- AppTester$new(dir)
 
 ```
 
-We've put a sample `app.R` file in the psychTestR package,
+We've put a sample `app.R` file in the psychTestR package, 
 an  the above example finds that file using `system.file`;
-to point the code to your own `app.R` file, simply replace
+to point the code to your own `app.R` file, simply replace 
 the `system.file` call with the path to the directory containing your
 `app.R` file.
 
-This `AppTester` object instantiates a headless browser which
+This `AppTester` object instantiates a headless browser which 
 then navigates your psychTestR test, just like a real participant.
 This object has various methods that are useful for interacting
 with the psychTestR test and probing its internal state.
