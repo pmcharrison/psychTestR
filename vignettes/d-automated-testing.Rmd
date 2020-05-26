@@ -55,7 +55,7 @@ app <- AppTester$new(dir)
 ```
 
 We've put a sample `app.R` file in the psychTestR package, 
-and  the above example finds that file using `system.file`;
+an  the above example finds that file using `system.file`;
 to point the code to your own `app.R` file, simply replace 
 the `system.file` call with the path to the directory containing your
 `app.R` file.

@@ -481,8 +481,7 @@ get_p_id.validate <- function(validate) {
 is_p_id_valid <- function(p_id) {
   stopifnot(is.scalar.character(p_id))
   n <- nchar(p_id)
-  # disable ascii check to allow for russian letters
-  n > 0L && n <= 100L # && grepl("^[A-Za-z0-9_]*$", p_id)
+  n > 0L && n <= 100L && grepl("^[A-Za-z0-9_]*$", p_id)
 }
 
 describe_valid_p_id <- function() {
@@ -494,7 +493,7 @@ describe_valid_p_id <- function() {
 
 #' New NAFC page
 #'
-#' Creates an n-alternative forced choice page.
+#' Creates an n-alternative forced-foced choice page.
 #'
 #' @param label Label for the current page (character scalar).
 #'
@@ -530,7 +529,6 @@ describe_valid_p_id <- function() {
 NAFC_page <- function(label, prompt, choices, labels = NULL,
                       save_answer = TRUE,
                       arrange_vertically = length(choices) > 2L,
-                      style = "",
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui",
                       on_complete = NULL,
@@ -544,7 +542,6 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
                  labels = labels,
                  hide = hide_response_ui,
                  arrange_vertically = arrange_vertically,
-                 style = style,
                  id = response_ui_id))
   get_answer <- function(input, ...) input$last_btn_pressed
   validate <- function(answer, ...) !is.null(answer)
@@ -579,7 +576,7 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
 #' @export
 make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
                          arrange_vertically = length(choices) > 2L,
-                         style = "", id = "response_ui") {
+                         id = "response_ui") {
   stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hide),
             is.null(labels) ||
               ((is.character(labels) || is.list(labels)) &&
@@ -590,14 +587,14 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
   shiny::tags$div(id = id,
                   style = if (hide) "visibility: hidden" else "visibility: inherit",
                   mapply(function(id, label) {
-                    trigger_button(inputId = id, label = label, style = style)
+                    trigger_button(inputId = id, label = label)
                   }, choices, labels, SIMPLIFY = F, USE.NAMES = F) %>%
                     (function(x) if (arrange_vertically) lapply(x, shiny::tags$p) else x))
 }
 
 #' Make NAFC video page
 #'
-#' Creates an n-alternative forced choice page with a video prompt.
+#' Creates an n-alternative forced-foced choice page with a video prompt.
 #'
 #' @param url URL to the video.
 #' Can be an absolute URL (e.g. "http://mysite.com/video.mp4")
@@ -678,7 +675,7 @@ media_mobile_play_button <- function(btn_play_prompt) shiny::tags$p(
 
 #' Make NAFC audio page
 #'
-#' Creates an n-alternative forced choice page with an audio prompt.
+#' Creates an n-alternative forced-foced choice page with an audio prompt.
 #' @param label Label for the current page (character scalar).
 #'
 #' @param prompt Prompt to be displayed above the response choices.
@@ -887,7 +884,7 @@ dropdown_page.get_answer <- function(alternative_text) {
 #'
 #' @export
 trigger_button <- function(inputId, label, icon = NULL, width = NULL,
-                           enable_after = 0, style = "", disabled = FALSE,
+                           enable_after = 0, disabled = FALSE,
                            ...) {
   checkmate::qassert(enable_after, "N1[0,)")
   inputId <- htmltools::htmlEscape(inputId, attribute = TRUE)
@@ -897,7 +894,6 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL,
       icon = icon, width = width,
       onclick = "trigger_button(this.id);",
       disabled = FALSE,
-      style = style,
       ...),
     shiny::tags$script(
       if (!disabled) sprintf("setTimeout(function() {
