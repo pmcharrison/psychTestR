@@ -151,7 +151,7 @@
 <span class="no">dir</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(<span class="st">"demos/minimal-test"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"psychTestR"</span>, <span class="kw">mustWork</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
 
 <span class="no">app</span> <span class="kw">&lt;-</span> <span class="no">AppTester</span>$<span class="fu">new</span>(<span class="no">dir</span>)</pre></body></html></div>
-<p>We’ve put a sample <code>app.R</code> file in the psychTestR package, an the above example finds that file using <code>system.file</code>; to point the code to your own <code>app.R</code> file, simply replace the <code>system.file</code> call with the path to the directory containing your <code>app.R</code> file.</p>
+<p>We’ve put a sample <code>app.R</code> file in the psychTestR package, and the above example finds that file using <code>system.file</code>; to point the code to your own <code>app.R</code> file, simply replace the <code>system.file</code> call with the path to the directory containing your <code>app.R</code> file.</p>
 <p>This <code>AppTester</code> object instantiates a headless browser which then navigates your psychTestR test, just like a real participant. This object has various methods that are useful for interacting with the psychTestR test and probing its internal state. For example, we can probe the current UI text:</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">app</span>$<span class="fu">get_ui_text</span>()</pre></body></html></div>
 <pre><code>## [1] "Page 1 Next"</code></pre>
