@@ -5,7 +5,7 @@
 \title{New NAFC page}
 \usage{
 NAFC_page(label, prompt, choices, labels = NULL, save_answer = TRUE,
-  arrange_vertically = length(choices) > 2L, hide_response_ui = FALSE,
+  arrange_vertically = length(choices) > 2L, style = "", hide_response_ui = FALSE,
   response_ui_id = "response_ui", on_complete = NULL,
   admin_ui = NULL)
 }
@@ -31,6 +31,8 @@ or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
 
 \item{arrange_vertically}{Whether to arrange the response buttons vertically
 (the default) as opposed to horizontally.}
+
+\item{style}{CSS style information (character scalar).}
 
 \item{hide_response_ui}{Whether to begin with the response interface hidden
 (it can be subsequently made visible through Javascript,

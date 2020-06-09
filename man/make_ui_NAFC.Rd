@@ -5,7 +5,7 @@
 \title{Make NAFC buttons}
 \usage{
 make_ui_NAFC(choices, labels = NULL, hide = FALSE,
-  arrange_vertically = length(choices) > 2L, id = "response_ui")
+  arrange_vertically = length(choices) > 2L, style = "", id = "response_ui")
 }
 \arguments{
 \item{choices}{Character vector of choices for the participant.
@@ -24,6 +24,8 @@ or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
 
 \item{arrange_vertically}{Whether to arrange the response buttons vertically
 (the default) as opposed to horizontally.}
+
+\item{style}{CSS style information (character scalar).}
 
 \item{id}{HTML ID for the div containing the response buttons.}
 }
