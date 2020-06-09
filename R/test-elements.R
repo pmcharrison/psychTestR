@@ -880,6 +880,8 @@ dropdown_page.get_answer <- function(alternative_text) {
 
 #' @param enable_after Number of seconds after which responses should be permitted.
 #'
+#' @param disabled (Scalar boolean) Whether or not to disable the button.
+#'
 #' @inheritParams shiny::actionButton
 #'
 #' @export
