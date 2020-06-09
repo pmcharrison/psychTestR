@@ -20,6 +20,8 @@ see \code{\link[=validateCssUnit]{validateCssUnit()}}.}
 
 \item{enable_after}{Number of seconds after which responses should be permitted.}
 
+\item{disabled}{(Scalar boolean) Whether or not to disable the button.}
+
 \item{...}{Named attributes to be applied to the button or link.}
 }
 \description{
