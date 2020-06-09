@@ -5,7 +5,7 @@
 \title{Trigger button}
 \usage{
 trigger_button(inputId, label, icon = NULL, width = NULL,
-  enable_after = 0, ...)
+  enable_after = 0, disabled = FALSE, ...)
 }
 \arguments{
 \item{inputId}{The \code{input} slot that will be used to access the value.}
