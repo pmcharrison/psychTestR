@@ -8,8 +8,8 @@
 [psychTestR](https://pmcharrison.github.io/psychTestR) 
 is an R package for creating behavioural experiment interfaces.
 For an overview of psychTestR's features, 
-see its [overview paper](https://psyarxiv.com/dyar7/download)
-at PsyArXiv.
+see its [overview paper](https://doi.org/10.21105/joss.02088)
+in the Journal of Open Source Software.
 For a more detailed introduction, see the
 [introductory article](https://pmcharrison.github.io/psychTestR/articles/b-introduction)
 on the psychTestR website.
