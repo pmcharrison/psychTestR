@@ -529,11 +529,11 @@ describe_valid_p_id <- function() {
 NAFC_page <- function(label, prompt, choices, labels = NULL,
                       save_answer = TRUE,
                       arrange_vertically = length(choices) > 2L,
-                      style = "",
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui",
                       on_complete = NULL,
-                      admin_ui = NULL) {
+                      admin_ui = NULL,
+                      button_style = "") {
   stopifnot(is.scalar.character(label),
             is.character(choices), length(choices) > 0L,
             is.scalar.logical(arrange_vertically))
@@ -543,8 +543,8 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
                  labels = labels,
                  hide = hide_response_ui,
                  arrange_vertically = arrange_vertically,
-                 style = style,
-                 id = response_ui_id))
+                 id = response_ui_id,
+                 button_style = button_style))
   get_answer <- function(input, ...) input$last_btn_pressed
   validate <- function(answer, ...) !is.null(answer)
   page(ui = ui, label = label,  get_answer = get_answer, save_answer = save_answer,
@@ -573,14 +573,14 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
 #' @param arrange_vertically Whether to arrange the response buttons vertically
 #' (the default) as opposed to horizontally.
 #'
-#' @param style CSS style information (character scalar).
-#'
 #' @param id HTML ID for the div containing the response buttons.
+#'
+#' @param button_style Button CSS style information (character scalar).
 #'
 #' @export
 make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
                          arrange_vertically = length(choices) > 2L,
-                         style = "", id = "response_ui") {
+                         id = "response_ui", button_style = "") {
   stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hide),
             is.null(labels) ||
               ((is.character(labels) || is.list(labels)) &&
@@ -591,7 +591,7 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
   shiny::tags$div(id = id,
                   style = if (hide) "visibility: hidden" else "visibility: inherit",
                   mapply(function(id, label) {
-                    trigger_button(inputId = id, label = label, style = style)
+                    trigger_button(inputId = id, label = label, style = button_style)
                   }, choices, labels, SIMPLIFY = F, USE.NAMES = F) %>%
                     (function(x) if (arrange_vertically) lapply(x, shiny::tags$p) else x))
 }

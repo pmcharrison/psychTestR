@@ -4,8 +4,15 @@
 \alias{trigger_button}
 \title{Trigger button}
 \usage{
-trigger_button(inputId, label, icon = NULL, width = NULL,
-  enable_after = 0, style = "", ...)
+trigger_button(
+  inputId,
+  label,
+  icon = NULL,
+  width = NULL,
+  enable_after = 0,
+  style = "",
+  ...
+)
 }
 \arguments{
 \item{inputId}{The \code{input} slot that will be used to access the value.}
