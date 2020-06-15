@@ -170,8 +170,15 @@ the next psychTestR page." />
 the next psychTestR page.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>trigger_button</span>(<span class='no'>inputId</span>, <span class='no'>label</span>, <span class='kw'>icon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>enable_after</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>trigger_button</span>(
+  <span class='no'>inputId</span>,
+  <span class='no'>label</span>,
+  <span class='kw'>icon</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>enable_after</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>style</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -197,6 +204,10 @@ see <code>validateCssUnit()</code>.</p></td>
     <tr>
       <th>enable_after</th>
       <td><p>Number of seconds after which responses should be permitted.</p></td>
+    </tr>
+    <tr>
+      <th>style</th>
+      <td><p>CSS style information (character scalar).</p></td>
     </tr>
     <tr>
       <th>...</th>

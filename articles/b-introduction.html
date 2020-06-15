@@ -233,8 +233,8 @@
 ## {
 ##     save_results_to_disk(complete, state, opt)
 ## }
-## &lt;bytecode: 0x6d9cf20&gt;
-## &lt;environment: 0x6d9cac0&gt;</code></pre>
+## &lt;bytecode: 0x7be8378&gt;
+## &lt;environment: 0x7be7f18&gt;</code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct the server to run a specified function. This function can take several inputs, but most important is the <code>state</code> object, which stores information relevant to that particular participant’s testing session, such as their responses to N-alternative forced choice pages. This particular function takes the <code>state</code> object as input and saves the participant’s results to disk, paying attention to certain test configuration options as specified in <code>opt</code>.</p>
 <p>Having run this test, we should see that it generates an RDS file in the directory <code>output/results</code>. The name of this RDS file will contain the participant’s ID, which by default is randomly generated. RDS files provide compressed versions of R objects. We can read our RDS file into R using the <code>readRDS</code> function. The code below lists all files in the results directory with the extension <code>.rds</code>, and reads the first one into R:</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">rds_files</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">"output/results"</span>,
@@ -294,19 +294,19 @@
 ##   &lt;p&gt;What is your favourite colour?&lt;/p&gt;
 ##   &lt;div id="response_ui" style="visibility: inherit"&gt;
 ##     &lt;p&gt;
-##       &lt;button id="Red" type="button" class="btn btn-default action-button" onclick="trigger_button(this.id);" disabled="TRUE"&gt;Red&lt;/button&gt;
+##       &lt;button id="Red" type="button" class="btn btn-default action-button" onclick="trigger_button(this.id);" disabled="TRUE" style=""&gt;Red&lt;/button&gt;
 ##       &lt;script&gt;setTimeout(function() {
 ##                  document.getElementById('Red').disabled = false;
 ##                }, 0);&lt;/script&gt;
 ##     &lt;/p&gt;
 ##     &lt;p&gt;
-##       &lt;button id="Green" type="button" class="btn btn-default action-button" onclick="trigger_button(this.id);" disabled="TRUE"&gt;Green&lt;/button&gt;
+##       &lt;button id="Green" type="button" class="btn btn-default action-button" onclick="trigger_button(this.id);" disabled="TRUE" style=""&gt;Green&lt;/button&gt;
 ##       &lt;script&gt;setTimeout(function() {
 ##                  document.getElementById('Green').disabled = false;
 ##                }, 0);&lt;/script&gt;
 ##     &lt;/p&gt;
 ##     &lt;p&gt;
-##       &lt;button id="Blue" type="button" class="btn btn-default action-button" onclick="trigger_button(this.id);" disabled="TRUE"&gt;Blue&lt;/button&gt;
+##       &lt;button id="Blue" type="button" class="btn btn-default action-button" onclick="trigger_button(this.id);" disabled="TRUE" style=""&gt;Blue&lt;/button&gt;
 ##       &lt;script&gt;setTimeout(function() {
 ##                  document.getElementById('Blue').disabled = false;
 ##                }, 0);&lt;/script&gt;
@@ -326,8 +326,8 @@
 ## $get_answer
 ## function (input, ...) 
 ## input$last_btn_pressed
-## &lt;bytecode: 0x4ee7f78&gt;
-## &lt;environment: 0x4ee75a0&gt;
+## &lt;bytecode: 0x5c7d230&gt;
+## &lt;environment: 0x5c80650&gt;
 ## 
 ## $save_answer
 ## [1] TRUE
@@ -335,8 +335,8 @@
 ## $validate
 ## function (answer, ...) 
 ## !is.null(answer)
-## &lt;bytecode: 0x4ee7df0&gt;
-## &lt;environment: 0x4ee75a0&gt;
+## &lt;bytecode: 0x5c7d0a8&gt;
+## &lt;environment: 0x5c80650&gt;
 ## 
 ## $on_complete
 ## NULL

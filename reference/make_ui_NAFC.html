@@ -168,8 +168,14 @@
     <p>Creates HTML code for n-alternative forced-choice response options.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_ui_NAFC</span>(<span class='no'>choices</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>hide</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>arrange_vertically</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>choices</span>) <span class='kw'>&gt;</span> <span class='fl'>2L</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"response_ui"</span>)</pre>
+    <pre class="usage"><span class='fu'>make_ui_NAFC</span>(
+  <span class='no'>choices</span>,
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>hide</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>arrange_vertically</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>choices</span>) <span class='kw'>&gt;</span> <span class='fl'>2L</span>,
+  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"response_ui"</span>,
+  <span class='kw'>button_style</span> <span class='kw'>=</span> <span class='st'>""</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -202,6 +208,10 @@ or a list of Shiny tag objects, e.g. as created by <code><a href='https://rdrr.i
     <tr>
       <th>id</th>
       <td><p>HTML ID for the div containing the response buttons.</p></td>
+    </tr>
+    <tr>
+      <th>button_style</th>
+      <td><p>Button CSS style information (character scalar).</p></td>
     </tr>
     </table>
 
