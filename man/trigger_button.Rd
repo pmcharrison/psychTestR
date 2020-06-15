@@ -4,8 +4,15 @@
 \alias{trigger_button}
 \title{Trigger button}
 \usage{
-trigger_button(inputId, label, icon = NULL, width = NULL,
-  enable_after = 0, ...)
+trigger_button(
+  inputId,
+  label,
+  icon = NULL,
+  width = NULL,
+  enable_after = 0,
+  style = "",
+  ...
+)
 }
 \arguments{
 \item{inputId}{The \code{input} slot that will be used to access the value.}
@@ -19,6 +26,8 @@ you could also use any other HTML, like an image.}
 see \code{\link[=validateCssUnit]{validateCssUnit()}}.}
 
 \item{enable_after}{Number of seconds after which responses should be permitted.}
+
+\item{style}{CSS style information (character scalar).}
 
 \item{...}{Named attributes to be applied to the button or link.}
 }

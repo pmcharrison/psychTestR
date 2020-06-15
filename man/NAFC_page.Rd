@@ -4,10 +4,19 @@
 \alias{NAFC_page}
 \title{New NAFC page}
 \usage{
-NAFC_page(label, prompt, choices, labels = NULL, save_answer = TRUE,
-  arrange_vertically = length(choices) > 2L, hide_response_ui = FALSE,
-  response_ui_id = "response_ui", on_complete = NULL,
-  admin_ui = NULL)
+NAFC_page(
+  label,
+  prompt,
+  choices,
+  labels = NULL,
+  save_answer = TRUE,
+  arrange_vertically = length(choices) > 2L,
+  hide_response_ui = FALSE,
+  response_ui_id = "response_ui",
+  on_complete = NULL,
+  admin_ui = NULL,
+  button_style = ""
+)
 }
 \arguments{
 \item{label}{Label for the current page (character scalar).}
@@ -50,6 +59,8 @@ and any of:
 \code{opt}, the test's option list as created by \code{test_options()}.}
 
 \item{admin_ui}{Optional UI component for the admin panel.}
+
+\item{button_style}{Button CSS style information (character scalar).}
 }
 \description{
 Creates an n-alternative forced-foced choice page.
