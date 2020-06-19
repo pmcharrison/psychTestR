@@ -4,8 +4,14 @@
 \alias{make_ui_NAFC}
 \title{Make NAFC buttons}
 \usage{
-make_ui_NAFC(choices, labels = NULL, hide = FALSE,
-  arrange_vertically = length(choices) > 2L, id = "response_ui")
+make_ui_NAFC(
+  choices,
+  labels = NULL,
+  hide = FALSE,
+  arrange_vertically = length(choices) > 2L,
+  id = "response_ui",
+  button_style = ""
+)
 }
 \arguments{
 \item{choices}{Character vector of choices for the participant.
@@ -26,6 +32,8 @@ or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
 (the default) as opposed to horizontally.}
 
 \item{id}{HTML ID for the div containing the response buttons.}
+
+\item{button_style}{Button CSS style information (character scalar).}
 }
 \description{
 Creates HTML code for n-alternative forced-choice response options.

@@ -532,7 +532,8 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
                       hide_response_ui = FALSE,
                       response_ui_id = "response_ui",
                       on_complete = NULL,
-                      admin_ui = NULL) {
+                      admin_ui = NULL,
+                      button_style = "") {
   stopifnot(is.scalar.character(label),
             is.character(choices), length(choices) > 0L,
             is.scalar.logical(arrange_vertically))
@@ -542,7 +543,8 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
                  labels = labels,
                  hide = hide_response_ui,
                  arrange_vertically = arrange_vertically,
-                 id = response_ui_id))
+                 id = response_ui_id,
+                 button_style = button_style))
   get_answer <- function(input, ...) input$last_btn_pressed
   validate <- function(answer, ...) !is.null(answer)
   page(ui = ui, label = label,  get_answer = get_answer, save_answer = save_answer,
@@ -573,10 +575,12 @@ NAFC_page <- function(label, prompt, choices, labels = NULL,
 #'
 #' @param id HTML ID for the div containing the response buttons.
 #'
+#' @param button_style Button CSS style information (character scalar).
+#'
 #' @export
 make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
                          arrange_vertically = length(choices) > 2L,
-                         id = "response_ui") {
+                         id = "response_ui", button_style = "") {
   stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hide),
             is.null(labels) ||
               ((is.character(labels) || is.list(labels)) &&
@@ -587,7 +591,7 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
   shiny::tags$div(id = id,
                   style = if (hide) "visibility: hidden" else "visibility: inherit",
                   mapply(function(id, label) {
-                    trigger_button(inputId = id, label = label)
+                    trigger_button(inputId = id, label = label, style = button_style)
                   }, choices, labels, SIMPLIFY = F, USE.NAMES = F) %>%
                     (function(x) if (arrange_vertically) lapply(x, shiny::tags$p) else x))
 }
@@ -880,11 +884,13 @@ dropdown_page.get_answer <- function(alternative_text) {
 
 #' @param enable_after Number of seconds after which responses should be permitted.
 #'
+#' @param style CSS style information (character scalar).
+#'
 #' @inheritParams shiny::actionButton
 #'
 #' @export
 trigger_button <- function(inputId, label, icon = NULL, width = NULL,
-                           enable_after = 0,
+                           enable_after = 0, style = "",
                            ...) {
   checkmate::qassert(enable_after, "N1[0,)")
   inputId <- htmltools::htmlEscape(inputId, attribute = TRUE)
@@ -894,6 +900,7 @@ trigger_button <- function(inputId, label, icon = NULL, width = NULL,
       icon = icon, width = width,
       onclick = "trigger_button(this.id);",
       disabled = TRUE,
+      style = style,
       ...),
     shiny::tags$script(
       sprintf("setTimeout(function() {
