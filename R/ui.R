@@ -45,7 +45,7 @@ ui <- function(opt) {
       shiny::tags$div(
         style = "padding: 10px",
         align = "center",
-        shiny::p(shiny::textOutput("problems_info")),
+        shiny::p(shiny::uiOutput("problems_info")),
         if (opt$display$admin_panel) {
           shiny::tags$div(
             shiny::uiOutput("admin_panel.ui"),
