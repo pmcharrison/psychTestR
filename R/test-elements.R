@@ -655,7 +655,9 @@ radiobutton_NAFC_page <-
       is.scalar.character(label),
       is.scalar.character(trigger_button_text),
       is.scalar.character(failed_validation_message),
-      is.character(choices), length(choices) > 0L)
+      is.character(choices),
+      length(choices) > 0L
+    )
     ui <- shiny::div(
       tagify(prompt),
       make_ui_radiobutton_NAFC(
@@ -723,23 +725,49 @@ make_ui_radiobutton_NAFC <-
            trigger_button_text = "Continue",
            hide = FALSE,
            id = "response_ui") {
-    stopifnot(is.character(choices), length(choices) > 0L, is.scalar.logical(hide),
-            is.null(labels) ||
-              ((is.character(labels) || is.list(labels)) &&
-                 length(labels) == length(choices)))
+    stopifnot(
+      is.character(choices),
+      length(choices) > 0L,
+      is.scalar.logical(hide),
+      is.null(labels) ||
+        ((is.character(labels) || is.list(labels)) &&
+           length(labels) == length(choices)
+        )
+    )
     if (is.null(labels)) {
-      labels <- if (is.null(names(choices))) choices else names(choices)
+      labels <- if (is.null(names(choices)))
+        choices
+      else
+        names(choices)
     }
     subprompt_div <- NULL
     if (subprompt != "")
-        subprompt_div <-
-          shiny::tags$div(style = "text-align: center;", shiny::tags$strong(subprompt))
-    radiobuttons_div <- shiny::tags$div(style = "text-align: left;", subprompt_div,
-                                    shiny::tags$div(style = "display: table; margin: 0 auto;", shiny::tags$div(style = "display: inline-block; width:100%", shiny::radioButtons(label, "",
-                                                        choiceNames = labels,
-                                                        choiceValues = choices,
-                                                        selected = 0))))
-    shiny::tags$div(id = id, style = "display: inline-block", radiobuttons_div, psychTestR::trigger_button("next", trigger_button_text))
+      subprompt_div <-
+      shiny::tags$div(style = "text-align: center;", shiny::tags$strong(subprompt))
+    radiobuttons_div <-
+      shiny::tags$div(
+        style = "text-align: left;",
+        subprompt_div,
+        shiny::tags$div(
+          style = "display: table; margin: 0 auto;",
+          shiny::tags$div(
+            style = "display: inline-block; width:100%",
+            shiny::radioButtons(
+              label,
+              "",
+              choiceNames = labels,
+              choiceValues = choices,
+              selected = 0
+            )
+          )
+        )
+      )
+    shiny::tags$div(
+      id = id,
+      style = "display: inline-block",
+      radiobuttons_div,
+      psychTestR::trigger_button("next", trigger_button_text)
+    )
   }
 
 #' Make NAFC video page
