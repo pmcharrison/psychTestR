@@ -596,6 +596,184 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
                     (function(x) if (arrange_vertically) lapply(x, shiny::tags$p) else x))
 }
 
+#' New radiobutton NAFC page
+#'
+#' Creates a radiobutton n-alternative forced choice page.
+#'
+#' @param label (Character scalar) Label for the current page.
+#'
+#' @param prompt Prompt to be displayed above the response choices.
+#' Can be either a character scalar (e.g. "What is 2 + 2?") or an object of
+#' class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.
+#'
+#' @param choices (Character vector) Choices for the participant.
+#' If unnamed, then these values will be used both for radiobutton IDs and for
+#' button labels.
+#' If named, then values will be used for button IDs and names
+#' will be used for button labels.
+#'
+#' @param subprompt (Character scalar) Optional additional text in bold letters
+#' below the prompt.
+#'
+#' @param labels Optional vector of labels for the radiobutton NAFC choices.
+#' If not \code{NULL}, will overwrite the names of \code{choices}.
+#' This vector of labels can either be a character vector
+#' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
+#'
+#' @param trigger_button_text (Character scalar) Text for the trigger button.
+#'
+#' @param failed_validation_message (Character scalar) Text to be displayed
+#' when validation fails.
+#'
+#' @param save_answer (Boolean scalar) Whether or not to save the answer.
+#'
+#' @param hide_response_ui Whether to begin with the response interface hidden
+#' (it can be subsequently made visible through Javascript,
+#' using the element ID as set in \code{response_ui_id}.
+#' See \code{audio_NAFC_page} for an example.).
+#'
+#' @param response_ui_id HTML ID for the response user interface.
+#'
+#' @inheritParams page
+#' @inheritParams make_ui_radiobutton_NAFC
+#'
+#' @export
+radiobutton_NAFC_page <-
+  function(label,
+           prompt,
+           choices,
+           subprompt = "",
+           labels = NULL,
+           trigger_button_text = "Continue",
+           failed_validation_message = "Answer missing!",
+           save_answer = TRUE,
+           hide_response_ui = FALSE,
+           response_ui_id = "response_ui",
+           on_complete = NULL,
+           admin_ui = NULL) {
+    stopifnot(
+      is.scalar.character(label),
+      is.scalar.character(trigger_button_text),
+      is.scalar.character(failed_validation_message),
+      is.character(choices),
+      length(choices) > 0L
+    )
+    ui <- shiny::div(
+      tagify(prompt),
+      make_ui_radiobutton_NAFC(
+        label,
+        choices,
+        subprompt = subprompt,
+        labels = labels,
+        trigger_button_text = trigger_button_text,
+        hide = hide_response_ui,
+        id = response_ui_id
+      )
+    )
+    get_answer <- function(input, ...)
+      input[[label]]
+    validate <- function(answer, ...)
+      if (!is.null(answer)) {
+        TRUE
+      } else {
+        failed_validation_message
+      }
+    page(
+      ui = ui,
+      label = label,
+      get_answer = get_answer,
+      save_answer = save_answer,
+      validate = validate,
+      on_complete = on_complete,
+      final = FALSE,
+      admin_ui = admin_ui
+    )
+  }
+
+#' Make NAFC radiobuttons
+#'
+#' Creates HTML code for n-alternative forced-choice response radiobutton options.
+#'
+#' @param label (Character scalar) Label for the current page.
+#'
+#' @param choices (Character vector) Choices for the participant.
+#' If unnamed, then these values will be used both for radiobutton IDs and for
+#' button labels.
+#' If named, then values will be used for button IDs and names
+#' will be used for button labels.
+#'
+#' @param subprompt (Character scalar) Optional additional text in bold letters
+#' below the prompt.
+#'
+#' @param labels Optional vector of labels for the NAFC radiobutton choices.
+#' If not \code{NULL}, will overwrite the names of \code{choices}.
+#' This vector of labels can either be a character vector
+#' or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.
+#'
+#' @param trigger_button_text (Character scalar) Text for the trigger button.
+#'
+#' @param hide Whether the radiobuttons should be hidden (possibly to be shown later).
+#'
+#' @param id HTML ID for the div containing the radiobuttons.
+#'
+#' @export
+make_ui_radiobutton_NAFC <-
+  function(label,
+           choices,
+           subprompt = "",
+           labels = NULL,
+           trigger_button_text = "Continue",
+           hide = FALSE,
+           id = "response_ui") {
+    stopifnot(
+      is.character(choices),
+      length(choices) > 0L,
+      is.scalar.logical(hide),
+      is.null(labels) ||
+        ((is.character(labels) || is.list(labels)) &&
+           length(labels) == length(choices)
+        )
+    )
+    if (is.null(labels)) {
+      labels <- if (is.null(names(choices)))
+        choices
+      else
+        names(choices)
+    }
+    labels <-
+      purrr::map(labels, function(label)
+        shiny::tags$span(style = "font-size: 15px; line-height: 15px;", label))
+
+    subprompt_div <- NULL
+    if (subprompt != "")
+      subprompt_div <-
+      shiny::tags$div(style = "text-align: center;", shiny::tags$strong(subprompt))
+    radiobuttons_div <-
+      shiny::tags$div(
+        style = "text-align: left;",
+        subprompt_div,
+        shiny::tags$div(
+          style = "display: table; margin: 0 auto;",
+          shiny::tags$div(
+            style = "display: inline-block; width: 100%;",
+            shiny::radioButtons(
+              label,
+              "",
+              choiceNames = labels,
+              choiceValues = choices,
+              selected = 0
+            )
+          )
+        )
+      )
+    shiny::tags$div(
+      id = id,
+      style = "display: inline-block",
+      radiobuttons_div,
+      psychTestR::trigger_button("next", trigger_button_text)
+    )
+  }
+
 #' Make NAFC video page
 #'
 #' Creates an n-alternative forced choice page with a video prompt.
