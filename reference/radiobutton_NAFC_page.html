@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>New NAFC page — NAFC_page • psychTestR</title>
+<title>New radiobutton NAFC page — radiobutton_NAFC_page • psychTestR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="New NAFC page — NAFC_page" />
-<meta property="og:description" content="Creates an n-alternative forced-foced choice page." />
+<meta property="og:title" content="New radiobutton NAFC page — radiobutton_NAFC_page" />
+<meta property="og:description" content="Creates a radiobutton n-alternative forced choice page." />
 
 
 
@@ -159,27 +159,28 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>New NAFC page</h1>
+    <h1>New radiobutton NAFC page</h1>
     <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>NAFC_page.Rd</code></div>
+    <div class="hidden name"><code>radiobutton_NAFC_page.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates an n-alternative forced-foced choice page.</p>
+    <p>Creates a radiobutton n-alternative forced choice page.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>NAFC_page</span>(
+    <pre class="usage"><span class='fu'>radiobutton_NAFC_page</span>(
   <span class='no'>label</span>,
   <span class='no'>prompt</span>,
   <span class='no'>choices</span>,
+  <span class='kw'>subprompt</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>trigger_button_text</span> <span class='kw'>=</span> <span class='st'>"Continue"</span>,
+  <span class='kw'>failed_validation_message</span> <span class='kw'>=</span> <span class='st'>"Answer missing!"</span>,
   <span class='kw'>save_answer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>arrange_vertically</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>choices</span>) <span class='kw'>&gt;</span> <span class='fl'>2L</span>,
   <span class='kw'>hide_response_ui</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>response_ui_id</span> <span class='kw'>=</span> <span class='st'>"response_ui"</span>,
   <span class='kw'>on_complete</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>admin_ui</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>button_style</span> <span class='kw'>=</span> <span class='st'>""</span>
+  <span class='kw'>admin_ui</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -187,37 +188,46 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>label</th>
-      <td><p>Label for the current page (character scalar).</p></td>
+      <td><p>(Character scalar) Label for the current page.</p></td>
     </tr>
     <tr>
       <th>prompt</th>
       <td><p>Prompt to be displayed above the response choices.
-Can be either a character scalar (e.g. "What is 2 + 2?")
-or an object of class "shiny.tag", e.g. <code>shiny::tags$p("What is 2 + 2?")</code>.</p></td>
+Can be either a character scalar (e.g. "What is 2 + 2?") or an object of
+class "shiny.tag", e.g. <code>shiny::tags$p("What is 2 + 2?")</code>.</p></td>
     </tr>
     <tr>
       <th>choices</th>
-      <td><p>Character vector of choices for the participant.
-If unnamed, then these values will be used both for button IDs
-and for button labels.
+      <td><p>(Character vector) Choices for the participant.
+If unnamed, then these values will be used both for radiobutton IDs and for
+button labels.
 If named, then values will be used for button IDs and names
 will be used for button labels.</p></td>
     </tr>
     <tr>
+      <th>subprompt</th>
+      <td><p>(Character scalar) Optional additional text in bold letters
+below the prompt.</p></td>
+    </tr>
+    <tr>
       <th>labels</th>
-      <td><p>Optional vector of labels for the NAFC choices.
+      <td><p>Optional vector of labels for the radiobutton NAFC choices.
 If not <code>NULL</code>, will overwrite the names of <code>choices</code>.
 This vector of labels can either be a character vector
 or a list of Shiny tag objects, e.g. as created by <code><a href='https://rdrr.io/pkg/shiny/man/reexports.html'>shiny::HTML()</a></code>.</p></td>
     </tr>
     <tr>
-      <th>save_answer</th>
-      <td><p>Whether or not to save the answer.</p></td>
+      <th>trigger_button_text</th>
+      <td><p>(Character scalar) Text for the trigger button.</p></td>
     </tr>
     <tr>
-      <th>arrange_vertically</th>
-      <td><p>Whether to arrange the response buttons vertically
-(the default) as opposed to horizontally.</p></td>
+      <th>failed_validation_message</th>
+      <td><p>(Character scalar) Text to be displayed
+when validation fails.</p></td>
+    </tr>
+    <tr>
+      <th>save_answer</th>
+      <td><p>(Boolean scalar) Whether or not to save the answer.</p></td>
     </tr>
     <tr>
       <th>hide_response_ui</th>
@@ -245,10 +255,6 @@ and any of:
     <tr>
       <th>admin_ui</th>
       <td><p>Optional UI component for the admin panel.</p></td>
-    </tr>
-    <tr>
-      <th>button_style</th>
-      <td><p>Button CSS style information (character scalar).</p></td>
     </tr>
     </table>
 
