@@ -53,4 +53,4 @@ elts <- c(
   final_page("Test complete!")
 )
 
-make_test(elts, pt_options("Testing test elements", "test", "p.m.c.harrison@qmul.ac.uk", debug_locally = TRUE))
+make_test(elts)

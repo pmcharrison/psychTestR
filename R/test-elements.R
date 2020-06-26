@@ -740,6 +740,10 @@ make_ui_radiobutton_NAFC <-
       else
         names(choices)
     }
+    labels <-
+      purrr::map(labels, function(label)
+        shiny::tags$span(style = "font-size: 15px; line-height: 15px;", label))
+
     subprompt_div <- NULL
     if (subprompt != "")
       subprompt_div <-
@@ -751,7 +755,7 @@ make_ui_radiobutton_NAFC <-
         shiny::tags$div(
           style = "display: table; margin: 0 auto;",
           shiny::tags$div(
-            style = "display: inline-block; width:100%",
+            style = "display: inline-block; width: 100%;",
             shiny::radioButtons(
               label,
               "",
