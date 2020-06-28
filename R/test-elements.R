@@ -632,7 +632,7 @@ make_ui_NAFC <- function(choices, labels = NULL, hide = FALSE,
 #' using the element ID as set in \code{response_ui_id}.
 #' See \code{audio_NAFC_page} for an example.).
 #'
-#' @param response_ui_id HTML ID for the response user interface.
+#' @param response_ui_id (Character scalar) HTML ID for the response user interface.
 #'
 #' @inheritParams page
 #' @inheritParams make_ui_radiobutton_NAFC
@@ -712,9 +712,9 @@ radiobutton_NAFC_page <-
 #'
 #' @param trigger_button_text (Character scalar) Text for the trigger button.
 #'
-#' @param hide Whether the radiobuttons should be hidden (possibly to be shown later).
+#' @param hide (Boolean scalar) Whether the radiobuttons should be hidden (possibly to be shown later).
 #'
-#' @param id HTML ID for the div containing the radiobuttons.
+#' @param id (Character scalar) HTML ID for the div containing the radiobuttons.
 #'
 #' @export
 make_ui_radiobutton_NAFC <-
@@ -1079,7 +1079,7 @@ checkbox_page <-
 #'
 #' Creates HTML code for checkbox response options.
 #'
-#' @param label Label for the current page (character scalar).
+#' @param label (Character scalar) Label for the current page.
 #'
 #' @param choices (Character vector) Choices for the participant.
 #' If unnamed, then these values will be used both for checkbox IDs and for
@@ -1100,10 +1100,10 @@ checkbox_page <-
 #' @param javascript (Character scalar) JavaScript code to be added for
 #' controlling checkbox behaviour.
 #'
-#' @param hide Whether the checkboxes should be hidden
+#' @param hide (Boolean scalar) Whether the checkboxes should be hidden
 #' (possibly to be shown later).
 #'
-#' @param id HTML ID for the div containing the checkboxes.
+#' @param id (Character scalar) HTML ID for the div containing the checkboxes.
 #'
 #' @export
 make_ui_checkbox <-
