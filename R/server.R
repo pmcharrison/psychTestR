@@ -43,9 +43,10 @@ render_title <- function(opt, state) {
 }
 
 render_problems_info <- function(opt, state) {
-  shiny::renderText(
-    i18n_problems_info(opt, state)
-  )
+  if (is.character(opt$problems_info))
+    shiny::renderUI(shiny::tags$span(i18n_problems_info(opt, state)))
+  else
+    shiny::renderUI(opt$problems_info)
 }
 
 i18n_title <- function(opt, state) {

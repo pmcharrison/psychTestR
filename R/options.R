@@ -133,7 +133,7 @@ test_options <- function(title, admin_password,
             is.null.or(max_num_participants, is.scalar.integerlike),
             is.null.or(max_participants_msg, is.scalar.character),
             is.null.or(server_closed_msg, is.scalar.character),
-            is.character(problems_info),
+            is.character(problems_info) || is(problems_info, "shiny.tag"),
             is.null.or(logo, is.scalar.character),
             is.null(logo) ||
               (is.scalar.character(logo_width) && is.scalar.character(logo_height)),
@@ -174,14 +174,16 @@ test_options <- function(title, admin_password,
   if (length(problems_info) == 1 && problems_info == "default") {
     problems_info <- if (is.null(researcher_email)) "" else paste0(
       "Problems? Contact ", researcher_email, " with a link to this page.")
-  } else {
+  } else if (is.character(problems_info)) {
     problems_info <- iconv(enc2utf8(problems_info), "UTF-8", "UTF-8", sub = "")
   }
 
   if (length(problems_info) > 1 && is.null(names(problems_info)))
     stop("if option 'problems_info' has length > 1, it must be named")
 
-  if (!is.null(names(problems_info)) && !all(languages %in% names(problems_info)))
+  if (is.character(problems_info) &&
+      !is.null(names(problems_info)) &&
+      !all(languages %in% names(problems_info)))
     stop("problem info texts must be provided for all supported languages")
 
   if (is.null(server_closed_msg)) {
