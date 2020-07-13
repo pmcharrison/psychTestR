@@ -4,9 +4,17 @@
 \alias{page}
 \title{New page}
 \usage{
-page(ui, admin_ui = NULL, label = NULL, final = FALSE,
-  get_answer = NULL, save_answer = FALSE, validate = NULL,
-  on_complete = NULL, next_elt = TRUE)
+page(
+  ui,
+  admin_ui = NULL,
+  label = NULL,
+  final = FALSE,
+  get_answer = NULL,
+  save_answer = FALSE,
+  validate = NULL,
+  on_complete = NULL,
+  next_elt = TRUE
+)
 }
 \arguments{
 \item{ui}{Page UI. Can be either a character scalar (e.g.

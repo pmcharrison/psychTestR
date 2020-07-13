@@ -4,11 +4,17 @@
 \alias{display_options}
 \title{Display options}
 \usage{
-display_options(full_screen = FALSE,
+display_options(
+  full_screen = FALSE,
   content_background_colour = "white",
-  content_border = "1px solid #e8e8e8", show_header = TRUE,
-  show_footer = TRUE, left_margin = 2L, right_margin = 2L,
-  css = character(), admin_panel = TRUE)
+  content_border = "1px solid #e8e8e8",
+  show_header = TRUE,
+  show_footer = TRUE,
+  left_margin = 2L,
+  right_margin = 2L,
+  css = character(),
+  admin_panel = TRUE
+)
 }
 \arguments{
 \item{full_screen}{(Logical scalar)

@@ -4,12 +4,22 @@
 \alias{video_NAFC_page}
 \title{Make NAFC video page}
 \usage{
-video_NAFC_page(label, prompt, choices, url, labels = NULL,
-  type = tools::file_ext(url), save_answer = TRUE,
-  on_complete = NULL, video_width = "100\%",
-  arrange_choices_vertically = length(choices) > 2L, wait = TRUE,
-  loop = FALSE, admin_ui = NULL,
-  btn_play_prompt = "Click here to play")
+video_NAFC_page(
+  label,
+  prompt,
+  choices,
+  url,
+  labels = NULL,
+  type = tools::file_ext(url),
+  save_answer = TRUE,
+  on_complete = NULL,
+  video_width = "100\%",
+  arrange_choices_vertically = length(choices) > 2L,
+  wait = TRUE,
+  loop = FALSE,
+  admin_ui = NULL,
+  btn_play_prompt = "Click here to play"
+)
 }
 \arguments{
 \item{label}{Label for the current page (character scalar).}
@@ -65,5 +75,5 @@ but it might appear if the internet connection is poor,
 or if the participant refreshes the page.}
 }
 \description{
-Creates an n-alternative forced-foced choice page with a video prompt.
+Creates an n-alternative forced choice page with a video prompt.
 }

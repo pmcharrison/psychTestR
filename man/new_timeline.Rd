@@ -4,8 +4,7 @@
 \alias{new_timeline}
 \title{New timeline}
 \usage{
-new_timeline(x = stop("x not supplied"), dict = NULL,
-  default_lang = "EN")
+new_timeline(x = stop("x not supplied"), dict = NULL, default_lang = "EN")
 }
 \arguments{
 \item{x}{Expression defining a series of test elements.
