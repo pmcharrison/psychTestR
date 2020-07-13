@@ -168,19 +168,38 @@
     <p>Defines the options for running a given test.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>test_options</span>(<span class='no'>title</span>, <span class='no'>admin_password</span>, <span class='kw'>researcher_email</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>max_num_participants</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>demo</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>languages</span> <span class='kw'>=</span> <span class='st'>"EN"</span>,
-  <span class='kw'>log_error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>show_full_error_msg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>notify_error</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>notify_new_participant</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>pushbullet_email</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pushbullet_apikey</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_participants_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>server_closed_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>problems_info</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='kw pkg'>shinythemes</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shinythemes/man/shinytheme.html'>shinytheme</a></span>(<span class='st'>"yeti"</span>), <span class='kw'>auto_p_id</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>enable_resume_session</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>allow_any_p_id_url</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>force_p_id_from_url</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>enable_admin_panel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='st'>"output"</span>, <span class='kw'>session_timeout_min</span> <span class='kw'>=</span> <span class='fl'>7</span> * <span class='fl'>24</span> * <span class='fl'>60</span>,
-  <span class='kw'>clean_sessions_interval_min</span> <span class='kw'>=</span> <span class='fl'>15</span>, <span class='kw'>logo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>logo_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>logo_height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>display</span> <span class='kw'>=</span> <span class='fu'><a href='display_options.html'>display_options</a></span>(),
-  <span class='kw'>allow_url_rewrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>advance_delay</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>test_options</span>(
+  <span class='no'>title</span>,
+  <span class='no'>admin_password</span>,
+  <span class='kw'>researcher_email</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>max_num_participants</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>demo</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>languages</span> <span class='kw'>=</span> <span class='st'>"EN"</span>,
+  <span class='kw'>log_error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>show_full_error_msg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>notify_error</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>notify_new_participant</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>pushbullet_email</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>pushbullet_apikey</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>max_participants_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>server_closed_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>problems_info</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
+  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='kw pkg'>shinythemes</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shinythemes/man/shinytheme.html'>shinytheme</a></span>(<span class='st'>"yeti"</span>),
+  <span class='kw'>auto_p_id</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>enable_resume_session</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>allow_any_p_id_url</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>force_p_id_from_url</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>enable_admin_panel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='st'>"output"</span>,
+  <span class='kw'>session_timeout_min</span> <span class='kw'>=</span> <span class='fl'>7</span> * <span class='fl'>24</span> * <span class='fl'>60</span>,
+  <span class='kw'>clean_sessions_interval_min</span> <span class='kw'>=</span> <span class='fl'>15</span>,
+  <span class='kw'>logo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>logo_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>logo_height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>display</span> <span class='kw'>=</span> <span class='fu'><a href='display_options.html'>display_options</a></span>(),
+  <span class='kw'>allow_url_rewrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>advance_delay</span> <span class='kw'>=</span> <span class='fl'>0</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

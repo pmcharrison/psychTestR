@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Make NAFC audio page — audio_NAFC_page" />
-<meta property="og:description" content="Creates an n-alternative forced-foced choice page with an audio prompt." />
+<meta property="og:description" content="Creates an n-alternative forced choice page with an audio prompt." />
 
 
 
@@ -165,14 +165,24 @@
     </div>
 
     <div class="ref-description">
-    <p>Creates an n-alternative forced-foced choice page with an audio prompt.</p>
+    <p>Creates an n-alternative forced choice page with an audio prompt.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>audio_NAFC_page</span>(<span class='no'>label</span>, <span class='no'>prompt</span>, <span class='no'>choices</span>, <span class='no'>url</span>, <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw pkg'>tools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/fileutils.html'>file_ext</a></span>(<span class='no'>url</span>), <span class='kw'>save_answer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>on_complete</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>arrange_choices_vertically</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>choices</span>) <span class='kw'>&gt;</span>
-  <span class='fl'>2L</span>, <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>loop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>admin_ui</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>btn_play_prompt</span> <span class='kw'>=</span> <span class='st'>"Click here to play"</span>)</pre>
+    <pre class="usage"><span class='fu'>audio_NAFC_page</span>(
+  <span class='no'>label</span>,
+  <span class='no'>prompt</span>,
+  <span class='no'>choices</span>,
+  <span class='no'>url</span>,
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>type</span> <span class='kw'>=</span> <span class='kw pkg'>tools</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/fileutils.html'>file_ext</a></span>(<span class='no'>url</span>),
+  <span class='kw'>save_answer</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>on_complete</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>arrange_choices_vertically</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>choices</span>) <span class='kw'>&gt;</span> <span class='fl'>2L</span>,
+  <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>loop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>admin_ui</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>btn_play_prompt</span> <span class='kw'>=</span> <span class='st'>"Click here to play"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
