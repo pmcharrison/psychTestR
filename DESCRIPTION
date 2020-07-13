@@ -34,12 +34,12 @@ Imports:
     htm2txt,
     shinytest,
     testthat (>= 2.0.0),
+    stringr (>= 1.4.0)
 Depends: R (>= 3.4.0)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.0
 Suggests: 
     knitr,
-    rmarkdown,
-    stringr
+    rmarkdown
 Byte-Compile: yes
 URL: https://github.com/pmcharrison/psychTestR
 BugReports: https://github.com/pmcharrison/psychTestR/issues
