@@ -1,3 +1,5 @@
+- Removed `supplementary_results_dir`.
+
 # psychTestR 2.19.1
 
 - Adding an input check for conditional().

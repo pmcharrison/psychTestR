@@ -1,11 +1,10 @@
 context("test_results")
 
 test_that("repository_local", {
-  repo <- LocalRespository$new()
-  opt <- demo_options(repository = repo)
+  opt <- demo_options()
   tmp_dir <- tempfile("dir")
   R.utils::mkdirs(tmp_dir)
-  withr::with_dir(tmp_dir, repo$check(opt))
+  withr::with_dir(tmp_dir, opt$repository$check(opt))
 })
 
 test_that("main", {

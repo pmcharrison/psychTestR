@@ -34,7 +34,8 @@ test_options(
   logo_height = NULL,
   display = display_options(),
   allow_url_rewrite = TRUE,
-  advance_delay = 0
+  advance_delay = 0,
+  repository = LocalRespository$new(output_dir)
 )
 }
 \arguments{

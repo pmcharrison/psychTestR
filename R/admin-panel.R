@@ -330,7 +330,6 @@ admin_panel.delete_results.actual <- function(opt) {
     unlink(opt$results_dir, recursive = TRUE)
     Sys.sleep(0.01)
     dir.create(opt$results_dir)
-    dir.create(opt$supplementary_results_dir)
     shiny::showNotification("Deleted results.")
   } else {
     shiny::showNotification(
