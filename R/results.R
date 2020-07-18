@@ -163,11 +163,12 @@ Repository <- R6::R6Class("Repository", public = list(
     self$is_slow <- is_slow
   },
 
-  deposit_file = function(local_file, key, opt, ...) stop("not implemented"),
-  load_file = function(key, target_path, opt, ...) stop("not implemented"),
-  file_exists = function(key, opt, ...) stop("not implemented"),
-  delete_file = function(key, opt, ...) stop("not implemented"),
   prepare = function(opt, ...) stop("not implemented"),
+
+  deposit_results = function(local_file, key, opt, ...) stop("not implemented"),
+  load_results = function(key, target_path, opt, ...) stop("not implemented"),
+  results_exist = function(key, opt, ...) stop("not implemented"),
+  delete_results = function(key, opt, ...) stop("not implemented"),
 
   check = function(opt) {
     self$prepare(opt)
@@ -179,23 +180,23 @@ Repository <- R6::R6Class("Repository", public = list(
     writeLines(file_content, tmp_file_in)
 
     testthat::expect(
-      !self$file_exists(key, opt),
-      failure_message = "repository$file_exists should return FALSE for non-existent files"
+      !self$results_exist(key, opt),
+      failure_message = "repository$results_exist should return FALSE for non-existent files"
     )
-    self$deposit_file(tmp_file_in, key, opt)
+    self$deposit_results(tmp_file_in, key, opt)
     testthat::expect(
-      self$file_exists(key, opt),
-      failure_message = "repository$file_exists should return TRUE once a file has been deposited"
+      self$results_exist(key, opt),
+      failure_message = "repository$results_exist should return TRUE once a file has been deposited"
     )
-    self$load_file(key, tmp_file_out, opt)
+    self$load_results(key, tmp_file_out, opt)
     testthat::expect(
       testthat::compare(readLines(tmp_file_out), file_content)$equal,
-      failure_message = "repository$load_file returned unexpected contents"
+      failure_message = "repository$load_results returned unexpected contents"
     )
-    self$delete_file(key, opt)
+    self$delete_results(key, opt)
     testthat::expect(
-      !self$file_exists(key, opt),
-      failure_message = "repository$file_exists should return FALSE once a file has been deleted"
+      !self$results_exist(key, opt),
+      failure_message = "repository$results_exist should return FALSE once a file has been deleted"
     )
   }
 ))
@@ -215,19 +216,19 @@ LocalRespository <- R6::R6Class(
       file.path(opt$results_dir, key)
     },
 
-    deposit_file = function(local_file, key, opt, ...) {
+    deposit_results = function(local_file, key, opt, ...) {
       file.copy(local_file, self$path_in_repository(key, opt))
     },
 
-    load_file = function(key, target_path, opt, ...) {
+    load_results = function(key, target_path, opt, ...) {
       file.copy(self$path_in_repository(key, opt), target_path)
     },
 
-    file_exists = function(key, opt, ...) {
+    results_exist = function(key, opt, ...) {
       file.exists(self$path_in_repository(key, opt))
     },
 
-    delete_file = function(key, opt) {
+    delete_results = function(key, opt) {
       file.remove(self$path_in_repository(key, opt))
     }
   )
@@ -296,7 +297,7 @@ DropboxRepository <- R6::R6Class(
       saveRDS(token, self$token_path)
     },
 
-    deposit_file = function(local_file, key, opt, ...) {
+    deposit_results = function(local_file, key, opt, ...) {
       tmp_dir <- tempfile("dir")
       R.utils::mkdirs(tmp_dir)
       new_local_path <- file.path(tmp_dir, key)
@@ -307,7 +308,7 @@ DropboxRepository <- R6::R6Class(
                           dtoken = self$get_dropbox_token())
     },
 
-    load_file = function(key, target_path, opt, ...) {
+    load_results = function(key, target_path, opt, ...) {
       rdrop2::drop_download(
         self$path_in_repository(key),
         target_path,
@@ -316,11 +317,11 @@ DropboxRepository <- R6::R6Class(
       )
     },
 
-    file_exists = function(key, opt, ...) {
+    results_exist = function(key, opt, ...) {
       self$dropbox_exists(self$path_in_repository(key))
     },
 
-    delete_file = function(key, opt) {
+    delete_results = function(key, opt) {
       rdrop2::drop_delete(self$path_in_repository(key),
                           dtoken = self$get_dropbox_token())
     }
