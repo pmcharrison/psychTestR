@@ -155,3 +155,174 @@ save_result.state <- function(place, label, value) {
   place$passive$results <- save_result.results(place$passive$results, label, value)
   place
 }
+
+Repository <- R6::R6Class("Repository", public = list(
+  is_slow = NA,
+
+  initialize = function(is_slow) {
+    self$is_slow <- is_slow
+  },
+
+  deposit_file = function(local_file, key, opt, ...) stop("not implemented"),
+  load_file = function(key, target_path, opt, ...) stop("not implemented"),
+  file_exists = function(key, opt, ...) stop("not implemented"),
+  delete_file = function(key, opt, ...) stop("not implemented"),
+  prepare = function(opt, ...) stop("not implemented"),
+
+  check = function(opt) {
+    self$prepare(opt)
+
+    tmp_file_in <- tempfile()
+    tmp_file_out <- tempfile()
+    key <- uuid::UUIDgenerate()
+    file_content <- as.character(Sys.time())
+    writeLines(file_content, tmp_file_in)
+
+    testthat::expect(
+      !self$file_exists(key, opt),
+      failure_message = "repository$file_exists should return FALSE for non-existent files"
+    )
+    self$deposit_file(tmp_file_in, key, opt)
+    testthat::expect(
+      self$file_exists(key, opt),
+      failure_message = "repository$file_exists should return TRUE once a file has been deposited"
+    )
+    self$load_file(key, tmp_file_out, opt)
+    testthat::expect(
+      testthat::compare(readLines(tmp_file_out), file_content)$equal,
+      failure_message = "repository$load_file returned unexpected contents"
+    )
+    self$delete_file(key, opt)
+    testthat::expect(
+      !self$file_exists(key, opt),
+      failure_message = "repository$file_exists should return FALSE once a file has been deleted"
+    )
+  }
+))
+
+LocalRespository <- R6::R6Class(
+  "LocalRespository",
+  inherit = Repository,
+
+  public = list(
+    initialize = function() super$initialize(is_slow = FALSE),
+
+    prepare = function(opt, ...) {
+      R.utils::mkdirs(opt$results_dir)
+    },
+
+    path_in_repository = function(key, opt) {
+      file.path(opt$results_dir, key)
+    },
+
+    deposit_file = function(local_file, key, opt, ...) {
+      file.copy(local_file, self$path_in_repository(key, opt))
+    },
+
+    load_file = function(key, target_path, opt, ...) {
+      file.copy(self$path_in_repository(key, opt), target_path)
+    },
+
+    file_exists = function(key, opt, ...) {
+      file.exists(self$path_in_repository(key, opt))
+    },
+
+    delete_file = function(key, opt) {
+      file.remove(self$path_in_repository(key, opt))
+    }
+  )
+)
+
+DropboxRepository <- R6::R6Class(
+  "DropboxRepository",
+  inherit = Repository,
+
+  public = list(
+    dropbox_dir = NA_character_,
+    dropbox_results_dir = NA_character_,
+    token_path = NA_character_,
+
+    initialize = function(dropbox_dir, token_path = "dropbox-token.rds") {
+      super$initialize(is_slow = TRUE)
+      self$dropbox_dir = dropbox_dir
+      self$dropbox_results_dir = file.path(self$dropbox_dir, "results")
+      self$token_path = token_path
+    },
+
+    check = function(opt, ...) {
+      message("Checking that Dropbox repository is accessible...")
+      super$check(opt, ...)
+      message("Dropbox check complete.")
+    },
+
+    prepare = function(opt, ...) {
+      if (!self$dropbox_exists(self$dropbox_dir)) {
+        stop("directory '", self$dropbox_dir, "' not found in Dropbox, ",
+             "you must create this manually")
+      }
+      if (!self$dropbox_exists(self$dropbox_results_dir)) {
+        rdrop2::drop_create(self$dropbox_results_dir,
+                            dtoken = self$get_dropbox_token())
+      }
+    },
+
+    dropbox_exists = function(path) {
+      tryCatch(
+        rdrop2::drop_exists(path, dtoken = self$get_dropbox_token()),
+        error = function(e) {
+          browser()
+        }
+      )
+    },
+
+    path_in_repository = function(key) {
+      file.path(self$dropbox_dir, "results", key)
+    },
+
+    get_dropbox_token = function() {
+      if (!file.exists(self$token_path))
+        stop("Couldn't find ", self$token_path, ". Do you need to call repo$new_dropbox_token()?")
+      readRDS(self$token_path)
+    },
+
+    # @inheritParams rdrop2::drop_auth
+    new_dropbox_token = function(key = "mmhfsybffdom42w",
+                                 secret = "l8zeqqqgm1ne5z0") {
+      token <- rdrop2::drop_auth(
+        new_user = TRUE,
+        key = key,
+        secret = secret
+      )
+      saveRDS(token, self$token_path)
+    },
+
+    deposit_file = function(local_file, key, opt, ...) {
+      tmp_dir <- tempfile("dir")
+      R.utils::mkdirs(tmp_dir)
+      new_local_path <- file.path(tmp_dir, key)
+      file.copy(local_file, new_local_path)
+      rdrop2::drop_upload(new_local_path,
+                          self$dropbox_results_dir,
+                          autorename = FALSE,
+                          dtoken = self$get_dropbox_token())
+    },
+
+    load_file = function(key, target_path, opt, ...) {
+      rdrop2::drop_download(
+        self$path_in_repository(key),
+        target_path,
+        overwrite = TRUE,
+        dtoken = self$get_dropbox_token()
+      )
+    },
+
+    file_exists = function(key, opt, ...) {
+      self$dropbox_exists(self$path_in_repository(key))
+    },
+
+    delete_file = function(key, opt) {
+      rdrop2::drop_delete(self$path_in_repository(key),
+                          dtoken = self$get_dropbox_token())
+    }
+  )
+)

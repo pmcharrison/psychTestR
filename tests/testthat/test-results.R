@@ -1,5 +1,13 @@
 context("test_results")
 
+test_that("repository_local", {
+  repo <- LocalRespository$new()
+  opt <- demo_options(repository = repo)
+  tmp_dir <- tempfile("dir")
+  R.utils::mkdirs(tmp_dir)
+  withr::with_dir(tmp_dir, repo$check(opt))
+})
+
 test_that("main", {
   skip_on_cran()
 
