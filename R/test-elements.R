@@ -1125,25 +1125,22 @@ elt_save_results_to_disk <- function(complete) {
 #' @param ... Further arguments are allowed but ignored (for back-compatibility).
 #' @export
 save_results_to_disk <- function(complete, state, opt, ...) {
-  dir <- opt$results_dir
-  R.utils::mkdirs(dir)
-  if (!test_permissions(dir)) stop(
-    "Insufficient permissions to write to directory ", dir, ".")
-  if (!is.null(previous_save_path(state))) unlink(previous_save_path(state))
-  filename <- save_results_to_disk.get_filename(state, dir, complete)
-  path <- file.path(dir, filename)
+  key <- save_results_to_disk.get_key(state, complete)
   results <- get_results(state, complete = complete, add_session_info = TRUE)
-  saveRDS(results, path)
-  if (complete) notify_new_participant(opt)
-  previous_save_path(state) <- path
+
+  opt$repository$deposit_results(results, key)
+  if (!is.null(previous_results_key(state)))
+    opt$repository$delete_results(previous_results_key(state))
+
+  previous_results_key(state) <- path
   save_id(state) <- save_id(state) + 1L
+
+  if (complete) notify_new_participant(opt)
 }
 
-save_results_to_disk.get_filename <- function(state, dir, complete) {
+save_results_to_disk.get_key <- function(state, complete) {
   sprintf(
-    "id=%s&p_id=%s&save_id=%s&pilot=%s&complete=%s.rds",
-    id = format(length(list_results_files(dir)) + 1L,
-                scientific = FALSE),
+    "p_id=%s&save_id=%s&pilot=%s&complete=%s.rds",
     p_id = format(p_id(state), scientific = FALSE),
     save_id = format(save_id(state), scientific = FALSE),
     pilot = tolower(pilot(state)),

@@ -163,10 +163,21 @@ Repository <- R6::R6Class("Repository", public = list(
     self$is_slow <- is_slow
   },
 
-  prepare = function(opt, ...) stop("not implemented"),
+  deposit_results <- function(results, key, opt, ...) {
+    path <- tempfile()
+    saveRDS(results, path)
+    self$deposit_results_file(path, key, opt, ...)
+  },
 
-  deposit_results = function(local_file, key, opt, ...) stop("not implemented"),
-  load_results = function(key, target_path, opt, ...) stop("not implemented"),
+  load_results <- function(key, opt, ...) {
+    path <- tempfile()
+    self$load_results_file(key, path, opt, ...)
+    readRDS(path)
+  },
+
+  prepare = function(opt, ...) stop("not implemented"),
+  deposit_results_file = function(local_file, key, opt, ...) stop("not implemented"),
+  load_results_file = function(key, target_path, opt, ...) stop("not implemented"),
   results_exist = function(key, opt, ...) stop("not implemented"),
   delete_results = function(key, opt, ...) stop("not implemented"),
 
@@ -183,15 +194,15 @@ Repository <- R6::R6Class("Repository", public = list(
       !self$results_exist(key, opt),
       failure_message = "repository$results_exist should return FALSE for non-existent files"
     )
-    self$deposit_results(tmp_file_in, key, opt)
+    self$deposit_results_file(tmp_file_in, key, opt)
     testthat::expect(
       self$results_exist(key, opt),
       failure_message = "repository$results_exist should return TRUE once a file has been deposited"
     )
-    self$load_results(key, tmp_file_out, opt)
+    self$load_results_file(key, tmp_file_out, opt)
     testthat::expect(
       testthat::compare(readLines(tmp_file_out), file_content)$equal,
-      failure_message = "repository$load_results returned unexpected contents"
+      failure_message = "repository$load_results_file returned unexpected contents"
     )
     self$delete_results(key, opt)
     testthat::expect(
@@ -216,11 +227,11 @@ LocalRespository <- R6::R6Class(
       file.path(opt$results_dir, key)
     },
 
-    deposit_results = function(local_file, key, opt, ...) {
+    deposit_results_file = function(local_file, key, opt, ...) {
       file.copy(local_file, self$path_in_repository(key, opt))
     },
 
-    load_results = function(key, target_path, opt, ...) {
+    load_results_file = function(key, target_path, opt, ...) {
       file.copy(self$path_in_repository(key, opt), target_path)
     },
 
@@ -297,7 +308,7 @@ DropboxRepository <- R6::R6Class(
       saveRDS(token, self$token_path)
     },
 
-    deposit_results = function(local_file, key, opt, ...) {
+    deposit_results_file = function(local_file, key, opt, ...) {
       tmp_dir <- tempfile("dir")
       R.utils::mkdirs(tmp_dir)
       new_local_path <- file.path(tmp_dir, key)
@@ -308,7 +319,7 @@ DropboxRepository <- R6::R6Class(
                           dtoken = self$get_dropbox_token())
     },
 
-    load_results = function(key, target_path, opt, ...) {
+    load_results_file = function(key, target_path, opt, ...) {
       rdrop2::drop_download(
         self$path_in_repository(key),
         target_path,

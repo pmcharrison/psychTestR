@@ -55,7 +55,7 @@ STATE <- R6::R6Class(
       time_started = as.POSIXct(NA),
       num_restarts = 0L,
       save_id = 1L,
-      previous_save_path = NULL,
+      previous_results_key = NULL,
       language = as.character(NA),
       demo = FALSE,
       error = NULL,
@@ -118,15 +118,15 @@ allow_url_rewrite <- function(state) {
   state$passive$allow_url_rewrite
 }
 
-previous_save_path <- function(state) {
+previous_results_key <- function(state) {
   stopifnot(is(state, "state"))
-  state$passive$previous_save_path
+  state$passive$previous_results_key
 }
 
-`previous_save_path<-` <- function(state, value) {
+`previous_results_key<-` <- function(state, value) {
   stopifnot(is(state, "state"),
             is.scalar.character(value))
-  state$passive$previous_save_path <- value
+  state$passive$previous_results_key <- value
   state
 }
 
