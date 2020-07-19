@@ -7,6 +7,19 @@ test_that("repository_local", {
   withr::with_dir(tmp_dir, opt$repository$check(opt))
 })
 
+test_that("repository_dropbox", {
+  skip_on_cran()
+  skip_on_appveyor()
+  skip_on_travis()
+
+  token_path <- "~/dropbox-token.rds"
+  opt <- demo_options(repository = DropboxRepository$new(token_path = token_path,
+                                                         root_dir = "Archive/psychTestR-tests"))
+  tmp_dir <- tempfile("dir")
+  R.utils::mkdirs(tmp_dir)
+  withr::with_dir(tmp_dir, opt$repository$check(opt))
+})
+
 test_that("main", {
   skip_on_cran()
 
