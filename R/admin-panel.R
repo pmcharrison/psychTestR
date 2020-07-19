@@ -238,7 +238,7 @@ admin_panel.statistics.num_participants <- function(input, output, opt) {
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
     shiny::showNotification("Refreshing statistics...")
-    df <- tabulate_results(opt, include_pilot = FALSE)
+    df <- opt$repository$tabulate_results(include_pilot = FALSE)
     n_complete <- sum(df$complete)
     n_part_complete <- sum(!df$complete)
     shiny::p(
@@ -258,7 +258,7 @@ admin_panel.statistics.latest_results <- function(input, output, opt) {
   output$admin_panel.statistics.latest_results <- shiny::renderUI({
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
-    files <- tabulate_results(opt, include_pilot = FALSE)
+    files <- opt$repository$tabulate_results(include_pilot = FALSE)
     if (nrow(files) > 0L) {
       latest_file <- files$file[[which.max(files$id)]]
       latest_path <- file.path(opt$results_dir, latest_file)
@@ -281,7 +281,7 @@ admin_panel.statistics.average_time <- function(input, output, opt) {
   output$admin_panel.statistics.average_time <- shiny::renderUI({
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
-    files <- tabulate_results(opt, include_pilot = FALSE)
+    files <- opt$repository$tabulate_results(include_pilot = FALSE)
     files <- files[files$complete, ]
     if (nrow(files) > 0L) {
       data <- lapply(files$full_file, readRDS)
@@ -484,7 +484,7 @@ zip_dir <- function(dir, output_file) {
 }
 
 df_all_results <- function(results_dir) {
-  files <- list_results_files(results_dir, full.names = TRUE)
+  files <- get_results_files(opt, full.names = TRUE)
   if (length(files) == 0L) return(data.frame())
   data <- lapply(files, readRDS)
   data_df <- lapply(data, as.data.frame)

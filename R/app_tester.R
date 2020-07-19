@@ -75,7 +75,6 @@ AppTester <- R6::R6Class(
   "AppTester",
   inherit = shinytest::ShinyDriver,
   public = list(
-
     get_ui = function() {
       self$getAllValues(input = FALSE, output = FALSE, export = TRUE)$export$ui
     },

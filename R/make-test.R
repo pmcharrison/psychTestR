@@ -24,10 +24,12 @@ make_test <- function(elts, opt = demo_options(),
   if (is.list(elts)) elts <- new_timeline(elts)
   check_elts(elts)
   check_opt(opt, elts)
-  shiny::shinyApp(
+  app <- shiny::shinyApp(
     ui = ui(opt = opt),
     server = server(elts = elts, opt = opt,
                     custom_admin_panel = custom_admin_panel))
+  app$opt <- opt
+  app
 }
 
 check_opt <- function(opt, elts) {

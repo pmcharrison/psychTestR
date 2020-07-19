@@ -75,7 +75,7 @@ setup_session <- function(state, input, output, elts, session, opt) {
     }
     max <- opt$max_num_participants
     if (!is.null(max)) {
-      results <- tabulate_results(opt, include_pilot = FALSE)
+      results <- opt$repository$tabulate_results(include_pilot = FALSE)
       num_complete <- sum(results$complete)
       if (num_complete + 1L > max) {
         error(state) <- opt$max_participants_msg

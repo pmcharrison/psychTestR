@@ -378,8 +378,7 @@ test_permissions <- function(dir) {
   success
 }
 
-OUTPUT_DIRS <- c("output_dir", "results_dir", "session_dir",
-                 "results_archive_dir", "error_dir")
+OUTPUT_DIRS <- c("output_dir", "session_dir", "error_dir")
 
 #' Check directories
 #'

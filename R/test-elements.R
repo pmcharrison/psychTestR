@@ -1125,7 +1125,9 @@ elt_save_results_to_disk <- function(complete) {
 #' @param ... Further arguments are allowed but ignored (for back-compatibility).
 #' @export
 save_results_to_disk <- function(complete, state, opt, ...) {
-  key <- save_results_to_disk.get_key(state, complete)
+  num_previous_results <- count_results_excluding_current_participant(state)
+
+  key <- save_results_to_disk.get_key(state, complete, num_previous_results)
   results <- get_results(state, complete = complete, add_session_info = TRUE)
 
   opt$repository$deposit_results(results, key)
@@ -1138,9 +1140,10 @@ save_results_to_disk <- function(complete, state, opt, ...) {
   if (complete) notify_new_participant(opt)
 }
 
-save_results_to_disk.get_key <- function(state, complete) {
+save_results_to_disk.get_key <- function(state, complete, num_previous_results) {
   sprintf(
-    "p_id=%s&save_id=%s&pilot=%s&complete=%s.rds",
+    "id=%s&p_id=%s&save_id=%s&pilot=%s&complete=%s.rds",
+    id = format(num_previous_results + 1, scientific = FALSE),
     p_id = format(p_id(state), scientific = FALSE),
     save_id = format(save_id(state), scientific = FALSE),
     pilot = tolower(pilot(state)),
@@ -1151,7 +1154,7 @@ notify_new_participant <- function(opt) {
   enabled <- opt$notify_new_participant
   stopifnot(is.scalar.logical(enabled))
   if (enabled) {
-    results <- tabulate_results(opt, include_pilot = FALSE)
+    results <- opt$repository$tabulate_results(include_pilot = FALSE)
     num_complete <- sum(results$complete)
     title <- sprintf("N = %i", num_complete)
     msg <- sprintf("Participant number %i%s just completed the experiment '%s'.",

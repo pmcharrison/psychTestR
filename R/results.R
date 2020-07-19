@@ -170,11 +170,11 @@ Repository <- R6::R6Class("Repository", public = list(
     self$deposit_file(path, "results", key, ...)
   },
 
-  get_results = function(key, ...) {
-    path <- tempfile()
-    self$get_file(key, "results", path, ...)
-    readRDS(path)
-  },
+  # get_results = function(key, ...) {
+  #   path <- tempfile()
+  #   self$get_file(key, "results", path, ...)
+  #   readRDS(path)
+  # },
 
   prepare = function(...) stop("not implemented"),
   deposit_file = function(local_file, dir, key, ...) stop("not implemented"),
@@ -182,6 +182,38 @@ Repository <- R6::R6Class("Repository", public = list(
   file_exists = function(dir, key, ...) stop("not implemented"),
   list_files = function(dir, ...) stop("not implemented"),
   delete_file = function(dir, key, ...) stop("not implemented"),
+  get_folder = function(dir, target_path, ...) stop("not implemented"),
+
+  tabulate_results = function(include_pilot) {
+    df <- data.frame(file = self$list_files_with_pattern("results", "^id=.*\\.rds$"), stringsAsFactors = FALSE)
+    cols <- c("id", "p_id", "save_id", "pilot", "complete")
+    if (nrow(df) > 0L) {
+      df <- tidyr::extract(
+        df, "file", cols,
+        "(?:id=)([[0-9]]*)(?:&p_id=)([[A-Za-z0-9_]]*)(?:&save_id=)([[0-9]]*)(?:&pilot=)([[a-z]]*)(?:&complete=)([[a-z]]*)",
+        remove = FALSE)
+    } else {
+      for (col in cols) df[[col]] <- character()
+    }
+    for (col in c("pilot", "complete"))
+      df[[col]] <- as.logical(toupper(df[[col]]))
+    for (col in c("id", "save_id"))
+      df[[col]] <- as.integer(df[[col]])
+    for (col in c("p_id"))
+      df[[col]] <- as.character(df[[col]])
+    if (!include_pilot) df <- df[!df$pilot, , drop = FALSE]
+    df
+  },
+
+  list_files_with_pattern = function(dir, pattern) {
+    all_files <- self$list_files(dir)
+    grep(pattern, all_files, value = TRUE)
+  },
+
+  export_results_as_df = function() {
+    # this would be replacing df_all_results
+    stop("not implemented")
+  },
 
   check = function() {
     self$prepare()
