@@ -4,7 +4,7 @@ test_that("repository_local", {
   opt <- demo_options()
   tmp_dir <- tempfile("dir")
   R.utils::mkdirs(tmp_dir)
-  withr::with_dir(tmp_dir, opt$repository$check(opt))
+  withr::with_dir(tmp_dir, opt$repository$check())
 })
 
 test_that("repository_dropbox", {
@@ -18,7 +18,7 @@ test_that("repository_dropbox", {
                                                          root_dir = "Archive/psychTestR-tests"))
   tmp_dir <- tempfile("dir")
   R.utils::mkdirs(tmp_dir)
-  withr::with_dir(tmp_dir, opt$repository$check(opt))
+  withr::with_dir(tmp_dir, opt$repository$check())
 })
 
 test_that("main", {
