@@ -258,11 +258,10 @@ admin_panel.statistics.latest_results <- function(input, output, opt) {
   output$admin_panel.statistics.latest_results <- shiny::renderUI({
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
-    files <- opt$repository$tabulate_results(include_pilot = FALSE)
-    if (nrow(files) > 0L) {
-      latest_file <- files$file[[which.max(files$id)]]
-      latest_path <- file.path(opt$results_dir, latest_file)
-      latest_data <- readRDS(latest_path)
+    results_table <- opt$repository$tabulate_results(include_pilot = FALSE)
+    if (nrow(results_table) > 0L) {
+      latest_key <- results_table$key[[which.max(results_table$id)]]
+      latest_data <- opt$repository$load_results(latest_key)
       latest_time <- as.list(latest_data)$session$current_time
       if (!is.null(latest_time)) {
         time_diff <- Sys.time() - latest_time
@@ -281,11 +280,10 @@ admin_panel.statistics.average_time <- function(input, output, opt) {
   output$admin_panel.statistics.average_time <- shiny::renderUI({
     input$admin_panel.statistics.refresh
     input$admin_panel.statistics.open
-    files <- opt$repository$tabulate_results(include_pilot = FALSE)
-    files <- files[files$complete, ]
-    if (nrow(files) > 0L) {
-      data <- lapply(files$full_file, readRDS)
-      time_taken <- vapply(data, function(x) {
+    results <- opt$repository$load_all_results(include_pilot = FALSE)
+    results <- results[results$complete, ]
+    if (nrow(results) > 0L) {
+      time_taken <- vapply(results$data, function(x) {
         difftime(x$session$current_time, x$session$time_started, units = "mins")
       }, numeric(1))
       M <- mean(time_taken)

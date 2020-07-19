@@ -185,11 +185,11 @@ Repository <- R6::R6Class("Repository", public = list(
   get_folder = function(dir, target_path, ...) stop("not implemented"),
 
   tabulate_results = function(include_pilot) {
-    df <- data.frame(file = self$list_files_with_pattern("results", "^id=.*\\.rds$"), stringsAsFactors = FALSE)
+    df <- data.frame(key = self$list_files_with_pattern("results", "^id=.*\\.rds$"), stringsAsFactors = FALSE)
     cols <- c("id", "p_id", "save_id", "pilot", "complete")
     if (nrow(df) > 0L) {
       df <- tidyr::extract(
-        df, "file", cols,
+        df, "key", cols,
         "(?:id=)([[0-9]]*)(?:&p_id=)([[A-Za-z0-9_]]*)(?:&save_id=)([[0-9]]*)(?:&pilot=)([[a-z]]*)(?:&complete=)([[a-z]]*)",
         remove = FALSE)
     } else {
@@ -203,6 +203,30 @@ Repository <- R6::R6Class("Repository", public = list(
       df[[col]] <- as.character(df[[col]])
     if (!include_pilot) df <- df[!df$pilot, , drop = FALSE]
     df
+  },
+
+  load_results = function(key) {
+    checkmate::qassert(key, "S1")
+    file <- tempfile()
+    self$get_file("results", key, file)
+    readRDS(file)
+  },
+
+  load_all_results = function(include_pilot) {
+    df <- self$tabulate_results(include_pilot)
+    temp_dir <- tempfile("dir")
+    self$get_folder("results", temp_dir)
+    df$data <- lapply(df$key, function(key) readRDS(file.path(temp_dir, key)))
+    df
+  },
+
+  delete_results = function(key) {
+    self$delete_file("results", key)
+  },
+
+  count_results_excluding_participant = function(p_id) {
+    df <- self$tabulate_results(include_pilot = TRUE)
+    nrow(df) - sum(df$p_id == p_id)
   },
 
   list_files_with_pattern = function(dir, pattern) {

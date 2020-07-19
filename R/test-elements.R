@@ -1125,7 +1125,7 @@ elt_save_results_to_disk <- function(complete) {
 #' @param ... Further arguments are allowed but ignored (for back-compatibility).
 #' @export
 save_results_to_disk <- function(complete, state, opt, ...) {
-  num_previous_results <- count_results_excluding_current_participant(state)
+  num_previous_results <- opt$repository$count_results_excluding_participant(state$passive$p_id)
 
   key <- save_results_to_disk.get_key(state, complete, num_previous_results)
   results <- get_results(state, complete = complete, add_session_info = TRUE)
@@ -1134,7 +1134,7 @@ save_results_to_disk <- function(complete, state, opt, ...) {
   if (!is.null(previous_results_key(state)))
     opt$repository$delete_results(previous_results_key(state))
 
-  previous_results_key(state) <- path
+  previous_results_key(state) <- key
   save_id(state) <- save_id(state) + 1L
 
   if (complete) notify_new_participant(opt)
