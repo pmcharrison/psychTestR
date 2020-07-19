@@ -11,6 +11,7 @@ test_that("repository_dropbox", {
   skip_on_cran()
   skip_on_appveyor()
   skip_on_travis()
+  skip_if_offline()
 
   token_path <- "~/dropbox-token.rds"
   opt <- demo_options(repository = DropboxRepository$new(token_path = token_path,
