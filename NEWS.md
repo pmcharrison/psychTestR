@@ -1,3 +1,5 @@
+# psychTestR 2.20.0
+
 - Added `show_controls` argument to audio_NAFC_page.
 
 # psychTestR 2.19.1
