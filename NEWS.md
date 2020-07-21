@@ -1,3 +1,5 @@
+# psychTestR 2.21.0
+
 - Added `allow_download` argument to audio_NAFC_page.
 - Improved default `btn_play_prompt` argument for audio_NAFC_page.
 - Adding corresponding arguments to video_NAFC_page.
