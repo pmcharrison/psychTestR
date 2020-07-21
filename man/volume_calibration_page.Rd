@@ -41,7 +41,8 @@ and any of:
 \item{btn_play_prompt}{Text to display as a prompt for starting the audio.
 Ordinarily the participant will not see this,
 but it might appear if the internet connection is poor,
-or if the participant refreshes the page.}
+or if the participant refreshes the page.
+Only used if show_controls is FALSE.}
 }
 \description{
 Creates a page for the participant to calibrate their volume,
