@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.20.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.0</span>
       </span>
     </div>
 
@@ -182,7 +182,9 @@
   <span class='kw'>wait</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>loop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>admin_ui</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>btn_play_prompt</span> <span class='kw'>=</span> <span class='st'>"Click here to play"</span>
+  <span class='kw'>btn_play_prompt</span> <span class='kw'>=</span> <span class='kw'>if</span> (!<span class='no'>show_controls</span>) <span class='st'>"Click here to play"</span>,
+  <span class='kw'>show_controls</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>allow_download</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -266,7 +268,18 @@ the response buttons.</p></td>
       <td><p>Text to display as a prompt for starting the audio.
 Ordinarily the participant will not see this,
 but it might appear if the internet connection is poor,
-or if the participant refreshes the page.</p></td>
+or if the participant refreshes the page.
+Only used if show_controls is FALSE.</p></td>
+    </tr>
+    <tr>
+      <th>show_controls</th>
+      <td><p>Whether or not to show audio controls to the participant,
+so that they can control audio playback.</p></td>
+    </tr>
+    <tr>
+      <th>allow_download</th>
+      <td><p>Whether the participant is given a button to download
+the audio file; only relevant if show_controls is TRUE.</p></td>
     </tr>
     </table>
 
