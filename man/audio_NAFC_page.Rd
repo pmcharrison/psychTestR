@@ -17,7 +17,8 @@ audio_NAFC_page(
   wait = TRUE,
   loop = FALSE,
   admin_ui = NULL,
-  btn_play_prompt = "Click here to play"
+  btn_play_prompt = "Click here to play",
+  show_controls = FALSE
 )
 }
 \arguments{
@@ -70,6 +71,9 @@ the response buttons.}
 Ordinarily the participant will not see this,
 but it might appear if the internet connection is poor,
 or if the participant refreshes the page.}
+
+\item{show_controls}{Whether or not to show audio controls to the participant,
+so that they can control audio playback.}
 }
 \description{
 Creates an n-alternative forced choice page with an audio prompt.

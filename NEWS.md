@@ -1,3 +1,5 @@
+- Added `show_controls` argument to audio_NAFC_page.
+
 # psychTestR 2.19.1
 
 - Adding an input check for conditional().

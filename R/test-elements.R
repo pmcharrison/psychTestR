@@ -884,6 +884,10 @@ media_mobile_play_button <- function(btn_play_prompt) shiny::tags$p(
 #' but it might appear if the internet connection is poor,
 #' or if the participant refreshes the page.
 #'
+#' @param show_controls
+#' Whether or not to show audio controls to the participant,
+#' so that they can control audio playback.
+#'
 #' @inheritParams NAFC_page
 #'
 #' @export
@@ -895,7 +899,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
                             arrange_choices_vertically = length(choices) > 2L,
                             wait = TRUE, loop = FALSE,
                             admin_ui = NULL,
-                            btn_play_prompt = "Click here to play") {
+                            btn_play_prompt = "Click here to play",
+                            show_controls = FALSE) {
   stopifnot(is.scalar.character(label),
             is.character(choices), is.scalar.character(url),
             is.scalar.character(url),
@@ -910,7 +915,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     loop = if (loop) "loop",
     oncanplaythrough = media.js$show_media_btn,
     onplay = paste0(media.js$media_played, media.js$hide_media_btn),
-    onended = if (wait) media.js$show_responses else "null"
+    onended = if (wait) media.js$show_responses else "null",
+    controls = if (show_controls) "controls"
   ), media_mobile_play_button(btn_play_prompt))
   prompt2 <- shiny::div(tagify(prompt), audio_ui)
   NAFC_page(label = label, prompt = prompt2, choices = choices, labels = labels,
