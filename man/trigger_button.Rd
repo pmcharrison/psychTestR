@@ -20,10 +20,10 @@ trigger_button(
 \item{label}{The contents of the button or link--usually a text label, but
 you could also use any other HTML, like an image.}
 
-\item{icon}{An optional \code{\link[=icon]{icon()}} to appear on the button.}
+\item{icon}{An optional \code{\link[shiny:icon]{icon()}} to appear on the button.}
 
 \item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'};
-see \code{\link[=validateCssUnit]{validateCssUnit()}}.}
+see \code{\link[shiny:validateCssUnit]{validateCssUnit()}}.}
 
 \item{enable_after}{Number of seconds after which responses should be permitted.}
 

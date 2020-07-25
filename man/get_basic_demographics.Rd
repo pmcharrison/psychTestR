@@ -4,8 +4,13 @@
 \alias{get_basic_demographics}
 \title{Get basic demographics}
 \usage{
-get_basic_demographics(intro = basic_demographics_default_intro(),
-  gender = TRUE, age = TRUE, occupation = TRUE, education = TRUE)
+get_basic_demographics(
+  intro = basic_demographics_default_intro(),
+  gender = TRUE,
+  age = TRUE,
+  occupation = TRUE,
+  education = TRUE
+)
 }
 \arguments{
 \item{intro}{Introductory page to the demographics section.

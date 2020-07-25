@@ -4,19 +4,38 @@
 \alias{test_options}
 \title{Test options}
 \usage{
-test_options(title, admin_password, researcher_email = NULL,
-  max_num_participants = NULL, demo = FALSE, languages = "EN",
-  log_error = TRUE, show_full_error_msg = TRUE, notify_error = FALSE,
-  notify_new_participant = FALSE, pushbullet_email = NULL,
-  pushbullet_apikey = NULL, max_participants_msg = NULL,
-  server_closed_msg = NULL, problems_info = "default",
-  theme = shinythemes::shinytheme("yeti"), auto_p_id = TRUE,
-  enable_resume_session = TRUE, allow_any_p_id_url = FALSE,
-  force_p_id_from_url = FALSE, enable_admin_panel = TRUE,
-  output_dir = "output", session_timeout_min = 7 * 24 * 60,
-  clean_sessions_interval_min = 15, logo = NULL, logo_width = NULL,
-  logo_height = NULL, display = display_options(),
-  allow_url_rewrite = TRUE, advance_delay = 0)
+test_options(
+  title,
+  admin_password,
+  researcher_email = NULL,
+  max_num_participants = NULL,
+  demo = FALSE,
+  languages = "EN",
+  log_error = TRUE,
+  show_full_error_msg = TRUE,
+  notify_error = FALSE,
+  notify_new_participant = FALSE,
+  pushbullet_email = NULL,
+  pushbullet_apikey = NULL,
+  max_participants_msg = NULL,
+  server_closed_msg = NULL,
+  problems_info = "default",
+  theme = shinythemes::shinytheme("yeti"),
+  auto_p_id = TRUE,
+  enable_resume_session = TRUE,
+  allow_any_p_id_url = FALSE,
+  force_p_id_from_url = FALSE,
+  enable_admin_panel = TRUE,
+  output_dir = "output",
+  session_timeout_min = 7 * 24 * 60,
+  clean_sessions_interval_min = 15,
+  logo = NULL,
+  logo_width = NULL,
+  logo_height = NULL,
+  display = display_options(),
+  allow_url_rewrite = TRUE,
+  advance_delay = 0
+)
 }
 \arguments{
 \item{title}{The test's title.
