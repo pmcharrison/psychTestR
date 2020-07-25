@@ -8,8 +8,7 @@ vignette: >
 ---
 
 
-The following research projects show psychTestR as applied to 
-real research problems:
+Here are a few individual links to tests that have been implemented in psychTestR:
 
 - Computerised Adaptive Beat Alignment Test (CA-BAT):
 [demo](http://shiny.pmcharrison.com/cabat-demo), 
@@ -26,6 +25,9 @@ real research problems:
 - Pitch imagery arrow task (PIAT):
 [demo](http://shiny.pmcharrison.com/piat-demo),
 [source](https://github.com/pmcharrison/piat)
+
+[At this link](https://shiny.gold-msi.org/longgold_demo) you can find many more 
+test implementations created as part of the [LongGold project](https://longgold.org/).
 
 Interested in applying psychTestR to your own research problems?
 See [Introduction](https://pmcharrison.github.io/psychTestR/articles/b-introduction.html)

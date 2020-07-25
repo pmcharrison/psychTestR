@@ -63,5 +63,5 @@ and any of:
 \item{button_style}{Button CSS style information (character scalar).}
 }
 \description{
-Creates an n-alternative forced-foced choice page.
+Creates an n-alternative forced choice page.
 }

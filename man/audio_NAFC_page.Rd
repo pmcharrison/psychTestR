@@ -4,11 +4,23 @@
 \alias{audio_NAFC_page}
 \title{Make NAFC audio page}
 \usage{
-audio_NAFC_page(label, prompt, choices, url, labels = NULL,
-  type = tools::file_ext(url), save_answer = TRUE,
-  on_complete = NULL, arrange_choices_vertically = length(choices) >
-  2L, wait = TRUE, loop = FALSE, admin_ui = NULL,
-  btn_play_prompt = "Click here to play")
+audio_NAFC_page(
+  label,
+  prompt,
+  choices,
+  url,
+  labels = NULL,
+  type = tools::file_ext(url),
+  save_answer = TRUE,
+  on_complete = NULL,
+  arrange_choices_vertically = length(choices) > 2L,
+  wait = TRUE,
+  loop = FALSE,
+  admin_ui = NULL,
+  btn_play_prompt = if (!show_controls) "Click here to play",
+  show_controls = FALSE,
+  allow_download = FALSE
+)
 }
 \arguments{
 \item{label}{Label for the current page (character scalar).}
@@ -59,8 +71,15 @@ the response buttons.}
 \item{btn_play_prompt}{Text to display as a prompt for starting the audio.
 Ordinarily the participant will not see this,
 but it might appear if the internet connection is poor,
-or if the participant refreshes the page.}
+or if the participant refreshes the page.
+Only used if show_controls is FALSE.}
+
+\item{show_controls}{Whether or not to show audio controls to the participant,
+so that they can control audio playback.}
+
+\item{allow_download}{Whether the participant is given a button to download
+the audio file; only relevant if show_controls is TRUE.}
 }
 \description{
-Creates an n-alternative forced-foced choice page with an audio prompt.
+Creates an n-alternative forced choice page with an audio prompt.
 }

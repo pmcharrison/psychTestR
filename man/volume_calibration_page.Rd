@@ -4,9 +4,15 @@
 \alias{volume_calibration_page}
 \title{Make volume calibration page}
 \usage{
-volume_calibration_page(url, type = tools::file_ext(url),
-  prompt = NULL, button_text = "Next", on_complete = NULL,
-  admin_ui = NULL, btn_play_prompt = "Click here to play")
+volume_calibration_page(
+  url,
+  type = tools::file_ext(url),
+  prompt = NULL,
+  button_text = "Next",
+  on_complete = NULL,
+  admin_ui = NULL,
+  btn_play_prompt = "Click here to play"
+)
 }
 \arguments{
 \item{url}{URL to the audio.
@@ -35,7 +41,8 @@ and any of:
 \item{btn_play_prompt}{Text to display as a prompt for starting the audio.
 Ordinarily the participant will not see this,
 but it might appear if the internet connection is poor,
-or if the participant refreshes the page.}
+or if the participant refreshes the page.
+Only used if show_controls is FALSE.}
 }
 \description{
 Creates a page for the participant to calibrate their volume,

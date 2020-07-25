@@ -4,10 +4,19 @@
 \alias{text_input_page}
 \title{Text input page}
 \usage{
-text_input_page(label, prompt, one_line = TRUE, save_answer = TRUE,
-  placeholder = NULL, button_text = "Next", width = "300px",
-  height = "100px", validate = NULL, on_complete = NULL,
-  admin_ui = NULL)
+text_input_page(
+  label,
+  prompt,
+  one_line = TRUE,
+  save_answer = TRUE,
+  placeholder = NULL,
+  button_text = "Next",
+  width = "300px",
+  height = "100px",
+  validate = NULL,
+  on_complete = NULL,
+  admin_ui = NULL
+)
 }
 \arguments{
 \item{label}{Label for the current page (character scalar).}

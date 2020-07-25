@@ -4,11 +4,28 @@
 \alias{slider_page}
 \title{Slider page}
 \usage{
-slider_page(label, prompt, min, max, value, save_answer = TRUE,
-  button_text = "Next", on_complete = NULL, admin_ui = NULL,
-  step = NULL, round = FALSE, ticks = TRUE, animate = FALSE,
-  width = NULL, sep = ",", pre = NULL, post = NULL,
-  timeFormat = NULL, timezone = NULL, dragRange = TRUE)
+slider_page(
+  label,
+  prompt,
+  min,
+  max,
+  value,
+  save_answer = TRUE,
+  button_text = "Next",
+  on_complete = NULL,
+  admin_ui = NULL,
+  step = NULL,
+  round = FALSE,
+  ticks = TRUE,
+  animate = FALSE,
+  width = NULL,
+  sep = ",",
+  pre = NULL,
+  post = NULL,
+  timeFormat = NULL,
+  timezone = NULL,
+  dragRange = TRUE
+)
 }
 \arguments{
 \item{label}{Label for the current page (character scalar).}
@@ -56,10 +73,10 @@ according to some simple heuristics.}
 
 \item{animate}{\code{TRUE} to show simple animation controls with default
 settings; \code{FALSE} not to; or a custom settings list, such as those
-created using \code{\link[=animationOptions]{animationOptions()}}.}
+created using \code{\link[shiny:animationOptions]{animationOptions()}}.}
 
 \item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'};
-see \code{\link[=validateCssUnit]{validateCssUnit()}}.}
+see \code{\link[shiny:validateCssUnit]{validateCssUnit()}}.}
 
 \item{sep}{Separator between thousands places in numbers.}
 
