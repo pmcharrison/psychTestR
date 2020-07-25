@@ -4,8 +4,11 @@
 \alias{with_i18n_state}
 \title{With i18n state}
 \usage{
-with_i18n_state(dictionary = stop("dictionary not supplied"),
-  language = stop("language not supplied"), x = stop("x not supplied"))
+with_i18n_state(
+  dictionary = stop("dictionary not supplied"),
+  language = stop("language not supplied"),
+  x = stop("x not supplied")
+)
 }
 \arguments{
 \item{dictionary}{An internationalisation dictionary as created by \code{\link{i18n_dict}}.}

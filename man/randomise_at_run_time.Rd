@@ -4,8 +4,11 @@
 \alias{randomise_at_run_time}
 \title{Randomise at run time}
 \usage{
-randomise_at_run_time(label, logic, save_order = function(order, state,
-  ...) save_result(state, label, order))
+randomise_at_run_time(
+  label,
+  logic,
+  save_order = function(order, state, ...) save_result(state, label, order)
+)
 }
 \arguments{
 \item{label}{(Character scalar)

@@ -4,9 +4,14 @@
 \alias{get_p_id}
 \title{Get participant ID}
 \usage{
-get_p_id(prompt = "Please enter your participant ID.",
-  placeholder = "e.g. 10492817", button_text = "Next",
-  width = "300px", validate = "auto", admin_ui = NULL)
+get_p_id(
+  prompt = "Please enter your participant ID.",
+  placeholder = "e.g. 10492817",
+  button_text = "Next",
+  width = "300px",
+  validate = "auto",
+  admin_ui = NULL
+)
 }
 \arguments{
 \item{prompt}{Prompt to display (character scalar or Shiny tag object)}

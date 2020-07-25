@@ -4,8 +4,13 @@
 \alias{demo_options}
 \title{Demo options}
 \usage{
-demo_options(title = "Demo", admin_password = "demo",
-  researcher_email = "XXX", demo = TRUE, ...)
+demo_options(
+  title = "Demo",
+  admin_password = "demo",
+  researcher_email = "XXX",
+  demo = TRUE,
+  ...
+)
 }
 \arguments{
 \item{title}{See \code{\link{test_options}}.}

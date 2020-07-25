@@ -26,4 +26,4 @@ elts <- c(lapply(1:4, make_item),
           elt_save_results_to_disk(complete = TRUE),
           final_page("End"))
 
-make_test(elts, pt_options("Testing results", "test", "p.m.c.harrison@qmul.ac.uk", debug_locally = TRUE))
+make_test(elts, pt_options("Testing results", "test", "p.m.c.harrison@qmul.ac.uk"))

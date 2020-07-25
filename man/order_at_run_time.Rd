@@ -4,8 +4,12 @@
 \alias{order_at_run_time}
 \title{Order at run time}
 \usage{
-order_at_run_time(label, get_order, logic, save_order = function(order,
-  state, ...) save_result(state, label, order))
+order_at_run_time(
+  label,
+  get_order,
+  logic,
+  save_order = function(order, state, ...) save_result(state, label, order)
+)
 }
 \arguments{
 \item{label}{(Character scalar)
