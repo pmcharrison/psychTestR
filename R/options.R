@@ -26,7 +26,8 @@ pt_options <- function(...) {
 #' @param languages Character vector of languages that may be selected
 #' via the URL parameter 'language'. If no language is provided by
 #' the URL parameter, defaults to the first language in this vector.
-#' Languages should be encoded according to ISO 639-2 conventions.
+#' Languages should be encoded according to ISO 639-2 conventions, lower-case,
+#' e.g. 'en'.
 #' @param log_error Whether to log errors
 #' (this feature is under development).
 #' @param show_full_error_msg Whether to show full error messages.
@@ -85,7 +86,7 @@ test_options <- function(title, admin_password,
                          researcher_email = NULL,
                          max_num_participants = NULL,
                          demo = FALSE,
-                         languages = "EN",
+                         languages = "en",
                          log_error = TRUE,
                          show_full_error_msg = TRUE,
                          notify_error = FALSE,
@@ -170,6 +171,8 @@ test_options <- function(title, admin_password,
       "Unfortunately the participant quota has now been reached, ",
       "so testing has now finished.")
   }
+
+  languages <- tolower(languages)
 
   if (length(problems_info) == 1 && problems_info == "default") {
     problems_info <- if (is.null(researcher_email)) "" else paste0(

@@ -18,7 +18,7 @@
 #' keys for each term.
 #' All other columns should provide translations into different languages,
 #' with the language being identified by the column name,
-#' according to ISO 639-2 conventions.
+#' according to ISO 639-2 conventions (lower-case, e.g. 'en').
 #' The second argument, \code{markdown}, is a scalar Boolean (default = \code{TRUE})
 #' that determines whether the data frame is formatted in
 #' Markdown or not (Markdown allows for efficient and readable
@@ -47,6 +47,7 @@ i18n_dict <- R6::R6Class(
   public = list(
     initialize = function(x, markdown = TRUE) {
       stopifnot(is.data.frame(x))
+      names(x) <- tolower(names(x))
       for (col in names(x)) x[[col]] <- as.character(x[[col]])
       i18n_check_df(x)
       private$..languages <- setdiff(names(x), "key")
@@ -146,7 +147,17 @@ i18n_state <- R6::R6Class(
       } else if (identical(self$dict, "identity")) {
         key
       } else {
-        self$dict$translate(key = key, language = self$lang)
+        language <- self$lang
+        dictionary <- self$dict
+        if (language %in% dictionary$languages) {
+          dictionary$translate(key = key, language = language)
+        } else if (toupper(language) %in% dictionary$languages) {
+          dictionary$translate(key = key, language = toupper(language))
+        } else {
+          stop("couldn't find the language ", language, " in the dictionary, which ",
+               "only contained the following languages: ",
+               paste(dictionary$languages, collapse = ", "))
+        }
       }
     }
   )
@@ -333,7 +344,7 @@ c.timeline <- function(...) {
         join(x, y$get(lang))
       }, simplify = FALSE)
     } else {
-      list(EN = c(x, y))
+      list(en = c(x, y))
     }
     timeline$new(lst)
   }, input)
@@ -361,23 +372,28 @@ as.timeline <- function(x, ...) {
 #'
 #' Creates a new timeline.
 #' Timelines allow tests to support multiple languages.
+#'
 #' @param x Expression defining a series of test elements.
 #' This expression will be evaluated once for every language
 #' provided in the dictionary argument (\code{dict}).
 #' A call to \code{\link{i18n}(key)}, where \code{key}
 #' is a term defined in \code{dict},
 #' will be translated to its definitions in each respective language.
+#'
 #' @param dict Dictionary object as created by \code{\link{i18n_dict}$new}.
+#'
 #' @param default_lang If no dictionary is supplied, then
 #' \code{new_timeline()} assumes that the current language is
-#' \code{default_lang}.
+#' \code{default_lang}. This language should be specified by a lower-case string,
+#' e.g. 'en', as usual.
+#'
 #' @note Debugging is difficult within \code{new_timeline()}
 #' because of its underlying macro definition.
 #' When building a test, we recommend defining small timelines
 #' first and subsequently combining them.
 #' This helps to narrow down the source of any errors.
 #' @export
-new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = tryCatch({
+new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "en", expr = tryCatch({
   if (psychTestR::I18N_STATE$in_new_timeline) {
     stop("Nested calls to new_timeline() are not supported. ",
          "Instead you should use the join() function to connect multiple timelines.")
@@ -385,8 +401,9 @@ new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "EN", expr = try
   psychTestR::I18N_STATE$enter_new_timeline()
   stopifnot(psychTestR::is.null.or(dict, function(z) is(dict, "i18n_dict")))
   checkmate::qassert(default_lang, "S1")
+  default_lang <- tolower(default_lang)
   local({
-    langs <- if (is.null(dict)) default_lang else dict$languages
+    langs <- if (is.null(dict)) default_lang else tolower(dict$languages)
     res <- list()
     for (i in seq_along(langs)) {
       lang <- langs[i]
