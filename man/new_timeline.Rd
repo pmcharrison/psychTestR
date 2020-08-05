@@ -4,7 +4,7 @@
 \alias{new_timeline}
 \title{New timeline}
 \usage{
-new_timeline(x = stop("x not supplied"), dict = NULL, default_lang = "EN")
+new_timeline(x = stop("x not supplied"), dict = NULL, default_lang = "en")
 }
 \arguments{
 \item{x}{Expression defining a series of test elements.
@@ -18,7 +18,8 @@ will be translated to its definitions in each respective language.}
 
 \item{default_lang}{If no dictionary is supplied, then
 \code{new_timeline()} assumes that the current language is
-\code{default_lang}.}
+\code{default_lang}. This language should be specified by a lower-case string,
+e.g. 'en', as usual.}
 }
 \description{
 Creates a new timeline.
