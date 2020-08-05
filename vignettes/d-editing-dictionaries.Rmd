@@ -34,7 +34,7 @@ library(psychTestR)
 
 # Define a dictionary with a typo
 my_dict <- i18n_dict$new(data.frame(key = "key1",
-                                    EN = "Welcoom to the test!"))
+                                    en = "Welcoom to the test!"))
 
 # The test itself is distributed as a function,
 # which might itself be distributed as a package
@@ -65,12 +65,12 @@ my_dict$as.data.frame()
 ```
 
 Inspecting this dictionary shows us that we want to edit the entry
-with key `key1` and language code `EN`.
+with key `key1` and language code `en`.
 We can do this as follows:
 
 ```{r}
 my_dict$edit(key = "key1",
-             language = "EN",
+             language = "en",
              new = "Welcome to the test!")
 ```
 
@@ -119,7 +119,7 @@ I then edit the dictionary as follows:
 
 ``` r
 mdt::mdt_dict$edit(key = "AMDI_0016_I_0001_1", 
-                   language = "EN",
+                   language = "en",
                    new = "Proceed")
 ```
 
@@ -127,7 +127,7 @@ I can check this worked by asking the dictionary to translate the key:
 
 ``` r
 mdt::mdt_dict$translate(key = "AMDI_0016_I_0001_1", 
-                        language = "EN")
+                        language = "en")
 ```
 
 And now, if we run the test, we should see our changes:
