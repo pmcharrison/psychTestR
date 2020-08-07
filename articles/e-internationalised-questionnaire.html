@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.1</span>
       </span>
     </div>
 
@@ -193,7 +193,7 @@
 <li><p><a href="https://pmcharrison.github.io/psychTestR/reference/i18n.html"><code>i18n</code></a> gets a translation for a given key from the dictionary. It can only be called within the <code>new_timeline</code> function. Note that we have provided the <code>NAFC_page</code> function with both keys and translations, allowing the test to save data in a consistent format irrespective of the participant’s language.</p></li>
 <li><p><a href="https://pmcharrison.github.io/psychTestR/reference/end_module.html"><code>end_module</code></a> signifies the end of the “my_questionnaire” module.</p></li>
 </ul>
-<p>That’s it! You’ve defined your internationalised questionnaire. You can now run this questionnaire independently, or insert it into a longer test battery. For now, let’s try running it independently. Before we do so, we’ll add two elements to the timeline: an element to save the results to disk (using <a href="https://pmcharrison.github.io/psychTestR/reference/elt_save_results_to_disk.html"><code>elt_save_results_to_disk</code></a>) and a <a href="https://pmcharrison.github.io/psychTestR/reference/final_page.html"><code>final_page</code></a> object to terminate the test. We can then run the test using <a href="https://pmcharrison.github.io/psychTestR/reference/make_test.html"><code>make_test</code></a>; note that this must be called interactively or else placed within a call to <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html">shiny::runApp</a></code>.</p>
+<p>That’s it! You’ve defined your internationalised questionnaire. You can now run this questionnaire independently, or insert it into a longer test battery. For now, let’s try running it independently. Before we do so, we’ll add two elements to the timeline: an element to save the results to disk (using <a href="https://pmcharrison.github.io/psychTestR/reference/elt_save_results_to_disk.html"><code>elt_save_results_to_disk</code></a>) and a <a href="https://pmcharrison.github.io/psychTestR/reference/final_page.html"><code>final_page</code></a> object to terminate the test. We can then run the test using <a href="https://pmcharrison.github.io/psychTestR/reference/make_test.html"><code>make_test</code></a>; note that this must be called interactively or else placed within a call to <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">shiny::runApp</a></code>.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">logic</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
   <span class="no">questionnaire</span>,
   <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="kw">complete</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
