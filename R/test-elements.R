@@ -299,7 +299,12 @@ one_button_page <- function(body, admin_ui = NULL, button_text = "Next",
 #'
 #' @export
 final_page <- function(body, admin_ui = NULL) {
-  body <- tagify(body)
+  body <- shiny::tags$div(
+    tagify(body),
+    shiny::includeScript(system.file("js/allow-navigate-away.js",
+                                     package = "psychTestR",
+                                     mustWork = TRUE))
+  )
   page(ui = body, admin_ui = admin_ui, final = TRUE)
 }
 
