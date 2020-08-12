@@ -1,3 +1,7 @@
+# psychTestR 2.21.1
+
+- Allowing navigating away on the final page.
+
 # psychTestR 2.21.0
 
 - Added `allow_download` argument to audio_NAFC_page.
