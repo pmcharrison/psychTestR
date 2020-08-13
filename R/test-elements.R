@@ -1078,7 +1078,7 @@ checkbox_page <-
       if (is.null(input[[label]])) {
         ""
       } else {
-        paste(input[[label]], collapse = ",")
+        input[[label]]
       }
     validate <- function(answer, ...)
       if (answer == "" && force_answer) {

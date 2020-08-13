@@ -16,7 +16,7 @@ make_ui_checkbox(
 )
 }
 \arguments{
-\item{label}{Label for the current page (character scalar).}
+\item{label}{(Character scalar) Label for the current page.}
 
 \item{choices}{(Character vector) Choices for the participant.
 If unnamed, then these values will be used both for checkbox IDs and for
@@ -37,10 +37,10 @@ or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
 \item{javascript}{(Character scalar) JavaScript code to be added for
 controlling checkbox behaviour.}
 
-\item{hide}{Whether the checkboxes should be hidden
+\item{hide}{(Boolean scalar) Whether the checkboxes should be hidden
 (possibly to be shown later).}
 
-\item{id}{HTML ID for the div containing the checkboxes.}
+\item{id}{(Character scalar) HTML ID for the div containing the checkboxes.}
 }
 \description{
 Creates HTML code for checkbox response options.

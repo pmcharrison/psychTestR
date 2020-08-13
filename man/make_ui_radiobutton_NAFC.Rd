@@ -33,9 +33,9 @@ or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
 
 \item{trigger_button_text}{(Character scalar) Text for the trigger button.}
 
-\item{hide}{Whether the radiobuttons should be hidden (possibly to be shown later).}
+\item{hide}{(Boolean scalar) Whether the radiobuttons should be hidden (possibly to be shown later).}
 
-\item{id}{HTML ID for the div containing the radiobuttons.}
+\item{id}{(Character scalar) HTML ID for the div containing the radiobuttons.}
 }
 \description{
 Creates HTML code for n-alternative forced-choice response radiobutton options.

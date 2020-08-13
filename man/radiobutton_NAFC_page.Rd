@@ -28,9 +28,9 @@ class "shiny.tag", e.g. \code{shiny::tags$p("What is 2 + 2?")}.}
 
 \item{choices}{(Character vector) Choices for the participant.
 If unnamed, then these values will be used both for radiobutton IDs and for
-button labels.
-If named, then values will be used for button IDs and names
-will be used for button labels.}
+radiobutton labels.
+If named, then values will be used for radiobutton IDs and names will be used
+for radiobutton labels.}
 
 \item{subprompt}{(Character scalar) Optional additional text in bold letters
 below the prompt.}
@@ -47,12 +47,12 @@ when validation fails.}
 
 \item{save_answer}{(Boolean scalar) Whether or not to save the answer.}
 
-\item{hide_response_ui}{Whether to begin with the response interface hidden
-(it can be subsequently made visible through Javascript,
+\item{hide_response_ui}{(Boolean scalar) Whether to begin with the response
+interface hidden (it can be subsequently made visible through Javascript,
 using the element ID as set in \code{response_ui_id}.
 See \code{audio_NAFC_page} for an example.).}
 
-\item{response_ui_id}{HTML ID for the response user interface.}
+\item{response_ui_id}{(Character scalar) HTML ID for the response user interface.}
 
 \item{on_complete}{Optional function to execute on leaving the page
 (after successful validation).
