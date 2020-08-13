@@ -55,7 +55,7 @@ elts <- c(
                 trigger_button_text = "Continue",
                 failed_validation_message = "Choose at least one answer!",
                 force_answer = TRUE,
-                javascript = "// Implement checkbox logic!"),
+                javascript = "/* Clicking the last checkbox ('None') unchecks all other checkboxes */ checkboxes = $('input:checkbox'); checkboxes.slice(checkboxes.length - 1, checkboxes.length).click(function() { checkboxes.slice(0, checkboxes.length - 1).prop('checked', '') }); checkboxes.slice(0, checkboxes.length - 1).click(function() { checkboxes.slice(checkboxes.length - 1, checkboxes.length).prop('checked', '') });"),
   dropdown_page("dropdown",
                 "Try to give an invalid answer on this dropdown page - it should prevent you from giving two answers or giving no answer.",
                 choices = c("Cat", "Fish", "Dog"),
