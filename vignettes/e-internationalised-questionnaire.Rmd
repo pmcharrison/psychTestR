@@ -63,7 +63,7 @@ but you could also use a `data.frame` object.
 
 ```r
 definition <- tribble(
-  ~item_number, ~key_type,   ~key,     ~EN,                  ~FR,
+  ~item_number, ~key_type,   ~key,     ~en,                  ~fr,
   1,            "question",  "colour", "Favourite colour?",  "Couleur préférée?",
   1,            "answer_1",  "red",    "Red",                "Rouge",
   1,            "answer_2",  "green",  "Green",              "Vert",
@@ -82,19 +82,19 @@ the first answer (`"answer_1"`),
 or the second answer (`"answer_2"`).
 The `key` column gives a succint identifier for that piece of text,
 which should be unique within the questionnaire.
-The `EN` column gives the text in English, 
-the `FR` column in French.
+The `en` column gives the text in English, 
+the `fr` column in French.
 
 We will first use this table to create a psychTestR dictionary.
 This is done as follows:
 
 ```r
-dict <- i18n_dict$new(definition[, c("key", "EN", "FR")])
+dict <- i18n_dict$new(definition[, c("key", "en", "fr")])
 ```
 
-Here we wrote `definition[, c("key", "EN", "FR")]`, which 
+Here we wrote `definition[, c("key", "en", "fr")]`, which 
 takes the original `definition` tibble and only keeps the three columns
-`key`, `EN`, and `FR`, to match the required input of 
+`key`, `en`, and `fr`, to match the required input of 
 `i18n_dict$new` (see 
 [`i18n`](https://pmcharrison.github.io/psychTestR/reference/i18n.html)
 for details.
@@ -220,10 +220,10 @@ You can launch the test with different default languages as follows:
 
 ```r
 # Defaults to English but also supports French
-psychTestR::make_test(logic, opt = demo_options(languages = c("EN", "FR")))
+psychTestR::make_test(logic, opt = demo_options(languages = c("en", "fr")))
 
 # Defaults to French but also supports English
-psychTestR::make_test(logic, opt = demo_options(languages = c("FR", "EN")))
+psychTestR::make_test(logic, opt = demo_options(languages = c("fr", "en")))
 ```
 
 You can also select languages through the URL you use to access the test.

@@ -836,8 +836,8 @@ Let's define a simple dictionary:
 
 ```{r, echo = TRUE}
 df <- data.frame(key = c("name", "hello", "bye"),
-                 EN = c("Peter", "Hello", "Goodbye"),
-                 FR = c("Pierre", "Bonjour", "Au revoir"))
+                 en = c("Peter", "Hello", "Goodbye"),
+                 fr = c("Pierre", "Bonjour", "Au revoir"))
 df
 dict <- i18n_dict$new(df)
 ```
@@ -885,13 +885,13 @@ timeline <- new_timeline(
 The following code should launch the test in English:
 
 ```r
-make_test(timeline, opt = demo_options(languages = "EN"))
+make_test(timeline, opt = demo_options(languages = "en"))
 ```
 
 The following code should launch it in French:
 
 ```r
-make_test(timeline, opt = demo_options(languages = "FR"))
+make_test(timeline, opt = demo_options(languages = "fr"))
 ```
 
 For a more involved example, see 
