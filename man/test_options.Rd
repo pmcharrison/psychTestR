@@ -88,7 +88,7 @@ with advice about what to do if a problem occurs.
 The default value, "default", gives
 a standard English message including the researcher's email (if provided).
 Alternatively, the argument can be an unnamed character scalar
-providing an non-internationalised message,
+providing a non-internationalised message,
 or a named vector of internationalised messages with the names
 corresponding to language codes.}
 

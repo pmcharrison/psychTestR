@@ -8,7 +8,6 @@ server <- function(elts, opt, custom_admin_panel) {
     output$title <- render_title(opt, state)
     output$problems_info <- render_problems_info(opt, state)
 
-    # output$problems_info <- i18n_problems_info(opt, state)
     shiny::observeEvent(input$next_page,
                         next_page(state, input, output, elts, session, opt,
                                   triggered_by_front_end = TRUE))
@@ -43,10 +42,7 @@ render_title <- function(opt, state) {
 }
 
 render_problems_info <- function(opt, state) {
-  if (is.character(opt$problems_info))
-    shiny::renderUI(shiny::tags$span(i18n_problems_info(opt, state)))
-  else
-    shiny::renderUI(opt$problems_info)
+  shiny::renderUI(i18n_problems_info(opt, state))
 }
 
 i18n_title <- function(opt, state) {
@@ -60,9 +56,9 @@ i18n_title <- function(opt, state) {
 }
 
 i18n_problems_info <- function(opt, state) {
-  stopifnot(is.character(opt$problems_info))
+  stopifnot(is.character(opt$problems_info) || !is.null(names(opt$problems_info)))
   if (is.null(names(opt$problems_info)))
-    opt$problems_info else {
+    shiny::span(opt$problems_info) else {
       if (!language(state) %in% names(opt$problems_info))
         stop("couldn't find current language in problem info list") else
           opt$problems_info[[language(state)]]

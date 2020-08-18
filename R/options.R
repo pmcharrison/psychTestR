@@ -49,7 +49,7 @@ pt_options <- function(...) {
 #' The default value, "default", gives
 #' a standard English message including the researcher's email (if provided).
 #' Alternatively, the argument can be an unnamed character scalar
-#' providing an non-internationalised message,
+#' providing a non-internationalised message,
 #' or a named vector of internationalised messages with the names
 #' corresponding to language codes.
 #' @param theme Shiny theme: see e.g. the \code{shinythemes} package.
@@ -133,7 +133,7 @@ test_options <- function(title, admin_password,
             is.null.or(max_num_participants, is.scalar.integerlike),
             is.null.or(max_participants_msg, is.scalar.character),
             is.null.or(server_closed_msg, is.scalar.character),
-            is.character(problems_info) || is(problems_info, "shiny.tag"),
+            is.character(problems_info) || !is.null(names(problems_info)),
             is.null.or(logo, is.scalar.character),
             is.null(logo) ||
               (is.scalar.character(logo_width) && is.scalar.character(logo_height)),
@@ -181,9 +181,7 @@ test_options <- function(title, admin_password,
   if (length(problems_info) > 1 && is.null(names(problems_info)))
     stop("if option 'problems_info' has length > 1, it must be named")
 
-  if (is.character(problems_info) &&
-      !is.null(names(problems_info)) &&
-      !all(languages %in% names(problems_info)))
+  if (!is.null(names(problems_info)) && !all(languages %in% names(problems_info)))
     stop("problem info texts must be provided for all supported languages")
 
   if (is.null(server_closed_msg)) {
