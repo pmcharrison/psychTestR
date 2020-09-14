@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.2</span>
       </span>
     </div>
 
@@ -132,7 +132,9 @@
 <h2 class="hasAnchor">
 <a href="#about" class="anchor"></a>About</h2>
 <p>psychTestR is an R package for developing and administering behavioural experiments. This vignette provides a first introduction to psychTestR; by the end, you should feel ready to create a simple psychTestR test of your own. This introduction assumes that the reader is already moderately familiar with the programming language R. It also assumes that the reader has installed psychTestR (see <a href="https://pmcharrison.github.io/psychTestR/" class="uri">https://pmcharrison.github.io/psychTestR/</a> for instructions) and loaded it using the following command:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">psychTestR</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/pmcharrison/psychTestR">psychTestR</a></span>)
+</pre></div>
 </div>
 <div id="architecture" class="section level2">
 <h2 class="hasAnchor">
@@ -145,23 +147,29 @@
 <h2 class="hasAnchor">
 <a href="#pages" class="anchor"></a>Pages</h2>
 <p>The most essential unit of a psychTestR test is the <em>page</em>. Pages display content to the user and optionally collect responses. The most flexible way of creating psychTestR pages is with the <code>page</code> function. However, psychTestR also provides many helper functions for creating particular types of pages, which can often be useful for saving legwork and increasing readability. For example, the function <code>one_button_page</code> defines a page that displays a prompt to the user and provides a single button with which the user may advance to the next page. The below code defines a page that displays “Welcome to the test!” and a “Next” button:</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Welcome to the test!"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Welcome to the test!"</span>)
+</pre></div>
 <p>If you run this code in RStudio, it should display the test element in your Viewer window:</p>
 <p><img src="img/introduction/welcome.png" width="100%"></p>
 <p>Here the prompt took the form of raw text, without any HTML specifications. We can use the <code>htmltools</code> package to create such specifications, for example:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">htmltools</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/rstudio/htmltools">htmltools</a></span>)
 
 <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(
   <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span>(
-    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span>(<span class="st">"An example of "</span>, <span class="no">tags</span>$<span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">strong</a></span>(<span class="st">"bold"</span>), <span class="st">"text;"</span>),
-    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span>(<span class="st">"An example of "</span>, <span class="no">tags</span>$<span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">em</a></span>(<span class="st">"italic"</span>), <span class="st">"text."</span>)
+    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span>(<span class="st">"An example of "</span>, <span class="kw">tags</span><span class="op">$</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">strong</a></span>(<span class="st">"bold"</span>), <span class="st">"text;"</span>),
+    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span>(<span class="st">"An example of "</span>, <span class="kw">tags</span><span class="op">$</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">em</a></span>(<span class="st">"italic"</span>), <span class="st">"text."</span>)
   )
-)</pre></body></html></div>
+)
+</pre></div>
 <p><img src="img/introduction/htmltools.png" width="100%"></p>
 <p>This page doesn’t collect any information from the participant. An example of a page that does collect information is the <em>N-alternative forced choice</em> page, as created by the <code>NAFC_page</code> function. This function allows the user to specify several choices to the user which will be displayed as clickable buttons. The participant must click one of these buttons to advance to the next page, and their choice will be automatically recorded.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(<span class="st">"favourite_colour"</span>,
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(<span class="st">"favourite_colour"</span>,
           <span class="st">"What is your favourite colour?"</span>,
-          <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>))</pre></body></html></div>
+          <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>))
+</pre></div>
 <p><img src="img/introduction/favourite-colour.png" width="100%"></p>
 <p>psychTestR contains various built-in page types like these, for example:</p>
 <ul>
@@ -186,66 +194,82 @@
 <li>Code blocks.</li>
 </ul>
 <p>We will get to reactive pages and code blocks in due course. First, we’ll construct a timeline comprising solely pages. A timeline may be constructed using the <code>join</code> function from psychTestR:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">timeline</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
+<div class="sourceCode" id="cb5"><pre class="downlit">
+<span class="kw">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
   <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Page 1"</span>),
   <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Page 2"</span>),
   <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"The end"</span>)
-)</pre></body></html></div>
+)
+</pre></div>
 <p>The <code>join</code> function is similar to the <code>c</code> function in base R: it joins any combination of test elements, lists of test elements, and timelines, and returns a ‘flat’ (i.e. non-nested) timeline:</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">t1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">t1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
   <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Page 1"</span>),
   <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Page 2"</span>)
 )
-<span class="no">t2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
+<span class="kw">t2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
   <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Page 3"</span>),
   <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Page 4"</span>)
 )
-<span class="fu"><a href="../reference/join.html">join</a></span>(<span class="no">t1</span>, <span class="no">t2</span>, <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"End"</span>))</pre></body></html></div>
+<span class="fu"><a href="../reference/join.html">join</a></span>(<span class="kw">t1</span>, <span class="kw">t2</span>, <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"End"</span>))
+</pre></div>
 <p>Timelines without internationalisation are represented as lists, which you can manipulate using standard functions from base R. Internationalised timelines are more complicated, but we’ll get to that later.</p>
 <p>Note that we concluded the timeline with the <code>final_page</code> function. A <em>final page</em> is like a <em>one-button page</em>, but without a button to advance to the next page.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"The end"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"The end"</span>)
+</pre></div>
 <p><img src="img/introduction/final-page.png" width="100%"></p>
 <p>We can run the resulting test as follows:</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">timeline</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="kw">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
   <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Page 1"</span>),
   <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Page 2"</span>),
   <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"The end"</span>)
 )
-<span class="no">test</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="kw">elts</span> <span class="kw">=</span> <span class="no">timeline</span>)
-<span class="kw pkg">shiny</span><span class="kw ns">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">runApp</a></span>(<span class="no">test</span>)</pre></body></html></div>
+<span class="kw">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span>(elts = <span class="kw">timeline</span>)
+<span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">runApp</a></span>(<span class="kw">test</span>)
+</pre></div>
 <p>As you can see, the function <code>make_test</code> takes the input timeline and turns it into a Shiny app object that can then be run with . See <code><a href="../reference/make_test.html">?make_test</a></code> for more details.</p>
 <p>The resulting test should display in your RStudio Viewer window, or in your web browser, depending on your RStudio configuration.</p>
 <p><img src="img/introduction/simple-test.png" width="100%"></p>
 <p>This test doesn’t collect any data. Let’s define another test that does collect data:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">timeline</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="kw">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
   <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(<span class="st">"favourite_colour"</span>,
             <span class="st">"What is your favourite colour?"</span>,
             <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>)),
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="kw">complete</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
+  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(complete = <span class="fl">TRUE</span>),
   <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"Thanks for completing the survey!"</span>)
 )
-<span class="no">test</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="kw">elts</span> <span class="kw">=</span> <span class="no">timeline</span>)
-<span class="kw pkg">shiny</span><span class="kw ns">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">runApp</a></span>(<span class="no">test</span>)</pre></body></html></div>
+<span class="kw">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span>(elts = <span class="kw">timeline</span>)
+<span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">runApp</a></span>(<span class="kw">test</span>)
+</pre></div>
 <p>Note that we have introduced a new builder function, <code>elt_save_results_to_disk</code>. This function doesn’t resolve to a psychTestR page, but instead resolves to a so-called code block:</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="kw">complete</span> <span class="kw">=</span> <span class="fl">TRUE</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb10"><pre class="downlit">
+<span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(complete = <span class="fl">TRUE</span>)
+</pre></div>
 <pre><code>## psychTestR code block
 ## Function: function (state, opt, ...) 
 ## {
 ##     save_results_to_disk(complete, state, opt)
 ## }
-## &lt;bytecode: 0x45c9de8&gt;
-## &lt;environment: 0x45c6418&gt;</code></pre>
+## &lt;bytecode: 0x4752ea8&gt;
+## &lt;environment: 0x4752a48&gt;</code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct the server to run a specified function. This function can take several inputs, but most important is the <code>state</code> object, which stores information relevant to that particular participant’s testing session, such as their responses to N-alternative forced choice pages. This particular function takes the <code>state</code> object as input and saves the participant’s results to disk, paying attention to certain test configuration options as specified in <code>opt</code>.</p>
 <p>Having run this test, we should see that it generates an RDS file in the directory <code>output/results</code>. The name of this RDS file will contain the participant’s ID, which by default is randomly generated. RDS files provide compressed versions of R objects. We can read our RDS file into R using the <code>readRDS</code> function. The code below lists all files in the results directory with the extension <code>.rds</code>, and reads the first one into R:</p>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">rds_files</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">"output/results"</span>,
-                        <span class="kw">pattern</span> <span class="kw">=</span> <span class="st">"\\.rds$"</span>,
-                        <span class="kw">full.names</span> <span class="kw">=</span> <span class="fl">TRUE</span>)
-<span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="no">rds_files</span>[<span class="fl">1</span>])
-<span class="no">res</span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><pre class="downlit">
+<span class="kw">rds_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span>(<span class="st">"output/results"</span>, 
+                        pattern = <span class="st">"\\.rds$"</span>, 
+                        full.names = <span class="fl">TRUE</span>)
+<span class="kw">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="kw">rds_files</span>[<span class="fl">1</span>])
+<span class="kw">res</span>
+</pre></div>
 <pre><code>## psychTestR results list (8 results in 2 sections)
 ##  (visualise with as.list(), as_tibble(), or as.data.frame())</code></pre>
 <p>We can visualise this results file with the <code>as.list</code> function:</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span>(<span class="no">res</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb14"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span>(<span class="kw">res</span>)
+</pre></div>
 <pre><code>## $results
 ## $results$favourite_colour
 ## [1] "Green"
@@ -273,7 +297,9 @@
 ## $session$language
 ## [1] "EN"</code></pre>
 <p>We see that my favourite colour is green. We can also coerce the results file to a tabular format using the <code>as_tibble</code> or <code>as.data.frame</code> functions:</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/imports.html">as_tibble</a></span>(<span class="no">res</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb16"><pre class="downlit">
+<span class="fu"><a href="../reference/imports.html">as_tibble</a></span>(<span class="kw">res</span>)
+</pre></div>
 <pre><code>## # A tibble: 1 x 8
 ##   session.p_id session.pilot session.complete session.time_start…
 ##   &lt;chr&gt;        &lt;lgl&gt;         &lt;lgl&gt;            &lt;dttm&gt;             
@@ -286,9 +312,11 @@
 <h2 class="hasAnchor">
 <a href="#build-time-versus-test-time" class="anchor"></a>Build time versus test time</h2>
 <p>At this point it’s worth explaining the difference between <em>build time</em> and <em>test time</em>. Build time corresponds to the moment when you create a timeline of test elements and pass it to <code>make_test</code>. psychTestR takes all of your builder functions, such as <code>NAFC_page</code> and <code>one_button_page</code>, and evaluates them to produce a series of test elements, where an individual test element looks like this under the hood:</p>
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span>(<span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(<span class="st">"favourite_colour"</span>,
+<div class="sourceCode" id="cb18"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span>(<span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(<span class="st">"favourite_colour"</span>,
                   <span class="st">"What is your favourite colour?"</span>,
-                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>)))</pre></body></html></div>
+                  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>)))
+</pre></div>
 <pre><code>## $ui
 ## &lt;div&gt;
 ##   &lt;p&gt;What is your favourite colour?&lt;/p&gt;
@@ -326,8 +354,8 @@
 ## $get_answer
 ## function (input, ...) 
 ## input$last_btn_pressed
-## &lt;bytecode: 0x5a1bbe0&gt;
-## &lt;environment: 0x5a1b1d0&gt;
+## &lt;bytecode: 0x3c78aa0&gt;
+## &lt;environment: 0x3c78090&gt;
 ## 
 ## $save_answer
 ## [1] TRUE
@@ -335,8 +363,8 @@
 ## $validate
 ## function (answer, ...) 
 ## !is.null(answer)
-## &lt;bytecode: 0x5a1ba58&gt;
-## &lt;environment: 0x5a1b1d0&gt;
+## &lt;bytecode: 0x3c78918&gt;
+## &lt;environment: 0x3c78090&gt;
 ## 
 ## $on_complete
 ## NULL
@@ -349,18 +377,20 @@
 <p>psychTestR can then refer to these resolved test elements when administering them to participants, instead of running the builder functions (e.g. <code>NAFC_page</code>) from scratch each time.</p>
 <p>While build time happens before any participants take the test, test time refers to the participant’s testing session itself. Test time code is useful for things like saving the participant’s results, defining test elements that depend on the participant’s actions, and randomising stimulus administration.</p>
 <p>Readers who have written Shiny apps may have written server files that look something like this:</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">shiny</span>)
+<div class="sourceCode" id="cb20"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://shiny.rstudio.com">shiny</a></span>)
 
 <span class="co"># Run once on app launch</span>
-<span class="no">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">"data.csv"</span>)[, <span class="fl">2</span>]
+<span class="kw">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span>(<span class="st">"data.csv"</span>)[, <span class="fl">2</span>]
 
 <span class="co"># Run separately for each user</span>
-<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyServer.html">shinyServer</a></span>(<span class="kw">function</span>(<span class="no">input</span>, <span class="no">output</span>) {
-  <span class="no">output</span>$<span class="no">distPlot</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderPlot.html">renderPlot</a></span>({
-    <span class="no">bins</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="no">data</span>), <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="no">data</span>), <span class="kw">length.out</span> <span class="kw">=</span> <span class="no">input</span>$<span class="no">bins</span> + <span class="fl">1</span>)
-    <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span>(<span class="no">data</span>, <span class="kw">breaks</span> <span class="kw">=</span> <span class="no">bins</span>, <span class="kw">col</span> <span class="kw">=</span> <span class="st">'darkgray'</span>, <span class="kw">border</span> <span class="kw">=</span> <span class="st">'white'</span>)
+<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyServer.html">shinyServer</a></span>(<span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">output</span>) {
+  <span class="kw">output</span><span class="op">$</span><span class="kw">distPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderPlot.html">renderPlot</a></span>({
+    <span class="kw">bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="kw">data</span>), <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">max</a></span>(<span class="kw">data</span>), length.out = <span class="kw">input</span><span class="op">$</span><span class="kw">bins</span> <span class="op">+</span> <span class="fl">1</span>)
+    <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span>(<span class="kw">data</span>, breaks = <span class="kw">bins</span>, col = <span class="st">'darkgray'</span>, border = <span class="st">'white'</span>)
   })
-})</pre></body></html></div>
+})
+</pre></div>
 <p>In this example, the function within <code>shinyServer</code> is called separately for each app user, creating an isolated workspace that stores variables specific to that user’s session. This corresponds to our ‘run-time code’ in psychTestR.</p>
 <p>However, the code example also contains a call to <code>read.csv</code> prior to the <code>shinyServer</code> function, in order to create the <code>data</code> object. This call only happens once, on app launch, and creates an R object that is shared by all users sessions. This corresponds to our ‘build-time code’ in psychTestR.</p>
 <p>This distinction between build-time code and run-time code is part of what makes Shiny and hence psychTestR able to efficiently scale to many concurrent users. Objects that are the same for all participants may be defined in build-time code, and this object need only be stored once in memory. Objects that are specific to individual participants are then stored in run-time code.</p>
@@ -381,32 +411,36 @@
 <p>A code block is a test element that solely comprises run-time code and does not contain a user interface component. Code blocks may be created with the <code>code_block</code> function. The primary argument to <code>code_block</code> is <code>fun</code>, an R function that will be called at run time. This R function will typically take two arguments: <code>state</code> and <code>...</code>. The <code>state</code> argument represents the session state, whereas the <code>...</code> argument captures further optional arguments that will not be covered here.</p>
 <p>Within the code block function, we can access and set session variables using the four functions introduced above: <code>set_global</code>, <code>set_local</code>, <code>get_global</code>, and <code>get_local</code>. These functions each require the <code>state</code> object to be provided as an input.</p>
 <p>Here is an example of a code block that stores the time when the run-time code was executed:</p>
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="../reference/code_block.html">code_block</a></span>(<span class="kw">fun</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">state</span>, <span class="no">...</span>) {
-  <span class="fu"><a href="../reference/global_local.html">set_global</a></span>(<span class="kw">key</span> <span class="kw">=</span> <span class="st">"time_started"</span>,
-             <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>(),
-             <span class="kw">state</span> <span class="kw">=</span> <span class="no">state</span>)
-})</pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit">
+<span class="fu"><a href="../reference/code_block.html">code_block</a></span>(fun = <span class="fu">function</span>(<span class="kw">state</span>, <span class="kw">...</span>) {
+  <span class="fu"><a href="../reference/get_global.html">set_global</a></span>(key = <span class="st">"time_started"</span>, 
+             value = <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>(), 
+             state = <span class="kw">state</span>)
+})
+</pre></div>
 <p>Here the  argument determines the name of the global variable; the  argument determines the value that is assigned to the variable;  is the state object we’ve seen before.</p>
 <p>We could then refer to this variable later in the test to compute the total time taken, as in the following example:</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">save_time_started</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span>(<span class="kw">function</span>(<span class="no">state</span>, <span class="no">...</span>) {
-  <span class="fu"><a href="../reference/global_local.html">set_global</a></span>(<span class="kw">key</span> <span class="kw">=</span> <span class="st">"time_started"</span>,
-             <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>(),
-             <span class="kw">state</span> <span class="kw">=</span> <span class="no">state</span>)
+<div class="sourceCode" id="cb22"><pre class="downlit">
+<span class="kw">save_time_started</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span>(<span class="fu">function</span>(<span class="kw">state</span>, <span class="kw">...</span>) {
+  <span class="fu"><a href="../reference/get_global.html">set_global</a></span>(key = <span class="st">"time_started"</span>, 
+             value = <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>(), 
+             state = <span class="kw">state</span>)
 })
 
-<span class="no">compute_time_taken</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span>(<span class="kw">function</span>(<span class="no">state</span>, <span class="no">...</span>) {
-  <span class="no">time_taken</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>() - <span class="fu"><a href="../reference/global_local.html">get_global</a></span>(<span class="st">"time_started"</span>, <span class="no">state</span>)
-  <span class="no">msg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"Time taken: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="no">time_taken</span>, <span class="kw">digits</span> <span class="kw">=</span> <span class="fl">3</span>))
-  <span class="kw pkg">shiny</span><span class="kw ns">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/showNotification.html">showNotification</a></span>(<span class="no">msg</span>)
+<span class="kw">compute_time_taken</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span>(<span class="fu">function</span>(<span class="kw">state</span>, <span class="kw">...</span>) {
+  <span class="kw">time_taken</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>() <span class="op">-</span> <span class="fu"><a href="../reference/get_global.html">get_global</a></span>(<span class="st">"time_started"</span>, <span class="kw">state</span>)
+  <span class="kw">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"Time taken: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="kw">time_taken</span>, digits = <span class="fl">3</span>))
+  <span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/showNotification.html">showNotification</a></span>(<span class="kw">msg</span>)
 })
 
 <span class="fu"><a href="../reference/make_test.html">make_test</a></span>(
   <span class="fu"><a href="../reference/join.html">join</a></span>(
-    <span class="no">save_time_started</span>,
+    <span class="kw">save_time_started</span>,
     <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Continue when you're ready."</span>),
-    <span class="no">compute_time_taken</span>,
+    <span class="kw">compute_time_taken</span>,
     <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"End"</span>)
-  ))</pre></body></html></div>
+  ))
+</pre></div>
 </div>
 <div id="reactive-pages" class="section level2">
 <h2 class="hasAnchor">
@@ -422,22 +456,26 @@
 <p>The reactive page function must return a test page, which will be displayed to the participant at the appropriate point in the test.</p>
 <p>The psychTestR specification requires reactive page functions to be <em>idempotent</em>, meaning that calling it multiple times should have the same effect as calling the function once. Reactive pages are therefore not the right place to write code that has side effects, like incrementing counters or saving results.</p>
 <p>Here is an example test with a reactive page that displays the current time:</p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="fu"><a href="../reference/join.html">join</a></span>(
-  <span class="fu"><a href="../reference/reactive_page.html">reactive_page</a></span>(<span class="kw">function</span>(<span class="no">...</span>) {
-    <span class="no">msg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>(), <span class="st">"The current time is %H:%M:%S."</span>)
-    <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="no">msg</span>)
+<div class="sourceCode" id="cb23"><pre class="downlit">
+<span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="fu"><a href="../reference/join.html">join</a></span>(
+  <span class="fu"><a href="../reference/reactive_page.html">reactive_page</a></span>(<span class="fu">function</span>(<span class="kw">...</span>) {
+    <span class="kw">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/format.html">format</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>(), <span class="st">"The current time is %H:%M:%S."</span>)
+    <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="kw">msg</span>)
   })
-))</pre></body></html></div>
+))
+</pre></div>
 <p>Note that the time updates if you refresh the page.</p>
 <p>Here is a second example demonstrating the use of the <code>answer</code> argument:</p>
-<div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="fu"><a href="../reference/join.html">join</a></span>(
+<div class="sourceCode" id="cb24"><pre class="downlit">
+<span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="fu"><a href="../reference/join.html">join</a></span>(
   <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(<span class="st">"q1"</span>, <span class="st">"What is your favourite colour?"</span>,
             <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>)),
-  <span class="fu"><a href="../reference/reactive_page.html">reactive_page</a></span>(<span class="kw">function</span>(<span class="no">answer</span>, <span class="no">...</span>) {
-    <span class="no">msg</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"Your favourite colour is %s."</span>, <span class="no">answer</span>)
-    <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="no">msg</span>)
+  <span class="fu"><a href="../reference/reactive_page.html">reactive_page</a></span>(<span class="fu">function</span>(<span class="kw">answer</span>, <span class="kw">...</span>) {
+    <span class="kw">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span>(<span class="st">"Your favourite colour is %s."</span>, <span class="kw">answer</span>)
+    <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="kw">msg</span>)
   })
-))</pre></body></html></div>
+))
+</pre></div>
 </div>
 <div id="simple-pages-and-run-time-code" class="section level2">
 <h2 class="hasAnchor">
@@ -448,12 +486,16 @@
 <a href="#get_answer" class="anchor"></a><code>get_answer</code>
 </h3>
 <p>This is an optional function for extracting the participant’s answer from the current page. This function should accept an argument termed <code>input</code>, which provides access to any input elements that have been defined as part of the page UI. For example, the UI for <code>text_input_page</code> includes a text-box input defined as follows:</p>
-<div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="kw pkg">shiny</span><span class="kw ns">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput</a></span>(<span class="st">"text_input"</span>,
-                 <span class="kw">label</span> <span class="kw">=</span> <span class="kw">NULL</span>,
-                 <span class="kw">placeholder</span> <span class="kw">=</span> <span class="no">placeholder</span>,
-                 <span class="kw">width</span> <span class="kw">=</span> <span class="no">width</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb25"><pre class="downlit">
+<span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput</a></span>(<span class="st">"text_input"</span>, 
+                 label = <span class="kw">NULL</span>,
+                 placeholder = <span class="kw">placeholder</span>,
+                 width = <span class="kw">width</span>)
+</pre></div>
 <p>The first argument to <code><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">shiny::textInput</a></code> determines the input slot that will be used to access the value in the text box. Correspondingly, the <code>get_answer</code> argument is defined simply as follows:</p>
-<div class="sourceCode" id="cb26"><html><body><pre class="r"><span class="no">get_answer</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">input</span>, <span class="no">...</span>) <span class="no">input</span>$<span class="no">text_input</span></pre></body></html></div>
+<div class="sourceCode" id="cb26"><pre class="downlit">
+<span class="kw">get_answer</span> <span class="op">=</span> <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">...</span>) <span class="kw">input</span><span class="op">$</span><span class="kw">text_input</span>
+</pre></div>
 <p>It is possible to define more complex <code>get_answer</code> functions that perform arbitrary post-processing on the user input, for example by converting text strings to numbers, deleting whitespace, and so on.</p>
 </div>
 <div id="validate" class="section level3">
@@ -461,31 +503,35 @@
 <a href="#validate" class="anchor"></a><code>validate</code>
 </h3>
 <p><code>validate</code> is an optional function that checks whether the participant has returned a satisfactory response for the current page. It should return <code>TRUE</code> for a successful validation; for an unsuccessful validation, it should return either <code>FALSE</code> or an error message, expressed as a character string. If validation fails then the page will be refreshed, usually to give the user a chance to revise their input. The following code provides a simple example:</p>
-<div class="sourceCode" id="cb27"><html><body><pre class="r"><span class="fu"><a href="../reference/make_test.html">make_test</a></span>(
+<div class="sourceCode" id="cb27"><pre class="downlit">
+<span class="fu"><a href="../reference/make_test.html">make_test</a></span>(
   <span class="fu"><a href="../reference/join.html">join</a></span>(
-    <span class="fu"><a href="../reference/text_input_page.html">text_input_page</a></span>(<span class="st">"example"</span>,
-                    <span class="st">"What is 1 + 1?"</span>,
-                    <span class="kw">validate</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">answer</span>, <span class="no">...</span>) {
-                      <span class="no">res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/warning.html">suppressWarnings</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">answer</span>))
-                      <span class="kw">if</span> (!<span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="no">res</span>) <span class="kw">&amp;&amp;</span> <span class="no">res</span> <span class="kw">==</span> <span class="fl">2</span>) <span class="fl">TRUE</span> <span class="kw">else</span> <span class="st">"Try again!"</span>
+    <span class="fu"><a href="../reference/text_input_page.html">text_input_page</a></span>(<span class="st">"example"</span>, 
+                    <span class="st">"What is 1 + 1?"</span>, 
+                    validate = <span class="fu">function</span>(<span class="kw">answer</span>, <span class="kw">...</span>) {
+                      <span class="kw">res</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/warning.html">suppressWarnings</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw">answer</span>))
+                      <span class="co">if</span> (<span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span>(<span class="kw">res</span>) <span class="op">&amp;&amp;</span> <span class="kw">res</span> <span class="op">==</span> <span class="fl">2</span>) <span class="fl">TRUE</span> <span class="co">else</span> <span class="st">"Try again!"</span>
                     }),
     <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"End."</span>)
   )
-)</pre></body></html></div>
+)
+</pre></div>
 </div>
 <div id="on_complete" class="section level3">
 <h3 class="hasAnchor">
 <a href="#on_complete" class="anchor"></a><code>on_complete</code>
 </h3>
 <p><code>on_complete</code> is an optional function that is run once the page is completed and all validation checks have passed successfully. The below example shows a pop-up notification with the current time.</p>
-<div class="sourceCode" id="cb28"><html><body><pre class="r"><span class="fu"><a href="../reference/make_test.html">make_test</a></span>(
+<div class="sourceCode" id="cb28"><pre class="downlit">
+<span class="fu"><a href="../reference/make_test.html">make_test</a></span>(
   <span class="fu"><a href="../reference/join.html">join</a></span>(
-    <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Hello!"</span>, <span class="kw">on_complete</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">...</span>) {
-      <span class="kw pkg">shiny</span><span class="kw ns">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/showNotification.html">showNotification</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"The current time is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>(), <span class="st">"."</span>))
+    <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"Hello!"</span>, on_complete = <span class="fu">function</span>(<span class="kw">...</span>) {
+      <span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/showNotification.html">showNotification</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"The current time is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span>(), <span class="st">"."</span>))
     }),
     <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"End."</span>)
   )
-)</pre></body></html></div>
+)
+</pre></div>
 </div>
 </div>
 <div id="results" class="section level2">
@@ -528,30 +574,32 @@
 <code>as_tibble</code> - like <code>as.data.frame</code> but produces a <code>tibble</code> version of a data frame.</li>
 </ul>
 <p>Sometimes it is useful to save results that are not directly returned from a test page, but instead computed by a code block. For example, suppose we wanted to evaluate someone’s general liking for cheese on a scale from 1–7, by averaging ratings that they provide for three individual cheeses. We could construct the following test:</p>
-<div class="sourceCode" id="cb29"><html><body><pre class="r"><span class="no">cheeses</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Cheddar"</span>, <span class="st">"Brie"</span>, <span class="st">"Camembert"</span>)
-<span class="no">items</span> <span class="kw">&lt;-</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="no">cheeses</span>, <span class="kw">function</span>(<span class="no">cheese</span>) {
+<div class="sourceCode" id="cb29"><pre class="downlit">
+<span class="kw">cheeses</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Cheddar"</span>, <span class="st">"Brie"</span>, <span class="st">"Camembert"</span>)
+<span class="kw">items</span> <span class="op">&lt;-</span> <span class="kw">purrr</span>::<span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map</a></span>(<span class="kw">cheeses</span>, <span class="fu">function</span>(<span class="kw">cheese</span>) {
   <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(
-    <span class="kw">label</span> <span class="kw">=</span> <span class="no">cheese</span>,
-    <span class="kw">prompt</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"How much do you like "</span>, <span class="no">cheese</span>, <span class="st">"?"</span>),
-    <span class="kw">choices</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="fl">1</span>:<span class="fl">4</span>),
-    <span class="kw">arrange_vertically</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-    <span class="kw">on_complete</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">answer</span>, <span class="no">state</span>, <span class="no">...</span>) {
-      <span class="fu"><a href="../reference/global_local.html">set_local</a></span>(<span class="no">cheese</span>, <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">answer</span>), <span class="no">state</span>)
+    label = <span class="kw">cheese</span>,
+    prompt = <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"How much do you like "</span>, <span class="kw">cheese</span>, <span class="st">"?"</span>),
+    choices = <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="fl">1</span><span class="op">:</span><span class="fl">4</span>), 
+    arrange_vertically = <span class="fl">FALSE</span>,
+    on_complete = <span class="fu">function</span>(<span class="kw">answer</span>, <span class="kw">state</span>, <span class="kw">...</span>) {
+      <span class="fu"><a href="../reference/get_global.html">set_local</a></span>(<span class="kw">cheese</span>, <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="kw">answer</span>), <span class="kw">state</span>)
     }
   )
 })
-<span class="no">save_res</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span>(<span class="kw">function</span>(<span class="no">state</span>, <span class="no">...</span>) {
-  <span class="no">scores</span> <span class="kw">&lt;-</span> <span class="kw pkg">purrr</span><span class="kw ns">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span>(<span class="no">cheeses</span>, <span class="no">get_local</span>, <span class="no">state</span>)
-  <span class="fu"><a href="../reference/save_result.html">save_result</a></span>(<span class="kw">place</span> <span class="kw">=</span> <span class="no">state</span>,
-              <span class="kw">label</span> <span class="kw">=</span> <span class="st">"cheese_liking"</span>,
-              <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="no">scores</span>))
+<span class="kw">save_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span>(<span class="fu">function</span>(<span class="kw">state</span>, <span class="kw">...</span>) {
+  <span class="kw">scores</span> <span class="op">&lt;-</span> <span class="kw">purrr</span>::<span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_dbl</a></span>(<span class="kw">cheeses</span>, <span class="kw">get_local</span>, <span class="kw">state</span>)
+  <span class="fu"><a href="../reference/save_result.html">save_result</a></span>(place = <span class="kw">state</span>, 
+              label = <span class="st">"cheese_liking"</span>,
+              value = <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(<span class="kw">scores</span>))
 })
 <span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="fu"><a href="../reference/join.html">join</a></span>(
-  <span class="no">items</span>,
-  <span class="no">save_res</span>,
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="kw">complete</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
+  <span class="kw">items</span>, 
+  <span class="kw">save_res</span>,
+  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(complete = <span class="fl">TRUE</span>),
   <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"End"</span>)
-))</pre></body></html></div>
+))
+</pre></div>
 <p>Some aside points about the code above:</p>
 <ul>
 <li>We created a list of items using the <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map</a></code> function. This is a nice way of creating a collection of test elements that only vary along one particular parameter. See <code><a href="https://purrr.tidyverse.org/reference/map2.html">purrr::pmap</a></code> for a more powerful alternative.</li>
@@ -560,7 +608,9 @@
 <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map_dbl</a></code> creates a numeric vector where the ith element is the result of applying the <code>get_local</code> function to the ith element of <code>cheeses</code>, with <code>state</code> as a supplementary argument.</li>
 </ul>
 <p>Having taken the test once, and reading the results from disk, we get something like this:</p>
-<div class="sourceCode" id="cb30"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="st">"sample-results/ex-2.rds"</span>))$<span class="no">results</span></pre></body></html></div>
+<div class="sourceCode" id="cb30"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/list.html">as.list</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span>(<span class="st">"sample-results/ex-2.rds"</span>))<span class="op">$</span><span class="kw">results</span>
+</pre></div>
 <pre><code>## $Cheddar
 ## [1] "4"
 ## 
@@ -627,31 +677,41 @@
 </ul>
 <p>By default the text is parsed according to Markdown conventions, with one addition: two successive backslashes (written <code>\</code> in a text file, or <code>\\</code> in R) are interpreted as a new paragraph. This behaviour can be disabled by calling the <code>$new()</code> method with <code>markdown = FALSE</code>.</p>
 <p>Let’s define a simple dictionary:</p>
-<div class="sourceCode" id="cb32"><html><body><pre class="r"><span class="no">df</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">key</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"name"</span>, <span class="st">"hello"</span>, <span class="st">"bye"</span>),
-                 <span class="kw">EN</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Peter"</span>, <span class="st">"Hello"</span>, <span class="st">"Goodbye"</span>),
-                 <span class="kw">FR</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Pierre"</span>, <span class="st">"Bonjour"</span>, <span class="st">"Au revoir"</span>))
-<span class="no">df</span></pre></body></html></div>
-<pre><code>##     key      EN        FR
+<div class="sourceCode" id="cb32"><pre class="downlit">
+<span class="kw">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(key = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"name"</span>, <span class="st">"hello"</span>, <span class="st">"bye"</span>),
+                 en = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Peter"</span>, <span class="st">"Hello"</span>, <span class="st">"Goodbye"</span>),
+                 fr = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Pierre"</span>, <span class="st">"Bonjour"</span>, <span class="st">"Au revoir"</span>))
+<span class="kw">df</span>
+</pre></div>
+<pre><code>##     key      en        fr
 ## 1  name   Peter    Pierre
 ## 2 hello   Hello   Bonjour
 ## 3   bye Goodbye Au revoir</code></pre>
-<div class="sourceCode" id="cb34"><html><body><pre class="r"><span class="no">dict</span> <span class="kw">&lt;-</span> <span class="no">i18n_dict</span>$<span class="fu">new</span>(<span class="no">df</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb34"><pre class="downlit">
+<span class="kw">dict</span> <span class="op">&lt;-</span> <span class="kw">i18n_dict</span><span class="op">$</span><span class="fu">new</span>(<span class="kw">df</span>)
+</pre></div>
 <!-- We then need to modify our workflow in two ways to incorporate internationalisation: -->
 <p>Whenever we want to include internationalised text in our test elements, we use the <code>i18n</code> function with the appropriate key as its first argument. For example, to translate a name using the above dictionary, we would write <code><a href="../reference/i18n.html">i18n("Peter")</a></code>. However, it is not possible to call <code><a href="../reference/i18n.html">i18n("Peter")</a></code> by itself, because the function will not know what dictionary to use or what language to translate to. Instead, <code>i18n</code> must be wrapped somewhere inside a call to <code>new_timeline</code>. This <code>new_timeline</code> is a macro that takes two primary arguments – an expression that evaluates to a list of test elements (e.g. as created by <code>join</code>), and a dictionary – and evaluates the expression multiple times, once for each language in the dictionary, translating calls to <code>i18n</code> into the relevant languages.</p>
 <p>The resulting timeline object comprises one list of test elements for each available language. This timeline object can be passed to <code>make_test</code> to produce an internationalised test.</p>
 <p>Note that previously we just passed <code>make_test</code> a list of test elements. In this case, the function internally coerces this list into a one-language timeline object, assuming that these test elements all correspond to the same language. We could have equally passed <code>make_test</code> a timeline created by <code>new_timeline</code> without any calls to <code>i18n</code>.</p>
 <p>Here is a straightforward example that uses the dictionary defined above:</p>
-<div class="sourceCode" id="cb35"><html><body><pre class="r"><span class="no">timeline</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/new_timeline.html">new_timeline</a></span>(
+<div class="sourceCode" id="cb35"><pre class="downlit">
+<span class="kw">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_timeline.html">new_timeline</a></span>(
   <span class="fu"><a href="../reference/join.html">join</a></span>(
     <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="fu"><a href="../reference/i18n.html">i18n</a></span>(<span class="st">"hello"</span>), <span class="st">" "</span>, <span class="fu"><a href="../reference/i18n.html">i18n</a></span>(<span class="st">"name"</span>))),
     <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="fu"><a href="../reference/i18n.html">i18n</a></span>(<span class="st">"bye"</span>))
   ),
-  <span class="kw">dict</span> <span class="kw">=</span> <span class="no">dict</span>
-)</pre></body></html></div>
+  dict = <span class="kw">dict</span>
+)
+</pre></div>
 <p>The following code should launch the test in English:</p>
-<div class="sourceCode" id="cb36"><html><body><pre class="r"><span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="no">timeline</span>, <span class="kw">opt</span> <span class="kw">=</span> <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span>(<span class="kw">languages</span> <span class="kw">=</span> <span class="st">"EN"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb36"><pre class="downlit">
+<span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="kw">timeline</span>, opt = <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span>(languages = <span class="st">"en"</span>))
+</pre></div>
 <p>The following code should launch it in French:</p>
-<div class="sourceCode" id="cb37"><html><body><pre class="r"><span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="no">timeline</span>, <span class="kw">opt</span> <span class="kw">=</span> <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span>(<span class="kw">languages</span> <span class="kw">=</span> <span class="st">"FR"</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb37"><pre class="downlit">
+<span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="kw">timeline</span>, opt = <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span>(languages = <span class="st">"fr"</span>))
+</pre></div>
 <p>For a more involved example, see <a href="https://pmcharrison.github.io/psychTestR/articles/e-internationalised-questionnaire.html">Creating an internationalised questionnaire</a>.</p>
 </div>
 <div id="best-practice-in-test-construction" class="section level2">
@@ -697,7 +757,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

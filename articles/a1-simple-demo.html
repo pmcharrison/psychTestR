@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.2</span>
       </span>
     </div>
 
@@ -129,30 +129,32 @@
     
     
 <p>The following code provides a quick local demo of psychTestR. You can use it to check that your installation worked (see <a href="https://pmcharrison.github.io/psychTestR/" class="uri">https://pmcharrison.github.io/psychTestR/</a> for installation instructions).</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">psychTestR</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/pmcharrison/psychTestR">psychTestR</a></span>)
 <span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
   <span class="fu"><a href="../reference/text_input_page.html">text_input_page</a></span>(
-    <span class="kw">label</span> <span class="kw">=</span> <span class="st">"name"</span>,
-    <span class="kw">prompt</span> <span class="kw">=</span> <span class="st">"What's your name?"</span>,
-    <span class="kw">validate</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">answer</span>, <span class="no">...</span>) {
-      <span class="kw">if</span> (<span class="no">answer</span> <span class="kw">==</span> <span class="st">""</span>)
+    label = <span class="st">"name"</span>, 
+    prompt = <span class="st">"What's your name?"</span>, 
+    validate = <span class="fu">function</span>(<span class="kw">answer</span>, <span class="kw">...</span>) {
+      <span class="co">if</span> (<span class="kw">answer</span> <span class="op">==</span> <span class="st">""</span>)
         <span class="st">"Name cannot be left blank."</span>
-      <span class="kw">else</span> <span class="fl">TRUE</span>
+      <span class="co">else</span> <span class="fl">TRUE</span>
     },
-    <span class="kw">on_complete</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">answer</span>, <span class="no">state</span>, <span class="no">...</span>) {
-      <span class="fu"><a href="../reference/global_local.html">set_global</a></span>(<span class="kw">key</span> <span class="kw">=</span> <span class="st">"name"</span>, <span class="kw">value</span> <span class="kw">=</span> <span class="no">answer</span>,
-                 <span class="kw">state</span> <span class="kw">=</span> <span class="no">state</span>)
+    on_complete = <span class="fu">function</span>(<span class="kw">answer</span>, <span class="kw">state</span>, <span class="kw">...</span>) {
+      <span class="fu"><a href="../reference/get_global.html">set_global</a></span>(key = <span class="st">"name"</span>, value = <span class="kw">answer</span>,
+                 state = <span class="kw">state</span>)
     }),
   <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(
-    <span class="kw">label</span> <span class="kw">=</span> <span class="st">"colour"</span>,
-    <span class="kw">prompt</span> <span class="kw">=</span> <span class="st">"What's your favourite colour?"</span>,
-    <span class="kw">choices</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>)),
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(<span class="kw">complete</span> <span class="kw">=</span> <span class="fl">TRUE</span>),
-  <span class="fu"><a href="../reference/reactive_page.html">reactive_page</a></span>(<span class="kw">function</span>(<span class="no">state</span>, <span class="no">...</span>) {
-    <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"Thank you for participating, "</span>,
-                      <span class="fu"><a href="../reference/global_local.html">get_global</a></span>(<span class="st">"name"</span>, <span class="no">state</span>),
+    label = <span class="st">"colour"</span>,
+    prompt = <span class="st">"What's your favourite colour?"</span>,
+    choices = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Red"</span>, <span class="st">"Green"</span>, <span class="st">"Blue"</span>)),
+  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(complete = <span class="fl">TRUE</span>),
+  <span class="fu"><a href="../reference/reactive_page.html">reactive_page</a></span>(<span class="fu">function</span>(<span class="kw">state</span>, <span class="kw">...</span>) {
+    <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"Thank you for participating, "</span>, 
+                      <span class="fu"><a href="../reference/get_global.html">get_global</a></span>(<span class="st">"name"</span>, <span class="kw">state</span>),
                       <span class="st">"."</span>))
-  })))</pre></body></html></div>
+  })))
+</pre></div>
 <p>Once you’ve recorded some data, try logging into the admin panel with the password ‘demo’ (as specified under the <code>opt</code> argument to <code><a href="../reference/make_test.html">make_test()</a></code>). Here you can download your response data.</p>
 <p>Of course, real psychTestR experiments tend to be much more complex! See <a href="https://pmcharrison.github.io/psychTestR/articles/a2-research-examples.html">Research examples</a> for some example applications.</p>
   </div>
@@ -170,7 +172,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

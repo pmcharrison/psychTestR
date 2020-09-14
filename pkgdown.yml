@@ -1,5 +1,5 @@
 pandoc: '2.2'
-pkgdown: 1.5.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   a1-simple-demo: a1-simple-demo.html
@@ -15,5 +15,5 @@ articles:
   d-url-parameters: d-url-parameters.html
   e-internationalised-questionnaire: e-internationalised-questionnaire.html
   e-jspsych-integration: e-jspsych-integration.html
-last_built: 2020-08-07T07:47Z
+last_built: 2020-09-14T15:08Z
 

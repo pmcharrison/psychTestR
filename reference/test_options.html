@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.2</span>
       </span>
     </div>
 
@@ -169,36 +169,36 @@
     </div>
 
     <pre class="usage"><span class='fu'>test_options</span>(
-  <span class='no'>title</span>,
-  <span class='no'>admin_password</span>,
-  <span class='kw'>researcher_email</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>max_num_participants</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>demo</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>languages</span> <span class='kw'>=</span> <span class='st'>"EN"</span>,
-  <span class='kw'>log_error</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>show_full_error_msg</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>notify_error</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>notify_new_participant</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>pushbullet_email</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>pushbullet_apikey</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>max_participants_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>server_closed_msg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>problems_info</span> <span class='kw'>=</span> <span class='st'>"default"</span>,
-  <span class='kw'>theme</span> <span class='kw'>=</span> <span class='kw pkg'>shinythemes</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shinythemes/man/shinytheme.html'>shinytheme</a></span>(<span class='st'>"yeti"</span>),
-  <span class='kw'>auto_p_id</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>enable_resume_session</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>allow_any_p_id_url</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>force_p_id_from_url</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>enable_admin_panel</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>output_dir</span> <span class='kw'>=</span> <span class='st'>"output"</span>,
-  <span class='kw'>session_timeout_min</span> <span class='kw'>=</span> <span class='fl'>7</span> * <span class='fl'>24</span> * <span class='fl'>60</span>,
-  <span class='kw'>clean_sessions_interval_min</span> <span class='kw'>=</span> <span class='fl'>15</span>,
-  <span class='kw'>logo</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>logo_width</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>logo_height</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>display</span> <span class='kw'>=</span> <span class='fu'><a href='display_options.html'>display_options</a></span>(),
-  <span class='kw'>allow_url_rewrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>advance_delay</span> <span class='kw'>=</span> <span class='fl'>0</span>
+  <span class='kw'>title</span>,
+  <span class='kw'>admin_password</span>,
+  researcher_email = <span class='kw'>NULL</span>,
+  max_num_participants = <span class='kw'>NULL</span>,
+  demo = <span class='fl'>FALSE</span>,
+  languages = <span class='st'>"en"</span>,
+  log_error = <span class='fl'>TRUE</span>,
+  show_full_error_msg = <span class='fl'>TRUE</span>,
+  notify_error = <span class='fl'>FALSE</span>,
+  notify_new_participant = <span class='fl'>FALSE</span>,
+  pushbullet_email = <span class='kw'>NULL</span>,
+  pushbullet_apikey = <span class='kw'>NULL</span>,
+  max_participants_msg = <span class='kw'>NULL</span>,
+  server_closed_msg = <span class='kw'>NULL</span>,
+  problems_info = <span class='st'>"default"</span>,
+  theme = <span class='kw'>shinythemes</span>::<span class='fu'><a href='https://rdrr.io/pkg/shinythemes/man/shinytheme.html'>shinytheme</a></span>(<span class='st'>"yeti"</span>),
+  auto_p_id = <span class='fl'>TRUE</span>,
+  enable_resume_session = <span class='fl'>TRUE</span>,
+  allow_any_p_id_url = <span class='fl'>FALSE</span>,
+  force_p_id_from_url = <span class='fl'>FALSE</span>,
+  enable_admin_panel = <span class='fl'>TRUE</span>,
+  output_dir = <span class='st'>"output"</span>,
+  session_timeout_min = <span class='fl'>7</span> <span class='op'>*</span> <span class='fl'>24</span> <span class='op'>*</span> <span class='fl'>60</span>,
+  clean_sessions_interval_min = <span class='fl'>15</span>,
+  logo = <span class='kw'>NULL</span>,
+  logo_width = <span class='kw'>NULL</span>,
+  logo_height = <span class='kw'>NULL</span>,
+  display = <span class='fu'><a href='display_options.html'>display_options</a></span>(),
+  allow_url_rewrite = <span class='fl'>TRUE</span>,
+  advance_delay = <span class='fl'>0</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -235,7 +235,8 @@ as indicated through the admin panel).</p></td>
       <td><p>Character vector of languages that may be selected
 via the URL parameter 'language'. If no language is provided by
 the URL parameter, defaults to the first language in this vector.
-Languages should be encoded according to ISO 639-2 conventions.</p></td>
+Languages should be encoded according to ISO 639-2 conventions, lower-case,
+e.g. 'en'.</p></td>
     </tr>
     <tr>
       <th>log_error</th>
@@ -377,7 +378,7 @@ upon button press.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

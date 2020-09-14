@@ -80,7 +80,7 @@ i18n, responsible for translating individual terms." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.2</span>
       </span>
     </div>
 
@@ -198,7 +198,7 @@ It should have a column entitled 'key', which defines the identifying
 keys for each term.
 All other columns should provide translations into different languages,
 with the language being identified by the column name,
-according to ISO 639-2 conventions.
+according to ISO 639-2 conventions (lower-case, e.g. 'en').
 The second argument, <code>markdown</code>, is a scalar Boolean (default = <code>TRUE</code>)
 that determines whether the data frame is formatted in
 Markdown or not (Markdown allows for efficient and readable
@@ -221,7 +221,7 @@ when no translation is found, otherwise an error is thrown.</p>
     <h2 class="hasAnchor" id="methods"><a class="anchor" href="#methods"></a>Methods</h2>
 
     
-<h3>Public methods</h3>
+<h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Public methods</h3>
 
 <ul>
 <li><p><a href='#method-new'><code>i18n_dict$new()</code></a></p></li>
@@ -232,42 +232,42 @@ when no translation is found, otherwise an error is thrown.</p>
 <li><p><a href='#method-clone'><code>i18n_dict$clone()</code></a></p></li>
 </ul>
 <p><hr>
-<a id="method-new"></a></p><h3>Method <code>new()</code></h3>
+<a id="method-new"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>new()</code></h3>
 
-<h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>i18n_dict</span>$<span class='fu'>new</span>(<span class='no'>x</span>, <span class='kw'>markdown</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre><p></div></p>
-
-<p><hr>
-<a id="method-as.data.frame"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame()</a></code></h3>
-
-<h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>i18n_dict</span>$<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>()</pre><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>i18n_dict</span><span class='op'>$</span><span class='fu'>new</span>(<span class='kw'>x</span>, markdown = <span class='fl'>TRUE</span>)</pre><p></div></p>
 
 <p><hr>
-<a id="method-translate"></a></p><h3>Method <code>translate()</code></h3>
+<a id="method-as.data.frame"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame()</a></code></h3>
 
-<h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>i18n_dict</span>$<span class='fu'>translate</span>(<span class='no'>key</span>, <span class='no'>language</span>, <span class='kw'>allow_missing</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
-
-<p><hr>
-<a id="method-edit"></a></p><h3>Method <code><a href='https://rdrr.io/r/utils/edit.html'>edit()</a></code></h3>
-
-<h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>i18n_dict</span>$<span class='fu'><a href='https://rdrr.io/r/utils/edit.html'>edit</a></span>(<span class='no'>key</span>, <span class='no'>language</span>, <span class='no'>new</span>)</pre><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>i18n_dict</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>()</pre><p></div></p>
 
 <p><hr>
-<a id="method-print"></a></p><h3>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+<a id="method-translate"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>translate()</code></h3>
 
-<h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>i18n_dict</span>$<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>...</span>)</pre><p></div></p>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>i18n_dict</span><span class='op'>$</span><span class='fu'>translate</span>(<span class='kw'>key</span>, <span class='kw'>language</span>, allow_missing = <span class='fl'>FALSE</span>)</pre><p></div></p>
 
 <p><hr>
-<a id="method-clone"></a></p><h3>Method <code>clone()</code></h3>
-<p>The objects of this class are cloneable with this method.</p><h3>Usage</h3>
-<p><div class="r"></p><pre><span class='no'>i18n_dict</span>$<span class='fu'>clone</span>(<span class='kw'>deep</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre><p></div></p>
+<a id="method-edit"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/utils/edit.html'>edit()</a></code></h3>
 
-<h3>Arguments</h3>
-<p><div class="arguments"></p><dl'>
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>i18n_dict</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/utils/edit.html'>edit</a></span>(<span class='kw'>key</span>, <span class='kw'>language</span>, <span class='kw'>new</span>)</pre><p></div></p>
+
+<p><hr>
+<a id="method-print"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code><a href='https://rdrr.io/r/base/print.html'>print()</a></code></h3>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>i18n_dict</span><span class='op'>$</span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>...</span>)</pre><p></div></p>
+
+<p><hr>
+<a id="method-clone"></a></p><h3 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Method <code>clone()</code></h3>
+<p>The objects of this class are cloneable with this method.</p><h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Usage</h4>
+<p><div class="r"></p><pre><span class='kw'>i18n_dict</span><span class='op'>$</span><span class='fu'>clone</span>(deep = <span class='fl'>FALSE</span>)</pre><p></div></p>
+
+<h4 class='hasAnchor' id='arguments'><a class='anchor' href='#arguments'></a>Arguments</h4>
+<p><div class="arguments"></p><dl>
 <dt><code>deep</code></dt><dd><p>Whether to make a deep clone.</p></dd>
 
 </dl><p></div></p>
@@ -289,7 +289,7 @@ when no translation is found, otherwise an error is thrown.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

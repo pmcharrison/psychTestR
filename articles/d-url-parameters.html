@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.2</span>
       </span>
     </div>
 
@@ -131,21 +131,25 @@
 <p>URL parameters are ways of passing information to a website through the URL. For example, the URL <a href="http://www.server/app?message=Hello" class="uri">http://www.server/app?message=Hello</a> would send the message ‘Hello’.</p>
 <p>psychTestR can both get and set URL parameters. This can be useful when chaining multiple parts of a web-based experiment.</p>
 <p>For a demo of this functionality in action, open R and execute the following:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">psychTestR</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/pmcharrison/psychTestR">psychTestR</a></span>)
 
 <span class="co"># Demo: getting URL parameters</span>
 <span class="fu"><a href="../reference/demo.get_url_params.html">demo.get_url_params</a></span>()
 
 <span class="co"># Demo: setting URL parameters</span>
-<span class="fu"><a href="../reference/demo.set_url_params.html">demo.set_url_params</a></span>()</pre></body></html></div>
+<span class="fu"><a href="../reference/demo.set_url_params.html">demo.set_url_params</a></span>()
+</pre></div>
 <p>To see how to use this functionality in your own experiments, simply inspect the source code.</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">psychTestR</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/pmcharrison/psychTestR">psychTestR</a></span>)
 
 <span class="co"># Source code: getting URL parameters</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">demo.get_url_params</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">demo.get_url_params</span>)
 
 <span class="co"># Source code: setting URL parameters</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">demo.set_url_params</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="kw">demo.set_url_params</span>)
+</pre></div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -161,7 +165,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

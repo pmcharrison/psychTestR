@@ -73,7 +73,7 @@ test elements (or blocks of test elements) is determined at run time." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.21.2</span>
       </span>
     </div>
 
@@ -171,9 +171,9 @@ test elements (or blocks of test elements) is determined at run time.</p>
     </div>
 
     <pre class="usage"><span class='fu'>randomise_at_run_time</span>(
-  <span class='no'>label</span>,
-  <span class='no'>logic</span>,
-  <span class='kw'>save_order</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>order</span>, <span class='no'>state</span>, <span class='no'>...</span>) <span class='fu'><a href='save_result.html'>save_result</a></span>(<span class='no'>state</span>, <span class='no'>label</span>, <span class='no'>order</span>)
+  <span class='kw'>label</span>,
+  <span class='kw'>logic</span>,
+  save_order = <span class='fu'>function</span>(<span class='kw'>order</span>, <span class='kw'>state</span>, <span class='kw'>...</span>) <span class='fu'><a href='save_result.html'>save_result</a></span>(<span class='kw'>state</span>, <span class='kw'>label</span>, <span class='kw'>order</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -212,7 +212,7 @@ order for each participant.</p>
     <p>This function can be nested arbitrarily many times.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'><a href='join.html'>join</a></span>(
   <span class='fu'>randomise_at_run_time</span>(
     <span class='st'>"main"</span>,
@@ -237,8 +237,10 @@ order for each participant.</p>
       )
     )
   )
-) <span class='kw'>%&gt;%</span> <span class='fu'><a href='join.html'>join</a></span>(<span class='fu'><a href='final_page.html'>final_page</a></span>(<span class='st'>"End"</span>)) <span class='kw'>%&gt;%</span> <span class='fu'><a href='make_test.html'>make_test</a></span>()
-}</div></pre>
+) <span class='op'>%&gt;%</span> <span class='fu'><a href='join.html'>join</a></span>(<span class='fu'><a href='final_page.html'>final_page</a></span>(<span class='st'>"End"</span>)) <span class='op'>%&gt;%</span> <span class='fu'><a href='make_test.html'>make_test</a></span>()
+}
+
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -254,7 +256,7 @@ order for each participant.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
