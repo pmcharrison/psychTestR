@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>New radiobutton NAFC page — radiobutton_NAFC_page • psychTestR</title>
+<title>New checkbox page — checkbox_page • psychTestR</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="New radiobutton NAFC page — radiobutton_NAFC_page" />
-<meta property="og:description" content="Creates a radiobutton n-alternative forced choice page." />
+<meta property="og:title" content="New checkbox page — checkbox_page" />
+<meta property="og:description" content="Creates a checkbox page." />
 
 
 
@@ -159,23 +159,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>New radiobutton NAFC page</h1>
+    <h1>New checkbox page</h1>
     <small class="dont-index">Source: <a href='https://github.com/pmcharrison/psychTestR/blob/master/R/test-elements.R'><code>R/test-elements.R</code></a></small>
-    <div class="hidden name"><code>radiobutton_NAFC_page.Rd</code></div>
+    <div class="hidden name"><code>checkbox_page.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates a radiobutton n-alternative forced choice page.</p>
+    <p>Creates a checkbox page.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>radiobutton_NAFC_page</span>(
+    <pre class="usage"><span class='fu'>checkbox_page</span>(
   <span class='kw'>label</span>,
   <span class='kw'>prompt</span>,
   <span class='kw'>choices</span>,
   subprompt = <span class='st'>""</span>,
   labels = <span class='kw'>NULL</span>,
   trigger_button_text = <span class='st'>"Continue"</span>,
-  failed_validation_message = <span class='st'>"Answer missing!"</span>,
+  failed_validation_message = <span class='st'>"Choose at least one answer!"</span>,
+  force_answer = <span class='fl'>FALSE</span>,
+  javascript = <span class='st'>""</span>,
   save_answer = <span class='fl'>TRUE</span>,
   hide_response_ui = <span class='fl'>FALSE</span>,
   response_ui_id = <span class='st'>"response_ui"</span>,
@@ -199,10 +201,10 @@ class "shiny.tag", e.g. <code>shiny::tags$p("What is 2 + 2?")</code>.</p></td>
     <tr>
       <th>choices</th>
       <td><p>(Character vector) Choices for the participant.
-If unnamed, then these values will be used both for radiobutton IDs and for
-radiobutton labels.
-If named, then values will be used for radiobutton IDs and names will be used
-for radiobutton labels.</p></td>
+If unnamed, then these values will be used both for checkbox IDs and for
+checkbox labels.
+If named, then values will be used for checkbox IDs and names will be used
+for checkbox labels.</p></td>
     </tr>
     <tr>
       <th>subprompt</th>
@@ -211,7 +213,7 @@ below the prompt.</p></td>
     </tr>
     <tr>
       <th>labels</th>
-      <td><p>Optional vector of labels for the radiobutton NAFC choices.
+      <td><p>Optional vector of labels for the checkbox choices.
 If not <code>NULL</code>, will overwrite the names of <code>choices</code>.
 This vector of labels can either be a character vector
 or a list of Shiny tag objects, e.g. as created by <code><a href='https://rdrr.io/pkg/htmltools/man/HTML.html'>shiny::HTML()</a></code>.</p></td>
@@ -226,6 +228,16 @@ or a list of Shiny tag objects, e.g. as created by <code><a href='https://rdrr.i
 when validation fails.</p></td>
     </tr>
     <tr>
+      <th>force_answer</th>
+      <td><p>(Boolean scalar) Require at least one checkbox to be
+ticked.</p></td>
+    </tr>
+    <tr>
+      <th>javascript</th>
+      <td><p>(Character scalar) JavaScript code to be added for
+controlling checkbox behaviour.</p></td>
+    </tr>
+    <tr>
       <th>save_answer</th>
       <td><p>(Boolean scalar) Whether or not to save the answer.</p></td>
     </tr>
@@ -238,7 +250,8 @@ See <code>audio_NAFC_page</code> for an example.).</p></td>
     </tr>
     <tr>
       <th>response_ui_id</th>
-      <td><p>(Character scalar) HTML ID for the response user interface.</p></td>
+      <td><p>(Character scalar) HTML ID for the response user
+interface.</p></td>
     </tr>
     <tr>
       <th>on_complete</th>
