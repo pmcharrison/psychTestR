@@ -38,7 +38,7 @@ Imports:
     testthat (>= 2.0.0),
     stringr (>= 1.4.0)
 Depends: R (>= 3.4.0)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown
