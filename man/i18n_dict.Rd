@@ -24,7 +24,7 @@ It should have a column entitled 'key', which defines the identifying
 keys for each term.
 All other columns should provide translations into different languages,
 with the language being identified by the column name,
-according to ISO 639-2 conventions.
+according to ISO 639-2 conventions (lower-case, e.g. 'en').
 The second argument, \code{markdown}, is a scalar Boolean (default = \code{TRUE})
 that determines whether the data frame is formatted in
 Markdown or not (Markdown allows for efficient and readable

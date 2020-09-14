@@ -10,7 +10,7 @@ test_options(
   researcher_email = NULL,
   max_num_participants = NULL,
   demo = FALSE,
-  languages = "EN",
+  languages = "en",
   log_error = TRUE,
   show_full_error_msg = TRUE,
   notify_error = FALSE,
@@ -57,7 +57,8 @@ as indicated through the admin panel).}
 \item{languages}{Character vector of languages that may be selected
 via the URL parameter 'language'. If no language is provided by
 the URL parameter, defaults to the first language in this vector.
-Languages should be encoded according to ISO 639-2 conventions.}
+Languages should be encoded according to ISO 639-2 conventions, lower-case,
+e.g. 'en'.}
 
 \item{log_error}{Whether to log errors
 (this feature is under development).}

@@ -1,10 +1,10 @@
 demo.i18n <- function() {
   dict <- i18n_dict$new(data.frame(
     key = c("welcome", "weather", "sun", "rain", "bye", "sorry", "good"),
-    GB = c("Hello!", "What's the weather like today?",
+    en = c("Hello!", "What's the weather like today?",
            "It's sunny", "It's rainy", "Goodbye!",
            "I'm sorry...", "That's good!"),
-    FR = c("Bonjour!", "Quel temps fait-il?",
+    fr = c("Bonjour!", "Quel temps fait-il?",
            "Il fait beau", "Il pleut", "Au revoir!",
            "Je suis desole...", "C'est bon!"),
     stringsAsFactors = FALSE
@@ -31,11 +31,11 @@ demo.i18n <- function() {
   # }, dict = NULL)
 
   # French
-  make_test(timeline, opt = demo_options(languages = "FR"))
+  make_test(timeline, opt = demo_options(languages = "fr"))
 
   # # English
-  # make_test(timeline, opt = demo_options(languages = "GB"))
+  # make_test(timeline, opt = demo_options(languages = "en"))
   #
   # # Fail
-  # make_test(timeline, opt = demo_options(languages = "DE"))
+  # make_test(timeline, opt = demo_options(languages = "de"))
 }

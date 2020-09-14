@@ -1,7 +1,7 @@
 Package: psychTestR
 Type: Package
 Title: Framework for delivering psychological tests via Shiny
-Version: 2.21.1
+Version: 2.21.2
 Authors@R: c(
   person("Peter", "Harrison", email = "pmc.harrison@gmail.com", role = c("aut", "cre")),
   person("Frank", "Höger", email = "frank@mirsem.org", role = c("ctb"))
@@ -38,7 +38,7 @@ Imports:
     testthat (>= 2.0.0),
     stringr (>= 1.4.0)
 Depends: R (>= 3.4.0)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown

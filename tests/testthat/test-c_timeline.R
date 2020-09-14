@@ -15,33 +15,33 @@ test_that("combining timelines from the same language", {
   ))
   t1.2 <- c(t1, t2)
   expect_equal(t1.2$length, 4)
-  expect_equal(t1.2$languages, "EN")
-  expect_equal(t1.2$get("EN", 1), t1$get("EN", 1))
-  expect_equal(t1.2$get("EN", 3), t2$get("EN", 1))
-  expect_true(identical(t1.2$get("EN", 3),
-                        t2$get("EN", 1)))
-  expect_false(identical(t1.2$get("EN", 3),
-                        t2$get("EN", 2)))
+  expect_equal(t1.2$languages, "en")
+  expect_equal(t1.2$get("en", 1), t1$get("en", 1))
+  expect_equal(t1.2$get("en", 3), t2$get("en", 1))
+  expect_true(identical(t1.2$get("en", 3),
+                        t2$get("en", 1)))
+  expect_false(identical(t1.2$get("en", 3),
+                        t2$get("en", 2)))
 
 })
 
 test_that("combining timelines from different languages", {
   dict1 <- i18n_dict$new(data.frame(
     key = c("welcome", "weather", "sun", "rain", "bye", "sorry", "good"),
-    EN = c("Hello!", "What's the weather like today?",
+    en = c("Hello!", "What's the weather like today?",
            "It's sunny", "It's rainy", "Goodbye!",
            "I'm sorry...", "That's good!"),
-    FR = c("Bonjour!", "Quel temps fait-il?",
+    fr = c("Bonjour!", "Quel temps fait-il?",
            "Il fait beau", "Il pleut", "Au revoir!",
            "Je suis desole...", "C'est bon!"),
     stringsAsFactors = FALSE
   ))
   dict2 <- i18n_dict$new(data.frame(
     key = c("welcome", "weather", "sun", "rain", "bye", "sorry", "good"),
-    EN = c("Hello!", "What's the weather like today?",
+    en = c("Hello!", "What's the weather like today?",
            "It's sunny", "It's rainy", "Goodbye!",
            "I'm sorry...", "That's good!"),
-    DE = c("Willkommen", "Wie ist das Wetter heute?",
+    de = c("Willkommen", "Wie ist das Wetter heute?",
            "Es ist sonnig", "Es ist regnerisch",
            "Auf Wiedersehen", "Es tut mir Leid",
            "Das ist gut"),
@@ -49,13 +49,13 @@ test_that("combining timelines from different languages", {
   ))
   dict3 <- i18n_dict$new(data.frame(
     key = c("welcome", "weather", "sun", "rain", "bye", "sorry", "good"),
-    EN = c("Hello!", "What's the weather like today?",
+    en = c("Hello!", "What's the weather like today?",
            "It's sunny", "It's rainy", "Goodbye!",
            "I'm sorry...", "That's good!"),
-    FR = c("Bonjour!", "Quel temps fait-il?",
+    fr = c("Bonjour!", "Quel temps fait-il?",
            "Il fait beau", "Il pleut", "Au revoir!",
            "Je suis desole...", "C'est bon!"),
-    DE = c("Willkommen", "Wie ist das Wetter heute?",
+    de = c("Willkommen", "Wie ist das Wetter heute?",
            "Es ist sonnig", "Es ist regnerisch",
            "Auf Wiedersehen", "Es tut mir Leid",
            "Das ist gut"),
@@ -78,8 +78,8 @@ test_that("combining timelines from different languages", {
   t_all <- c(t1, t2, t3)
 
   expect_equal(t_all$length, 6)
-  expect_equal(t_all$languages, "EN")
-  expect_equal(t_all$get("EN", 6), t3$get("EN", 2))
+  expect_equal(t_all$languages, "en")
+  expect_equal(t_all$get("en", 6), t3$get("en", 2))
 })
 
 test_that("c.timeline() where the second element is a list of timelines", {
@@ -93,6 +93,6 @@ test_that("c.timeline() where the second element is a list of timelines", {
             new_timeline(c))
   z <- c(x, y)
 
-  expect_equal(z$get("EN"),
+  expect_equal(z$get("en"),
                c(a, a, b, c))
 })
