@@ -87,10 +87,16 @@ via the admin panel
 with advice about what to do if a problem occurs.
 The default value, "default", gives
 a standard English message including the researcher's email (if provided).
-Alternatively, the argument can be an unnamed character scalar
-providing a non-internationalised message,
-or a named vector of internationalised messages with the names
-corresponding to language codes.}
+Alternatively, the argument can be either
+a) an unnamed character scalar providing a non-internationalised message,
+b) a named character vector of internationalised messages with the names
+corresponding to language codes,
+c) a named list of HTML tag objects providing internationalised messages,
+for example:
+\code{list(en = shiny::tags$span("Problems? Send an email to ",
+                                 shiny::tags$b("researcher@domain.com")),
+           de = shiny::tags$span("Probleme? Sende eine E-Mail an ",
+                                 shiny::tags$b("researcher@domain.com")))}.}
 
 \item{theme}{Shiny theme: see e.g. the \code{shinythemes} package.}
 
