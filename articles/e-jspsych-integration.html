@@ -188,51 +188,49 @@
 <a class="sourceLine" id="cb3-12" data-line-number="12"><span class="at">run_jspsych</span>()<span class="op">;</span></a></code></pre></div>
 <p>Finally, we create an R file called <code>my-test.R</code>, and define a psychTestR page that wraps the jsPsych test. We do this using helper functions from the <code>htmltools</code> package, which allow us to build HTML code programmatically from within R.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/rstudio/htmltools">htmltools</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/pmcharrison/psychTestR">psychTestR</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools">htmltools</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR">psychTestR</a></span><span class="op">)</span>
 
-<span class="kw">jspsych_dir</span> <span class="op">&lt;-</span> <span class="st">"jspsych-6.1.0"</span>
+<span class="va">jspsych_dir</span> <span class="op">&lt;-</span> <span class="st">"jspsych-6.1.0"</span>
 
-<span class="kw">head</span> <span class="op">&lt;-</span> <span class="kw">tags</span><span class="op">$</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeScript</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw">jspsych_dir</span>, <span class="st">"jspsych.js"</span>)),
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeScript</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw">jspsych_dir</span>, <span class="st">"plugins/jspsych-html-keyboard-response.js"</span>))
-)
+<span class="va">head</span> <span class="op">&lt;-</span> <span class="va">tags</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeScript</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">jspsych_dir</span>, <span class="st">"jspsych.js"</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeScript</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">jspsych_dir</span>, <span class="st">"plugins/jspsych-html-keyboard-response.js"</span><span class="op">)</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="kw">ui</span> <span class="op">&lt;-</span> <span class="kw">tags</span><span class="op">$</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span>(
-  <span class="kw">head</span>, 
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeScript</a></span>(<span class="st">"new-timeline.js"</span>),
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeScript</a></span>(<span class="st">"run-jspsych.js"</span>),
-  <span class="kw">tags</span><span class="op">$</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span>(id = <span class="st">"js_psych"</span>)
-)
+<span class="va">ui</span> <span class="op">&lt;-</span> <span class="va">tags</span><span class="op">$</span><span class="fu">div</span><span class="op">(</span>
+  <span class="va">head</span>, 
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeScript</a></span><span class="op">(</span><span class="st">"new-timeline.js"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/include.html">includeScript</a></span><span class="op">(</span><span class="st">"run-jspsych.js"</span><span class="op">)</span>,
+  <span class="va">tags</span><span class="op">$</span><span class="fu">div</span><span class="op">(</span>id <span class="op">=</span> <span class="st">"js_psych"</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="kw">hello_world</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page.html">page</a></span>(
-  ui = <span class="kw">ui</span>,
-  label = <span class="st">"hello_world"</span>,
-  get_answer = <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">...</span>) <span class="kw">input</span><span class="op">$</span><span class="kw">jspsych_results</span>,
-  validate = <span class="fu">function</span>(<span class="kw">answer</span>, <span class="kw">...</span>) <span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span>(<span class="kw">answer</span>) <span class="op">&gt;</span> <span class="fl">0L</span>,
-  save_answer = <span class="fl">TRUE</span>
-)
-</pre></div>
+<span class="va">hello_world</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/page.html">page</a></span><span class="op">(</span>
+  ui <span class="op">=</span> <span class="va">ui</span>,
+  label <span class="op">=</span> <span class="st">"hello_world"</span>,
+  get_answer <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">...</span><span class="op">)</span> <span class="va">input</span><span class="op">$</span><span class="va">jspsych_results</span>,
+  validate <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">answer</span>, <span class="va">...</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span><span class="op">(</span><span class="va">answer</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0L</span>,
+  save_answer <span class="op">=</span> <span class="cn">TRUE</span>
+<span class="op">)</span></pre></div>
 <p>We can then run this as a full psychTestR test by adding the following code to <code>my-test.R</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">elts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-  <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"You are about to take the 'Hello world' test."</span>),
-  <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span>(<span class="st">"When you see 'Hello world', press SPACE to continue."</span>),
-  <span class="kw">hello_world</span>,
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(complete = <span class="fl">TRUE</span>),
-  <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"You finished the test."</span>)
-)
+<span class="va">elts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
+  <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span><span class="op">(</span><span class="st">"You are about to take the 'Hello world' test."</span><span class="op">)</span>,
+  <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span><span class="op">(</span><span class="st">"When you see 'Hello world', press SPACE to continue."</span><span class="op">)</span>,
+  <span class="va">hello_world</span>,
+  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"You finished the test."</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="kw">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span>(
-  elts = <span class="kw">elts</span>,
-  opt = <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span>(
-    display = <span class="fu"><a href="../reference/display_options.html">display_options</a></span>(
-      fullscreen = <span class="fl">TRUE</span>, 
-      css = <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="kw">jspsych_dir</span>, <span class="st">"css/jspsych.css"</span>))
-  ))
+<span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span>
+  elts <span class="op">=</span> <span class="va">elts</span>,
+  opt <span class="op">=</span> <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span><span class="op">(</span>
+    display <span class="op">=</span> <span class="fu"><a href="../reference/display_options.html">display_options</a></span><span class="op">(</span>
+      fullscreen <span class="op">=</span> <span class="cn">TRUE</span>, 
+      css <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">jspsych_dir</span>, <span class="st">"css/jspsych.css"</span><span class="op">)</span><span class="op">)</span>
+  <span class="op">)</span><span class="op">)</span>
   
-<span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">runApp</a></span>(<span class="kw">test</span>)
-</pre></div>
+<span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">runApp</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></pre></div>
 <p>Note that we’ve added two display options:</p>
 <ul>
 <li>

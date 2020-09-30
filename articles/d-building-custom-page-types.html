@@ -145,23 +145,21 @@
 <p>The <code>ui</code> argument defines the HTML that is presented to the participant. This HTML should be generated programmatically using the helper functions in the <code>shiny</code> package (which often themselves come from the <code>htmltools</code> package). There’s lots of documentation online for these packages, but we’ll give some conceptual examples here.</p>
 <p>Different HTML tags are associated with different functions. These functions can be nested in the same way as HTML.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://shiny.rstudio.com">shiny</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://shiny.rstudio.com">shiny</a></span><span class="op">)</span>
 
-<span class="kw">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span>(
-  id = <span class="st">"my_div"</span>,
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">h3</a></span>(<span class="st">"Heading 1"</span>),
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span>(<span class="st">"Here is a paragraph of text."</span>, 
-    <span class="st">"A paragraph can contain multiple sentences."</span>),
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">h3</a></span>(<span class="st">"Heading 2"</span>),
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span>(<span class="st">"Here is another paragragh."</span>,
-    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">strong</a></span>(<span class="st">"This sentence is in bold."</span>),
-    <span class="st">"This sentence is in the same paragraph but it's not in bold."</span>)
-)
-</pre></div>
+<span class="va">html</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
+  id <span class="op">=</span> <span class="st">"my_div"</span>,
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">h3</a></span><span class="op">(</span><span class="st">"Heading 1"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span><span class="op">(</span><span class="st">"Here is a paragraph of text."</span>, 
+    <span class="st">"A paragraph can contain multiple sentences."</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">h3</a></span><span class="op">(</span><span class="st">"Heading 2"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span><span class="op">(</span><span class="st">"Here is another paragragh."</span>,
+    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">strong</a></span><span class="op">(</span><span class="st">"This sentence is in bold."</span><span class="op">)</span>,
+    <span class="st">"This sentence is in the same paragraph but it's not in bold."</span><span class="op">)</span>
+<span class="op">)</span></pre></div>
 <p>When combined, the functions define an HTML object that will render as HTML code to psychTestR app:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>() <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
-</pre></div>
+<span class="va">html</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## &lt;div id="my_div"&gt;
 ##   &lt;h3&gt;Heading 1&lt;/h3&gt;
 ##   &lt;p&gt;
@@ -177,13 +175,12 @@
 ## &lt;/div&gt;</code></pre>
 <p>This HTML code can incorporate Shiny widgets, such as text input boxes, sliders, etc.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">html2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span>(
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span>(<span class="st">"Here is a slider input:"</span>),
-  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html">sliderInput</a></span>(<span class="st">"slider"</span>, <span class="kw">NULL</span>, <span class="fl">0</span>, <span class="fl">100</span>, <span class="fl">50</span>)
-) 
+<span class="va">html2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span><span class="op">(</span><span class="st">"Here is a slider input:"</span><span class="op">)</span>,
+  <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/sliderInput.html">sliderInput</a></span><span class="op">(</span><span class="st">"slider"</span>, <span class="cn">NULL</span>, <span class="fl">0</span>, <span class="fl">100</span>, <span class="fl">50</span><span class="op">)</span>
+<span class="op">)</span> 
 
-<span class="kw">html2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>() <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
-</pre></div>
+<span class="va">html2</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## &lt;div&gt;
 ##   &lt;p&gt;Here is a slider input:&lt;/p&gt;
 ##   &lt;div class="form-group shiny-input-container"&gt;
@@ -193,13 +190,12 @@
 ## &lt;/div&gt;</code></pre>
 <p>The UI can also incorporate Javascript elements:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="kw">html3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span>(
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span>(<span class="st">"This code sets the variable x to 3."</span>),
-  <span class="kw">tags</span><span class="op">$</span><span class="fu">script</span>(<span class="st">"var x = 3;"</span>)
-)
+<span class="va">html3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
+  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span><span class="op">(</span><span class="st">"This code sets the variable x to 3."</span><span class="op">)</span>,
+  <span class="va">tags</span><span class="op">$</span><span class="fu">script</span><span class="op">(</span><span class="st">"var x = 3;"</span><span class="op">)</span>
+<span class="op">)</span>
 
-<span class="kw">html3</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>() <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span>()
-</pre></div>
+<span class="va">html3</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span><span class="op">)</span></pre></div>
 <pre><code>## &lt;div&gt;
 ##   &lt;p&gt;This code sets the variable x to 3.&lt;/p&gt;
 ##   &lt;script&gt;var x = 3;&lt;/script&gt;
@@ -229,8 +225,7 @@
 </h3>
 <p>This is a function for extracting the participant’s answer from the test page. If <code>NULL</code> (default), no answer is extracted. If a function is provided, it should accept the parameters <code>input</code> and <code>...</code>. For example, the <code>get_answer</code> function for <code>text_input_page</code> is defined as follows:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">...</span>) <span class="kw">input</span><span class="op">$</span><span class="kw">text_input</span>
-</pre></div>
+<span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">...</span><span class="op">)</span> <span class="va">input</span><span class="op">$</span><span class="va">text_input</span></pre></div>
 <p>The <code>input</code> parameter is equivalent to the <code>input</code> parameter in conventional Shiny apps; in particular, if the UI contains a Shiny input widget with an <code>id</code> of <code>my_id</code>, then the value of this input widget can be accessed with <code>input$my_id</code>.</p>
 </div>
 <div id="save_answer" class="section level3">
@@ -280,40 +275,39 @@
 <span class="co">#' @inheritParams page</span>
 <span class="co">#'</span>
 <span class="co">#' @export</span>
-<span class="kw">text_input_page</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">label</span>, <span class="kw">prompt</span>,
-                            <span class="kw">one_line</span> = <span class="fl">TRUE</span>,
-                            <span class="kw">save_answer</span> = <span class="fl">TRUE</span>,
-                            <span class="kw">placeholder</span> = <span class="kw">NULL</span>,
-                            <span class="kw">button_text</span> = <span class="st">"Next"</span>,
-                            <span class="kw">width</span> = <span class="st">"300px"</span>,
-                            <span class="kw">height</span> = <span class="st">"100px"</span>, <span class="co"># only relevant if one_line == FALSE</span>
-                            <span class="kw">validate</span> = <span class="kw">NULL</span>,
-                            <span class="kw">on_complete</span> = <span class="kw">NULL</span>,
-                            <span class="kw">admin_ui</span> = <span class="kw">NULL</span>) {
-  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span>(<span class="fu">is.scalar.character</span>(<span class="kw">label</span>),
-            <span class="fu">is.scalar.logical</span>(<span class="kw">one_line</span>))
-  <span class="kw">text_input</span> <span class="op">&lt;-</span> <span class="co">if</span> (<span class="kw">one_line</span>) {
-    <span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput</a></span>(<span class="st">"text_input"</span>, label = <span class="kw">NULL</span>,
-                     placeholder = <span class="kw">placeholder</span>,
-                     width = <span class="kw">width</span>)
-  } <span class="co">else</span> {
-    <span class="kw">shiny</span>::<span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textAreaInput.html">textAreaInput</a></span>(<span class="st">"text_input"</span>, label = <span class="kw">NULL</span>,
-                         placeholder = <span class="kw">placeholder</span>,
-                         width = <span class="kw">width</span>,
-                         height = <span class="kw">height</span>)
-  }
-  <span class="kw">get_answer</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">input</span>, <span class="kw">...</span>) <span class="kw">input</span><span class="op">$</span><span class="kw">text_input</span>
-  <span class="kw">body</span> <span class="op">=</span> <span class="kw">shiny</span>::<span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span>(
-    onload = <span class="st">"document.getElementById('text_input').value = '';"</span>,
-    <span class="fu">tagify</span>(<span class="kw">prompt</span>),
-    <span class="kw">text_input</span>
-  )
-  <span class="kw">ui</span> <span class="op">&lt;-</span> <span class="kw">shiny</span>::<span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span>(<span class="kw">body</span>, <span class="fu"><a href="../reference/trigger_button.html">trigger_button</a></span>(<span class="st">"next"</span>, <span class="kw">button_text</span>))
-  <span class="fu"><a href="../reference/page.html">page</a></span>(ui = <span class="kw">ui</span>, label = <span class="kw">label</span>, get_answer = <span class="kw">get_answer</span>, save_answer = <span class="kw">save_answer</span>,
-       validate = <span class="kw">validate</span>, on_complete = <span class="kw">on_complete</span>, final = <span class="fl">FALSE</span>,
-       admin_ui = <span class="kw">admin_ui</span>)
-}
-</pre></div>
+<span class="va">text_input_page</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">label</span>, <span class="va">prompt</span>,
+                            <span class="va">one_line</span> <span class="op">=</span> <span class="cn">TRUE</span>,
+                            <span class="va">save_answer</span> <span class="op">=</span> <span class="cn">TRUE</span>,
+                            <span class="va">placeholder</span> <span class="op">=</span> <span class="cn">NULL</span>,
+                            <span class="va">button_text</span> <span class="op">=</span> <span class="st">"Next"</span>,
+                            <span class="va">width</span> <span class="op">=</span> <span class="st">"300px"</span>,
+                            <span class="va">height</span> <span class="op">=</span> <span class="st">"100px"</span>, <span class="co"># only relevant if one_line == FALSE</span>
+                            <span class="va">validate</span> <span class="op">=</span> <span class="cn">NULL</span>,
+                            <span class="va">on_complete</span> <span class="op">=</span> <span class="cn">NULL</span>,
+                            <span class="va">admin_ui</span> <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span><span class="fu">is.scalar.character</span><span class="op">(</span><span class="va">label</span><span class="op">)</span>,
+            <span class="fu">is.scalar.logical</span><span class="op">(</span><span class="va">one_line</span><span class="op">)</span><span class="op">)</span>
+  <span class="va">text_input</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="va">one_line</span><span class="op">)</span> <span class="op">{</span>
+    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html">textInput</a></span><span class="op">(</span><span class="st">"text_input"</span>, label <span class="op">=</span> <span class="cn">NULL</span>,
+                     placeholder <span class="op">=</span> <span class="va">placeholder</span>,
+                     width <span class="op">=</span> <span class="va">width</span><span class="op">)</span>
+  <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span>
+    <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textAreaInput.html">textAreaInput</a></span><span class="op">(</span><span class="st">"text_input"</span>, label <span class="op">=</span> <span class="cn">NULL</span>,
+                         placeholder <span class="op">=</span> <span class="va">placeholder</span>,
+                         width <span class="op">=</span> <span class="va">width</span>,
+                         height <span class="op">=</span> <span class="va">height</span><span class="op">)</span>
+  <span class="op">}</span>
+  <span class="va">get_answer</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">...</span><span class="op">)</span> <span class="va">input</span><span class="op">$</span><span class="va">text_input</span>
+  <span class="va">body</span> <span class="op">=</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span>
+    onload <span class="op">=</span> <span class="st">"document.getElementById('text_input').value = '';"</span>,
+    <span class="fu">tagify</span><span class="op">(</span><span class="va">prompt</span><span class="op">)</span>,
+    <span class="va">text_input</span>
+  <span class="op">)</span>
+  <span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">div</a></span><span class="op">(</span><span class="va">body</span>, <span class="fu"><a href="../reference/trigger_button.html">trigger_button</a></span><span class="op">(</span><span class="st">"next"</span>, <span class="va">button_text</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="../reference/page.html">page</a></span><span class="op">(</span>ui <span class="op">=</span> <span class="va">ui</span>, label <span class="op">=</span> <span class="va">label</span>, get_answer <span class="op">=</span> <span class="va">get_answer</span>, save_answer <span class="op">=</span> <span class="va">save_answer</span>,
+       validate <span class="op">=</span> <span class="va">validate</span>, on_complete <span class="op">=</span> <span class="va">on_complete</span>, final <span class="op">=</span> <span class="cn">FALSE</span>,
+       admin_ui <span class="op">=</span> <span class="va">admin_ui</span><span class="op">)</span>
+<span class="op">}</span></pre></div>
 <p>Though there are quite a few customisable parameters here, the core definition is actually pretty simple.</p>
 </div>
   </div>

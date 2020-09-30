@@ -168,24 +168,24 @@
     <p>Creates an n-alternative forced choice page with a video prompt.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>video_NAFC_page</span>(
-  <span class='kw'>label</span>,
-  <span class='kw'>prompt</span>,
-  <span class='kw'>choices</span>,
-  <span class='kw'>url</span>,
-  labels = <span class='kw'>NULL</span>,
-  type = <span class='kw'>tools</span>::<span class='fu'><a href='https://rdrr.io/r/tools/fileutils.html'>file_ext</a></span>(<span class='kw'>url</span>),
-  save_answer = <span class='fl'>TRUE</span>,
-  on_complete = <span class='kw'>NULL</span>,
-  video_width = <span class='st'>"100%"</span>,
-  arrange_choices_vertically = <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='kw'>choices</span>) <span class='op'>&gt;</span> <span class='fl'>2L</span>,
-  wait = <span class='fl'>TRUE</span>,
-  loop = <span class='fl'>FALSE</span>,
-  admin_ui = <span class='kw'>NULL</span>,
-  btn_play_prompt = <span class='co'>if</span> (<span class='op'>!</span><span class='kw'>show_controls</span>) <span class='st'>"Click here to play"</span>,
-  show_controls = <span class='fl'>FALSE</span>,
-  allow_download = <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>video_NAFC_page</span><span class='op'>(</span>
+  <span class='va'>label</span>,
+  <span class='va'>prompt</span>,
+  <span class='va'>choices</span>,
+  <span class='va'>url</span>,
+  labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='fu'>tools</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/r/tools/fileutils.html'>file_ext</a></span><span class='op'>(</span><span class='va'>url</span><span class='op'>)</span>,
+  save_answer <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  on_complete <span class='op'>=</span> <span class='cn'>NULL</span>,
+  video_width <span class='op'>=</span> <span class='st'>"100%"</span>,
+  arrange_choices_vertically <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>choices</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>2L</span>,
+  wait <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  loop <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  admin_ui <span class='op'>=</span> <span class='cn'>NULL</span>,
+  btn_play_prompt <span class='op'>=</span> <span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='va'>show_controls</span><span class='op'>)</span> <span class='st'>"Click here to play"</span>,
+  show_controls <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  allow_download <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

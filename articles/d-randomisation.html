@@ -150,18 +150,17 @@
 </ol>
 <p>We can code these three items as a <em>tibble</em>:<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/pmcharrison/psychTestR">psychTestR</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="http://purrr.tidyverse.org">purrr</a></span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://tibble.tidyverse.org">tibble</a></span>)
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR">psychTestR</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org">purrr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span>
 
-<span class="kw">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span>(
-  <span class="op">~</span> <span class="kw">id</span>,       <span class="op">~</span> <span class="kw">prompt</span>,
+<span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+  <span class="op">~</span> <span class="va">id</span>,       <span class="op">~</span> <span class="va">prompt</span>,
   <span class="st">"dogs"</span>,    <span class="st">"Are you afraid of dogs?"</span>,
   <span class="st">"birds"</span>,   <span class="st">"Are you afraid of birds?"</span>,
   <span class="st">"heights"</span>, <span class="st">"Are you afraid of heights?"</span>
-)
-<span class="kw">items</span>
-</pre></div>
+<span class="op">)</span>
+<span class="va">items</span></pre></div>
 <pre><code>## # A tibble: 3 x 2
 ##   id      prompt                    
 ##   &lt;chr&gt;   &lt;chr&gt;                     
@@ -171,24 +170,22 @@
 <p>There are three items in total, corresponding to the three rows of <code>items</code>. First, let’s imagine that we want each participant to receive these three items in a random order, with this random order freshly determined for each participant. We can achieve this using the psychTestR function <code>randomise_at_run_time</code>.</p>
 <p>First, we construct a list of test elements corresponding to our three questions:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="kw">item_pages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">pmap</a></span>(<span class="kw">items</span>, <span class="fu">function</span>(<span class="kw">id</span>, <span class="kw">prompt</span>) {
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span>(
-    label = <span class="kw">id</span>,
-    prompt = <span class="kw">prompt</span>, 
-    choices = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)
-  )
-})
-</pre></div>
+<span class="va">item_pages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">pmap</a></span><span class="op">(</span><span class="va">items</span>, <span class="kw">function</span><span class="op">(</span><span class="va">id</span>, <span class="va">prompt</span><span class="op">)</span> <span class="op">{</span>
+  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
+    label <span class="op">=</span> <span class="va">id</span>,
+    prompt <span class="op">=</span> <span class="va">prompt</span>, 
+    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Yes"</span>, <span class="st">"No"</span><span class="op">)</span>
+  <span class="op">)</span>
+<span class="op">}</span><span class="op">)</span></pre></div>
 <p>Note that we used the <code>pmap</code> function from the <code>purrr</code> package to iterate over the rows of <code>items</code>, mapping each row to a list element. We then simply pass this list of pages to <code>randomise_at_run_time</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="kw">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
-  <span class="fu"><a href="../reference/randomise_at_run_time.html">randomise_at_run_time</a></span>(label = <span class="st">"item_order"</span>,
-                        logic = <span class="kw">item_pages</span>),
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(complete = <span class="fl">TRUE</span>),
-  <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"You completed the test."</span>)
-)
-<span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="kw">timeline</span>)
-</pre></div>
+<span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
+  <span class="fu"><a href="../reference/randomise_at_run_time.html">randomise_at_run_time</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">"item_order"</span>,
+                        logic <span class="op">=</span> <span class="va">item_pages</span><span class="op">)</span>,
+  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"You completed the test."</span><span class="op">)</span>
+<span class="op">)</span>
+<span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></pre></div>
 <p>This code should launch the test, complete with randomisation.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Results will be saved in the <code>output/results</code> directory. Login to the admin panel using the password <code>demo</code>, download the results as a csv file, and observe how the order of test elements varies between test runs, and how the order for a given participant is saved as the variable <code>results.item_order</code>.</p>
 </div>
 <div id="complex-randomisation" class="section level2">
@@ -196,21 +193,20 @@
 <a href="#complex-randomisation" class="anchor"></a>Complex randomisation</h2>
 <p>Arbitrary randomisation schemes can be implemented using the <code>order_at_run_time</code> function. For example, suppose that we wish to randomly choose between two item orders, 1-2-3 or 3-2-1. We can implement this as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="kw">randomised</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/order_at_run_time.html">order_at_run_time</a></span>(
-  label = <span class="st">"item_order"</span>,
-  logic = <span class="kw">item_pages</span>,
-  <span class="kw">get_order</span> <span class="op">&lt;-</span> <span class="fu">function</span>(<span class="kw">...</span>) {
-    <span class="co">if</span> (<span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span>(<span class="fl">2</span>, <span class="fl">1</span>) <span class="op">==</span> <span class="fl">1</span>) <span class="fl">1</span><span class="op">:</span><span class="fl">3</span> <span class="co">else</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span>
-  }
-)
+<span class="va">randomised</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/order_at_run_time.html">order_at_run_time</a></span><span class="op">(</span>
+  label <span class="op">=</span> <span class="st">"item_order"</span>,
+  logic <span class="op">=</span> <span class="va">item_pages</span>,
+  <span class="va">get_order</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
+    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span> <span class="kw">else</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span>
+  <span class="op">}</span>
+<span class="op">)</span>
 
-<span class="kw">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span>(
-  <span class="kw">randomised</span>,
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span>(complete = <span class="fl">TRUE</span>),
-  <span class="fu"><a href="../reference/final_page.html">final_page</a></span>(<span class="st">"You completed the test."</span>)
-)
-<span class="fu"><a href="../reference/make_test.html">make_test</a></span>(<span class="kw">timeline</span>)
-</pre></div>
+<span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
+  <span class="va">randomised</span>,
+  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
+  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"You completed the test."</span><span class="op">)</span>
+<span class="op">)</span>
+<span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></pre></div>
 </div>
 <div class="footnotes">
 <hr>
