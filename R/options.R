@@ -49,10 +49,16 @@ pt_options <- function(...) {
 #' with advice about what to do if a problem occurs.
 #' The default value, "default", gives
 #' a standard English message including the researcher's email (if provided).
-#' Alternatively, the argument can be an unnamed character scalar
-#' providing an non-internationalised message,
-#' or a named vector of internationalised messages with the names
-#' corresponding to language codes.
+#' Alternatively, the argument can be either
+#' a) an unnamed character scalar providing a non-internationalised message,
+#' b) a named character vector of internationalised messages with the names
+#' corresponding to language codes,
+#' c) a named list of HTML tag objects providing internationalised messages,
+#' for example:
+#' \code{list(en = shiny::tags$span("Problems? Send an email to ",
+#'                                  shiny::tags$b("researcher@domain.com")),
+#'            de = shiny::tags$span("Probleme? Sende eine E-Mail an ",
+#'                                  shiny::tags$b("researcher@domain.com")))}.
 #' @param theme Shiny theme: see e.g. the \code{shinythemes} package.
 #' @param auto_p_id Whether or not to automatically generate an
 #' ID for each participant.
@@ -134,7 +140,7 @@ test_options <- function(title, admin_password,
             is.null.or(max_num_participants, is.scalar.integerlike),
             is.null.or(max_participants_msg, is.scalar.character),
             is.null.or(server_closed_msg, is.scalar.character),
-            is.character(problems_info),
+            is.character(problems_info) || !is.null(names(problems_info)),
             is.null.or(logo, is.scalar.character),
             is.null(logo) ||
               (is.scalar.character(logo_width) && is.scalar.character(logo_height)),
@@ -177,7 +183,7 @@ test_options <- function(title, admin_password,
   if (length(problems_info) == 1 && problems_info == "default") {
     problems_info <- if (is.null(researcher_email)) "" else paste0(
       "Problems? Contact ", researcher_email, " with a link to this page.")
-  } else {
+  } else if (is.character(problems_info)) {
     problems_info <- iconv(enc2utf8(problems_info), "UTF-8", "UTF-8", sub = "")
   }
 
