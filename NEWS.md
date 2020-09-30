@@ -1,3 +1,5 @@
+# psychTestR 2.22.0
+
 - Allow `problems_info` to be rendered as HTML.
 
 # psychTestR 2.21.2
