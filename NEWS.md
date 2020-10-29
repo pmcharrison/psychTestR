@@ -1,3 +1,5 @@
+- Increase default session timeout parameter to 1 month.
+
 # psychTestR 2.22.0
 
 - Allow `problems_info` to be rendered as HTML.
