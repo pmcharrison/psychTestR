@@ -1,3 +1,5 @@
+# psychTestR 2.22.1
+
 - Increase default session timeout parameter to 1 month.
 
 # psychTestR 2.22.0
