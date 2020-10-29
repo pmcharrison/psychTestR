@@ -1,3 +1,5 @@
+# psychTestR 2.22.2
+
 - Rebuild documentation.
 
 # psychTestR 2.22.1
