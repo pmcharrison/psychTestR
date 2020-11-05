@@ -7,7 +7,10 @@ warnings_are_errors: true
 os:
   - linux
 
-before_deploy: Rscript -e 'remotes::install_cran("pkgdown"); remotes::install_github("rstudio/rmarkdown"); install.packages("shinytest"); shinytest::installDependencies()'
+before_deploy:
+  - sudo apt update
+  - sudo apt install libharfbuzz-dev libfribidi-dev
+  - Rscript -e 'remotes::install_cran("pkgdown"); remotes::install_github("rstudio/rmarkdown"); install.packages("shinytest"); shinytest::installDependencies()'
 deploy:
   provider: script
   script: Rscript -e 'pkgdown::deploy_site_github()'
