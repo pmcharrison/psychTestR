@@ -915,7 +915,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
                             admin_ui = NULL,
                             btn_play_prompt = if (!show_controls) "Click here to play",
                             show_controls = FALSE,
-                            allow_download = FALSE) {
+                            allow_download = FALSE,
+                            button_style = "") {
   stopifnot(is.scalar.character(label),
             is.character(choices), is.scalar.character(url),
             is.scalar.character(url),
@@ -940,7 +941,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
             on_complete = on_complete,
             arrange_vertically = arrange_choices_vertically,
             hide_response_ui = wait, response_ui_id = "response_ui",
-            admin_ui = admin_ui)
+            admin_ui = admin_ui,
+            button_style = button_style)
 }
 
 #' Make volume calibration page
