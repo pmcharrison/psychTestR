@@ -19,7 +19,8 @@ audio_NAFC_page(
   admin_ui = NULL,
   btn_play_prompt = if (!show_controls) "Click here to play",
   show_controls = FALSE,
-  allow_download = FALSE
+  allow_download = FALSE,
+  button_style = ""
 )
 }
 \arguments{
@@ -79,6 +80,8 @@ so that they can control audio playback.}
 
 \item{allow_download}{Whether the participant is given a button to download
 the audio file; only relevant if show_controls is TRUE.}
+
+\item{button_style}{Button CSS style information (character scalar).}
 }
 \description{
 Creates an n-alternative forced choice page with an audio prompt.
