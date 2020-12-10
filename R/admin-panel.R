@@ -484,11 +484,12 @@ zip_dir <- function(dir, output_file) {
   )
 }
 
-df_all_results <- function(results_dir) {
+df_all_results <- function(results_dir) {#
+  browser()
   files <- list_results_files(results_dir, full.names = TRUE)
   if (length(files) == 0L) return(data.frame())
   data <- lapply(files, readRDS)
-  data_df <- lapply(data, as.data.frame)
+  data_df <- lapply(data, function(x) as.data.frame(as.list(x)))
   any_cols_duplicated <- any(vapply(data_df,
                                     function(df) anyDuplicated(names(df)),
                                     integer(1)) > 0L)
