@@ -484,8 +484,7 @@ zip_dir <- function(dir, output_file) {
   )
 }
 
-df_all_results <- function(results_dir) {#
-  browser()
+df_all_results <- function(results_dir) {
   files <- list_results_files(results_dir, full.names = TRUE)
   if (length(files) == 0L) return(data.frame())
   data <- lapply(files, readRDS)

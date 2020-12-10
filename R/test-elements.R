@@ -916,7 +916,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
                             btn_play_prompt = if (!show_controls) "Click here to play",
                             show_controls = FALSE,
                             allow_download = FALSE,
-                            button_style = "") {
+                            button_style = "",
+                            autoplay = "autoplay") {
   stopifnot(is.scalar.character(label),
             is.character(choices), is.scalar.character(url),
             is.scalar.character(url),
@@ -927,7 +928,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     shiny::tags$source(src = url, type = paste0("audio/", type)),
     id = "media",
     preload = "auto",
-    autoplay = "autoplay",
+    autoplay = autoplay,
     loop = if (loop) "loop",
     oncanplaythrough = media.js$show_media_btn,
     onplay = paste0(media.js$media_played, media.js$hide_media_btn),
@@ -970,7 +971,8 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
                                     button_text = "Next",
                                     on_complete = NULL,
                                     admin_ui = NULL,
-                                    btn_play_prompt = "Click here to play") {
+                                    btn_play_prompt = "Click here to play",
+                                    wait = FALSE, loop = TRUE, show_controls = FALSE) {
   if (is.null(prompt)) prompt <- shiny::div(
     shiny::p(
       "You should hear some audio playing.",
@@ -979,16 +981,18 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
     shiny::p(
       "If you cannot make the audio play at a comfortable level,",
       "please do not continue, but instead ask the researcher for help."
-    )
+    ),
+    shiny::p("")
   )
   audio_NAFC_page(label = "volume_calibration",
                   prompt = prompt, choices = button_text,
                   save_answer = FALSE,
                   on_complete = on_complete,
                   url = url, type = type,
-                  wait = FALSE, loop = TRUE,
+                  wait = wait, loop = loop,
                   admin_ui = admin_ui,
-                  btn_play_prompt = btn_play_prompt)
+                  btn_play_prompt = btn_play_prompt,
+                  show_controls = show_controls)
 }
 
 #' New checkbox page
