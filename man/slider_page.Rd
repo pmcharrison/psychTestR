@@ -76,7 +76,7 @@ settings; \code{FALSE} not to; or a custom settings list, such as those
 created using \code{\link[shiny:sliderInput]{animationOptions()}}.}
 
 \item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'};
-see \code{\link[shiny:validateCssUnit]{validateCssUnit()}}.}
+see \code{\link[shiny:reexports]{validateCssUnit()}}.}
 
 \item{sep}{Separator between thousands places in numbers.}
 

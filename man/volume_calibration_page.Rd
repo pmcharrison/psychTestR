@@ -11,7 +11,10 @@ volume_calibration_page(
   button_text = "Next",
   on_complete = NULL,
   admin_ui = NULL,
-  btn_play_prompt = "Click here to play"
+  btn_play_prompt = "Click here to play",
+  wait = FALSE,
+  loop = TRUE,
+  show_controls = FALSE
 )
 }
 \arguments{
@@ -43,6 +46,12 @@ Ordinarily the participant will not see this,
 but it might appear if the internet connection is poor,
 or if the participant refreshes the page.
 Only used if show_controls is FALSE.}
+
+\item{wait}{Wait parameter for HTML-5 audio element (logical scalar).}
+
+\item{loop}{Loop parameter for HTML-5 audio element (logical scalar).}
+
+\item{show_controls}{show_controls parameter for HTML-5 audio element (logical scalar).}
 }
 \description{
 Creates a page for the participant to calibrate their volume,

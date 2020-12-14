@@ -902,6 +902,10 @@ media_mobile_play_button <- function(btn_play_prompt) shiny::tags$p(
 #' Whether the participant is given a button to download
 #' the audio file; only relevant if show_controls is TRUE.
 #'
+#' @param autoplay
+#' Whether the audio should start playing immediately
+#' default is "autoplay"
+#'
 #' @inheritParams NAFC_page
 #'
 #' @export
@@ -928,7 +932,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     shiny::tags$source(src = url, type = paste0("audio/", type)),
     id = "media",
     preload = "auto",
-    autoplay = autoplay,
+    if(nchar(autoplay) > 0) autoplay = autoplay,
     loop = if (loop) "loop",
     oncanplaythrough = media.js$show_media_btn,
     onplay = paste0(media.js$media_played, media.js$hide_media_btn),
@@ -961,6 +965,12 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 #' a sensible English prompt is provided.
 #'
 #' @param button_text Button text (character scalar).
+#'
+#' @param wait Wait parameter for HTML-5 audio element (logical scalar).
+#'
+#' @param loop Loop parameter for HTML-5 audio element (logical scalar).
+#'
+#' @param show_controls show_controls parameter for HTML-5 audio element (logical scalar).
 #'
 #' @inheritParams page
 #' @inheritParams audio_NAFC_page

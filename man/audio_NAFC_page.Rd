@@ -20,7 +20,8 @@ audio_NAFC_page(
   btn_play_prompt = if (!show_controls) "Click here to play",
   show_controls = FALSE,
   allow_download = FALSE,
-  button_style = ""
+  button_style = "",
+  autoplay = "autoplay"
 )
 }
 \arguments{
@@ -82,6 +83,9 @@ so that they can control audio playback.}
 the audio file; only relevant if show_controls is TRUE.}
 
 \item{button_style}{Button CSS style information (character scalar).}
+
+\item{autoplay}{Whether the audio should start playing immediately
+default is "autoplay"}
 }
 \description{
 Creates an n-alternative forced choice page with an audio prompt.
