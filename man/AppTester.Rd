@@ -125,7 +125,6 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="takeScreenshot">}\href{../../shinytest/html/ShinyDriver.html#method-takeScreenshot}{\code{shinytest::ShinyDriver$takeScreenshot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="uploadFile">}\href{../../shinytest/html/ShinyDriver.html#method-uploadFile}{\code{shinytest::ShinyDriver$uploadFile()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitFor">}\href{../../shinytest/html/ShinyDriver.html#method-waitFor}{\code{shinytest::ShinyDriver$waitFor()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForShiny">}\href{../../shinytest/html/ShinyDriver.html#method-waitForShiny}{\code{shinytest::ShinyDriver$waitForShiny()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForValue">}\href{../../shinytest/html/ShinyDriver.html#method-waitForValue}{\code{shinytest::ShinyDriver$waitForValue()}}\out{</span>}
 }
 \out{</details>}

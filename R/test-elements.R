@@ -930,7 +930,11 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     shiny::tags$source(src = url, type = paste0("audio/", type)),
     id = "media",
     preload = "auto",
+<<<<<<< HEAD
     autoplay = if(nchar(autoplay) > 0) "autoplay",
+=======
+    if(nchar(autoplay) > 0) autoplay = autoplay,
+>>>>>>> a247216 (added parameter docs for audio_NAFC_page and volume_calibration, rewrote df_all_results)
     loop = if (loop) "loop",
     oncanplaythrough = media.js$show_media_btn,
     onplay = paste0(media.js$media_played, media.js$hide_media_btn),

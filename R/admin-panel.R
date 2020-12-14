@@ -487,20 +487,42 @@ zip_dir <- function(dir, output_file) {
 df_all_results <- function(results_dir) {
   files <- list_results_files(results_dir, full.names = TRUE)
   if (length(files) == 0L) return(data.frame())
-  data <- lapply(files, readRDS)
-  data_df <- lapply(data, function(x) as.data.frame(as.list(x)))
-  any_cols_duplicated <- any(vapply(data_df,
-                                    function(df) anyDuplicated(names(df)),
-                                    integer(1)) > 0L)
-  if (any_cols_duplicated) {
-    msg <- "CSV export cannot cope with duplicated fields in results objects."
-    shiny::showNotification(msg, type = "error")
-    stop(msg)
-  }
-  df <- do.call(plyr::rbind.fill, data_df)
-  df <- df[order(df$session.current_time, decreasing = FALSE), ]
-  df
+  df <- purrr::map_dfr(files, function(results){
+    results <- results %>% readRDS() %>% as.list()
+    #Actually, as.data.frame can cope with duplicated fields and arbitrarily nested objects.
+    #But maybe we don't want to allow  them?
+    #I think, allowing  them is better than bailing out, because then there is a chance
+    #to fix this in post-processing.
+    if(anyDuplicated(names(results)) > 0L){
+      msg <- "CSV export cannot cope with duplicated fields in results objects."
+      shiny::showNotification(msg, type = "error")
+      stop(msg)
+    }
+    results %>% as.data.frame(stringsAsFactors = F)
+  }) %>%
+    dplyr::select(tidyselect::starts_with("session"), tidyselect::everything()) %>%
+    dplyr::arrange(session.current_time)
+
+  return(df)
 }
+#df_all_results <- function(results_dir) {
+#  files <- list_results_files(results_dir, full.names = TRUE)
+#  if (length(files) == 0L) return(data.frame())
+#  data <- lapply(files, readRDS)
+#  data_df <- lapply(data, function(x) as.data.frame(as.list(x), stringsAsFactors = F))
+#  any_cols_duplicated <- any(vapply(data_df,
+#                                    function(df) anyDuplicated(names(df)),
+#                                    integer(1)) > 0L)
+#  if (any_cols_duplicated) {
+#    msg <- "CSV export cannot cope with duplicated fields in results objects."
+#    shiny::showNotification(msg, type = "error")
+#    stop(msg)
+#  }
+#  df <- do.call(plyr::rbind.fill, data_df)
+#  df <- df[order(df$session.current_time, decreasing = FALSE), ]
+#  session_info_cols <- grepl("^session\\.", names(df))
+#  df[, c(which(session_info_cols), which(!session_info_cols))]
+#}
 
 #df_all_results <- function(results_dir) {
 #  files <- list_results_files(results_dir, full.names = TRUE)
