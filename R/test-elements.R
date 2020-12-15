@@ -930,11 +930,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     shiny::tags$source(src = url, type = paste0("audio/", type)),
     id = "media",
     preload = "auto",
-<<<<<<< HEAD
-    autoplay = if(nchar(autoplay) > 0) "autoplay",
-=======
     if(nchar(autoplay) > 0) autoplay = autoplay,
->>>>>>> a247216 (added parameter docs for audio_NAFC_page and volume_calibration, rewrote df_all_results)
     loop = if (loop) "loop",
     oncanplaythrough = media.js$show_media_btn,
     onplay = paste0(media.js$media_played, media.js$hide_media_btn),
@@ -997,6 +993,14 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
     ),
     shiny::p("")
   )
+  audio_NAFC_page(label = "volume_calibration",
+                  prompt = prompt, choices = button_text,
+                  save_answer = FALSE,
+                  on_complete = on_complete,
+                  url = url, type = type,
+                  wait = FALSE, loop = TRUE,
+                  admin_ui = admin_ui,
+                  btn_play_prompt = btn_play_prompt)
   audio_NAFC_page(label = "volume_calibration",
                   prompt = prompt, choices = button_text,
                   save_answer = FALSE,
