@@ -488,17 +488,10 @@ df_all_results <- function(results_dir) {
   files <- list_results_files(results_dir, full.names = TRUE)
   if (length(files) == 0L) return(data.frame())
   df <- purrr::map_dfr(files, function(results){
-    results <- results %>% readRDS() %>% as.list()
-    #Actually, as.data.frame can cope with duplicated fields and arbitrarily nested objects.
-    #But maybe we don't want to allow  them?
-    #I think, allowing  them is better than bailing out, because then there is a chance
-    #to fix this in post-processing.
-    if(anyDuplicated(names(results)) > 0L){
-      msg <- "CSV export cannot cope with duplicated fields in results objects."
-      shiny::showNotification(msg, type = "error")
-      stop(msg)
-    }
-    results %>% as.data.frame(stringsAsFactors = F)
+      results %>%
+      readRDS() %>%
+      as.list() %>%
+      as.data.frame(stringsAsFactors = F)
   }) %>%
     dplyr::select(tidyselect::starts_with("session"), tidyselect::everything()) %>%
     dplyr::arrange(session.current_time)
