@@ -39,7 +39,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -101,7 +101,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/pmcharrison/psychTestR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,8 +115,7 @@
 
       
 
-      </header><link href="c-media-files_files/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet">
-<script src="c-media-files_files/anchor-sections-1.0.1/anchor-sections.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial (basic): Media files</h1>
@@ -151,7 +150,7 @@
   <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html">p</a></span><span class="op">(</span><span class="st">"What do you think of this image?"</span><span class="op">)</span>
 <span class="op">)</span>
 
-<span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">runApp</a></span><span class="op">(</span>
+<span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html">runApp</a></span><span class="op">(</span>
   <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span>
     <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>
       <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="va">ui</span><span class="op">)</span>
@@ -194,8 +193,8 @@
 <p>Note that the image path has now been replaced with <code>150.png</code>, reflecting the fact that media paths are expressed relative to the <code>www</code> directory.</p>
 <p>Here comes a slightly frustrating part. There are many ways of launching a Shiny app (Shiny is the framework upon which psychTestR is built), but not all of them expose the <code>www</code> directory. If you just call <code>make_test</code>, as in the above example, Shiny will (probably) not expose the <code>www</code> directory, because it doesn’t know where the relevant <code>www</code> directory is. Instead, you must leave the <code>app.R</code> file as is, and then launch the app by running the following code at the R terminal:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">runApp</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span></code></pre></div>
-<p>This tells Shiny to look for an app in the current working directory (see <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html">?shiny::runApp</a></code> for details). Launching the app in this way should mean that Shiny finds the <code>www</code> directory correctly.</p>
+<code class="sourceCode R"><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html">runApp</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span></code></pre></div>
+<p>This tells Shiny to look for an app in the current working directory (see <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html">?shiny::runApp</a></code> for details). Launching the app in this way should mean that Shiny finds the <code>www</code> directory correctly.</p>
 <p>The above example used an image, but the process for audio and video is basically the same. Instead of using the <code>img</code> function from <code>htmltools</code>, you instead use the function <code>tags$audio()</code> for audio, and the function <code>tags$video()</code> for video. Each of these functions takes further arguments that correspond to the analogous arguments you might use when constructing the equivalent HTML code, such as <code>autoplay</code> and <code>width</code>.</p>
 <p>If you run into problems with your media not displaying properly, open your test in a web browser and open the Developer console. Here you should see an error message telling you more about the problem. If you see a 404 error, this means that the browser can’t find the file you specified, maybe because you got the path wrong, or because the app wasn’t launched in the way mentioned above. If you see a cross-origin resource error, this probably means that you need to change the security settings in your browser (Google the error message for more details). Note that this latter problem should disappear when you deploy the test to a remote server.</p>
 <p>psychTestR includes some prebuilt page types for displaying media items:</p>
