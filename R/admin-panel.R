@@ -492,12 +492,12 @@ df_all_results <- function(results_dir) {
       readRDS() %>%
       as.list() %>%
       as.data.frame(stringsAsFactors = F)
-  }) %>%
-    dplyr::select(tidyselect::starts_with("session"), tidyselect::everything()) %>%
-    dplyr::arrange(session.current_time)
-
-  return(df)
+  })
+  session_cols <- grep("^session", names(df), value = TRUE)
+  cols_in_order <- c(session_cols, setdiff(names(df), session_cols))
+  df[order(df$session.current_time), cols_in_order]
 }
+
 #df_all_results <- function(results_dir) {
 #  files <- list_results_files(results_dir, full.names = TRUE)
 #  if (length(files) == 0L) return(data.frame())

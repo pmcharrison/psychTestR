@@ -17,9 +17,7 @@ Imports:
     magrittr (>= 1.5),
     methods,
     parallel,
-    dplyr (>= 1.0.0),
     RPushbullet (>= 0.3.1),
-    tidyselect (>= 1.0.0),
     R.utils (>= 2.6.0),
     shinyjs (>= 1.0),
     shinyBS (>= 0.61),
@@ -38,7 +36,7 @@ Imports:
     shinytest,
     testthat (>= 2.0.0),
     stringr (>= 1.4.0)
-Depends: R (>= 3.4.0)
+Depends: R (>= 3.5.0)
 RoxygenNote: 7.1.1
 Suggests: 
     knitr,
