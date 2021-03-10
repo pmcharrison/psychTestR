@@ -1,3 +1,5 @@
+# psychTestR 2.23.0
+
 - Improved CSV export (thanks Klaus Frieler!).
 - Extra parameters for audio pages (thanks Klaus Frieler!).
 
