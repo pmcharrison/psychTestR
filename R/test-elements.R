@@ -902,6 +902,10 @@ media_mobile_play_button <- function(btn_play_prompt) shiny::tags$p(
 #' Whether the participant is given a button to download
 #' the audio file; only relevant if show_controls is TRUE.
 #'
+#' @param autoplay
+#' Whether the audio should start playing immediately
+#' default is "autoplay"
+#'
 #' @inheritParams NAFC_page
 #'
 #' @export
@@ -916,7 +920,8 @@ audio_NAFC_page <- function(label, prompt, choices, url,
                             btn_play_prompt = if (!show_controls) "Click here to play",
                             show_controls = FALSE,
                             allow_download = FALSE,
-                            button_style = "") {
+                            button_style = "",
+                            autoplay = "autoplay") {
   stopifnot(is.scalar.character(label),
             is.character(choices), is.scalar.character(url),
             is.scalar.character(url),
@@ -927,7 +932,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     shiny::tags$source(src = url, type = paste0("audio/", type)),
     id = "media",
     preload = "auto",
-    autoplay = "autoplay",
+    autoplay = if(nchar(autoplay) > 0) "autoplay",
     loop = if (loop) "loop",
     oncanplaythrough = media.js$show_media_btn,
     onplay = paste0(media.js$media_played, media.js$hide_media_btn),
@@ -935,6 +940,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     controls = if (show_controls) "controls",
     controlsList = if (!allow_download) "nodownload"
   ), media_mobile_play_button(btn_play_prompt))
+
   prompt2 <- shiny::div(tagify(prompt), audio_ui)
   NAFC_page(label = label, prompt = prompt2, choices = choices, labels = labels,
             save_answer = save_answer,
@@ -961,6 +967,12 @@ audio_NAFC_page <- function(label, prompt, choices, url,
 #'
 #' @param button_text Button text (character scalar).
 #'
+#' @param wait Wait parameter for HTML-5 audio element (logical scalar).
+#'
+#' @param loop Loop parameter for HTML-5 audio element (logical scalar).
+#'
+#' @param show_controls show_controls parameter for HTML-5 audio element (logical scalar).
+#'
 #' @inheritParams page
 #' @inheritParams audio_NAFC_page
 #'
@@ -970,7 +982,8 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
                                     button_text = "Next",
                                     on_complete = NULL,
                                     admin_ui = NULL,
-                                    btn_play_prompt = "Click here to play") {
+                                    btn_play_prompt = "Click here to play",
+                                    wait = FALSE, loop = TRUE, show_controls = FALSE) {
   if (is.null(prompt)) prompt <- shiny::div(
     shiny::p(
       "You should hear some audio playing.",
@@ -979,16 +992,18 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
     shiny::p(
       "If you cannot make the audio play at a comfortable level,",
       "please do not continue, but instead ask the researcher for help."
-    )
+    ),
+    shiny::p("")
   )
   audio_NAFC_page(label = "volume_calibration",
                   prompt = prompt, choices = button_text,
                   save_answer = FALSE,
                   on_complete = on_complete,
                   url = url, type = type,
-                  wait = FALSE, loop = TRUE,
+                  wait = wait, loop = loop,
                   admin_ui = admin_ui,
-                  btn_play_prompt = btn_play_prompt)
+                  btn_play_prompt = btn_play_prompt,
+                  show_controls = show_controls)
 }
 
 #' New checkbox page

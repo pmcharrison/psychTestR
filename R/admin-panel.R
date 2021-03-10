@@ -487,20 +487,35 @@ zip_dir <- function(dir, output_file) {
 df_all_results <- function(results_dir) {
   files <- list_results_files(results_dir, full.names = TRUE)
   if (length(files) == 0L) return(data.frame())
-  data <- lapply(files, readRDS)
-  data_df <- lapply(data, as.data.frame)
-  any_cols_duplicated <- any(vapply(data_df,
-                                    function(df) anyDuplicated(names(df)),
-                                    integer(1)) > 0L)
-  if (any_cols_duplicated) {
-    msg <- "CSV export cannot cope with duplicated fields in results objects."
-    shiny::showNotification(msg, type = "error")
-    stop(msg)
-  }
-  df <- do.call(plyr::rbind.fill, data_df)
-  df <- df[order(df$session.current_time, decreasing = FALSE), ]
-  df
+  df <- purrr::map_dfr(files, function(results){
+      results %>%
+      readRDS() %>%
+      as.list() %>%
+      as.data.frame(stringsAsFactors = F)
+  })
+  session_cols <- grep("^session", names(df), value = TRUE)
+  cols_in_order <- c(session_cols, setdiff(names(df), session_cols))
+  df[order(df$session.current_time), cols_in_order]
 }
+
+#df_all_results <- function(results_dir) {
+#  files <- list_results_files(results_dir, full.names = TRUE)
+#  if (length(files) == 0L) return(data.frame())
+#  data <- lapply(files, readRDS)
+#  data_df <- lapply(data, function(x) as.data.frame(as.list(x), stringsAsFactors = F))
+#  any_cols_duplicated <- any(vapply(data_df,
+#                                    function(df) anyDuplicated(names(df)),
+#                                    integer(1)) > 0L)
+#  if (any_cols_duplicated) {
+#    msg <- "CSV export cannot cope with duplicated fields in results objects."
+#    shiny::showNotification(msg, type = "error")
+#    stop(msg)
+#  }
+#  df <- do.call(plyr::rbind.fill, data_df)
+#  df <- df[order(df$session.current_time, decreasing = FALSE), ]
+#  session_info_cols <- grepl("^session\\.", names(df))
+#  df[, c(which(session_info_cols), which(!session_info_cols))]
+#}
 
 admin_panel.server <- function(state, input, output, session, opt, elts) {
   if (opt$enable_admin_panel) {
