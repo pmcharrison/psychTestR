@@ -243,8 +243,8 @@
 ## {
 ##     save_results_to_disk(complete, state, opt)
 ## }
-## &lt;bytecode: 0x3dc0900&gt;
-## &lt;environment: 0x3dbb010&gt;</code></pre>
+## &lt;bytecode: 0x26b1f78&gt;
+## &lt;environment: 0x2689578&gt;</code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct the server to run a specified function. This function can take several inputs, but most important is the <code>state</code> object, which stores information relevant to that particular participant’s testing session, such as their responses to N-alternative forced choice pages. This particular function takes the <code>state</code> object as input and saves the participant’s results to disk, paying attention to certain test configuration options as specified in <code>opt</code>.</p>
 <p>Having run this test, we should see that it generates an RDS file in the directory <code>output/results</code>. The name of this RDS file will contain the participant’s ID, which by default is randomly generated. RDS files provide compressed versions of R objects. We can read our RDS file into R using the <code>readRDS</code> function. The code below lists all files in the results directory with the extension <code>.rds</code>, and reads the first one into R:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -288,9 +288,9 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/imports.html">as_tibble</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
 <pre><code>## # A tibble: 1 x 8
-##   session.p_id session.pilot session.complete session.time_start…
-##   &lt;chr&gt;        &lt;lgl&gt;         &lt;lgl&gt;            &lt;dttm&gt;             
-## 1 30d7172ba11… FALSE         TRUE             2019-09-26 08:31:46
+##   session.p_id                session.pilot session.complete session.time_start…
+##   &lt;chr&gt;                       &lt;lgl&gt;         &lt;lgl&gt;            &lt;dttm&gt;             
+## 1 30d7172ba11c543328b528dfc5… FALSE         TRUE             2019-09-26 08:31:46
 ## # … with 4 more variables: session.current_time &lt;dttm&gt;,
 ## #   session.num_restarts &lt;int&gt;, session.language &lt;chr&gt;,
 ## #   results.favourite_colour &lt;chr&gt;</code></pre>
@@ -340,8 +340,8 @@
 ## $get_answer
 ## function (input, ...) 
 ## input$last_btn_pressed
-## &lt;bytecode: 0x6191388&gt;
-## &lt;environment: 0x61947a8&gt;
+## &lt;bytecode: 0x4a0fe08&gt;
+## &lt;environment: 0x4a0f3f8&gt;
 ## 
 ## $save_answer
 ## [1] TRUE
@@ -349,8 +349,8 @@
 ## $validate
 ## function (answer, ...) 
 ## !is.null(answer)
-## &lt;bytecode: 0x6195030&gt;
-## &lt;environment: 0x61947a8&gt;
+## &lt;bytecode: 0x4a0fc80&gt;
+## &lt;environment: 0x4a0f3f8&gt;
 ## 
 ## $on_complete
 ## NULL
