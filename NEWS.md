@@ -1,3 +1,8 @@
+# psychTestR 2.23.0
+
+- Improved CSV export (thanks Klaus Frieler!).
+- Extra parameters for audio pages (thanks Klaus Frieler!).
+
 # psychTestR 2.22.3
 
 - Expose button_style in audio_NAFC_page.

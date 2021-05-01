@@ -99,8 +99,10 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAppFilename">}\href{../../shinytest/html/ShinyDriver.html#method-getAppFilename}{\code{shinytest::ShinyDriver$getAppFilename()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getDebugLog">}\href{../../shinytest/html/ShinyDriver.html#method-getDebugLog}{\code{shinytest::ShinyDriver$getDebugLog()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getEventLog">}\href{../../shinytest/html/ShinyDriver.html#method-getEventLog}{\code{shinytest::ShinyDriver$getEventLog()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getRelativePathToApp">}\href{../../shinytest/html/ShinyDriver.html#method-getRelativePathToApp}{\code{shinytest::ShinyDriver$getRelativePathToApp()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSnapshotDir">}\href{../../shinytest/html/ShinyDriver.html#method-getSnapshotDir}{\code{shinytest::ShinyDriver$getSnapshotDir()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSource">}\href{../../shinytest/html/ShinyDriver.html#method-getSource}{\code{shinytest::ShinyDriver$getSource()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getTestsDir">}\href{../../shinytest/html/ShinyDriver.html#method-getTestsDir}{\code{shinytest::ShinyDriver$getTestsDir()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getTitle">}\href{../../shinytest/html/ShinyDriver.html#method-getTitle}{\code{shinytest::ShinyDriver$getTitle()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getUrl">}\href{../../shinytest/html/ShinyDriver.html#method-getUrl}{\code{shinytest::ShinyDriver$getUrl()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getValue">}\href{../../shinytest/html/ShinyDriver.html#method-getValue}{\code{shinytest::ShinyDriver$getValue()}}\out{</span>}
@@ -122,6 +124,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="takeScreenshot">}\href{../../shinytest/html/ShinyDriver.html#method-takeScreenshot}{\code{shinytest::ShinyDriver$takeScreenshot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="uploadFile">}\href{../../shinytest/html/ShinyDriver.html#method-uploadFile}{\code{shinytest::ShinyDriver$uploadFile()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitFor">}\href{../../shinytest/html/ShinyDriver.html#method-waitFor}{\code{shinytest::ShinyDriver$waitFor()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForShiny">}\href{../../shinytest/html/ShinyDriver.html#method-waitForShiny}{\code{shinytest::ShinyDriver$waitForShiny()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForValue">}\href{../../shinytest/html/ShinyDriver.html#method-waitForValue}{\code{shinytest::ShinyDriver$waitForValue()}}\out{</span>}
 }
 \out{</details>}
 }
