@@ -1499,7 +1499,7 @@ while_loop <- function(test, logic) {
                                         "logical scalar")
       if ((skip_when == "pass" && res) ||
           (skip_when == "fail" && !res)){
-        message(sprintf("while_loop: Skipping %d pages (skip_when = %s)", skip_ken, skip_when))
+        message(sprintf("while_loop: Skipping %d pages (skip_when = %s)", skip_len, skip_when))
         skip_n_pages(state, skip_len)
       }
     })
