@@ -1445,7 +1445,10 @@ loop_while <- function(test, logic) {
                 session = session, opt = opt)
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                       "logical scalar")
-    if (res) skip_n_pages(state, - (n + 1L))
+    if (res){
+      message(sprintf("loop_while: Skipping %d pages", n))
+      skip_n_pages(state, - (n + 1L))
+    }
   })
   join(logic, elt)
 }
@@ -1495,7 +1498,10 @@ while_loop <- function(test, logic) {
       if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                         "logical scalar")
       if ((skip_when == "pass" && res) ||
-          (skip_when == "fail" && !res)) skip_n_pages(state, skip_len)
+          (skip_when == "fail" && !res)){
+        message(sprintf("while_loop: Skipping %d pages (skip_when = %s)", skip_ken, skip_when))
+        skip_n_pages(state, skip_len)
+      }
     })
   }
 
@@ -1557,7 +1563,10 @@ conditional <- function(test, logic) {
                 session = session, opt = opt)
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                       "logical scalar")
-    if (!res) skip_n_pages(state, n)
+    if (!res) {
+      message(sprintf("Conditional: Skipping %d pages", n))
+      skip_n_pages(state, n)
+    }
   })
 
   join(
