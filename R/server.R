@@ -131,6 +131,7 @@ next_page <- function(state, input, output, elts, session, opt,
 #' @param n Number of pages to skip (negative numbers skip backwards).
 #' @export
 skip_n_pages <- function(state, n) {
+  message(sprintf("Skipping %d pagee", n))
   increment_elt_index(state, by = n)
 }
 
