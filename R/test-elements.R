@@ -1099,7 +1099,7 @@ checkbox_page <-
     )
     get_answer <- function(input, ...)
       if (is.null(input[[label]])) {
-        character(0)
+        ""
       } else {
         input[[label]]
       }
