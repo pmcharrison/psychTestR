@@ -141,7 +141,7 @@ test <- make_test(
   elts = elts,
   opt = demo_options(
     display = display_options(
-      fullscreen = TRUE, 
+      full_screen = TRUE, 
       css = file.path(jspsych_dir, "css/jspsych.css"))
   ))
   
