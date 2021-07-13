@@ -374,7 +374,18 @@ DropboxRepository <- R6::R6Class(
       super$initialize(is_slow = TRUE)
       self$root_dir <- root_dir
       self$token_path <- token_path
+
+      if (!file.exists(self$token_path))
+        stop("Couldn't find any tokens at ", self$token_path, ".")
+
       self$token <- readRDS(self$token_path)
+
+      # It should work just passing the token as the dtoken argument
+      # to the rdrop2 calls. However there is a bug in drop_create
+      # where dtoken is allowed. We therefore use drop_auth to
+      # overcome this.
+      rdrop2::drop_auth(rdstoken = self$token_path)
+
       self$dropbox_key <- dropbox_key
       self$dropbox_secret <- dropbox_secret
     },
@@ -395,7 +406,7 @@ DropboxRepository <- R6::R6Class(
         full_path <- file.path(self$root_dir, dir)
         if (!self$dropbox_exists(full_path)) {
           rdrop2::drop_create(
-            full_path, dtoken = self$token,
+            full_path,
             dtoken = self$token
           )
         }
