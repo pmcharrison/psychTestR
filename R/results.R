@@ -195,7 +195,7 @@ Repository <- R6::R6Class("Repository", public = list(
     if (nrow(df) > 0L) {
       df <- tidyr::extract(
         df, "key", cols,
-        "(?:id=)([[0-9]]*)(?:&p_id=)([[A-Za-z0-9_]]*)(?:&save_id=)([[0-9]]*)(?:&pilot=)([[a-z]]*)(?:&complete=)([[a-z]]*)",
+        "(?:id=)([0-9]*)(?:&p_id=)([A-Za-z0-9]*)(?:&save_id=)([0-9]*)(?:&pilot=)([a-z]*)(?:&complete=)([a-z]*)",
         remove = FALSE)
     } else {
       for (col in cols) df[[col]] <- character()
@@ -363,6 +363,7 @@ DropboxRepository <- R6::R6Class(
   public = list(
     root_dir = NA_character_,
     token_path = NA_character_,
+    token = NULL,
     dropbox_key = NA_character_,
     dropbox_secret = NA_character_,
 
@@ -373,6 +374,7 @@ DropboxRepository <- R6::R6Class(
       super$initialize(is_slow = TRUE)
       self$root_dir <- root_dir
       self$token_path <- token_path
+      self$token <- readRDS(self$token_path)
       self$dropbox_key <- dropbox_key
       self$dropbox_secret <- dropbox_secret
     },
@@ -384,7 +386,7 @@ DropboxRepository <- R6::R6Class(
     },
 
     prepare = function(...) {
-      self$authenticate()
+      # self$authenticate()
       if (!self$dropbox_exists(self$root_dir)) {
         stop("directory '", self$root_dir, "' not found in Dropbox, ",
              "you must create this manually")
@@ -392,7 +394,10 @@ DropboxRepository <- R6::R6Class(
       for (dir in self$dirs) {
         full_path <- file.path(self$root_dir, dir)
         if (!self$dropbox_exists(full_path)) {
-          rdrop2::drop_create(full_path)
+          rdrop2::drop_create(
+            full_path, dtoken = self$token,
+            dtoken = self$token
+          )
         }
       }
     },
@@ -405,9 +410,9 @@ DropboxRepository <- R6::R6Class(
     },
 
     dropbox_exists = function(path) {
-      self$authenticate()
+      # self$authenticate()
       tryCatch(
-        rdrop2::drop_exists(path),
+        rdrop2::drop_exists(path, dtoken = self$token),
         error = function(e) {
           if (e$message == "Conflict (HTTP 409).") FALSE else stop(e)
         }
@@ -440,22 +445,26 @@ DropboxRepository <- R6::R6Class(
     },
 
     deposit_file = function(local_file, dir, key, ...) {
-      self$authenticate()
+      # self$authenticate()
       tmp_dir <- tempfile("dir")
       R.utils::mkdirs(tmp_dir)
       new_local_path <- file.path(tmp_dir, key)
       file.copy(local_file, new_local_path)
-      rdrop2::drop_upload(new_local_path,
-                          file.path(self$root_dir, dir),
-                          autorename = FALSE)
+      rdrop2::drop_upload(
+        new_local_path,
+        file.path(self$root_dir, dir),
+        autorename = FALSE,
+        dtoken = self$token
+      )
     },
 
     get_file = function(dir, key, target_path, ...) {
-      self$authenticate()
+      # self$authenticate()
       rdrop2::drop_download(
         self$path_in_repository(dir, key),
         target_path,
-        overwrite = TRUE
+        overwrite = TRUE,
+        dtoken = self$token
       )
     },
 
@@ -472,7 +481,10 @@ DropboxRepository <- R6::R6Class(
     },
 
     list_files = function(dir, ...) {
-      x <- rdrop2::drop_dir(self$path_in_repository(dir))
+      x <- rdrop2::drop_dir(
+        self$path_in_repository(dir),
+        dtoken = self$token
+      )
       if (nrow(x) == 0) {
         character()
       } else {
@@ -481,17 +493,26 @@ DropboxRepository <- R6::R6Class(
     },
 
     delete_file = function(dir, key) {
-      self$authenticate()
-      rdrop2::drop_delete(self$path_in_repository(dir, key))
+      # self$authenticate()
+      rdrop2::drop_delete(
+        self$path_in_repository(dir, key),
+        dtoken = self$token
+      )
     },
 
     delete_folder = function(dir) {
-      self$authenticate()
-      rdrop2::drop_delete(self$path_in_repository(dir))
+      # self$authenticate()
+      rdrop2::drop_delete(
+        self$path_in_repository(dir),
+        dtoken = self$token
+      )
     },
 
     create_folder = function(dir, ...) {
-      rdrop2::drop_create(self$path_in_repository(dir))
+      rdrop2::drop_create(
+        self$path_in_repository(dir),
+        dtoken = self$token
+      )
     }
   )
 )
