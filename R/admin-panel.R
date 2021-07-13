@@ -441,7 +441,7 @@ admin_panel.handle_downloads.all_results.csv <- function(state, output, opt) {
     filename = "results.csv",
     content = function(file) {
       df <- tryCatch({
-        df_all_results(opt$results_dir) %>%
+        df_all_results(opt) %>%
           list_cols_to_json()
       }, error = function(e) {
         print(e)
@@ -481,7 +481,7 @@ zip_dir <- function(dir, output_file) {
   )
 }
 
-df_all_results <- function(results_dir) {
+df_all_results <- function(opt) {
   files <- get_results_files(opt, full.names = TRUE)
   if (length(files) == 0L) return(data.frame())
   data <- lapply(files, readRDS)
