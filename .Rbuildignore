@@ -13,3 +13,4 @@ psychTestR.pdf
 ^vignettes/output$
 ^docs$
 ^tests/testthat/output$
+^\.httr-oauth$

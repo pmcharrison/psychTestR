@@ -73,10 +73,10 @@ according to some simple heuristics.}
 
 \item{animate}{\code{TRUE} to show simple animation controls with default
 settings; \code{FALSE} not to; or a custom settings list, such as those
-created using \code{\link[shiny:animationOptions]{animationOptions()}}.}
+created using \code{\link[shiny:sliderInput]{animationOptions()}}.}
 
 \item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'};
-see \code{\link[shiny:validateCssUnit]{validateCssUnit()}}.}
+see \code{\link[shiny:reexports]{validateCssUnit()}}.}
 
 \item{sep}{Separator between thousands places in numbers.}
 
@@ -88,7 +88,7 @@ see \code{\link[shiny:validateCssUnit]{validateCssUnit()}}.}
 format string, to be passed to the Javascript strftime library. See
 \url{https://github.com/samsonjs/strftime} for more details. The allowed
 format specifications are very similar, but not identical, to those for R's
-\code{\link[base:strftime]{base::strftime()}} function. For Dates, the default is \code{"\%F"}
+\code{\link[base:strptime]{base::strftime()}} function. For Dates, the default is \code{"\%F"}
 (like \code{"2015-07-01"}), and for POSIXt, the default is \code{"\%F \%T"}
 (like \code{"2015-07-01 15:32:10"}).}
 

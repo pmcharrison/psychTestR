@@ -39,7 +39,7 @@ Imports:
     uuid,
     rdrop2 (>= 0.8.1)
 Depends: R (>= 3.4.0)
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown

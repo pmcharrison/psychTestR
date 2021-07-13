@@ -284,6 +284,7 @@ Repository <- R6::R6Class("Repository", public = list(
   }
 ))
 
+#' @export
 LocalRespository <- R6::R6Class(
   "LocalRespository",
   inherit = Repository,
@@ -337,6 +338,7 @@ LocalRespository <- R6::R6Class(
   )
 )
 
+#' @export
 DropboxRepository <- R6::R6Class(
   "DropboxRepository",
   inherit = Repository,
