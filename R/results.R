@@ -182,6 +182,11 @@ Repository <- R6::R6Class("Repository", public = list(
   file_exists = function(dir, key, ...) stop("not implemented"),
   list_files = function(dir, ...) stop("not implemented"),
   delete_file = function(dir, key, ...) stop("not implemented"),
+  delete_folder = function(dir, ...) stop("not implemented"),
+
+  # May throw an error if the folder already exists
+  create_folder = function(dir, ...) stop("not implemented"),
+
   get_folder = function(dir, target_path, ...) stop("not implemented"),
 
   tabulate_results = function(include_pilot) {
@@ -210,6 +215,10 @@ Repository <- R6::R6Class("Repository", public = list(
     file <- tempfile()
     self$get_file("results", key, file)
     readRDS(file)
+  },
+
+  download_results_dir = function(target_path) {
+    self$get_folder("results", target_path)
   },
 
   load_all_results = function(include_pilot) {
@@ -334,6 +343,14 @@ LocalRespository <- R6::R6Class(
 
     delete_file = function(dir, key) {
       file.remove(self$path_in_repository(dir, key))
+    },
+
+    delete_folder = function(dir) {
+      unlink(self$path_in_repository(dir), recursive = TRUE)
+    },
+
+    create_folder = function(dir, ...) {
+      dir.create(self$path_in_repository(dir))
     }
   )
 )
@@ -466,6 +483,15 @@ DropboxRepository <- R6::R6Class(
     delete_file = function(dir, key) {
       self$authenticate()
       rdrop2::drop_delete(self$path_in_repository(dir, key))
+    },
+
+    delete_folder = function(dir) {
+      self$authenticate()
+      rdrop2::drop_delete(self$path_in_repository(dir))
+    },
+
+    create_folder = function(dir, ...) {
+      rdrop2::drop_create(self$path_in_repository(dir))
     }
   )
 )

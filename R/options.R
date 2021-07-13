@@ -194,7 +194,6 @@ test_options <- function(title, admin_password,
   server_closed_msg <- enc2utf8(server_closed_msg)
 
   session_dir <- file.path(output_dir, "sessions")
-  results_archive_dir <- file.path(output_dir, "deleted-results")
   error_dir <- file.path(output_dir, "errors")
 
   list(title = title,
@@ -221,7 +220,6 @@ test_options <- function(title, admin_password,
        repository = repository,
        output_dir = output_dir,
        session_dir = session_dir,
-       results_archive_dir = results_archive_dir,
        error_dir = error_dir,
        closed_file = file.path(output_dir, "closed.txt"),
        session_timeout_min = session_timeout_min,

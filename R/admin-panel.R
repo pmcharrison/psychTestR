@@ -315,19 +315,26 @@ admin_panel.clear_sessions.observers <- function(state, input, opt) {
 }
 
 admin_panel.delete_results.actual <- function(opt) {
-  dir <- opt$results_archive_dir
-  R.utils::mkdirs(dir)
-  file <- paste0(format(Sys.time(),
-                        format = "date=%Y-%m-%d&time=%H-%M-%S&tz=%Z"),
-                 ".zip")
-  path <- file.path(dir, file)
+  # "deleted-results"
+  zip_key <- paste0(
+    format(Sys.time(), format = "date=%Y-%m-%d&time=%H-%M-%S&tz=%Z"),
+    ".zip"
+  )
   shiny::showNotification("Creating results backup...")
-  zip_dir(dir = opt$results_dir, output_file = path)
-  if (file.exists(path)) {
+
+  tmp_results_dir <- tempfile("dir")
+  opt$repository$download_results_dir(tmp_results_dir)
+
+  tmp_zip_file <- tempfile(fileext = ".zip")
+
+  zip_dir(dir = tmp_results_dir, output_file = tmp_zip_file)
+  opt$repository$deposit_file(tmp_zip_file, "deleted-results", zip_key)
+
+  if (opt$repository$file_exists("deleted-results", zip_key)) {
     shiny::showNotification("Backup created.")
-    unlink(opt$results_dir, recursive = TRUE)
+    opt$repository$delete_folder("results")
     Sys.sleep(0.01)
-    dir.create(opt$results_dir)
+    opt$repository$create_folder("results")
     shiny::showNotification("Deleted results.")
   } else {
     shiny::showNotification(
