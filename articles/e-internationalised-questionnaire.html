@@ -115,7 +115,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="e-internationalised-questionnaire_files/header-attrs-2.9.3/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial (expert): Creating an internationalised questionnaire</h1>
@@ -146,8 +146,8 @@
 <p>If you haven’t got them already, you can install these packages at the R terminal as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"tibble"</span><span class="op">)</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pmcharrison/psychTestR"</span><span class="op">)</span></code></pre></div>
-<p>Now we’ll define a simple table that defines a questionnaire in our two languages. Ordinarily you would define this table in an external csv file, and read it in using <code>read.csv</code> or <code>readr::read_csv</code>, but here we will define it within our R code. This table takes the form of a <code>tibble</code> object, as created by the <code>tribble</code> function (see <code><a href="https://tibble.tidyverse.org/reference/tibble.html">?tibble::tibble</a></code> for information), but you could also use a <code>data.frame</code> object.</p>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"pmcharrison/psychTestR"</span><span class="op">)</span></code></pre></div>
+<p>Now we’ll define a simple table that defines a questionnaire in our two languages. Ordinarily you would define this table in an external csv file, and read it in using <code>read.csv</code> or <code><a href="https://readr.tidyverse.org/reference/read_delim.html">readr::read_csv</a></code>, but here we will define it within our R code. This table takes the form of a <code>tibble</code> object, as created by the <code>tribble</code> function (see <code><a href="https://tibble.tidyverse.org/reference/tibble.html">?tibble::tibble</a></code> for information), but you could also use a <code>data.frame</code> object.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">definition</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="va">item_number</span>, <span class="op">~</span><span class="va">key_type</span>,   <span class="op">~</span><span class="va">key</span>,     <span class="op">~</span><span class="va">en</span>,                  <span class="op">~</span><span class="va">fr</span>,
@@ -165,7 +165,7 @@
 <p>Here we wrote <code>definition[, c("key", "en", "fr")]</code>, which takes the original <code>definition</code> tibble and only keeps the three columns <code>key</code>, <code>en</code>, and <code>fr</code>, to match the required input of <code>i18n_dict$new</code> (see <a href="https://pmcharrison.github.io/psychTestR/reference/i18n.html"><code>i18n</code></a> for details. In general, <code>i18n_dict$new()</code> requires an input <code>data.frame</code> or <code>tibble</code> where each row corresponds to a text element, the first column is a unique identifier termed <code>key</code>, and the remaining columns provide translations into different languages, specified by capitalised ISO 639-2 country codes.</p>
 <p>Next, we will use the <code>definition</code> object to construct our test logic. The general idea is that we will iterate over each item number, collect the rows corresponding to that item number, and define a test page from this information. Here I’m going to use utility functions from the <code>tidyverse</code> packages - if you’re not familiar with these packages, I’d certainly recommend them. If you haven’t already installed the <code>tidyverse</code>, you can install it with <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("tidyverse")</a></code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
 <span class="va">questionnaire</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_timeline.html">new_timeline</a></span><span class="op">(</span>
   <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>

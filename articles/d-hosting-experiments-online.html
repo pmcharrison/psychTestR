@@ -115,7 +115,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="d-hosting-experiments-online_files/header-attrs-2.9.3/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial (intermediate): Hosting experiments online</h1>
@@ -129,7 +129,7 @@
     
     
 <p>psychTestR experiments can be hosted online using the open-source ‘Shiny Server’ software. This software can be installed on a Linux server. The following instructions detail how you can provision your own server if you don’t already have one.</p>
-<p><strong>Note:</strong> <a href="https://www.westernsydney.edu.au/marcs/our_team/researchers/dr_anthony_chmiel">Anthony Chmiel</a> has very kindly put together a much more detailed guide that is available <a href="https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf">here</a>. You are highly recommended to refer to this guide when setting up your own server.</p>
+<p><strong>Note:</strong> <a href="https://www.westernsydney.edu.au/marcs/our_team/research_assistants/dr_anthony_chmiel">Anthony Chmiel</a> has very kindly put together a much more detailed guide that is available <a href="https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf">here</a>. You are highly recommended to refer to this guide when setting up your own server.</p>
 <div id="shiny-server" class="section level2">
 <h2 class="hasAnchor">
 <a href="#shiny-server" class="anchor"></a>Shiny Server</h2>
@@ -142,7 +142,7 @@
 <p>Shiny Server requires a Linux server. There are various ways of obtaining your own server. Cloud-based providers, such as <a href="https://aws.amazon.com/">Amazon Web Services</a> (AWS), provide a useful way of getting your own virtual server instead of having to buy and maintain physical hardware. The instructions below correspond to AWS because this is where our experience lies, but there are many competing cloud providers that could equivalently be used.</p>
 <p>The overview of this stage is as follows:</p>
 <ul>
-<li>Spin up an <a href="https://aws.amazon.com/ec2">Elastic Compute Cloud</a> server (typically <code>t2.micro</code> should be sufficient for installation and development purposes, the server can be temporarily upgraded to larger sizes (e.g. <code>t2.medium</code>) during data collection).</li>
+<li>Spin up an <a href="https://aws.amazon.com/ec2">Elastic Compute Cloud</a> server (typically <code>t2.micro</code> should be sufficient for installation and development purposes, the server can be temporarily upgraded to larger sizes (e.g. <code>t2.medium</code>) during data collection).</li>
 <li>Install R and Shiny Server.</li>
 </ul>
 <p>Instructions covering both of these steps can be found here: <a href="https://aws.amazon.com/blogs/big-data/running-r-on-aws/" class="uri">https://aws.amazon.com/blogs/big-data/running-r-on-aws/</a>. This link provides some additional functionality that you may not need, such as setting up a web-hosted instance of RStudio, and integrating the server with S3. However, it also provides a CloudFormation template that automates the setup of this configuration, so it still might save you time.</p>
@@ -195,7 +195,7 @@ devtools::install_github("pmcharrison/psychTestR")</code></pre>
 <li>Develop your test locally before pushing it to the server.</li>
 <li>When developing locally, run <code><a href="https://rdrr.io/r/base/options.html">options(shiny.error = browser)</a></code> so you can inspect the stack when an error occurs.</li>
 <li>When running a test on the server, error messages often go to the Javascript console. On Chrome, you can access this console by clicking View -&gt; Developer -&gt; Javascript console.</li>
-<li>Errors that happen remotely but not locally typically come from psychTestR lacking write permissions to your app’s folder (see below instructions), or from the necessary R packages not being installed on the server. You can install R packages on the server by SSHing in, opening R (<code>sudo R</code>), and then running the same commands as you would on your local machine (e.g. <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("car")</a></code>).</li>
+<li>Errors that happen remotely but not locally typically come from psychTestR lacking write permissions to your app’s folder (see below instructions), or from the necessary R packages not being installed on the server. You can install R packages on the server by SSHing in, opening R (<code>sudo R</code>), and then running the same commands as you would on your local machine (e.g. <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("car")</a></code>).</li>
 </ul>
 </div>
 </div>

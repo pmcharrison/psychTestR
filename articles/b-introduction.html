@@ -115,7 +115,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="b-introduction_files/header-attrs-2.9.3/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>An introduction to psychTestR</h1>
@@ -176,7 +176,7 @@
 <li><code>slider_page</code></li>
 <li><code>final_page</code></li>
 </ul>
-<p>See the <a href="https://pmcharrison.github.io/psychTestR/reference/index.html">function-level documentation</a> (accessible at the R console with e.g. <code><a href="../reference/text_input_page.html">?text_input_page</a></code>) for more details.</p>
+<p>See the <a href="https://pmcharrison.github.io/psychTestR/reference/index.html">function-level documentation</a> (accessible at the R console with e.g. <code><a href="../reference/text_input_page.html">?text_input_page</a></code>) for more details.</p>
 <p>Tests should generally conclude with a <em>final page</em>, as produced by <code>final_page</code>: these final pages have no buttons to advance to the next page, and so provide a good way to end the test.</p>
 <p>You can also define custom page types using the general-purpose <code>page</code> function. In our experience, it’s useful to use the source code of pre-existing page types as templates for defining custom page types. If you think that your page type might be useful to other psychTestR users, you may consider wrapping it as a function and submitting it as a pull request to the <a href="https://github.com/pmcharrison/psychTestR">psychTestR repository</a>, so that it can be incorporated into the psychTestR codebase.</p>
 </div>
@@ -243,8 +243,8 @@
 ## {
 ##     save_results_to_disk(complete, state, opt)
 ## }
-## &lt;bytecode: 0x659e7a8&gt;
-## &lt;environment: 0x659e348&gt;</code></pre>
+## &lt;bytecode: 0x13bea6200&gt;
+## &lt;environment: 0x13bea2750&gt;</code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct the server to run a specified function. This function can take several inputs, but most important is the <code>state</code> object, which stores information relevant to that particular participant’s testing session, such as their responses to N-alternative forced choice pages. This particular function takes the <code>state</code> object as input and saves the participant’s results to disk, paying attention to certain test configuration options as specified in <code>opt</code>.</p>
 <p>Having run this test, we should see that it generates an RDS file in the directory <code>output/results</code>. The name of this RDS file will contain the participant’s ID, which by default is randomly generated. RDS files provide compressed versions of R objects. We can read our RDS file into R using the <code>readRDS</code> function. The code below lists all files in the results directory with the extension <code>.rds</code>, and reads the first one into R:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -274,10 +274,10 @@
 ## [1] TRUE
 ## 
 ## $session$time_started
-## [1] "2019-09-26 08:31:46 UTC"
+## [1] "2019-09-26 10:31:46 CEST"
 ## 
 ## $session$current_time
-## [1] "2019-09-26 08:31:47 UTC"
+## [1] "2019-09-26 10:31:47 CEST"
 ## 
 ## $session$num_restarts
 ## [1] 0
@@ -290,7 +290,7 @@
 <pre><code>## # A tibble: 1 x 8
 ##   session.p_id                session.pilot session.complete session.time_start…
 ##   &lt;chr&gt;                       &lt;lgl&gt;         &lt;lgl&gt;            &lt;dttm&gt;             
-## 1 30d7172ba11c543328b528dfc5… FALSE         TRUE             2019-09-26 08:31:46
+## 1 30d7172ba11c543328b528dfc5… FALSE         TRUE             2019-09-26 10:31:46
 ## # … with 4 more variables: session.current_time &lt;dttm&gt;,
 ## #   session.num_restarts &lt;int&gt;, session.language &lt;chr&gt;,
 ## #   results.favourite_colour &lt;chr&gt;</code></pre>
@@ -340,8 +340,8 @@
 ## $get_answer
 ## function (input, ...) 
 ## input$last_btn_pressed
-## &lt;bytecode: 0x60933e0&gt;
-## &lt;environment: 0x60929d0&gt;
+## &lt;bytecode: 0x13be012e8&gt;
+## &lt;environment: 0x13be01cf8&gt;
 ## 
 ## $save_answer
 ## [1] TRUE
@@ -349,8 +349,8 @@
 ## $validate
 ## function (answer, ...) 
 ## !is.null(answer)
-## &lt;bytecode: 0x6093258&gt;
-## &lt;environment: 0x60929d0&gt;
+## &lt;bytecode: 0x13be01470&gt;
+## &lt;environment: 0x13be01cf8&gt;
 ## 
 ## $on_complete
 ## NULL
@@ -360,7 +360,7 @@
 ## 
 ## $next_elt
 ## [1] TRUE</code></pre>
-<p>psychTestR can then refer to these resolved test elements when administering them to participants, instead of running the builder functions (e.g. <code>NAFC_page</code>) from scratch each time.</p>
+<p>psychTestR can then refer to these resolved test elements when administering them to participants, instead of running the builder functions (e.g. <code>NAFC_page</code>) from scratch each time.</p>
 <p>While build time happens before any participants take the test, test time refers to the participant’s testing session itself. Test time code is useful for things like saving the participant’s results, defining test elements that depend on the participant’s actions, and randomising stimulus administration.</p>
 <p>Readers who have written Shiny apps may have written server files that look something like this:</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -538,7 +538,7 @@
 </li>
 </ul>
 <p>At any one point in time, only one results section will be active. Saved results will be automatically appended to the active result section. A new results section may be started by calling the function <code>register_next_results_section</code>. This function is automatically called at the beginning of a new module.</p>
-<p>Where relevant, prebuilt page types (e.g. <code>NAFC_page</code>, <code>text_input_page</code>) typically come with automatic results saving. This automatic saving may be disabled by setting <code>save_answer = FALSE</code>.</p>
+<p>Where relevant, prebuilt page types (e.g. <code>NAFC_page</code>, <code>text_input_page</code>) typically come with automatic results saving. This automatic saving may be disabled by setting <code>save_answer = FALSE</code>.</p>
 <p>It is straightforward to implement automatic results saving for new page types. All that is required is to implement a <code>get_answer</code> function (see <code><a href="../reference/page.html">?page</a></code>), which shows how to extract the participant’s answer from the user interface, and then save <code>save_answer</code> to <code>TRUE</code>. See the source code for prebuilt page types, for example <code>text_input_page</code>, for examples.</p>
 <p>The participant’s results will not be saved to disk without an explicit command. The easiest way to achieve this is with the function <code>elt_save_results_to_disk</code>; this defines a code block that saves the participant’s current results to the <code>output/results</code> directory. This function may be called multiple times in the test so as to keep an incrementally updated record of the participant’s progress. Intermediate results should be saved with the argument <code>complete = FALSE</code>; finalised results should be saved with <code>complete = TRUE</code>.</p>
 <p>Results may then be read into R using the <code>readRDS</code> command. This produces a psychTestR <code>results</code> object which can be explored with various commands:</p>
@@ -643,7 +643,7 @@
 <div id="internationalisation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#internationalisation" class="anchor"></a>Internationalisation</h2>
-<p>It is sometimes useful to construct psychTestR tests that support multiple languages. The first step in creating such a test is to define a <em>dictionary</em>. A dictionary comprises a collection of <em>keys</em>, e.g. “welcome_message” or “correct_feedback”, with each of these keys being associated with one or more translations in various languages. For example, the key <code>"colour"</code> might return “What’s your favourite colour?” if the language is English, or “Quelle est ta couleur préférée?” if the language is French.</p>
+<p>It is sometimes useful to construct psychTestR tests that support multiple languages. The first step in creating such a test is to define a <em>dictionary</em>. A dictionary comprises a collection of <em>keys</em>, e.g. “welcome_message” or “correct_feedback”, with each of these keys being associated with one or more translations in various languages. For example, the key <code>"colour"</code> might return “What’s your favourite colour?” if the language is English, or “Quelle est ta couleur préférée?” if the language is French.</p>
 <p>psychTestR dictionaries are created as instantiations of the R6 class <code>i18n_dict</code>. A dictionary may be created by calling the <code>$new()</code> method with a data frame as the first argument, where the data frame satisfies the following properties:</p>
 <ul>
 <li>Each row corresponds to a term to be translated.</li>
@@ -696,7 +696,7 @@
 <li>
 <strong>Separate data from code</strong>. Questionnaires are often most naturally expressed in some kind of tabular format. We recommend storing the textual content of such questionnaires in tabular format (CSV files, data frames, tibbles) and programmatically generating psychTestR content from these tables.</li>
 </ol>
-<p>As mentioned previously, psychTestR includes various prebuilt test components that can facilitate test construction (e.g. <code>one_button_page</code>, <code>NAFC_page</code>, <code>text_input_page</code>). However, particular tests will often demand additional customisability over what is supported by these prebuilt elements. In these cases, we recommend defining new page builder functions with reference to psychTestR’s prebuilt functions, and taking advantage of the way in which the htmltools and shiny packages allow you to construct complex user interfaces through R code. This process is more involved than simply using psychTestR builder functions, but it allows for a huge flexibility in the kinds of pages that can be administered.</p>
+<p>As mentioned previously, psychTestR includes various prebuilt test components that can facilitate test construction (e.g. <code>one_button_page</code>, <code>NAFC_page</code>, <code>text_input_page</code>). However, particular tests will often demand additional customisability over what is supported by these prebuilt elements. In these cases, we recommend defining new page builder functions with reference to psychTestR’s prebuilt functions, and taking advantage of the way in which the htmltools and shiny packages allow you to construct complex user interfaces through R code. This process is more involved than simply using psychTestR builder functions, but it allows for a huge flexibility in the kinds of pages that can be administered.</p>
 </div>
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
@@ -707,7 +707,7 @@
 <div class="footnotes">
 <hr>
 <ol>
-<li id="fn1"><p> If you are interested, you can inspect these session states in R using the <code>readRDS</code> function. Note however that these objects are not documented and their structure is subject to change with future versions of psychTestR.<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p> If you are interested, you can inspect these session states in R using the <code>readRDS</code> function. Note however that these objects are not documented and their structure is subject to change with future versions of psychTestR.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
