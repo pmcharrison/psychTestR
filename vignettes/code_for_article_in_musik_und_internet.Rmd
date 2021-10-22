@@ -20,7 +20,7 @@ save_time_started <- code_block(function(state, ...) { # Speichern der Startzeit
   set_local(                                           # lokal für diesen Teilnehmer
     key = "time_started",
     value = Sys.time(),
-    state = state  #interne Statusvariable von psychTestR
+    state = state  # interne Statusvariable von psychTestR
   )
 })
  
@@ -36,7 +36,7 @@ compute_time_taken <- code_block(function(state, ...) {        # Berechnung und 
 timeline_abb_1 <- join( # Timeline aus Abbildung 1
   one_button_page( # Willkommensseite
     button_text = "Weiter",
-      div(
+      shiny::div(
         p("Willkommen zum", tags$strong("Musikfragebogen!")),
         p(tags$em("Wir wollen heute mehr über Musik in deinem Leben erfahren."))
       )
