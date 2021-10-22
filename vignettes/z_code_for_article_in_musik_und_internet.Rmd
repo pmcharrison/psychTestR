@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-The following code is taken from the article "*psychTestR* - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare" in "Musik und Internet. Musikalische Phänomene populärer Kulturen" (2022) by Nicolas Ruth & Peter Moormann (see [article](https://.html)). Feel free to copy and modify it according to your needs.
+The following code is taken from the article "*psychTestR* - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare" in "Musik und Internet. Musikalische Phänomene populärer Kulturen" (2022) by Nicolas Ruth & Peter Moormann (see [article](https://.html)). Feel free to copy and modify it according to your needs. <!-- This link needs to be specified. Viola informs Peter as soon as she knows the link. -->
 
 ```r
 # Beispielcode  ------------------------------------------------------
