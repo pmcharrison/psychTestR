@@ -17,7 +17,7 @@ library(psyquest)
  
 # Codeblöcke
 save_time_started <- code_block(function(state, ...) { # Speichern der Startzeit 
-  set_local(                                           # lokal für diesen Teilnehmer
+  set_global(                                          # global für diesen Teilnehmer
     key = "time_started",
     value = Sys.time(),
     state = state  # interne Statusvariable von psychTestR
@@ -55,7 +55,7 @@ timeline_abb_1 <- join( # Timeline aus Abbildung 1
   reactive_page(function(state, answer, ...) { # zweite Frage (Dauer)
     msg <- sprintf(
         "Wie lange spielst du schon %s?",
-        get_local("instrument", state) # holt den aktuellen Wert aus state
+        get_global("instrument", state) # holt den aktuellen Wert aus state
     )
     NAFC_page(
         label = "time_instrument",
