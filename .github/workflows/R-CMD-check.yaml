@@ -28,7 +28,7 @@ jobs:
       - run: |
           sudo apt update
           sudo apt install libharfbuzz-dev libfribidi-dev
-          Rscript -e 'remotes::install_cran("pkgdown"); remotes::install_github("rstudio/rmarkdown"); install.packages("shinytest"); shinytest::installDependencies()'
+          Rscript -e 'install.packages("remotes"); remotes::install_cran("pkgdown"); remotes::install_github("rstudio/rmarkdown"); install.packages("shinytest"); shinytest::installDependencies()'
 
       - uses: r-lib/actions/check-r-package@v1
 
