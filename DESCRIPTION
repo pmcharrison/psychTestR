@@ -42,6 +42,7 @@ Suggests:
     knitr,
     rmarkdown
 Byte-Compile: yes
-URL: https://github.com/pmcharrison/psychTestR
+URL: https://github.com/pmcharrison/psychTestR,
+    https://pmcharrison.github.io/psychTestR
 BugReports: https://github.com/pmcharrison/psychTestR/issues
 VignetteBuilder: knitr
