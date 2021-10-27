@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>An introduction to psychTestR • psychTestR</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -92,6 +92,9 @@
     <li>
       <a href="../articles/e-jspsych-integration.html">Tutorial (expert): jsPsych integration</a>
     </li>
+    <li>
+      <a href="../articles/z_code_for_article_in_musik_und_internet.html">Code for Article 'psychTestR - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare'</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -115,7 +118,7 @@
 
       
 
-      </header><script src="b-introduction_files/header-attrs-2.9.3/header-attrs.js"></script><div class="row">
+      </header><script src="b-introduction_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>An introduction to psychTestR</h1>
@@ -243,8 +246,8 @@
 ## {
 ##     save_results_to_disk(complete, state, opt)
 ## }
-## &lt;bytecode: 0x13a838000&gt;
-## &lt;environment: 0x13a834550&gt;</code></pre>
+## &lt;bytecode: 0x5592f7d41bd0&gt;
+## &lt;environment: 0x5592f7d453a8&gt;</code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct the server to run a specified function. This function can take several inputs, but most important is the <code>state</code> object, which stores information relevant to that particular participant’s testing session, such as their responses to N-alternative forced choice pages. This particular function takes the <code>state</code> object as input and saves the participant’s results to disk, paying attention to certain test configuration options as specified in <code>opt</code>.</p>
 <p>Having run this test, we should see that it generates an RDS file in the directory <code>output/results</code>. The name of this RDS file will contain the participant’s ID, which by default is randomly generated. RDS files provide compressed versions of R objects. We can read our RDS file into R using the <code>readRDS</code> function. The code below lists all files in the results directory with the extension <code>.rds</code>, and reads the first one into R:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -274,10 +277,10 @@
 ## [1] TRUE
 ## 
 ## $session$time_started
-## [1] "2019-09-26 10:31:46 CEST"
+## [1] "2019-09-26 08:31:46 UTC"
 ## 
 ## $session$current_time
-## [1] "2019-09-26 10:31:47 CEST"
+## [1] "2019-09-26 08:31:47 UTC"
 ## 
 ## $session$num_restarts
 ## [1] 0
@@ -287,10 +290,10 @@
 <p>We see that my favourite colour is green. We can also coerce the results file to a tabular format using the <code>as_tibble</code> or <code>as.data.frame</code> functions:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/imports.html">as_tibble</a></span><span class="op">(</span><span class="va">res</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 1 x 8
+<pre><code>## # A tibble: 1 × 8
 ##   session.p_id                session.pilot session.complete session.time_start…
 ##   &lt;chr&gt;                       &lt;lgl&gt;         &lt;lgl&gt;            &lt;dttm&gt;             
-## 1 30d7172ba11c543328b528dfc5… FALSE         TRUE             2019-09-26 10:31:46
+## 1 30d7172ba11c543328b528dfc5… FALSE         TRUE             2019-09-26 08:31:46
 ## # … with 4 more variables: session.current_time &lt;dttm&gt;,
 ## #   session.num_restarts &lt;int&gt;, session.language &lt;chr&gt;,
 ## #   results.favourite_colour &lt;chr&gt;</code></pre>
@@ -340,8 +343,8 @@
 ## $get_answer
 ## function (input, ...) 
 ## input$last_btn_pressed
-## &lt;bytecode: 0x13a78a0e8&gt;
-## &lt;environment: 0x13a78aaf8&gt;
+## &lt;bytecode: 0x5592f80b2ee8&gt;
+## &lt;environment: 0x5592f80b24d8&gt;
 ## 
 ## $save_answer
 ## [1] TRUE
@@ -349,8 +352,8 @@
 ## $validate
 ## function (answer, ...) 
 ## !is.null(answer)
-## &lt;bytecode: 0x13a78a270&gt;
-## &lt;environment: 0x13a78aaf8&gt;
+## &lt;bytecode: 0x5592f80b2d60&gt;
+## &lt;environment: 0x5592f80b24d8&gt;
 ## 
 ## $on_complete
 ## NULL

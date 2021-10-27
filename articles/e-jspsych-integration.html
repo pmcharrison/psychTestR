@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tutorial (expert): jsPsych integration • psychTestR</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
@@ -92,6 +92,9 @@
     <li>
       <a href="../articles/e-jspsych-integration.html">Tutorial (expert): jsPsych integration</a>
     </li>
+    <li>
+      <a href="../articles/z_code_for_article_in_musik_und_internet.html">Code for Article 'psychTestR - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare'</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -115,7 +118,7 @@
 
       
 
-      </header><script src="e-jspsych-integration_files/header-attrs-2.9.3/header-attrs.js"></script><div class="row">
+      </header><script src="e-jspsych-integration_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial (expert): jsPsych integration</h1>
@@ -142,50 +145,50 @@
 <h2 class="hasAnchor">
 <a href="#tutorial" class="anchor"></a>Tutorial</h2>
 <p>Normally we create a jsPsych test by writing an HTML file. Here is the ‘Hello World’ example from the <a href="https://www.jspsych.org/tutorials/hello-world/">jsPsych website</a>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;html&gt;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;head&gt;</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;title&gt;</span>My experiment<span class="kw">&lt;/title&gt;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">"jspsych-6.1.0/jspsych.js"</span><span class="kw">&gt;&lt;/script&gt;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">"jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"</span><span class="kw">&gt;&lt;/script&gt;</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">&lt;link</span><span class="ot"> href=</span><span class="st">"jspsych-6.1.0/css/jspsych.css"</span><span class="ot"> rel=</span><span class="st">"stylesheet"</span><span class="ot"> type=</span><span class="st">"text/css"</span><span class="kw">&gt;&lt;/link&gt;</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/head&gt;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;body&gt;&lt;/body&gt;</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;script&gt;</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">var</span> hello_trial <span class="op">=</span> {</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="dt">type</span><span class="op">:</span> <span class="st">'html-keyboard-response'</span><span class="op">,</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="dt">stimulus</span><span class="op">:</span> <span class="st">'Hello world!'</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    jsPsych<span class="op">.</span><span class="fu">init</span>({</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="dt">timeline</span><span class="op">:</span> [hello_trial]</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    })</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">&lt;/script&gt;</span></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1"></a><span class="dt">&lt;!DOCTYPE </span>html<span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">&lt;html&gt;</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>    <span class="kw">&lt;head&gt;</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>        <span class="kw">&lt;title&gt;</span>My experiment<span class="kw">&lt;/title&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">"jspsych-6.1.0/jspsych.js"</span><span class="kw">&gt;&lt;/script&gt;</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>        <span class="kw">&lt;script</span><span class="ot"> src=</span><span class="st">"jspsych-6.1.0/plugins/jspsych-html-keyboard-response.js"</span><span class="kw">&gt;&lt;/script&gt;</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>        <span class="kw">&lt;link</span><span class="ot"> href=</span><span class="st">"jspsych-6.1.0/css/jspsych.css"</span><span class="ot"> rel=</span><span class="st">"stylesheet"</span><span class="ot"> type=</span><span class="st">"text/css"</span><span class="kw">&gt;&lt;/link&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a>    <span class="kw">&lt;/head&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>    <span class="kw">&lt;body&gt;&lt;/body&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>    <span class="kw">&lt;script&gt;</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a>    <span class="kw">var</span> hello_trial <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a>        <span class="dt">type</span><span class="op">:</span> <span class="st">'html-keyboard-response'</span><span class="op">,</span></span>
+<span id="cb1-14"><a href="#cb1-14"></a>        <span class="dt">stimulus</span><span class="op">:</span> <span class="st">'Hello world!'</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a>    <span class="op">}</span></span>
+<span id="cb1-16"><a href="#cb1-16"></a></span>
+<span id="cb1-17"><a href="#cb1-17"></a>    <span class="va">jsPsych</span>.<span class="at">init</span>(<span class="op">{</span></span>
+<span id="cb1-18"><a href="#cb1-18"></a>        <span class="dt">timeline</span><span class="op">:</span> [hello_trial]</span>
+<span id="cb1-19"><a href="#cb1-19"></a>    <span class="op">}</span>)</span>
+<span id="cb1-20"><a href="#cb1-20"></a></span>
+<span id="cb1-21"><a href="#cb1-21"></a>    <span class="kw">&lt;/script&gt;</span></span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="kw">&lt;/html&gt;</span></span></code></pre></div>
 <p>We’re going to get this example running in psychTestR. The first step is to download the jsPsych source code from the <a href="https://github.com/jspsych/jsPsych/releases">GitHub repository</a>, unzip the release file, and save the resulting directory as a subdirectory of your current working directory, called for example <code>jspsych-6.1.0</code>.</p>
 <p>To incorporate this code into psychTestR, we first create a file called <code>new-timeline.js</code>, where we define a function that creates a jsPsych timeline.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">new_timeline</span>() {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">var</span> hello_trial <span class="op">=</span> {</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">'html-keyboard-response'</span><span class="op">,</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">stimulus</span><span class="op">:</span> <span class="st">'Hello world!'</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> [hello_trial]<span class="op">;</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">function</span> <span class="at">new_timeline</span>() <span class="op">{</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="kw">var</span> hello_trial <span class="op">=</span> <span class="op">{</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>    <span class="dt">type</span><span class="op">:</span> <span class="st">'html-keyboard-response'</span><span class="op">,</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="dt">stimulus</span><span class="op">:</span> <span class="st">'Hello world!'</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>  <span class="op">};</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="cf">return</span> [hello_trial]<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="op">}</span></span></code></pre></div>
 <p>We then make a second Javascript file, <code>run-jspsych.js</code>, containing the following boilerplate code:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">run_jspsych</span>() {</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  jsPsych<span class="op">.</span><span class="fu">init</span>({</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">timeline</span><span class="op">:</span> <span class="fu">new_timeline</span>()<span class="op">,</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">display_element</span><span class="op">:</span> <span class="st">'js_psych'</span><span class="op">,</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">on_finish</span><span class="op">:</span> <span class="kw">function</span>() {</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="kw">var</span> json_data <span class="op">=</span> jsPsych<span class="op">.</span><span class="at">data</span><span class="op">.</span><span class="fu">get</span>()<span class="op">.</span><span class="fu">json</span>()<span class="op">;</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      Shiny<span class="op">.</span><span class="fu">onInputChange</span>(<span class="st">"jspsych_results"</span><span class="op">,</span> json_data)<span class="op">;</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">next_page</span>()<span class="op">;</span></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  })<span class="op">;</span></span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">run_jspsych</span>()<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode js"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">function</span> <span class="at">run_jspsych</span>() <span class="op">{</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="va">jsPsych</span>.<span class="at">init</span>(<span class="op">{</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>    <span class="dt">timeline</span><span class="op">:</span> <span class="at">new_timeline</span>()<span class="op">,</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>    <span class="dt">display_element</span><span class="op">:</span> <span class="st">'js_psych'</span><span class="op">,</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>    <span class="dt">on_finish</span><span class="op">:</span> <span class="kw">function</span>() <span class="op">{</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>      <span class="kw">var</span> json_data <span class="op">=</span> <span class="va">jsPsych</span>.<span class="va">data</span>.<span class="at">get</span>().<span class="at">json</span>()<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>      <span class="va">Shiny</span>.<span class="at">onInputChange</span>(<span class="st">"jspsych_results"</span><span class="op">,</span> json_data)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>      <span class="at">next_page</span>()<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>    <span class="op">}</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>  <span class="op">}</span>)<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="op">}</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="at">run_jspsych</span>()<span class="op">;</span></span></code></pre></div>
 <p>Finally, we create an R file called <code>my-test.R</code>, and define a psychTestR page that wraps the jsPsych test. We do this using helper functions from the <code>htmltools</code> package, which allow us to build HTML code programmatically from within R.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools">htmltools</a></span><span class="op">)</span>
