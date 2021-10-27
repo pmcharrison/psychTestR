@@ -12,8 +12,8 @@
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
@@ -175,8 +175,8 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
+          <h2 id="section-top-level" class="hasAnchor"><a href="#section-top-level" class="anchor"></a>Top level</h2>
+          <p class="section-desc"><p>These are the top-level functions used to launch a psychTestR test.</p></p>
         </th>
       </tr>
       
@@ -187,16 +187,201 @@
       <tr>
         
         <td>
-          <p><code><a href="AppTester.html">AppTester</a></code> </p>
+          <p><code><a href="make_test.html">make_test()</a></code> </p>
         </td>
-        <td><p>App tester</p></td>
+        <td><p>Make psychTestR test</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="NAFC_page.html">NAFC_page()</a></code> </p>
+          <p><code><a href="test_options.html">test_options()</a></code> </p>
         </td>
-        <td><p>New NAFC page</p></td>
+        <td><p>Test options</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="display_options.html">display_options()</a></code> </p>
+        </td>
+        <td><p>Display options</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-timelines" class="hasAnchor"><a href="#section-timelines" class="anchor"></a>Timelines</h2>
+          <p class="section-desc"><p>Timelines are sequences of test elements that define a psychTestR test.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="as.timeline.html">as.timeline()</a></code> </p>
+        </td>
+        <td><p>Coerce to timeline</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="is.timeline.html">is.timeline()</a></code> </p>
+        </td>
+        <td><p>Is it a timeline object?</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="join.html">join()</a></code> </p>
+        </td>
+        <td><p>Join test elements</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="new_timeline.html">new_timeline()</a></code> </p>
+        </td>
+        <td><p>New timeline</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="new_results_section.html">new_results_section()</a></code> </p>
+        </td>
+        <td><p>New results section</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="timeline.html">timeline</a></code> </p>
+        </td>
+        <td><p>Timeline</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-modules" class="hasAnchor"><a href="#section-modules" class="anchor"></a>Modules</h2>
+          <p class="section-desc"><p>Modules group test elements into self-contained units.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="module.html">module()</a></code> </p>
+        </td>
+        <td><p>Create module</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="begin_module.html">begin_module()</a></code> </p>
+        </td>
+        <td><p>Begin module</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="end_module.html">end_module()</a></code> </p>
+        </td>
+        <td><p>End module</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-fundamental-test-elements" class="hasAnchor"><a href="#section-fundamental-test-elements" class="anchor"></a>Fundamental test elements</h2>
+          <p class="section-desc"><p>There are three fundamental types of test elements: pages, reactive pages, and code blocks.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="is.test_element.html">is.test_element()</a></code> </p>
+        </td>
+        <td><p>Is object a test element?</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="code_block.html">code_block()</a></code> </p>
+        </td>
+        <td><p>Code block</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="reactive_page.html">reactive_page()</a></code> </p>
+        </td>
+        <td><p>Reactive page</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="page.html">page()</a></code> </p>
+        </td>
+        <td><p>New page</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-control-logic" class="hasAnchor"><a href="#section-control-logic" class="anchor"></a>Control logic</h2>
+          <p class="section-desc"><p>By default, psychTestR steps through the list of test elements one by one. These control logic functions provide more complex behaviour.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="conditional.html">conditional()</a></code> </p>
+        </td>
+        <td><p>Conditional test block</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="psychTestR-deprecated.html">loop_while()</a></code> </p>
+        </td>
+        <td><p>Deprecated functions in package <span class="pkg">psychTestR</span>.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="order_at_run_time.html">order_at_run_time()</a></code> </p>
+        </td>
+        <td><p>Order at run time</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="randomise_at_run_time.html">randomise_at_run_time()</a></code> </p>
+        </td>
+        <td><p>Randomise at run time</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="skip_n_pages.html">skip_n_pages()</a></code> </p>
+        </td>
+        <td><p>Skip pages</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="while_loop.html">while_loop()</a></code> </p>
+        </td>
+        <td><p>While loop</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-answers" class="hasAnchor"><a href="#section-answers" class="anchor"></a>Answers</h2>
+          <p class="section-desc"><p>At a given point in the test, the <code>answer</code> variable corresponds to the participant’s most recent response.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="answer-set.html">`answer&lt;-`()</a></code> </p>
@@ -208,13 +393,69 @@
           <p><code><a href="answer.html">answer()</a></code> </p>
         </td>
         <td><p>Answer</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-results" class="hasAnchor"><a href="#section-results" class="anchor"></a>Results</h2>
+          <p class="section-desc"><p>During a psychTestR session, a <code>results</code> variable accumulates, incrementally storing the participant’s results during the test.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="elt_save_results_to_disk.html">elt_save_results_to_disk()</a></code> </p>
+        </td>
+        <td><p>Save results to disk (test element version)</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="as.timeline.html">as.timeline()</a></code> </p>
+          <p><code><a href="get_results.html">get_results()</a></code> </p>
         </td>
-        <td><p>Coerce to timeline</p></td>
+        <td><p>Get results</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="results-set.html">`results&lt;-`()</a></code> </p>
+        </td>
+        <td><p>Set results</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="results.html">results()</a></code> </p>
+        </td>
+        <td><p>Access results</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="save_result.html">save_result()</a></code> </p>
+        </td>
+        <td><p>Save result</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="save_results_to_disk.html">save_results_to_disk()</a></code> </p>
+        </td>
+        <td><p>Save results to disk</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-pre-made-pages" class="hasAnchor"><a href="#section-pre-made-pages" class="anchor"></a>Pre-made pages</h2>
+          <p class="section-desc"><p>These functions define several pre-made page types that may be useful in test development, either for direct use, or for reference when constructing a new page type.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="audio_NAFC_page.html">audio_NAFC_page()</a></code> </p>
@@ -229,105 +470,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="begin_module.html">begin_module()</a></code> </p>
-        </td>
-        <td><p>Begin module</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="check_dirs.html">check_dirs()</a></code> </p>
-        </td>
-        <td><p>Check directories</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="checkbox_page.html">checkbox_page()</a></code> </p>
-        </td>
-        <td><p>New checkbox page</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="close_test.html">close_test()</a></code> </p>
-        </td>
-        <td><p>Close test</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="code_block.html">code_block()</a></code> </p>
-        </td>
-        <td><p>Code block</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="conditional.html">conditional()</a></code> </p>
-        </td>
-        <td><p>Conditional test block</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="demo.html">demo()</a></code> </p>
-        </td>
-        <td><p>Demo</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="demo.get_url_params.html">demo.get_url_params()</a></code> </p>
-        </td>
-        <td><p>Demo: Getting URL parameters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="demo.set_url_params.html">demo.set_url_params()</a></code> </p>
-        </td>
-        <td><p>Demo: Getting URL parameters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="demo_options.html">demo_options()</a></code> </p>
-        </td>
-        <td><p>Demo options</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="display_error.html">display_error()</a></code> </p>
-        </td>
-        <td><p>Display a popup error message</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="display_options.html">display_options()</a></code> </p>
-        </td>
-        <td><p>Display options</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="dropdown_page.html">dropdown_page()</a></code> </p>
         </td>
         <td><p>Make dropdown list page</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="elt_save_results_to_disk.html">elt_save_results_to_disk()</a></code> </p>
-        </td>
-        <td><p>Save results to disk (test element version)</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="end_module.html">end_module()</a></code> </p>
-        </td>
-        <td><p>End module</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="error-set.html">`error&lt;-`()</a></code> </p>
-        </td>
-        <td><p>Error</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="error.html">error()</a></code> </p>
-        </td>
-        <td><p>Error</p></td>
       </tr><tr>
         
         <td>
@@ -355,10 +500,228 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_results.html">get_results()</a></code> </p>
+          <p><code><a href="NAFC_page.html">NAFC_page()</a></code> </p>
         </td>
-        <td><p>Get results</p></td>
+        <td><p>New NAFC page</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="one_button_page.html">one_button_page()</a></code> </p>
+        </td>
+        <td><p>New one-button page</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="slider_page.html">slider_page()</a></code> </p>
+        </td>
+        <td><p>Slider page</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="text_input_page.html">text_input_page()</a></code> </p>
+        </td>
+        <td><p>Text input page</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="video_NAFC_page.html">video_NAFC_page()</a></code> </p>
+        </td>
+        <td><p>Make NAFC video page</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="volume_calibration_page.html">volume_calibration_page()</a></code> </p>
+        </td>
+        <td><p>Make volume calibration page</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-ui-constructors" class="hasAnchor"><a href="#section-ui-constructors" class="anchor"></a>UI constructors</h2>
+          <p class="section-desc"><p>These are helper functions for constructing new page types.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="make_ui_NAFC.html">make_ui_NAFC()</a></code> </p>
+        </td>
+        <td><p>Make NAFC buttons</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="trigger_button.html">trigger_button()</a></code> </p>
+        </td>
+        <td><p>Trigger button</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-global-and-local-variables" class="hasAnchor"><a href="#section-global-and-local-variables" class="anchor"></a>Global and local variables</h2>
+          <p class="section-desc"><p>These functions support the creation and manipulation of global and local variables specific to a participant’s testing session.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="global_local.html">get_global()</a></code> <code><a href="global_local.html">set_global()</a></code> <code><a href="global_local.html">get_local()</a></code> <code><a href="global_local.html">set_local()</a></code> <code><a href="global_local.html">assert_global_is_null()</a></code> </p>
+        </td>
+        <td><p>Global and local variables</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-automated-testing" class="hasAnchor"><a href="#section-automated-testing" class="anchor"></a>Automated testing</h2>
+          <p class="section-desc"><p>These functions support automated testing of psychTestR experiments.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="AppTester.html">AppTester</a></code> </p>
+        </td>
+        <td><p>App tester</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-errors" class="hasAnchor"><a href="#section-errors" class="anchor"></a>Errors</h2>
+          <p class="section-desc"><p>These functions support displaying errors to the participant.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="display_error.html">display_error()</a></code> </p>
+        </td>
+        <td><p>Display a popup error message</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="error-set.html">`error&lt;-`()</a></code> </p>
+        </td>
+        <td><p>Error</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="error.html">error()</a></code> </p>
+        </td>
+        <td><p>Error</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-internationalisation" class="hasAnchor"><a href="#section-internationalisation" class="anchor"></a>Internationalisation</h2>
+          <p class="section-desc"><p>These functions are used for creating tests that support multiple languages.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="i18n.html">i18n()</a></code> </p>
+        </td>
+        <td><p>Translate</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="i18n_dict.html">i18n_dict</a></code> </p>
+        </td>
+        <td><p>Dictionary</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-test-opening-closing" class="hasAnchor"><a href="#section-test-opening-closing" class="anchor"></a>Test opening/closing</h2>
+          <p class="section-desc"><p>These functions are used for closing and opening tests, for example, when a participant quota has been reached.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="close_test.html">close_test()</a></code> </p>
+        </td>
+        <td><p>Close test</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="open_test.html">open_test()</a></code> </p>
+        </td>
+        <td><p>Open test</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="is_test_closed.html">is_test_closed()</a></code> </p>
+        </td>
+        <td><p>Is test closed?</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-url-parameters" class="hasAnchor"><a href="#section-url-parameters" class="anchor"></a>URL parameters</h2>
+          <p class="section-desc"><p>These functions are used for accessing and manipulating URL parameters.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="get_url_params.html">get_url_params()</a></code> </p>
+        </td>
+        <td><p>Get URL parameters</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="set_url_param.html">set_url_param()</a></code> </p>
+        </td>
+        <td><p>Set a URL parameter</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-session-info" class="hasAnchor"><a href="#section-session-info" class="anchor"></a>Session info</h2>
+          <p class="section-desc"><p>These functions provide information about the current testing session.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
           <p><code><a href="get_session_info.html">get_session_info()</a></code> </p>
@@ -373,153 +736,65 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="get_url_params.html">get_url_params()</a></code> </p>
-        </td>
-        <td><p>Get URL parameters</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="global_local.html">get_global()</a></code> <code><a href="global_local.html">set_global()</a></code> <code><a href="global_local.html">get_local()</a></code> <code><a href="global_local.html">set_local()</a></code> <code><a href="global_local.html">assert_global_is_null()</a></code> </p>
-        </td>
-        <td><p>Global and local variables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="i18n.html">i18n()</a></code> </p>
-        </td>
-        <td><p>Translate</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="i18n_dict.html">i18n_dict</a></code> </p>
-        </td>
-        <td><p>Dictionary</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="imports.html">imports</a></code> </p>
-        </td>
-        <td><p>Objects imported from other packages</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="is.test_element.html">is.test_element()</a></code> </p>
-        </td>
-        <td><p>Is object a test element?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="is.timeline.html">is.timeline()</a></code> </p>
-        </td>
-        <td><p>Is it a timeline object?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="is_test_closed.html">is_test_closed()</a></code> </p>
-        </td>
-        <td><p>Is test closed?</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="join.html">join()</a></code> </p>
-        </td>
-        <td><p>Join test elements</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_test.html">make_test()</a></code> </p>
-        </td>
-        <td><p>Make psychTestR test</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_ui_NAFC.html">make_ui_NAFC()</a></code> </p>
-        </td>
-        <td><p>Make NAFC buttons</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_ui_checkbox.html">make_ui_checkbox()</a></code> </p>
-        </td>
-        <td><p>Make checkboxes</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="make_ui_radiobutton_NAFC.html">make_ui_radiobutton_NAFC()</a></code> </p>
-        </td>
-        <td><p>Make NAFC radiobuttons</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="module.html">module()</a></code> </p>
-        </td>
-        <td><p>Create module</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="new_results_section.html">new_results_section()</a></code> </p>
-        </td>
-        <td><p>New results section</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="new_timeline.html">new_timeline()</a></code> </p>
-        </td>
-        <td><p>New timeline</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="one_button_page.html">one_button_page()</a></code> </p>
-        </td>
-        <td><p>New one-button page</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="open_test.html">open_test()</a></code> </p>
-        </td>
-        <td><p>Open test</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="order_at_run_time.html">order_at_run_time()</a></code> </p>
-        </td>
-        <td><p>Order at run time</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="p_id.html">p_id()</a></code> </p>
         </td>
         <td><p>Get participant ID</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-demos" class="hasAnchor"><a href="#section-demos" class="anchor"></a>Demos</h2>
+          <p class="section-desc"><p>These functions are for demonstration purposes.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="demo.html">demo()</a></code> </p>
+        </td>
+        <td><p>Demo</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="page.html">page()</a></code> </p>
+          <p><code><a href="demo_options.html">demo_options()</a></code> </p>
         </td>
-        <td><p>New page</p></td>
+        <td><p>Demo options</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="pt_options.html">pt_options()</a></code> </p>
+          <p><code><a href="demo.get_url_params.html">demo.get_url_params()</a></code> </p>
         </td>
-        <td><p>Alias for test_options()</p></td>
+        <td><p>Demo: Getting URL parameters</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="radiobutton_NAFC_page.html">radiobutton_NAFC_page()</a></code> </p>
+          <p><code><a href="demo.set_url_params.html">demo.set_url_params()</a></code> </p>
         </td>
-        <td><p>New radiobutton NAFC page</p></td>
-      </tr><tr>
+        <td><p>Demo: Getting URL parameters</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-expert-use" class="hasAnchor"><a href="#section-expert-use" class="anchor"></a>Expert use</h2>
+          <p class="section-desc"><p>These are miscellaneous functions that are unlikely to be useful to most users.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
         
         <td>
-          <p><code><a href="randomise_at_run_time.html">randomise_at_run_time()</a></code> </p>
+          <p><code><a href="check_dirs.html">check_dirs()</a></code> </p>
         </td>
-        <td><p>Randomise at run time</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reactive_page.html">reactive_page()</a></code> </p>
-        </td>
-        <td><p>Reactive page</p></td>
+        <td><p>Check directories</p></td>
       </tr><tr>
         
         <td>
@@ -529,99 +804,53 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="results-set.html">`results&lt;-`()</a></code> </p>
-        </td>
-        <td><p>Set results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="results.html">results()</a></code> </p>
-        </td>
-        <td><p>Access results</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="save_result.html">save_result()</a></code> </p>
-        </td>
-        <td><p>Save result</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="save_results_to_disk.html">save_results_to_disk()</a></code> </p>
-        </td>
-        <td><p>Save results to disk</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="set_url_param.html">set_url_param()</a></code> </p>
-        </td>
-        <td><p>Set a URL parameter</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="skip_n_pages.html">skip_n_pages()</a></code> </p>
-        </td>
-        <td><p>Skip pages</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="slider_page.html">slider_page()</a></code> </p>
-        </td>
-        <td><p>Slider page</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="test_options.html">test_options()</a></code> </p>
-        </td>
-        <td><p>Test options</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="test_permissions.html">test_permissions()</a></code> </p>
         </td>
         <td><p>Test write permissions</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="text_input_page.html">text_input_page()</a></code> </p>
-        </td>
-        <td><p>Text input page</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="timeline.html">timeline</a></code> </p>
-        </td>
-        <td><p>Timeline</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="trigger_button.html">trigger_button()</a></code> </p>
-        </td>
-        <td><p>Trigger button</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="video_NAFC_page.html">video_NAFC_page()</a></code> </p>
-        </td>
-        <td><p>Make NAFC video page</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="volume_calibration_page.html">volume_calibration_page()</a></code> </p>
-        </td>
-        <td><p>Make volume calibration page</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="while_loop.html">while_loop()</a></code> </p>
-        </td>
-        <td><p>While loop</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="with_i18n_state.html">with_i18n_state()</a></code> </p>
         </td>
         <td><p>With i18n state</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-misc-" class="hasAnchor"><a href="#section-misc-" class="anchor"></a>Misc.</h2>
+          <p class="section-desc"><p>Miscellaneous other functions.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="imports.html">imports</a></code> </p>
+        </td>
+        <td><p>Objects imported from other packages</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-deprecated" class="hasAnchor"><a href="#section-deprecated" class="anchor"></a>Deprecated</h2>
+          <p class="section-desc"><p>These are functions that are supported for backwards compatibility, but whose use are not encouraged.</p></p>
+        </th>
+      </tr>
+      
+      
+    </tbody><tbody>
+      
+      
+      <tr>
+        
+        <td>
+          <p><code><a href="pt_options.html">pt_options()</a></code> </p>
+        </td>
+        <td><p>Alias for test_options()</p></td>
       </tr>
     </tbody>
     </table>
