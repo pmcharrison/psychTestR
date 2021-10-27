@@ -4,6 +4,7 @@
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.02088/status.svg)](https://doi.org/10.21105/joss.02088)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1415355.svg)](https://doi.org/10.5281/zenodo.1415355)
 [![Travis build status](https://travis-ci.org/pmcharrison/psychTestR.svg?branch=master)](https://travis-ci.org/pmcharrison/psychTestR)
+[![R-CMD-check](https://github.com/pmcharrison/psychTestR/workflows/R-CMD-check/badge.svg)](https://github.com/pmcharrison/psychTestR/actions)
 
 [psychTestR](https://pmcharrison.github.io/psychTestR) 
 is an R package for creating behavioural experiment interfaces.
