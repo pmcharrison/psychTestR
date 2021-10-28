@@ -140,7 +140,7 @@
  
 <span class="co"># Codeblöcke</span>
 <span class="va">save_time_started</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="co"># Speichern der Startzeit </span>
-  <span class="fu"><a href="../reference/get_global.html">set_local</a></span><span class="op">(</span>                                           <span class="co"># lokal für diesen Teilnehmer</span>
+  <span class="fu"><a href="../reference/get_global.html">set_global</a></span><span class="op">(</span>                                          <span class="co"># global für diesen Teilnehmer</span>
     key <span class="op">=</span> <span class="st">"time_started"</span>,
     value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.time</a></span><span class="op">(</span><span class="op">)</span>,
     state <span class="op">=</span> <span class="va">state</span>  <span class="co"># interne Statusvariable von psychTestR</span>
@@ -178,7 +178,7 @@
   <span class="fu"><a href="../reference/reactive_page.html">reactive_page</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">answer</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="co"># zweite Frage (Dauer)</span>
     <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html">sprintf</a></span><span class="op">(</span>
         <span class="st">"Wie lange spielst du schon %s?"</span>,
-        <span class="fu"><a href="../reference/get_global.html">get_local</a></span><span class="op">(</span><span class="st">"instrument"</span>, <span class="va">state</span><span class="op">)</span> <span class="co"># holt den aktuellen Wert aus state</span>
+        <span class="fu"><a href="../reference/get_global.html">get_global</a></span><span class="op">(</span><span class="st">"instrument"</span>, <span class="va">state</span><span class="op">)</span> <span class="co"># holt den aktuellen Wert aus state</span>
     <span class="op">)</span>
     <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
         label <span class="op">=</span> <span class="st">"time_instrument"</span>,
