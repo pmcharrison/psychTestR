@@ -1,3 +1,5 @@
+# psychTestR 2.23.2
+
 - Fixed checkbox validation.
 
 # psychTestR 2.23.1
