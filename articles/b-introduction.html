@@ -246,8 +246,8 @@
 ## {
 ##     save_results_to_disk(complete, state, opt)
 ## }
-## &lt;bytecode: 0x55bbe3c68378&gt;
-## &lt;environment: 0x55bbe3c67f18&gt;</code></pre>
+## &lt;bytecode: 0x55c8baf49558&gt;
+## &lt;environment: 0x55c8baf490f8&gt;</code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct the server to run a specified function. This function can take several inputs, but most important is the <code>state</code> object, which stores information relevant to that particular participant’s testing session, such as their responses to N-alternative forced choice pages. This particular function takes the <code>state</code> object as input and saves the participant’s results to disk, paying attention to certain test configuration options as specified in <code>opt</code>.</p>
 <p>Having run this test, we should see that it generates an RDS file in the directory <code>output/results</code>. The name of this RDS file will contain the participant’s ID, which by default is randomly generated. RDS files provide compressed versions of R objects. We can read our RDS file into R using the <code>readRDS</code> function. The code below lists all files in the results directory with the extension <code>.rds</code>, and reads the first one into R:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -343,8 +343,8 @@
 ## $get_answer
 ## function (input, ...) 
 ## input$last_btn_pressed
-## &lt;bytecode: 0x55bbe4027f00&gt;
-## &lt;environment: 0x55bbe40274f0&gt;
+## &lt;bytecode: 0x55c8bb309630&gt;
+## &lt;environment: 0x55c8bb308c20&gt;
 ## 
 ## $save_answer
 ## [1] TRUE
@@ -352,8 +352,8 @@
 ## $validate
 ## function (answer, ...) 
 ## !is.null(answer)
-## &lt;bytecode: 0x55bbe4027d78&gt;
-## &lt;environment: 0x55bbe40274f0&gt;
+## &lt;bytecode: 0x55c8bb3094a8&gt;
+## &lt;environment: 0x55c8bb308c20&gt;
 ## 
 ## $on_complete
 ## NULL
