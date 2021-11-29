@@ -1,3 +1,7 @@
+# psychTestR 2.23.1
+
+- Fixed `enable_admin_panel = FALSE` option.
+
 # psychTestR 2.23.0
 
 - Improved CSV export (thanks Klaus Frieler!).
