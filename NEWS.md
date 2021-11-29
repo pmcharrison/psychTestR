@@ -1,3 +1,7 @@
+# psychTestR 2.23.2
+
+- Fixed checkbox validation.
+
 # psychTestR 2.23.1
 
 - Fixed `enable_admin_panel = FALSE` option.
