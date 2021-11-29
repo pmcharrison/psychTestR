@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.23.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.23.1</span>
       </span>
     </div>
 
@@ -196,9 +196,9 @@ devtools::install_github("pmcharrison/psychTestR")</code></pre>
 <a href="#debugging-tips" class="anchor"></a>Debugging tips</h3>
 <ul>
 <li>Develop your test locally before pushing it to the server.</li>
-<li>When developing locally, run <code><a href="https://rdrr.io/r/base/options.html">options(shiny.error = browser)</a></code> so you can inspect the stack when an error occurs.</li>
+<li>When developing locally, run <code>options(shiny.error = browser)</code> so you can inspect the stack when an error occurs.</li>
 <li>When running a test on the server, error messages often go to the Javascript console. On Chrome, you can access this console by clicking View -&gt; Developer -&gt; Javascript console.</li>
-<li>Errors that happen remotely but not locally typically come from psychTestR lacking write permissions to your app’s folder (see below instructions), or from the necessary R packages not being installed on the server. You can install R packages on the server by SSHing in, opening R (<code>sudo R</code>), and then running the same commands as you would on your local machine (e.g. <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("car")</a></code>).</li>
+<li>Errors that happen remotely but not locally typically come from psychTestR lacking write permissions to your app’s folder (see below instructions), or from the necessary R packages not being installed on the server. You can install R packages on the server by SSHing in, opening R (<code>sudo R</code>), and then running the same commands as you would on your local machine (e.g. <code>install.packages("car")</code>).</li>
 </ul>
 </div>
 </div>

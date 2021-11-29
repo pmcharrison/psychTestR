@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.23.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.23.1</span>
       </span>
     </div>
 
@@ -246,8 +246,8 @@
 ## {
 ##     save_results_to_disk(complete, state, opt)
 ## }
-## &lt;bytecode: 0x561aa4d5eac8&gt;
-## &lt;environment: 0x561aa4d5e668&gt;</code></pre>
+## &lt;bytecode: 0x55d460629548&gt;
+## &lt;environment: 0x55d4606290e8&gt;</code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct the server to run a specified function. This function can take several inputs, but most important is the <code>state</code> object, which stores information relevant to that particular participant’s testing session, such as their responses to N-alternative forced choice pages. This particular function takes the <code>state</code> object as input and saves the participant’s results to disk, paying attention to certain test configuration options as specified in <code>opt</code>.</p>
 <p>Having run this test, we should see that it generates an RDS file in the directory <code>output/results</code>. The name of this RDS file will contain the participant’s ID, which by default is randomly generated. RDS files provide compressed versions of R objects. We can read our RDS file into R using the <code>readRDS</code> function. The code below lists all files in the results directory with the extension <code>.rds</code>, and reads the first one into R:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -343,8 +343,8 @@
 ## $get_answer
 ## function (input, ...) 
 ## input$last_btn_pressed
-## &lt;bytecode: 0x561aa42b6f70&gt;
-## &lt;environment: 0x561aa42b6560&gt;
+## &lt;bytecode: 0x55d4609e90d0&gt;
+## &lt;environment: 0x55d4609e86c0&gt;
 ## 
 ## $save_answer
 ## [1] TRUE
@@ -352,8 +352,8 @@
 ## $validate
 ## function (answer, ...) 
 ## !is.null(answer)
-## &lt;bytecode: 0x561aa42b6de8&gt;
-## &lt;environment: 0x561aa42b6560&gt;
+## &lt;bytecode: 0x55d4609e8f48&gt;
+## &lt;environment: 0x55d4609e86c0&gt;
 ## 
 ## $on_complete
 ## NULL
@@ -667,7 +667,7 @@
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">dict</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/i18n_dict.html">i18n_dict</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">df</span><span class="op">)</span></code></pre></div>
 <!-- We then need to modify our workflow in two ways to incorporate internationalisation: -->
-<p>Whenever we want to include internationalised text in our test elements, we use the <code>i18n</code> function with the appropriate key as its first argument. For example, to translate a name using the above dictionary, we would write <code><a href="../reference/i18n.html">i18n("Peter")</a></code>. However, it is not possible to call <code><a href="../reference/i18n.html">i18n("Peter")</a></code> by itself, because the function will not know what dictionary to use or what language to translate to. Instead, <code>i18n</code> must be wrapped somewhere inside a call to <code>new_timeline</code>. This <code>new_timeline</code> is a macro that takes two primary arguments – an expression that evaluates to a list of test elements (e.g. as created by <code>join</code>), and a dictionary – and evaluates the expression multiple times, once for each language in the dictionary, translating calls to <code>i18n</code> into the relevant languages.</p>
+<p>Whenever we want to include internationalised text in our test elements, we use the <code>i18n</code> function with the appropriate key as its first argument. For example, to translate a name using the above dictionary, we would write <code>i18n("Peter")</code>. However, it is not possible to call <code>i18n("Peter")</code> by itself, because the function will not know what dictionary to use or what language to translate to. Instead, <code>i18n</code> must be wrapped somewhere inside a call to <code>new_timeline</code>. This <code>new_timeline</code> is a macro that takes two primary arguments – an expression that evaluates to a list of test elements (e.g. as created by <code>join</code>), and a dictionary – and evaluates the expression multiple times, once for each language in the dictionary, translating calls to <code>i18n</code> into the relevant languages.</p>
 <p>The resulting timeline object comprises one list of test elements for each available language. This timeline object can be passed to <code>make_test</code> to produce an internationalised test.</p>
 <p>Note that previously we just passed <code>make_test</code> a list of test elements. In this case, the function internally coerces this list into a one-language timeline object, assuming that these test elements all correspond to the same language. We could have equally passed <code>make_test</code> a timeline created by <code>new_timeline</code> without any calls to <code>i18n</code>.</p>
 <p>Here is a straightforward example that uses the dictionary defined above:</p>
