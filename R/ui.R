@@ -61,7 +61,7 @@ ui <- function(opt) {
     header,
     content,
     footer,
-    include_scripts(),
+    include_scripts(opt),
     include_js_opt(opt)
   )
 }
