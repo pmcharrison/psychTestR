@@ -1,14 +1,12 @@
 setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
-setOldClass("i18n_dict")
 
 setClassUnion("function_or_null", members = c("function", "NULL"))
 setClassUnion("character_or_null", members = c("character", "NULL"))
 setClassUnion("shiny_tag_or_null", members = c("shiny.tag", "NULL"))
-setClassUnion("i18n_dict_or_null", members = c("i18n_dict", "NULL"))
 
-setClass("test_element", slots = list(i18n_dict = "i18n_dict_or_null",
-                                      next_elt = "logical"))
+setClass("test_element", slots = c("i18n_dict", "next_elt"))
+
 setMethod("initialize", "test_element", function(.Object, ...) {
   .Object@i18n_dict <- I18N_STATE$dict
   callNextMethod()
