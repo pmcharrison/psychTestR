@@ -72,7 +72,8 @@ include_js_opt <- function(opt) {
 
 }
 
-include_scripts <- function() {
+include_scripts <- function(opt) {
+
   scripts <- c(
     "js/confirm-clear-sessions.js",
     "js/confirm-delete-errors.js",
@@ -85,6 +86,11 @@ include_scripts <- function() {
     "js/trigger-button.js",
     "js/navigate-away.js"
   )
+
+  if(!is.null(opt$additional_scripts)) {
+    scripts <- c(scripts, opt$additional_scripts)
+  }
+
   lapply(scripts, function(x) shiny::includeScript(system.file(
     x, package = "psychTestR")))
 }

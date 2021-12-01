@@ -87,6 +87,8 @@ pt_options <- function(...) {
 #' @param advance_delay
 #' Number of seconds to wait before advancing to the next page
 #' upon button press.
+#' @param additional_scripts
+#' A character vector of any additional scripts to include.
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -116,7 +118,8 @@ test_options <- function(title, admin_password,
                          logo_height = NULL,
                          display = display_options(),
                          allow_url_rewrite = TRUE,
-                         advance_delay = 0) {
+                         advance_delay = 0,
+                         additional_scripts = NULL) {
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
             is.null.or(researcher_email, is.scalar.character),
@@ -146,7 +149,8 @@ test_options <- function(title, admin_password,
               (is.scalar.character(logo_width) && is.scalar.character(logo_height)),
             is.list(display),
             is.scalar.logical(allow_url_rewrite),
-            is.scalar.numeric(advance_delay))
+            is.scalar.numeric(advance_delay),
+            is.character(additional_scripts))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   if (!allow_url_rewrite && enable_resume_session) {
@@ -241,7 +245,8 @@ test_options <- function(title, admin_password,
        logo_height = logo_height,
        display = display,
        allow_url_rewrite = allow_url_rewrite,
-       js_opt = list(advance_delay = advance_delay))
+       js_opt = list(advance_delay = advance_delay),
+       additional_scripts = additional_scripts)
 }
 
 #' Display options
