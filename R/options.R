@@ -88,7 +88,7 @@ pt_options <- function(...) {
 #' Number of seconds to wait before advancing to the next page
 #' upon button press.
 #' @param additional_scripts
-#' A character vector of any additional scripts to include.
+#' A character vector containing file paths to any additional scripts which should be included.
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
