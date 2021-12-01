@@ -119,7 +119,7 @@ test_options <- function(title, admin_password,
                          display = display_options(),
                          allow_url_rewrite = TRUE,
                          advance_delay = 0,
-                         additional_scripts = NULL) {
+                         additional_scripts = character()) {
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
             is.null.or(researcher_email, is.scalar.character),
