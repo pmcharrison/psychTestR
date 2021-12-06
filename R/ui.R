@@ -84,9 +84,14 @@ include_scripts <- function(opt) {
     "js/reset-p-id-and-refresh-browser.js",
     "js/show-footer.js",
     "js/trigger-button.js",
-    "js/navigate-away.js",
-    opt$additional_scripts)
+    "js/navigate-away.js")
 
-  lapply(scripts, function(x) shiny::includeScript(system.file(
+  wrapped_scripts <- lapply(scripts, function(x) shiny::includeScript(system.file(
     x, package = "psychTestR")))
+
+  if(length(opt$additional_scripts) > 0) {
+    wrapped_additional_scripts <- lapply(opt$additional_scripts, function(x) shiny::includeScript(x))
+    wrapped_scripts <- c(wrapped_scripts, wrapped_additional_scripts)
+  }
+  wrapped_scripts
 }
