@@ -1,3 +1,5 @@
+- Added video tutorial (thanks Anthony Chmiel!).
+
 # psychTestR 2.23.2
 
 - Fixed checkbox validation.

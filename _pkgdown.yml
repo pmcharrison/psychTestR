@@ -2,6 +2,7 @@ url: https://pmcharrison.github.io/psychTestR
 template:
   params:
     bootswatch: flatly
+  assets: www
 reference:
 - title: Top level
   desc: These are the top-level functions used to launch a psychTestR test.

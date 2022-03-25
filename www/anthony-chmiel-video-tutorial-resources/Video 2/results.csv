@@ -1,0 +1,3 @@
+session.p_id,session.pilot,session.complete,session.time_started,session.current_time,session.num_restarts,session.language,results.Name,results.gender,results.age,results.occupation
+9421f24b248aed8162fbe0f79316873684383125eae7eeda6bb4aa42a09786d6,FALSE,TRUE,19/1/2022 22:23,19/1/2022 22:23,0,en,test1,Female,22,At university
+0e2b11a48ae6a571a19a0a9e9b7e81863bc49075a0b13ca8808d72e107c8cf1b,FALSE,TRUE,19/1/2022 22:23,19/1/2022 22:23,0,en,test2,Prefer not to answer,54,In full- or part-time employment

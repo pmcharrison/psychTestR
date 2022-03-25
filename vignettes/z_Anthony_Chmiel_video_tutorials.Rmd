@@ -1,0 +1,71 @@
+---
+title: "Video series: An introduction to psychTestR, by Anthony Chmiel"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Video series: An introduction to psychTestR, by Anthony Chmiel}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+[Anthony Chmiel](https://www.westernsydney.edu.au/marcs/our_team/researchers/dr_anthony_chmiel)
+has developed a 2-hour video course for introducing new users to psychTestR.
+He has kindly contributed this video course to our website.
+
+The target audience of this video course is students who have little to no experience with R. 
+The course aims to help beginners hit the ground running and points them in the direction of useful resources and other experiments that they could deconstruct to start figuring out other ideas on their own.
+
+Do get in touch with Anthony with feedback if you have any, I'm sure he'll be happy to hear from you.
+
+
+## Video 1 - Introduction/Overview of PsychTestR and R
+
+Note: if you are already familiar with using R, you can ignore the final section of the video and can also ignore the three ‘results’ files. These are intended for people who are new to R.
+If you have not have used R before, download the free desktop version of R Studio at the following link, install the program, and run the R Script within R Studio: https://www.rstudio.com/
+
+Video links:
+
+- [YouTube](https://youtu.be/aCkIGN2AUkQ)
+- [Panopto](https://westernsydney.au.panopto.com/Panopto/Pages/Viewer.aspx?id=380d9d66-59c8-4d08-9758-ae4a004e886c)
+
+Accompanying files:
+
+- [R Script for Video 1.R (right-click and click 'Save link as')](../anthony-chmiel-video-tutorial-resources/Video 1/R Script for Video 1.R)
+- [results.csv](../anthony-chmiel-video-tutorial-resources/Video 1/results.csv)
+- [results.rds](../anthony-chmiel-video-tutorial-resources/Video 1/results.rds)
+- [results.xlsx](../anthony-chmiel-video-tutorial-resources/Video 1/results.xlsx)
+
+## Video 2 - Creating experiments with basic concepts
+
+Video links:
+
+- [YouTube](https://youtu.be/AdoNFHLZ4Yo)
+- [Panopto](https://westernsydney.au.panopto.com/Panopto/Pages/Viewer.aspx?id=7ca3d3c7-5e36-4c83-a5e3-ae4a004fdb8d)
+
+Accompanying files:
+
+- [R Script for Video 2.R (right-click and click 'Save link as'](../anthony-chmiel-video-tutorial-resources/Video 2/R Script for Video 2.R)
+- [results.csv](../anthony-chmiel-video-tutorial-resources/Video 2/results.csv)
+- [results.zip](../anthony-chmiel-video-tutorial-resources/Video 2/results.zip)
+
+## Video 3 - Creating experiments with more advanced concepts
+
+Video links:
+
+- [YouTube](https://youtu.be/jEyI9TbISnU)
+- [Panopto](https://westernsydney.au.panopto.com/Panopto/Pages/Viewer.aspx?id=6f45bbd6-e0b8-4fe0-9396-ae4a0050c531)
+
+Accompanying files:
+
+- [R Script for Video 3.R (right-click and click 'Save link as'](../anthony-chmiel-video-tutorial-resources/Video 3/R Script for Video 3.R)
+
+## Video 4 - Publishing experiments, including upload of experiments to a server for online use
+
+Video links:
+
+- [YouTube](https://youtu.be/aj2GnUlY_VM)
+- [Panopto](https://westernsydney.au.panopto.com/Panopto/Pages/Viewer.aspx?id=0100ba46-cebb-4fc2-8331-ae4a0051c987)
+
+Accompanying files:
+
+- [R Script for Video 4.R (right-click and click 'Save link as'](../anthony-chmiel-video-tutorial-resources/Video 4/R Script for Video 4.R)
+- [id=1&p_id=testuser&save_id=1&pilot=false&complete=true.rds](../anthony-chmiel-video-tutorial-resources/Video 4/id=1&p_id=testuser&save_id=1&pilot=false&complete=true.rds)
