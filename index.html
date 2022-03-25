@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.23.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.23.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -93,6 +89,9 @@
       <a href="articles/e-jspsych-integration.html">Tutorial (expert): jsPsych integration</a>
     </li>
     <li>
+      <a href="articles/z_Anthony_Chmiel_video_tutorials.html">Video series: An introduction to psychTestR, by Anthony Chmiel</a>
+    </li>
+    <li>
       <a href="articles/z_code_for_article_in_musik_und_internet.html">Code for Article 'psychTestR - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare'</a>
     </li>
   </ul>
@@ -103,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/pmcharrison/psychTestR/">
+  <a href="https://github.com/pmcharrison/psychTestR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -120,92 +119,105 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="psychtestr" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#psychtestr" class="anchor"></a>psychTestR</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="psychtestr">psychTestR<a class="anchor" aria-label="anchor" href="#psychtestr"></a>
+</h1></div>
 
-<p><a href="https://pmcharrison.github.io/psychTestR">psychTestR</a> is an R package for creating behavioural experiment interfaces. For an overview of psychTestR’s features, see its <a href="https://doi.org/10.21105/joss.02088">overview paper</a> in the Journal of Open Source Software. For a more detailed introduction, see the <a href="https://pmcharrison.github.io/psychTestR/articles/b-introduction">introductory article</a> on the psychTestR website. For more documentation on designing and deploying psychTestR tests, see the other vignettes and the <a href="https://pmcharrison.github.io/psychTestR/reference/index.html">function-level documentation</a>. For documentation on setting up a self-hosted psychTestR server, see <a href="https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf">Guide to creating a server for online <em>R</em> experiments using <em>psychTestR</em></a> by <a href="https://www.westernsydney.edu.au/marcs/our_team/researchers/dr_anthony_chmiel">Anthony Chmiel</a>.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>If you don’t have R installed, <a href="https://cloud.r-project.org/">download</a> and install it first.</p>
-<p>We recommend also installing <a href="https://www.rstudio.com/">RStudio</a>, a popular integrated development environment for R.</p>
+<p><a href="https://pmcharrison.github.io/psychTestR">psychTestR</a> is an R package for creating behavioural experiment interfaces. To learn more about psychTestR, visit the following resources:</p>
+<ul>
+<li><a href="https://doi.org/10.21105/joss.02088" class="external-link">Overview paper in the Journal of Open Source Software</a></li>
+<li><a href="https://pmcharrison.github.io/psychTestR/articles/b-introduction">Introductory tutorial</a></li>
+<li>Other vignettes under the ‘Articles’ tab</li>
+<li><a href="https://pmcharrison.github.io/psychTestR/reference/index.html">Function-level documentation</a></li>
+<li><a href="https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf" class="external-link">Guide to creating a server for online <em>R</em> experiments using <em>psychTestR</em> (Anthony Chmiel)</a></li>
+<li><a href="https://pmcharrison.github.io/psychTestR/articles/z_Anthony_Chmiel_video_tutorials.html">Video tutorial (2 hours, for beginners, by Anthony Chmiel)</a></li>
+</ul>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>If you don’t have R installed, <a href="https://cloud.r-project.org/" class="external-link">download</a> and install it first.</p>
+<p>We recommend also installing <a href="https://www.rstudio.com/" class="external-link">RStudio</a>, a popular integrated development environment for R.</p>
 <p>Then open R and install psychTestR:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pmcharrison/psychTestR"</span><span class="op">)</span></code></pre></div>
 <p>For a quick test of psychTestR functionality, visit <a href="https://pmcharrison.github.io/psychTestR/articles/a1-simple-demo.html">Simple demo</a>.</p>
 </div>
-<div id="citation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#citation" class="anchor"></a>Citation</h2>
+<div class="section level2">
+<h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
+</h2>
 <p>You can cite psychTestR as follows:</p>
 <blockquote>
-<p>Harrison, Peter M. C. (2020). psychTestR: An R package for designing and conducting behavioural psychological experiments. <em>Journal of Open Source Software</em>. <a href="https://doi.org/10.21105/joss.02088" class="uri">https://doi.org/10.21105/joss.02088</a></p>
+<p>Harrison, Peter M. C. (2020). psychTestR: An R package for designing and conducting behavioural psychological experiments. <em>Journal of Open Source Software</em>. <a href="https://doi.org/10.21105/joss.02088" class="external-link uri">https://doi.org/10.21105/joss.02088</a></p>
 </blockquote>
-<p>The psychTestR source code is also permanently archived on Zenodo. You can find this permanent archive at the following DOI: <a href="http://doi.org/10.5281/zenodo.1415355" class="uri">http://doi.org/10.5281/zenodo.1415355</a>. This DOI will always point to the latest release of the <code>psychTestR</code> package, but you can also find version-specific DOIs on the Zenodo page.</p>
+<p>The psychTestR source code is also permanently archived on Zenodo. You can find this permanent archive at the following DOI: <a href="http://doi.org/10.5281/zenodo.1415355" class="external-link uri">http://doi.org/10.5281/zenodo.1415355</a>. This DOI will always point to the latest release of the <code>psychTestR</code> package, but you can also find version-specific DOIs on the Zenodo page.</p>
 <p>You might also want to mention the particular version of the package you used. To check the installed version, you can run the following code in your R console:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/ns-internal.html">asNamespace</a></span><span class="op">(</span><span class="st">"psychTestR"</span><span class="op">)</span><span class="op">$</span><span class="va">`.__NAMESPACE__.`</span><span class="op">$</span><span class="va">spec</span><span class="op">[[</span><span class="st">"version"</span><span class="op">]</span><span class="op">]</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/ns-internal.html" class="external-link">asNamespace</a></span><span class="op">(</span><span class="st">"psychTestR"</span><span class="op">)</span><span class="op">$</span><span class="va">`.__NAMESPACE__.`</span><span class="op">$</span><span class="va">spec</span><span class="op">[[</span><span class="st">"version"</span><span class="op">]</span><span class="op">]</span></code></pre></div>
 </div>
-<div id="community-guidelines" class="section level2">
-<h2 class="hasAnchor">
-<a href="#community-guidelines" class="anchor"></a>Community guidelines</h2>
-<p>The <a href="https://pmcharrison.github.io/psychTestR/">psychTestR documentation website</a> answers many common questions about psychTestR usage. Further questions are welcomed via the <a href="https://github.com/pmcharrison/psychTestR/issues">GitHub issue tracker</a>. This issue tracker is also the place to report issues or software problems. We welcome software contributions in the form of <a href="https://github.com/pmcharrison/psychTestR/pulls">GitHub pull requests</a>; if you are thinking of making a contribution, consider first beginning a discussion on the issue tracker so that we can discuss implementation details.</p>
+<div class="section level2">
+<h2 id="community-guidelines">Community guidelines<a class="anchor" aria-label="anchor" href="#community-guidelines"></a>
+</h2>
+<p>The <a href="https://pmcharrison.github.io/psychTestR/">psychTestR documentation website</a> answers many common questions about psychTestR usage. Further questions are welcomed via the <a href="https://github.com/pmcharrison/psychTestR/issues" class="external-link">GitHub issue tracker</a>. This issue tracker is also the place to report issues or software problems. We welcome software contributions in the form of <a href="https://github.com/pmcharrison/psychTestR/pulls" class="external-link">GitHub pull requests</a>; if you are thinking of making a contribution, consider first beginning a discussion on the issue tracker so that we can discuss implementation details.</p>
 </div>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/pmcharrison/psychTestR/">https://​github.com/​pmcharrison/​psychTestR/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/pmcharrison/psychTestR/issues">https://​github.com/​pmcharrison/​psychTestR/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
-</ul>
-</div>
-<div class="citation">
-<h2>Citation</h2>
-<ul class="list-unstyled">
-<li><a href="authors.html">Citing psychTestR</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Peter Harrison <br><small class="roles"> Author, maintainer </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://github.com/pmcharrison/psychTestR/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/pmcharrison/psychTestR/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
-<li><a href="https://doi.org/10.21105/joss.02088"><img src="https://joss.theoj.org/papers/10.21105/joss.02088/status.svg" alt="DOI"></a></li>
-<li><a href="https://doi.org/10.5281/zenodo.1415355"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1415355.svg" alt="DOI"></a></li>
-<li><a href="https://github.com/pmcharrison/psychTestR/actions"><img src="https://github.com/pmcharrison/psychTestR/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="LICENSE.html">Full license</a></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing psychTestR</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Peter Harrison <br><small class="roles"> Author, maintainer </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing" class="external-link"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
+<li><a href="https://doi.org/10.21105/joss.02088" class="external-link"><img src="https://joss.theoj.org/papers/10.21105/joss.02088/status.svg" alt="DOI"></a></li>
+<li><a href="https://doi.org/10.5281/zenodo.1415355" class="external-link"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.1415355.svg" alt="DOI"></a></li>
+<li><a href="https://github.com/pmcharrison/psychTestR/actions" class="external-link"><img src="https://github.com/pmcharrison/psychTestR/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Peter Harrison.</p>
+  <p></p>
+<p>Developed by Peter Harrison.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -213,6 +225,8 @@
 
   
 
+
+  
 
   </body>
 </html>

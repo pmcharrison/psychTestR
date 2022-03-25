@@ -1,0 +1,7 @@
+"session.p_id","session.pilot","session.complete","session.time_started","session.current_time","session.num_restarts","session.language","results.Name","results.gender","results.age","results.occupation"
+"186cbbc6c4275cc3a6f8aee8478b3aa9b6bb802a3259714a09bfe5f68da6dbae",FALSE,TRUE,2022-01-17 12:41:11,2022-01-17 12:41:44,0,"en","Paul","Male","12","Still at school"
+"ef26e35ce6baa81a7bc7a90e5c2ae2f1c7b72c6e641eaabed9993688c7c61532",FALSE,TRUE,2022-01-17 12:41:50,2022-01-17 12:42:09,0,"en","Joanne","Female","19","In full- or part-time employment"
+"6cccfbfface84da18d968c0d6b69783e5481fcf476f271e16dd3aabdd5387ad9",FALSE,TRUE,2022-01-17 12:42:14,2022-01-17 12:42:24,0,"en","Tony","Male","32","In full- or part-time employment"
+"0eb5337ebe036fba2f726d1c0f7cfd958e39ba99fdd8c37120f6893cd48f73ff",FALSE,TRUE,2022-01-17 12:42:28,2022-01-17 12:42:40,0,"en","Greg","Prefer not to answer","44","Self-employed"
+"7092bb5f4b04bbc2406c8d0865cb3f43e5bd8b631dae250c2864f0aa2fb60312",FALSE,TRUE,2022-01-17 12:42:44,2022-01-17 12:43:04,0,"en","Ann","Female","26","At university"
+"f3894faf3c6c750594d627754f936be05ac0c13c60332bc898703df75cb7ba3f",FALSE,TRUE,2022-01-17 12:43:11,2022-01-17 12:43:24,0,"en","Marie","Female","22","In full- or part-time employment"

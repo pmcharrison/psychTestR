@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.23.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.23.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -93,6 +89,9 @@
       <a href="../articles/e-jspsych-integration.html">Tutorial (expert): jsPsych integration</a>
     </li>
     <li>
+      <a href="../articles/z_Anthony_Chmiel_video_tutorials.html">Video series: An introduction to psychTestR, by Anthony Chmiel</a>
+    </li>
+    <li>
       <a href="../articles/z_code_for_article_in_musik_und_internet.html">Code for Article 'psychTestR - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare'</a>
     </li>
   </ul>
@@ -103,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/pmcharrison/psychTestR/">
+  <a href="https://github.com/pmcharrison/psychTestR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -124,7 +123,7 @@
       <h1 data-toc-skip>Tutorial (intermediate): Hosting experiments online</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/pmcharrison/psychTestR/blob/master/vignettes/d-hosting-experiments-online.Rmd"><code>vignettes/d-hosting-experiments-online.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/pmcharrison/psychTestR/blob/HEAD/vignettes/d-hosting-experiments-online.Rmd" class="external-link"><code>vignettes/d-hosting-experiments-online.Rmd</code></a></small>
       <div class="hidden name"><code>d-hosting-experiments-online.Rmd</code></div>
 
     </div>
@@ -132,28 +131,28 @@
     
     
 <p>psychTestR experiments can be hosted online using the open-source ‘Shiny Server’ software. This software can be installed on a Linux server. The following instructions detail how you can provision your own server if you don’t already have one.</p>
-<p><strong>Note:</strong> <a href="https://www.westernsydney.edu.au/marcs/our_team/researchers/dr_anthony_chmiel">Anthony Chmiel</a> has very kindly put together a much more detailed guide that is available <a href="https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf">here</a>. You are highly recommended to refer to this guide when setting up your own server.</p>
-<div id="shiny-server" class="section level2">
-<h2 class="hasAnchor">
-<a href="#shiny-server" class="anchor"></a>Shiny Server</h2>
-<p><a href="https://www.rstudio.com/products/shiny/shiny-server/">Shiny Server</a> hosts <a href="https://www.rstudio.com/products/shiny/">Shiny</a> apps so that they can be accessed over the Internet. psychTestR delivers experiments as Shiny apps, and therefore needs Shiny Server for deploying experiments online.</p>
-<p>Shiny Server has a <a href="https://www.rstudio.com/products/shiny/download-server/">free open source version</a> and a <a href="https://www.rstudio.com/products/shiny-server-pro/">paid professional version</a>. While the professional version comes with useful features, in particular sophisticated load management, it seems to be prohibitively expensive for research purposes. We’ve used the open source version in our own work, and have had no problems.</p>
+<p><strong>Note:</strong> <a href="https://www.westernsydney.edu.au/marcs/our_team/researchers/dr_anthony_chmiel" class="external-link">Anthony Chmiel</a> has very kindly put together a much more detailed guide that is available <a href="https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf" class="external-link">here</a>. You are highly recommended to refer to this guide when setting up your own server.</p>
+<div class="section level2">
+<h2 id="shiny-server">Shiny Server<a class="anchor" aria-label="anchor" href="#shiny-server"></a>
+</h2>
+<p><a href="https://www.rstudio.com/products/shiny/shiny-server/" class="external-link">Shiny Server</a> hosts <a href="https://www.rstudio.com/products/shiny/" class="external-link">Shiny</a> apps so that they can be accessed over the Internet. psychTestR delivers experiments as Shiny apps, and therefore needs Shiny Server for deploying experiments online.</p>
+<p>Shiny Server has a <a href="https://www.rstudio.com/products/shiny/download-server/" class="external-link">free open source version</a> and a <a href="https://www.rstudio.com/products/shiny-server-pro/" class="external-link">paid professional version</a>. While the professional version comes with useful features, in particular sophisticated load management, it seems to be prohibitively expensive for research purposes. We’ve used the open source version in our own work, and have had no problems.</p>
 </div>
-<div id="provisioning-a-server-with-shiny-server" class="section level2">
-<h2 class="hasAnchor">
-<a href="#provisioning-a-server-with-shiny-server" class="anchor"></a>Provisioning a server with Shiny Server</h2>
-<p>Shiny Server requires a Linux server. There are various ways of obtaining your own server. Cloud-based providers, such as <a href="https://aws.amazon.com/">Amazon Web Services</a> (AWS), provide a useful way of getting your own virtual server instead of having to buy and maintain physical hardware. The instructions below correspond to AWS because this is where our experience lies, but there are many competing cloud providers that could equivalently be used.</p>
+<div class="section level2">
+<h2 id="provisioning-a-server-with-shiny-server">Provisioning a server with Shiny Server<a class="anchor" aria-label="anchor" href="#provisioning-a-server-with-shiny-server"></a>
+</h2>
+<p>Shiny Server requires a Linux server. There are various ways of obtaining your own server. Cloud-based providers, such as <a href="https://aws.amazon.com/" class="external-link">Amazon Web Services</a> (AWS), provide a useful way of getting your own virtual server instead of having to buy and maintain physical hardware. The instructions below correspond to AWS because this is where our experience lies, but there are many competing cloud providers that could equivalently be used.</p>
 <p>The overview of this stage is as follows:</p>
 <ul>
-<li>Spin up an <a href="https://aws.amazon.com/ec2">Elastic Compute Cloud</a> server (typically <code>t2.micro</code> should be sufficient for installation and development purposes, the server can be temporarily upgraded to larger sizes (e.g. <code>t2.medium</code>) during data collection).</li>
+<li>Spin up an <a href="https://aws.amazon.com/ec2" class="external-link">Elastic Compute Cloud</a> server (typically <code>t2.micro</code> should be sufficient for installation and development purposes, the server can be temporarily upgraded to larger sizes (e.g. <code>t2.medium</code>) during data collection).</li>
 <li>Install R and Shiny Server.</li>
 </ul>
-<p>Instructions covering both of these steps can be found here: <a href="https://aws.amazon.com/blogs/big-data/running-r-on-aws/" class="uri">https://aws.amazon.com/blogs/big-data/running-r-on-aws/</a>. This link provides some additional functionality that you may not need, such as setting up a web-hosted instance of RStudio, and integrating the server with S3. However, it also provides a CloudFormation template that automates the setup of this configuration, so it still might save you time.</p>
+<p>Instructions covering both of these steps can be found here: <a href="https://aws.amazon.com/blogs/big-data/running-r-on-aws/" class="external-link uri">https://aws.amazon.com/blogs/big-data/running-r-on-aws/</a>. This link provides some additional functionality that you may not need, such as setting up a web-hosted instance of RStudio, and integrating the server with S3. However, it also provides a CloudFormation template that automates the setup of this configuration, so it still might save you time.</p>
 <p>The following instructions may also be useful:</p>
 <ul>
-<li><a href="https://gist.github.com/sestelo/abdf9693cc3172078a519447fe51f899" class="uri">https://gist.github.com/sestelo/abdf9693cc3172078a519447fe51f899</a></li>
-<li><a href="https://www.edgarsdatalab.com/2016/08/25/setup-a-shiny-server-in-aws/" class="uri">https://www.edgarsdatalab.com/2016/08/25/setup-a-shiny-server-in-aws/</a></li>
-<li><a href="https://www.rstudio.com/products/shiny/download-server/" class="uri">https://www.rstudio.com/products/shiny/download-server/</a></li>
+<li><a href="https://gist.github.com/sestelo/abdf9693cc3172078a519447fe51f899" class="external-link uri">https://gist.github.com/sestelo/abdf9693cc3172078a519447fe51f899</a></li>
+<li><a href="https://www.edgarsdatalab.com/2016/08/25/setup-a-shiny-server-in-aws/" class="external-link uri">https://www.edgarsdatalab.com/2016/08/25/setup-a-shiny-server-in-aws/</a></li>
+<li><a href="https://www.rstudio.com/products/shiny/download-server/" class="external-link uri">https://www.rstudio.com/products/shiny/download-server/</a></li>
 </ul>
 <p>By default, Shiny Server runs on port 3838. We’ve found this problematic when testing participants in schools, because some firewalls block this port. We therefore recommend running Shiny Server on port 80. You can achieve this as follows:</p>
 <ul>
@@ -163,9 +162,9 @@
 <li>Restart Shiny Server: <code>sudo restart shiny-server</code>.</li>
 </ul>
 </div>
-<div id="install-psychtestr" class="section level2">
-<h2 class="hasAnchor">
-<a href="#install-psychtestr" class="anchor"></a>Install psychTestR</h2>
+<div class="section level2">
+<h2 id="install-psychtestr">Install psychTestR<a class="anchor" aria-label="anchor" href="#install-psychtestr"></a>
+</h2>
 <p>You can install psychTestR on your server as follows:</p>
 <ul>
 <li>SSH to the server.</li>
@@ -173,15 +172,15 @@
 </li>
 <li>Run the following command at the R terminal:</li>
 </ul>
-<pre><code>if (!require(devtools)) install.packages("devtools")
-devtools::install_github("pmcharrison/psychTestR")</code></pre>
+<pre><code><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pmcharrison/psychTestR"</span><span class="op">)</span></code></pre>
 </div>
-<div id="debugging" class="section level2">
-<h2 class="hasAnchor">
-<a href="#debugging" class="anchor"></a>Debugging</h2>
-<div id="sanitised-error-messages" class="section level3">
-<h3 class="hasAnchor">
-<a href="#sanitised-error-messages" class="anchor"></a>Sanitised error messages</h3>
+<div class="section level2">
+<h2 id="debugging">Debugging<a class="anchor" aria-label="anchor" href="#debugging"></a>
+</h2>
+<div class="section level3">
+<h3 id="sanitised-error-messages">Sanitised error messages<a class="anchor" aria-label="anchor" href="#sanitised-error-messages"></a>
+</h3>
 <p>Shiny defaults to sanitised error messages, which is often not desirable. We recommend disabling error sanitisation as follows:</p>
 <ul>
 <li>SSH to the server.</li>
@@ -191,9 +190,9 @@ devtools::install_github("pmcharrison/psychTestR")</code></pre>
 <li>Restart Shiny Server: <code>sudo restart shiny-server</code>.</li>
 </ul>
 </div>
-<div id="debugging-tips" class="section level3">
-<h3 class="hasAnchor">
-<a href="#debugging-tips" class="anchor"></a>Debugging tips</h3>
+<div class="section level3">
+<h3 id="debugging-tips">Debugging tips<a class="anchor" aria-label="anchor" href="#debugging-tips"></a>
+</h3>
 <ul>
 <li>Develop your test locally before pushing it to the server.</li>
 <li>When developing locally, run <code>options(shiny.error = browser)</code> so you can inspect the stack when an error occurs.</li>
@@ -202,12 +201,12 @@ devtools::install_github("pmcharrison/psychTestR")</code></pre>
 </ul>
 </div>
 </div>
-<div id="hosting-an-experiment" class="section level2">
-<h2 class="hasAnchor">
-<a href="#hosting-an-experiment" class="anchor"></a>Hosting an experiment</h2>
+<div class="section level2">
+<h2 id="hosting-an-experiment">Hosting an experiment<a class="anchor" aria-label="anchor" href="#hosting-an-experiment"></a>
+</h2>
 <p>Your experiment’s source code should already be in the form of a directory containing the file <code>app.R</code>, which should contain the logic for defining your experiment. You should upload this directory to the directory <code>/srv/shiny-server/</code>. Our recommended approach is currently as follows:</p>
 <ul>
-<li>Store your experiment’s source code in a <a href="https://git-scm.com/">Git</a> repository, hosted online by a service like <a href="https://github.com/">Github</a>, <a href="https://bitbucket.org/">Bitbucket</a>, or <a href="https://gitlab.com/">Gitlab</a>.</li>
+<li>Store your experiment’s source code in a <a href="https://git-scm.com/" class="external-link">Git</a> repository, hosted online by a service like <a href="https://github.com/" class="external-link">Github</a>, <a href="https://bitbucket.org/" class="external-link">Bitbucket</a>, or <a href="https://gitlab.com/" class="external-link">Gitlab</a>.</li>
 <li>SSH to the server.</li>
 <li>Navigate to the target directory: <code>cd /srv/shiny-server</code>
 </li>
@@ -217,9 +216,9 @@ devtools::install_github("pmcharrison/psychTestR")</code></pre>
 <li>Your app should be now available at <code>http://www.your-server.org:3838/app_name</code>, or if you changed the port to 80, <code>http://www.your-server.org/app_name</code>.</li>
 </ul>
 </div>
-<div id="local-files" class="section level2">
-<h2 class="hasAnchor">
-<a href="#local-files" class="anchor"></a>Local files</h2>
+<div class="section level2">
+<h2 id="local-files">Local files<a class="anchor" aria-label="anchor" href="#local-files"></a>
+</h2>
 <p>psychTestR stores local files in the <code>output/</code> subdirectory of your app’s directory. These include session files and saved data. Do not delete these files unless you are happy with losing data. We recommend using the app’s admin panel to delete these files if necessary.</p>
 </div>
   </div>
@@ -235,11 +234,13 @@ devtools::install_github("pmcharrison/psychTestR")</code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by Peter Harrison.</p>
+  <p></p>
+<p>Developed by Peter Harrison.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -247,6 +248,8 @@ devtools::install_github("pmcharrison/psychTestR")</code></pre>
 
   
 
+
+  
 
   </body>
 </html>

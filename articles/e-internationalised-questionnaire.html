@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,23 +33,17 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">psychTestR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.23.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.23.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -93,6 +89,9 @@
       <a href="../articles/e-jspsych-integration.html">Tutorial (expert): jsPsych integration</a>
     </li>
     <li>
+      <a href="../articles/z_Anthony_Chmiel_video_tutorials.html">Video series: An introduction to psychTestR, by Anthony Chmiel</a>
+    </li>
+    <li>
       <a href="../articles/z_code_for_article_in_musik_und_internet.html">Code for Article 'psychTestR - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare'</a>
     </li>
   </ul>
@@ -103,7 +102,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/pmcharrison/psychTestR/">
+  <a href="https://github.com/pmcharrison/psychTestR/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -124,35 +123,35 @@
       <h1 data-toc-skip>Tutorial (expert): Creating an internationalised questionnaire</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/pmcharrison/psychTestR/blob/master/vignettes/e-internationalised-questionnaire.Rmd"><code>vignettes/e-internationalised-questionnaire.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/pmcharrison/psychTestR/blob/HEAD/vignettes/e-internationalised-questionnaire.Rmd" class="external-link"><code>vignettes/e-internationalised-questionnaire.Rmd</code></a></small>
       <div class="hidden name"><code>e-internationalised-questionnaire.Rmd</code></div>
 
     </div>
 
     
     
-<div id="about" class="section level2">
-<h2 class="hasAnchor">
-<a href="#about" class="anchor"></a>About</h2>
+<div class="section level2">
+<h2 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
+</h2>
 <p>This tutorial describes how to create a <em>internationalised questionnaire</em> - a questionnaire that can be taken in multiple languages - in psychTestR. Internationalised tests are more complicated to construct than monolingual tests, but they are essential for international studies.</p>
 </div>
-<div id="tutorial" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tutorial" class="anchor"></a>Tutorial</h2>
+<div class="section level2">
+<h2 id="tutorial">Tutorial<a class="anchor" aria-label="anchor" href="#tutorial"></a>
+</h2>
 <p>The first step is to put together a data file defining items and answers in the different languages that will be used in your test. This will be used to define a <em>dictionary</em> object (<a href="https://pmcharrison.github.io/psychTestR/reference/i18n_dict.html"><code>i18n_dict</code></a>) that psychTestR will use to find a given translation from a given key. For example, the key <code>colour</code> might return “What’s your favourite colour?” if the language is English, or “Quelle est ta couleur préférée?” if the language is French.</p>
 <p>The precise form of this data file will depend on the type of questionnaire you want to construct, and what kind of response options are available. Here we will illustrate the creation of a simple questionnaire where each item has a textual cue and two textual response options.</p>
-<p>Let’s begin by creating an R file within which to design your questionnaire. If you’re new to writing R code, we recommend you install <a href="https://rstudio.com">RStudio</a>, and create a new project (File &gt; New Project), within which to save your file.</p>
+<p>Let’s begin by creating an R file within which to design your questionnaire. If you’re new to writing R code, we recommend you install <a href="https://rstudio.com" class="external-link">RStudio</a>, and create a new project (File &gt; New Project), within which to save your file.</p>
 <p>At the beginning of your script, write the following to load <code>psychTestR</code> and the <code>tibble</code> package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR">psychTestR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/">tibble</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></code></pre></div>
 <p>If you haven’t got them already, you can install these packages at the R terminal as follows:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"tibble"</span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"devtools"</span>, <span class="st">"tibble"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pmcharrison/psychTestR"</span><span class="op">)</span></code></pre></div>
-<p>Now we’ll define a simple table that defines a questionnaire in our two languages. Ordinarily you would define this table in an external csv file, and read it in using <code>read.csv</code> or <code>readr::read_csv</code>, but here we will define it within our R code. This table takes the form of a <code>tibble</code> object, as created by the <code>tribble</code> function (see <code><a href="https://tibble.tidyverse.org/reference/tibble.html">?tibble::tibble</a></code> for information), but you could also use a <code>data.frame</code> object.</p>
+<p>Now we’ll define a simple table that defines a questionnaire in our two languages. Ordinarily you would define this table in an external csv file, and read it in using <code>read.csv</code> or <code>readr::read_csv</code>, but here we will define it within our R code. This table takes the form of a <code>tibble</code> object, as created by the <code>tribble</code> function (see <code><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">?tibble::tibble</a></code> for information), but you could also use a <code>data.frame</code> object.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">definition</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+<code class="sourceCode R"><span class="va">definition</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
   <span class="op">~</span><span class="va">item_number</span>, <span class="op">~</span><span class="va">key_type</span>,   <span class="op">~</span><span class="va">key</span>,     <span class="op">~</span><span class="va">en</span>,                  <span class="op">~</span><span class="va">fr</span>,
   <span class="fl">1</span>,            <span class="st">"question"</span>,  <span class="st">"colour"</span>, <span class="st">"Favourite colour?"</span>,  <span class="st">"Couleur préférée?"</span>,
   <span class="fl">1</span>,            <span class="st">"answer_1"</span>,  <span class="st">"red"</span>,    <span class="st">"Red"</span>,                <span class="st">"Rouge"</span>,
@@ -164,24 +163,24 @@
 <p>Each row defines a particular question or answer. The <code>item_number</code> column tells us the current item number; each item has several rows, corresponding to its different textual components. The <code>key_type</code> column tells us whether the current row describes a question (<code>"question"</code>), the first answer (<code>"answer_1"</code>), or the second answer (<code>"answer_2"</code>). The <code>key</code> column gives a succint identifier for that piece of text, which should be unique within the questionnaire. The <code>en</code> column gives the text in English, the <code>fr</code> column in French.</p>
 <p>We will first use this table to create a psychTestR dictionary. This is done as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">dict</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/i18n_dict.html">i18n_dict</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">definition</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"key"</span>, <span class="st">"en"</span>, <span class="st">"fr"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">dict</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/i18n_dict.html">i18n_dict</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">definition</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"key"</span>, <span class="st">"en"</span>, <span class="st">"fr"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <p>Here we wrote <code>definition[, c("key", "en", "fr")]</code>, which takes the original <code>definition</code> tibble and only keeps the three columns <code>key</code>, <code>en</code>, and <code>fr</code>, to match the required input of <code>i18n_dict$new</code> (see <a href="https://pmcharrison.github.io/psychTestR/reference/i18n.html"><code>i18n</code></a> for details. In general, <code>i18n_dict$new()</code> requires an input <code>data.frame</code> or <code>tibble</code> where each row corresponds to a text element, the first column is a unique identifier termed <code>key</code>, and the remaining columns provide translations into different languages, specified by capitalised ISO 639-2 country codes.</p>
 <p>Next, we will use the <code>definition</code> object to construct our test logic. The general idea is that we will iterate over each item number, collect the rows corresponding to that item number, and define a test page from this information. Here I’m going to use utility functions from the <code>tidyverse</code> packages - if you’re not familiar with these packages, I’d certainly recommend them. If you haven’t already installed the <code>tidyverse</code>, you can install it with <code>install.packages("tidyverse")</code>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span>
 
 <span class="va">questionnaire</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/new_timeline.html">new_timeline</a></span><span class="op">(</span>
   <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
     <span class="fu"><a href="../reference/begin_module.html">begin_module</a></span><span class="op">(</span><span class="st">"my_questionnaire"</span><span class="op">)</span>,
-    <span class="va">definition</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
-      <span class="fu">select</span><span class="op">(</span><span class="va">item_number</span>, <span class="va">key_type</span>, <span class="va">key</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
-      <span class="fu">spread</span><span class="op">(</span><span class="va">key_type</span>, <span class="va">key</span><span class="op">)</span> <span class="op"><a href="../reference/%&gt;%.html">%&gt;%</a></span> 
-      <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html">pmap</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">item_number</span>, <span class="va">answer_1</span>, <span class="va">answer_2</span>, <span class="va">question</span><span class="op">)</span> <span class="op">{</span>
+    <span class="va">definition</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+      <span class="fu">select</span><span class="op">(</span><span class="va">item_number</span>, <span class="va">key_type</span>, <span class="va">key</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+      <span class="fu">spread</span><span class="op">(</span><span class="va">key_type</span>, <span class="va">key</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> 
+      <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">pmap</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">item_number</span>, <span class="va">answer_1</span>, <span class="va">answer_2</span>, <span class="va">question</span><span class="op">)</span> <span class="op">{</span>
         <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">question</span>, 
                   prompt <span class="op">=</span> <span class="fu"><a href="../reference/i18n.html">i18n</a></span><span class="op">(</span><span class="va">question</span><span class="op">)</span>,
-                  choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">answer_1</span>, 
+                  choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">answer_1</span>, 
                               <span class="va">answer_2</span><span class="op">)</span>,
-                  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/i18n.html">i18n</a></span><span class="op">(</span><span class="va">answer_1</span><span class="op">)</span>, 
+                  labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/i18n.html">i18n</a></span><span class="op">(</span><span class="va">answer_1</span><span class="op">)</span>, 
                              <span class="fu"><a href="../reference/i18n.html">i18n</a></span><span class="op">(</span><span class="va">answer_2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
       <span class="op">}</span><span class="op">)</span>, 
     <span class="fu"><a href="../reference/end_module.html">end_module</a></span><span class="op">(</span><span class="op">)</span>
@@ -193,7 +192,7 @@
 <li><p><a href="https://pmcharrison.github.io/psychTestR/reference/new_timeline.html"><code>new_timeline</code></a> is a psychTestR function that creates a <em>timeline</em>, i.e. a series of test elements. Timelines support internationalisation, in that one timeline object can define test elements in multiple languages. When making an internationalised timeline, you must pass a dictionary (such as the one we defined earlier) to the <code>dict</code> argument.</p></li>
 <li><p>The function <code>c</code> combines different timelines or test elements together.</p></li>
 <li><p><a href="https://pmcharrison.github.io/psychTestR/reference/begin_module.html"><code>begin_module</code></a> is a psychTestR function signifying that the test is now beginning a new <em>module</em>. Modules are self-contained entities that are identified by a textual label, in this case “my_questionnaire”. Modules are usually only necessary if you intend your test to be incorporated into larger test batteries; in this case, the module label helps to identify the results from your particular test component.</p></li>
-<li><p>The <code>%&gt;%</code> operation takes an R object on one line and ‘pipes’ it forward to the next line as the input of a function. See <a href="https://magrittr.tidyverse.org/">magrittr</a> for details.</p></li>
+<li><p>The <code>%&gt;%</code> operation takes an R object on one line and ‘pipes’ it forward to the next line as the input of a function. See <a href="https://magrittr.tidyverse.org/" class="external-link">magrittr</a> for details.</p></li>
 <li><p><code>select</code> takes the input tibble (<code>definition</code>) and selects the columns <code>item_number</code>, <code>key_type</code>, and <code>key</code> (we could have also used the <code>[</code> operator, like before).</p></li>
 <li><p><code>spread</code> turns the tibble from long format to wide format, where each row now represents a different item.</p></li>
 <li><p><code>pmap</code> iterates over each row of the tibble, and calls a provided function on the elements of this row.</p></li>
@@ -201,7 +200,7 @@
 <li><p><a href="https://pmcharrison.github.io/psychTestR/reference/i18n.html"><code>i18n</code></a> gets a translation for a given key from the dictionary. It can only be called within the <code>new_timeline</code> function. Note that we have provided the <code>NAFC_page</code> function with both keys and translations, allowing the test to save data in a consistent format irrespective of the participant’s language.</p></li>
 <li><p><a href="https://pmcharrison.github.io/psychTestR/reference/end_module.html"><code>end_module</code></a> signifies the end of the “my_questionnaire” module.</p></li>
 </ul>
-<p>That’s it! You’ve defined your internationalised questionnaire. You can now run this questionnaire independently, or insert it into a longer test battery. For now, let’s try running it independently. Before we do so, we’ll add two elements to the timeline: an element to save the results to disk (using <a href="https://pmcharrison.github.io/psychTestR/reference/elt_save_results_to_disk.html"><code>elt_save_results_to_disk</code></a>) and a <a href="https://pmcharrison.github.io/psychTestR/reference/final_page.html"><code>final_page</code></a> object to terminate the test. We can then run the test using <a href="https://pmcharrison.github.io/psychTestR/reference/make_test.html"><code>make_test</code></a>; note that this must be called interactively or else placed within a call to <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html">shiny::runApp</a></code>.</p>
+<p>That’s it! You’ve defined your internationalised questionnaire. You can now run this questionnaire independently, or insert it into a longer test battery. For now, let’s try running it independently. Before we do so, we’ll add two elements to the timeline: an element to save the results to disk (using <a href="https://pmcharrison.github.io/psychTestR/reference/elt_save_results_to_disk.html"><code>elt_save_results_to_disk</code></a>) and a <a href="https://pmcharrison.github.io/psychTestR/reference/final_page.html"><code>final_page</code></a> object to terminate the test. We can then run the test using <a href="https://pmcharrison.github.io/psychTestR/reference/make_test.html"><code>make_test</code></a>; note that this must be called interactively or else placed within a call to <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">shiny::runApp</a></code>.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">logic</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
   <span class="va">questionnaire</span>,
@@ -213,21 +212,21 @@
 <p>When you finish the test it should automatically save results in your working directory. You can access these results by running the test and logging into the admin panel with the default password, “demo”. You can launch the test with different default languages as follows:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Defaults to English but also supports French</span>
-<span class="fu">psychTestR</span><span class="fu">::</span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">logic</span>, opt <span class="op">=</span> <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span><span class="op">(</span>languages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"en"</span>, <span class="st">"fr"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu">psychTestR</span><span class="fu">::</span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">logic</span>, opt <span class="op">=</span> <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span><span class="op">(</span>languages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"en"</span>, <span class="st">"fr"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Defaults to French but also supports English</span>
-<span class="fu">psychTestR</span><span class="fu">::</span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">logic</span>, opt <span class="op">=</span> <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span><span class="op">(</span>languages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"fr"</span>, <span class="st">"en"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu">psychTestR</span><span class="fu">::</span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">logic</span>, opt <span class="op">=</span> <span class="fu"><a href="../reference/demo_options.html">demo_options</a></span><span class="op">(</span>languages <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"fr"</span>, <span class="st">"en"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>You can also select languages through the URL you use to access the test. Note however that a given participant ID (<code>p_id</code>) is permanently linked with a given language, so to switch languages you must ensure that the <code>p_id</code> component of the URL is omitted.</p>
 </div>
-<div id="conclusion" class="section level2">
-<h2 class="hasAnchor">
-<a href="#conclusion" class="anchor"></a>Conclusion</h2>
+<div class="section level2">
+<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
+</h2>
 <p>This internationalisation workflow is somewhat complicated to set up, but it is rather powerful. The combination of <code>i18n_dict</code> and <code>i18n</code> is very flexible, and allows internationalisation to be applied to a great variety of test designs, not just simple questionnaires.</p>
 </div>
-<div id="feedback" class="section level2">
-<h2 class="hasAnchor">
-<a href="#feedback" class="anchor"></a>Feedback</h2>
-<p>Have you got feedback about this tutorial? Please submit it to the <a href="https://github.com/pmcharrison/psychTestR/issues">issues tracker</a>.</p>
+<div class="section level2">
+<h2 id="feedback">Feedback<a class="anchor" aria-label="anchor" href="#feedback"></a>
+</h2>
+<p>Have you got feedback about this tutorial? Please submit it to the <a href="https://github.com/pmcharrison/psychTestR/issues" class="external-link">issues tracker</a>.</p>
 </div>
   </div>
 
@@ -242,11 +241,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Peter Harrison.</p>
+  <p></p>
+<p>Developed by Peter Harrison.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -254,6 +255,8 @@
 
   
 
+
+  
 
   </body>
 </html>

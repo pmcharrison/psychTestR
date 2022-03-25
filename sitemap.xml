@@ -1,7 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://pmcharrison.github.io/psychTestR/404.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/a1-simple-demo.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/a2-research-examples.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/b-introduction.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/c-media-files.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/c-modularisation.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/d-automated-testing.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/d-building-custom-page-types.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/d-editing-dictionaries.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/d-hosting-experiments-online.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/d-randomisation.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/d-url-parameters.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/e-internationalised-questionnaire.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/e-jspsych-integration.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/z_Anthony_Chmiel_video_tutorials.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/articles/z_code_for_article_in_musik_und_internet.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/authors.html</loc>
+  </url>
+  <url>
     <loc>https://pmcharrison.github.io/psychTestR/index.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/news/index.html</loc>
   </url>
   <url>
     <loc>https://pmcharrison.github.io/psychTestR/reference/AppTester.html</loc>
@@ -46,10 +109,10 @@
     <loc>https://pmcharrison.github.io/psychTestR/reference/conditional.html</loc>
   </url>
   <url>
-    <loc>https://pmcharrison.github.io/psychTestR/reference/demo.html</loc>
+    <loc>https://pmcharrison.github.io/psychTestR/reference/demo.get_url_params.html</loc>
   </url>
   <url>
-    <loc>https://pmcharrison.github.io/psychTestR/reference/demo.get_url_params.html</loc>
+    <loc>https://pmcharrison.github.io/psychTestR/reference/demo.html</loc>
   </url>
   <url>
     <loc>https://pmcharrison.github.io/psychTestR/reference/demo.set_url_params.html</loc>
@@ -119,6 +182,9 @@
   </url>
   <url>
     <loc>https://pmcharrison.github.io/psychTestR/reference/imports.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/reference/index.html</loc>
   </url>
   <url>
     <loc>https://pmcharrison.github.io/psychTestR/reference/is.null.or.html</loc>
@@ -242,47 +308,5 @@
   </url>
   <url>
     <loc>https://pmcharrison.github.io/psychTestR/reference/with_i18n_state.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/a1-simple-demo.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/a2-research-examples.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/b-introduction.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/c-media-files.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/c-modularisation.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/d-automated-testing.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/d-building-custom-page-types.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/d-editing-dictionaries.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/d-hosting-experiments-online.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/d-randomisation.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/d-url-parameters.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/e-internationalised-questionnaire.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/e-jspsych-integration.html</loc>
-  </url>
-  <url>
-    <loc>https://pmcharrison.github.io/psychTestR/articles/z_code_for_article_in_musik_und_internet.html</loc>
   </url>
 </urlset>
