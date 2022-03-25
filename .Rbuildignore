@@ -16,3 +16,4 @@ psychTestR.pdf
 ^_pkgdown\.yml$
 ^pkgdown$
 ^\.github$
+^www$
