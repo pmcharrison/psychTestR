@@ -29,7 +29,7 @@ Video links:
 
 Accompanying files:
 
-- [R Script for Video 1.R (right-click and click 'Save link as')](../anthony-chmiel-video-tutorial-resources/Video 1/R Script for Video 1.R)
+- [R Script for Video 1.R](../anthony-chmiel-video-tutorial-resources/Video 1/R Script for Video 1.R)
 - [results.csv](../anthony-chmiel-video-tutorial-resources/Video 1/results.csv)
 - [results.rds](../anthony-chmiel-video-tutorial-resources/Video 1/results.rds)
 - [results.xlsx](../anthony-chmiel-video-tutorial-resources/Video 1/results.xlsx)
@@ -43,7 +43,7 @@ Video links:
 
 Accompanying files:
 
-- [R Script for Video 2.R (right-click and click 'Save link as'](../anthony-chmiel-video-tutorial-resources/Video 2/R Script for Video 2.R)
+- [R Script for Video 2.R](../anthony-chmiel-video-tutorial-resources/Video 2/R Script for Video 2.R)
 - [results.csv](../anthony-chmiel-video-tutorial-resources/Video 2/results.csv)
 - [results.zip](../anthony-chmiel-video-tutorial-resources/Video 2/results.zip)
 
@@ -56,7 +56,7 @@ Video links:
 
 Accompanying files:
 
-- [R Script for Video 3.R (right-click and click 'Save link as'](../anthony-chmiel-video-tutorial-resources/Video 3/R Script for Video 3.R)
+- [R Script for Video 3.R](../anthony-chmiel-video-tutorial-resources/Video 3/R Script for Video 3.R)
 
 ## Video 4 - Publishing experiments, including upload of experiments to a server for online use
 
@@ -67,5 +67,5 @@ Video links:
 
 Accompanying files:
 
-- [R Script for Video 4.R (right-click and click 'Save link as'](../anthony-chmiel-video-tutorial-resources/Video 4/R Script for Video 4.R)
+- [R Script for Video 4.R](../anthony-chmiel-video-tutorial-resources/Video 4/R Script for Video 4.R)
 - [id=1&p_id=testuser&save_id=1&pilot=false&complete=true.rds](../anthony-chmiel-video-tutorial-resources/Video 4/id=1&p_id=testuser&save_id=1&pilot=false&complete=true.rds)
