@@ -10,6 +10,7 @@ vignette: >
 [Anthony Chmiel](https://www.westernsydney.edu.au/marcs/our_team/researchers/dr_anthony_chmiel)
 has developed a 2-hour video course for introducing new users to psychTestR.
 He has kindly contributed this video course to our website.
+We thank Seb Silas for providing many of the code examples used in the course.
 
 The target audience of this video course is students who have little to no experience with R. 
 The course aims to help beginners hit the ground running and points them in the direction of useful resources and other experiments that they could deconstruct to start figuring out other ideas on their own.
