@@ -35,7 +35,8 @@ test_options(
   display = display_options(),
   allow_url_rewrite = TRUE,
   advance_delay = 0,
-  additional_scripts = character()
+  additional_scripts = character(),
+  additional_external_scripts = character()
 )
 }
 \arguments{
@@ -141,7 +142,9 @@ can be disabled as long as \code{enable_resume_session} is also set to \code{FAL
 \item{advance_delay}{Number of seconds to wait before advancing to the next page
 upon button press.}
 
-\item{additional_scripts}{A character vector containing file paths to any additional scripts which should be included.}
+\item{additional_scripts}{A character vector containing file paths to any additional scripts which should be included. These will be sourced with includeScript.}
+
+\item{additional_external_scripts}{A character vector containing file paths to any additional scripts which should be included. These should begin with 'http' and be sourced with shiny::tags$script.}
 }
 \description{
 Defines the options for running a given test.

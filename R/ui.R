@@ -62,7 +62,8 @@ ui <- function(opt) {
     content,
     footer,
     include_scripts(opt),
-    include_js_opt(opt)
+    include_external_scripts(opt),
+    include_js_opt(opt),
   )
 }
 
@@ -90,8 +91,23 @@ include_scripts <- function(opt) {
     x, package = "psychTestR")))
 
   if(length(opt$additional_scripts) > 0) {
-    wrapped_additional_scripts <- lapply(opt$additional_scripts, function(x) shiny::includeScript(x))
+
+    wrapped_additional_scripts <- purrr::map(opt$additional_scripts, function(scr) shiny::includeScript(scr))
+
     wrapped_scripts <- c(wrapped_scripts, wrapped_additional_scripts)
   }
+
   wrapped_scripts
+}
+
+include_external_scripts <- function(opt) {
+
+  purrr::map(opt$additional_scripts, function(scr) {
+    if(!startsWith(scr, "http")) {
+      stop("External scripts must begin with \'http\'")
+    } else {
+      shiny::tags$script(src = scr)
+    }
+  })
+
 }

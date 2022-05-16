@@ -88,7 +88,9 @@ pt_options <- function(...) {
 #' Number of seconds to wait before advancing to the next page
 #' upon button press.
 #' @param additional_scripts
-#' A character vector containing file paths to any additional scripts which should be included.
+#' A character vector containing file paths to any additional scripts which should be included. These will be sourced with includeScript.
+#' @param additional_external_scripts
+#' A character vector containing file paths to any additional scripts which should be included. These should begin with 'http' and be sourced with shiny::tags$script.
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -119,7 +121,9 @@ test_options <- function(title, admin_password,
                          display = display_options(),
                          allow_url_rewrite = TRUE,
                          advance_delay = 0,
-                         additional_scripts = character()) {
+                         additional_scripts = character(),
+                         additional_external_scripts = character()) {
+
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
             is.null.or(researcher_email, is.scalar.character),
@@ -150,7 +154,8 @@ test_options <- function(title, admin_password,
             is.list(display),
             is.scalar.logical(allow_url_rewrite),
             is.scalar.numeric(advance_delay),
-            is.character(additional_scripts))
+            is.character(additional_scripts),
+            is.character(additional_external_scripts))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   if (!allow_url_rewrite && enable_resume_session) {
@@ -209,6 +214,7 @@ test_options <- function(title, admin_password,
   session_dir <- file.path(output_dir, "sessions")
   results_archive_dir <- file.path(output_dir, "deleted-results")
   error_dir <- file.path(output_dir, "errors")
+  audio_dir <- file.path(output_dir, "audio")
 
   list(title = title,
        admin_password = admin_password,
@@ -237,6 +243,7 @@ test_options <- function(title, admin_password,
        session_dir = session_dir,
        results_archive_dir = results_archive_dir,
        error_dir = error_dir,
+       audio_dir = audio_dir,
        closed_file = file.path(output_dir, "closed.txt"),
        session_timeout_min = session_timeout_min,
        clean_sessions_interval_min = clean_sessions_interval_min,
@@ -246,7 +253,8 @@ test_options <- function(title, admin_password,
        display = display,
        allow_url_rewrite = allow_url_rewrite,
        js_opt = list(advance_delay = advance_delay),
-       additional_scripts = additional_scripts)
+       additional_scripts = additional_scripts,
+       additional_external_scripts = additional_external_scripts)
 }
 
 #' Display options
@@ -394,7 +402,7 @@ test_permissions <- function(dir) {
 }
 
 OUTPUT_DIRS <- c("output_dir", "results_dir", "session_dir",
-                 "results_archive_dir", "error_dir")
+                 "results_archive_dir", "error_dir", "audio_dir")
 
 #' Check directories
 #'
