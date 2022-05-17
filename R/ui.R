@@ -102,12 +102,6 @@ include_scripts <- function(opt) {
 
 include_external_scripts <- function(opt) {
 
-  purrr::map(opt$additional_scripts, function(scr) {
-    if(!startsWith(scr, "http")) {
-      stop("External scripts must begin with \'http\'")
-    } else {
-      shiny::tags$script(src = scr)
-    }
-  })
+  purrr::map(opt$additional_scripts, function(scr) shiny::tags$script(src = scr))
 
 }
