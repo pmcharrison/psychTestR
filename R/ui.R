@@ -62,7 +62,6 @@ ui <- function(opt) {
     content,
     footer,
     include_scripts(opt),
-    include_external_scripts(opt),
     include_js_opt(opt),
   )
 }
@@ -92,7 +91,13 @@ include_scripts <- function(opt) {
 
   if(length(opt$additional_scripts) > 0) {
 
-    wrapped_additional_scripts <- purrr::map(opt$additional_scripts, function(scr) shiny::includeScript(scr))
+    wrapped_additional_scripts <- lapply(opt$additional_scripts, function(x) {
+      if(base::startsWith(x, "http")) {
+        htmltools::tags$script(src = x)
+      } else {
+        htmltools::includeScript(x)
+      }
+    })
 
     wrapped_scripts <- c(wrapped_scripts, wrapped_additional_scripts)
   }
@@ -100,6 +105,6 @@ include_scripts <- function(opt) {
   wrapped_scripts
 }
 
-include_external_scripts <- function(opt) {
-  purrr::map(opt$additional_scripts, function(scr) shiny::tags$script(src = scr))
-}
+
+
+
