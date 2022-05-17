@@ -101,7 +101,5 @@ include_scripts <- function(opt) {
 }
 
 include_external_scripts <- function(opt) {
-
   purrr::map(opt$additional_scripts, function(scr) shiny::tags$script(src = scr))
-
 }
