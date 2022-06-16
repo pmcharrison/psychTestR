@@ -12,11 +12,12 @@ The following code is taken from the article "*psychTestR* - Ein R-Paket für (m
 
 ## Installation
 ```r
+install.packages("devtools")
 devtools::install_github("pmcharrison/psychTestR")
 devtools::install_github('fmhoeger/psyquest')
 ```
 
-## Beispielcode 
+## Code example 
 ```r
 # Laden der benötigten Pakete
 library(psychTestR)
@@ -25,14 +26,14 @@ library(shiny)
 
 # Codeblöcke
 save_time_started <- code_block(function(state, ...) { # Speichern der Startzeit
-  set_global( # global für diesen Teilnehmer
+  set_global(                                          # global für diesen Teilnehmer
     key = "time_started",
     value = Sys.time(),
     state = state # interne Statusvariable von psychTestR
   )
 })
 
-compute_time_taken <- code_block(function(state, ...) { # Berechnung und Ausgabe
+compute_time_taken <- code_block(function(state, ...) {        # Berechnung und Ausgabe
   time_taken <- Sys.time() - get_global("time_started", state) # der Bearbeitungsdauer
   msg <- paste0(
     "So lange hast du den Fragebogen bearbeitet: ",
@@ -58,7 +59,7 @@ timeline_abb_1 <- join(
       set_global(
         key = "instrument",
         value = answer, # answer enthält immer die letzte Antwort
-        state = state # interne Statusvariable von psychTestR
+        state = state   # interne Statusvariable von psychTestR
       )
     }
   ),
@@ -81,16 +82,16 @@ timeline_abb_1 <- join(
 
 # verschiedene Pages zu einer Timeline durch join() bündeln
 timeline <- join(
-  new_timeline( # Timeline für die Startzeit
-    save_time_started, # Timelines brauchen ein Dictionary, das
-    dict = psyquest::psyquest_dict # die internationalisierten Sprach-
-    # bausteine enthält, hier nur ein Dummy.
+  new_timeline(                              # Timeline für die Startzeit
+    save_time_started,                       # Timelines brauchen ein Dictionary, das
+    dict = psyquest::psyquest_dict           # die internationalisierten Sprach-
+                                             # bausteine enthält, hier nur ein Dummy.
   ),
-  timeline_abb_1, # Timeline aus Abbildung 1
-  GMS(language = "de"), # Goldsmiths Musical Sophistication Index
-  compute_time_taken, # Berechnung und Ausgabe Bearbeitungsdauer
+  timeline_abb_1,                            # Timeline aus Abbildung 1
+  GMS(language = "de"),                      # Goldsmiths Musical Sophistication Index
+  compute_time_taken,                        # Berechnung und Ausgabe Bearbeitungsdauer
   elt_save_results_to_disk(complete = TRUE), # Speicherung der Ergebnisse
-  final_page("Vielen Dank!") # Abschlussseite
+  final_page("Vielen Dank!")                 # Abschlussseite
 )
 
 # fertigen Fragebogen öffnen
@@ -106,7 +107,7 @@ questionnaire <- make_test(
 shiny::runApp(questionnaire)
 ```
 
-## Zugang zu den Ergebnissen 
+## Access to the results
 ```r
 data <- lapply(
   list.files(
