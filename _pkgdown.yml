@@ -151,6 +151,7 @@ reference:
 - title: Misc.
   desc: Miscellaneous other functions.
   contents:
+  - '`defmacro`'
   - '`imports`'
 - title: Deprecated
   desc: These are functions that are supported for backwards compatibility, but whose use are not encouraged.
