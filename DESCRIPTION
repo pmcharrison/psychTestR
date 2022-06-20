@@ -7,12 +7,11 @@ Authors@R: c(
   person("Frank", "Höger", email = "frank@mirsem.org", role = c("ctb"))
   )
 Description: Framework for delivering psychological tests via Shiny.
-License: MIT + file LICENSE
+License: GPL-3 + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
     shiny (>= 1.1.0),
-    gtools (>= 3.8.1),
     htmltools (>= 0.3.6),
     magrittr (>= 1.5),
     methods,

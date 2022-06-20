@@ -393,7 +393,7 @@ as.timeline <- function(x, ...) {
 #' first and subsequently combining them.
 #' This helps to narrow down the source of any errors.
 #' @export
-new_timeline <- gtools::defmacro(x, dict = NULL, default_lang = "en", expr = tryCatch({
+new_timeline <- defmacro(x, dict = NULL, default_lang = "en", expr = tryCatch({
   if (psychTestR::I18N_STATE$in_new_timeline) {
     stop("Nested calls to new_timeline() are not supported. ",
          "Instead you should use the join() function to connect multiple timelines.")
@@ -542,7 +542,7 @@ is.timeline <- function(x) is(x, "timeline")
 #' The result of evaluating \code{x} using the provided dictionary and language.
 #'
 #' @export
-with_i18n_state <- gtools::defmacro(dictionary, language, x, expr = {
+with_i18n_state <- defmacro(dictionary, language, x, expr = {
   local({
     old_state <- list(dict = psychTestR::I18N_STATE$dict,
                       lang = psychTestR::I18N_STATE$lang)

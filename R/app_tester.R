@@ -88,10 +88,10 @@ AppTester <- R6::R6Class(
 
     str_squish = function(x) {
       x <- gsub("^\\s", "", x)  # trim whitespace from start of string
-      x <- gsub("\\s$", "")  # trim whitespace from end of string
+      x <- gsub("\\s$", "", x)  # trim whitespace from end of string
       x <- gsub("\\s+", " ", x)  # replace any duplicated whitespace with a single space
       x
-    }
+    },
 
     expect_ui_text = function(text, squish = TRUE) {
       testthat::expect_equal(
