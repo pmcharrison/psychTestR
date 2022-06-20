@@ -7,9 +7,6 @@
     <loc>https://pmcharrison.github.io/psychTestR/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://pmcharrison.github.io/psychTestR/LICENSE.html</loc>
-  </url>
-  <url>
     <loc>https://pmcharrison.github.io/psychTestR/articles/a1-simple-demo.html</loc>
   </url>
   <url>
@@ -107,6 +104,9 @@
   </url>
   <url>
     <loc>https://pmcharrison.github.io/psychTestR/reference/conditional.html</loc>
+  </url>
+  <url>
+    <loc>https://pmcharrison.github.io/psychTestR/reference/defmacro.html</loc>
   </url>
   <url>
     <loc>https://pmcharrison.github.io/psychTestR/reference/demo.get_url_params.html</loc>

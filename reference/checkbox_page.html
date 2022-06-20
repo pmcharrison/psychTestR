@@ -127,45 +127,69 @@
     <h2>Arguments</h2>
     <dl><dt>label</dt>
 <dd><p>(Character scalar) Label for the current page.</p></dd>
+
+
 <dt>prompt</dt>
 <dd><p>Prompt to be displayed above the response choices.
 Can be either a character scalar (e.g. "What is 2 + 2?") or an object of
 class "shiny.tag", e.g. <code>shiny::tags$p("What is 2 + 2?")</code>.</p></dd>
+
+
 <dt>choices</dt>
 <dd><p>(Character vector) Choices for the participant.
 If unnamed, then these values will be used both for checkbox IDs and for
 checkbox labels.
 If named, then values will be used for checkbox IDs and names will be used
 for checkbox labels.</p></dd>
+
+
 <dt>subprompt</dt>
 <dd><p>(Character scalar) Optional additional text in bold letters
 below the prompt.</p></dd>
+
+
 <dt>labels</dt>
 <dd><p>Optional vector of labels for the checkbox choices.
 If not <code>NULL</code>, will overwrite the names of <code>choices</code>.
 This vector of labels can either be a character vector
 or a list of Shiny tag objects, e.g. as created by <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html" class="external-link">shiny::HTML()</a></code>.</p></dd>
+
+
 <dt>trigger_button_text</dt>
 <dd><p>(Character scalar) Text for the trigger button.</p></dd>
+
+
 <dt>failed_validation_message</dt>
 <dd><p>(Character scalar) Text to be displayed
 when validation fails.</p></dd>
+
+
 <dt>force_answer</dt>
 <dd><p>(Boolean scalar) Require at least one checkbox to be
 ticked.</p></dd>
+
+
 <dt>javascript</dt>
 <dd><p>(Character scalar) JavaScript code to be added for
 controlling checkbox behaviour.</p></dd>
+
+
 <dt>save_answer</dt>
 <dd><p>(Boolean scalar) Whether or not to save the answer.</p></dd>
+
+
 <dt>hide_response_ui</dt>
 <dd><p>(Boolean scalar) Whether to begin with the response
 interface hidden (it can be subsequently made visible through Javascript,
 using the element ID as set in <code>response_ui_id</code>.
 See <code>audio_NAFC_page</code> for an example.).</p></dd>
+
+
 <dt>response_ui_id</dt>
 <dd><p>(Character scalar) HTML ID for the response user
 interface.</p></dd>
+
+
 <dt>on_complete</dt>
 <dd><p>Optional function to execute on leaving the page
 (after successful validation).
@@ -176,8 +200,11 @@ and any of:
 <code>input</code>, the current page's Shiny input object;
 <code>session</code>, the current Shiny session object;
 <code>opt</code>, the test's option list as created by <code><a href="test_options.html">test_options()</a></code>.</p></dd>
+
+
 <dt>admin_ui</dt>
 <dd><p>Optional UI component for the admin panel.</p></dd>
+
 </dl></div>
 
   </div>
@@ -192,7 +219,7 @@ and any of:
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

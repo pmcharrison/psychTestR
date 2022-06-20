@@ -129,29 +129,43 @@
     <h2>Arguments</h2>
     <dl><dt>label</dt>
 <dd><p>Label for the current page (character scalar).</p></dd>
+
+
 <dt>prompt</dt>
 <dd><p>Prompt to be displayed above the response choices.
 Can be either a character scalar (e.g. "What is 2 + 2?")
 or an object of class "shiny.tag", e.g. <code>shiny::tags$p("What is 2 + 2?")</code>.</p></dd>
+
+
 <dt>choices</dt>
 <dd><p>Character vector of choices for the participant.
 If unnamed, then these values will be used both for button IDs
 and for button labels.
 If named, then values will be used for button IDs and names
 will be used for button labels.</p></dd>
+
+
 <dt>url</dt>
 <dd><p>URL to the video.
 Can be an absolute URL (e.g. "http://mysite.com/video.mp4")
 or a URL relative to the /www directory (e.g. "video.mp4").</p></dd>
+
+
 <dt>labels</dt>
 <dd><p>Optional vector of labels for the NAFC choices.
 If not <code>NULL</code>, will overwrite the names of <code>choices</code>.
 This vector of labels can either be a character vector
 or a list of Shiny tag objects, e.g. as created by <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html" class="external-link">shiny::HTML()</a></code>.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>Video type (e.g. 'mp4'). Defaults to the provided file extension.</p></dd>
+
+
 <dt>save_answer</dt>
 <dd><p>Whether or not to save the answer.</p></dd>
+
+
 <dt>on_complete</dt>
 <dd><p>Optional function to execute on leaving the page
 (after successful validation).
@@ -162,30 +176,47 @@ and any of:
 <code>input</code>, the current page's Shiny input object;
 <code>session</code>, the current Shiny session object;
 <code>opt</code>, the test's option list as created by <code><a href="test_options.html">test_options()</a></code>.</p></dd>
+
+
 <dt>video_width</dt>
 <dd><p>Video width, as passed to HTML (e.g. '50px').</p></dd>
+
+
 <dt>arrange_choices_vertically</dt>
 <dd><p>Whether to arrange the response buttons vertically
 (the default) as opposed to horizontally.</p></dd>
+
+
 <dt>wait</dt>
 <dd><p>Whether to wait for the video to finish before displaying
 the response buttons.</p></dd>
+
+
 <dt>loop</dt>
 <dd><p>Whether the video should loop.</p></dd>
+
+
 <dt>admin_ui</dt>
 <dd><p>Optional UI component for the admin panel.</p></dd>
+
+
 <dt>btn_play_prompt</dt>
 <dd><p>Text to display as a prompt for starting the audio.
 Ordinarily the participant will not see this,
 but it might appear if the internet connection is poor,
 or if the participant refreshes the page.
 Only used if show_controls is FALSE.</p></dd>
+
+
 <dt>show_controls</dt>
 <dd><p>Whether or not to show audio controls to the participant,
 so that they can control audio playback.</p></dd>
+
+
 <dt>allow_download</dt>
 <dd><p>Whether the participant is given a button to download
 the audio file; only relevant if show_controls is TRUE.</p></dd>
+
 </dl></div>
 
   </div>
@@ -200,7 +231,7 @@ the audio file; only relevant if show_controls is TRUE.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

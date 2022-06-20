@@ -135,18 +135,26 @@ the following arguments:</p><ul><li><p><code>content_border</code> (set to <code
 <li><p><code>right_margin</code> (set to <code>0L</code>)</p></li>
 </ul><p>Note that this will hide the admin panel.
 See <code>show_footer</code> for further information.</p></dd>
+
+
 <dt>content_background_colour</dt>
 <dd><p>(Character scalar)
 Background colour for the display element for the primary test content;
 interpreted as a CSS expression.</p></dd>
+
+
 <dt>content_border</dt>
 <dd><p>(Character scalar)
 Border format parameters for the display element for the primary test content;
 interpreted as a CSS expression.</p></dd>
+
+
 <dt>show_header</dt>
 <dd><p>(Logical scalar)
 Whether the header should be shown (typically contains the title
 and optionally a logo).</p></dd>
+
+
 <dt>show_footer</dt>
 <dd><p>(Logical scalar)
 Whether the footer should be shown (typically contains a link to the
@@ -156,28 +164,39 @@ once the app is running
 (you'll need to be using a proper web browser, rather than RStudio)
 and enter the command <code>show_admin_panel()</code>.
 To hide it again, log out and then enter <code>hide_admin_panel()</code>.</p></dd>
+
+
 <dt>left_margin</dt>
 <dd><p>(Integerish scalar)
 Width of the left margin, with 0 corresponding to no margin
 and 12 corresponding to the full screen width.</p></dd>
+
+
 <dt>right_margin</dt>
 <dd><p>(Integerish scalar)
 Width of the right margin, with 0 corresponding to no margin
 and 12 corresponding to the full screen width.</p></dd>
+
+
 <dt>css</dt>
 <dd><p>Character vector of file paths to CSS files for inclusion within the
 psychTestR test. CSS files are used for styling HTML.
 These file paths should be expressed relative to R's working directory</p></dd>
+
+
 <dt>admin_panel</dt>
 <dd><p>(Logical scalar)
 Whether to display a link for logging in to the admin panel
 (defaults to <code>TRUE</code>).
 Note that this admin panel will by default be invisible if <code>show_footer = FALSE</code>,
 but this can be changed by calling the Javascript function <code>show_admin_panel()</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list for passing to the <code>display</code> argument of <code>test_options</code>.</p>
+    
+
+<p>A list for passing to the <code>display</code> argument of <code>test_options</code>.</p>
     </div>
 
   </div>
@@ -192,7 +211,7 @@ but this can be changed by calling the Javascript function <code>show_admin_pane
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

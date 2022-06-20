@@ -124,20 +124,27 @@ Calling <code>i18n</code> outside this context will typically result in an error
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>Character scalar identifying the term to be translated.</p></dd>
+
+
 <dt>html</dt>
 <dd><p>Boolean; whether or not the translation output should
 be parsed as HTML or as plain text (the default is <code>TRUE</code>,
 corresponding to HTML parsing).</p></dd>
+
+
 <dt>sub</dt>
 <dd><p>A named character vector or list defining substitutions
 to make within the translation output. The text of the translation output
 may contain passages such as <code>{{var1}}</code>;
 if <code>sub = c(var1 = "Hello")</code>,
 then <code>{{var1}}</code> will be replaced with the text <code>Hello</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The translated output, typically a character scalar
+    
+
+<p>The translated output, typically a character scalar
 or a <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html" class="external-link">shiny::HTML()</a></code> output.</p>
     </div>
 
@@ -153,7 +160,7 @@ or a <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html" class="external
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

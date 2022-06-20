@@ -124,12 +124,20 @@
 <dd><p>Page UI. Can be either a character scalar (e.g.
 "Welcome to the test!") or an object of class "shiny.tag",
 e.g. <code>shiny::tags$p("Welcome to the test!")</code>.</p></dd>
+
+
 <dt>admin_ui</dt>
 <dd><p>Optional UI component for the admin panel.</p></dd>
+
+
 <dt>label</dt>
 <dd><p>Page label (character scalar).</p></dd>
+
+
 <dt>final</dt>
 <dd><p>Whether or not the page is the final page in the test.</p></dd>
+
+
 <dt>get_answer</dt>
 <dd><p>Optional function for extracting the participant's
 answer from the current page.
@@ -137,8 +145,12 @@ The argument list should include <code>...</code>, <code>input</code>,
 and optionally <code>state</code>, the participant's <code>state</code> object.
 The function should extract the answer from the Shiny
 <code>input</code> object and return it as its output.</p></dd>
+
+
 <dt>save_answer</dt>
 <dd><p>Whether or not to save the answer.</p></dd>
+
+
 <dt>validate</dt>
 <dd><p>Optional validation function.
 The argument list should include <code>...</code>,
@@ -153,6 +165,8 @@ for an unsuccessful validation, it should return either <code>FALSE</code>
 or a character scalar error message.
 If validation fails then the page will be refreshed, usually
 to give the user a chance to revise their input.</p></dd>
+
+
 <dt>on_complete</dt>
 <dd><p>Optional function to execute on leaving the page
 (after successful validation).
@@ -163,12 +177,15 @@ and any of:
 <code>input</code>, the current page's Shiny input object;
 <code>session</code>, the current Shiny session object;
 <code>opt</code>, the test's option list as created by <code><a href="test_options.html">test_options()</a></code>.</p></dd>
+
+
 <dt>next_elt</dt>
 <dd><p>(Logical scalar) Whether to go to the next element
 in the timeline once this page is completed.
 This will typically be <code>TRUE</code>,
 except for special cases such as pages that load
 testing sessions from file (<code><a href="get_p_id.html">get_p_id</a></code>).</p></dd>
+
 </dl></div>
 
   </div>
@@ -183,7 +200,7 @@ testing sessions from file (<code><a href="get_p_id.html">get_p_id</a></code>).<
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

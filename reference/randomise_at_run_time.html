@@ -119,10 +119,14 @@ test elements (or blocks of test elements) is determined at run time.</p>
     <dl><dt>label</dt>
 <dd><p>(Character scalar)
 A label for storing the generated order of test elements.</p></dd>
+
+
 <dt>logic</dt>
 <dd><p>List where each top-level element corresponds to a randomisation unit.
 These randomisation units may be either single test elements,
 lists of test elements, or timelines.</p></dd>
+
+
 <dt>save_order</dt>
 <dd><p>A function called at run time to save the result of <code>get_order</code>.
 It should accept three arguments: <code>order</code>, <code>state</code>, and <code>...</code>.
@@ -130,10 +134,13 @@ It should accept three arguments: <code>order</code>, <code>state</code>, and <c
 whereas <code>state</code> corresponds to the participant's state object.
 The default setting saves the generated order in psychTestR's
 default results repository, under the label <code>label</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A list of test elements or equivalently a timeline that can be combined
+    
+
+<p>A list of test elements or equivalently a timeline that can be combined
 with other test elements or timelines.
 These test elements will be presented in a freshly randomised
 order for each participant.</p>
@@ -187,7 +194,7 @@ order for each participant.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>
