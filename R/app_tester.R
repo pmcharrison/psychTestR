@@ -82,9 +82,16 @@ AppTester <- R6::R6Class(
 
     get_ui_text = function(squish = TRUE) {
       val <- self$get_ui() %>% as.character() %>% htm2txt::htm2txt()
-      if (squish) val <- stringr::str_squish(val)
+      if (squish) val <- self$str_squish(val)
       val
     },
+
+    str_squish = function(x) {
+      x <- gsub("^\\s", "", x)  # trim whitespace from start of string
+      x <- gsub("\\s$", "")  # trim whitespace from end of string
+      x <- gsub("\\s+", " ", x)  # replace any duplicated whitespace with a single space
+      x
+    }
 
     expect_ui_text = function(text, squish = TRUE) {
       testthat::expect_equal(

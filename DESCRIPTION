@@ -29,11 +29,9 @@ Imports:
     rstudioapi (>= 0.7),
     checkmate (>= 1.8.5),
     purrr,
-    codetools,
     tibble,
     jsonlite,
     htm2txt,
-    stringr (>= 1.4.0)
 Depends: R (>= 3.5.0)
 RoxygenNote: 7.1.1
 Suggests: 
