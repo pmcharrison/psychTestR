@@ -3,22 +3,18 @@
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![DOI](https://joss.theoj.org/papers/10.21105/joss.02088/status.svg)](https://doi.org/10.21105/joss.02088)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1415355.svg)](https://doi.org/10.5281/zenodo.1415355)
-[![Travis build status](https://travis-ci.org/pmcharrison/psychTestR.svg?branch=master)](https://travis-ci.org/pmcharrison/psychTestR)
+[![R-CMD-check](https://github.com/pmcharrison/psychTestR/workflows/R-CMD-check/badge.svg)](https://github.com/pmcharrison/psychTestR/actions)
 
 [psychTestR](https://pmcharrison.github.io/psychTestR) 
 is an R package for creating behavioural experiment interfaces.
-For an overview of psychTestR's features, 
-see its [overview paper](https://doi.org/10.21105/joss.02088)
-in the Journal of Open Source Software.
-For a more detailed introduction, see the
-[introductory article](https://pmcharrison.github.io/psychTestR/articles/b-introduction)
-on the psychTestR website.
-For more documentation on designing and deploying psychTestR tests,
-see the other vignettes and the
-[function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html).
-For documentation on setting up a self-hosted psychTestR server, see 
-[Guide to creating a server for online *R* experiments using *psychTestR*](https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf)
-by [Anthony Chmiel](https://www.westernsydney.edu.au/marcs/our_team/research_assistants/dr_anthony_chmiel).
+To learn more about psychTestR, visit the following resources:
+
+- [Overview paper in the Journal of Open Source Software](https://doi.org/10.21105/joss.02088)
+- [Introductory tutorial](https://pmcharrison.github.io/psychTestR/articles/b-introduction)
+- Other vignettes under the 'Articles' tab
+- [Function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html)
+- [Guide to creating a server for online *R* experiments using *psychTestR* (Anthony Chmiel)](https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf)
+- [Video tutorial (2 hours, for beginners, by Anthony Chmiel)](https://pmcharrison.github.io/psychTestR/articles/z_Anthony_Chmiel_video_tutorials.html)
 
 ## Installation
 

@@ -13,3 +13,7 @@ psychTestR.pdf
 ^vignettes/output$
 ^docs$
 ^tests/testthat/output$
+^_pkgdown\.yml$
+^pkgdown$
+^\.github$
+^www$

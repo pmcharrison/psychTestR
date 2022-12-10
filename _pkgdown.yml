@@ -1,6 +1,8 @@
+url: https://pmcharrison.github.io/psychTestR
 template:
   params:
     bootswatch: flatly
+  assets: www
 reference:
 - title: Top level
   desc: These are the top-level functions used to launch a psychTestR test.
@@ -67,6 +69,7 @@ reference:
   contents:
   - '`audio_NAFC_page`'
   - '`basic_demographics_default_intro`'
+  - '`checkbox_page`'
   - '`dropdown_page`'
   - '`final_page`'
   - '`finish_test_and_give_code`'
@@ -74,6 +77,7 @@ reference:
   - '`get_p_id`'
   - '`NAFC_page`'
   - '`one_button_page`'
+  - '`radiobutton_NAFC_page`'
   - '`slider_page`'
   - '`text_input_page`'
   - '`video_NAFC_page`'
@@ -81,7 +85,9 @@ reference:
 - title: UI constructors
   desc: These are helper functions for constructing new page types.
   contents:
+  - '`make_ui_checkbox`'
   - '`make_ui_NAFC`'
+  - '`make_ui_radiobutton_NAFC`'
   - '`trigger_button`'
 - title: Global and local variables
   desc: >
@@ -145,6 +151,7 @@ reference:
 - title: Misc.
   desc: Miscellaneous other functions.
   contents:
+  - '`defmacro`'
   - '`imports`'
 - title: Deprecated
   desc: These are functions that are supported for backwards compatibility, but whose use are not encouraged.
