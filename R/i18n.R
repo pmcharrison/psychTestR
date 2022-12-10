@@ -69,7 +69,6 @@ i18n_dict <- R6::R6Class(
       val
     },
     edit = function(key, language, new) {
-      browser()
       stopifnot(is.scalar.character(key),
                 is.scalar.character(language),
                 is.scalar.character(new))
