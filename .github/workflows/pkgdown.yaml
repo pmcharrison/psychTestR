@@ -36,7 +36,7 @@ jobs:
       - run: |
           sudo apt update
           sudo apt install libharfbuzz-dev libfribidi-dev
-          Rscript -e 'install.packages("remotes"); remotes::install_cran("pkgdown"); remotes::install_github("rstudio/rmarkdown"); install.packages("shinytest"); shinytest::installDependencies()'
+          Rscript -e 'install.packages("remotes"); remotes::install_github("rstudio/rmarkdown"); install.packages("shinytest"); shinytest::installDependencies()'
 
       - name: Build site
         run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
