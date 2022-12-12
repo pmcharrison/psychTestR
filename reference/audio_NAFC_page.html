@@ -105,25 +105,25 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">audio_NAFC_page</span><span class="op">(</span>
-  <span class="va">label</span>,
-  <span class="va">prompt</span>,
-  <span class="va">choices</span>,
-  <span class="va">url</span>,
-  labels <span class="op">=</span> <span class="cn">NULL</span>,
-  type <span class="op">=</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html" class="external-link">file_ext</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span>,
-  save_answer <span class="op">=</span> <span class="cn">TRUE</span>,
-  on_complete <span class="op">=</span> <span class="cn">NULL</span>,
-  arrange_choices_vertically <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">choices</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">2L</span>,
-  wait <span class="op">=</span> <span class="cn">TRUE</span>,
-  loop <span class="op">=</span> <span class="cn">FALSE</span>,
-  admin_ui <span class="op">=</span> <span class="cn">NULL</span>,
-  btn_play_prompt <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="va">show_controls</span><span class="op">)</span> <span class="st">"Click here to play"</span>,
-  show_controls <span class="op">=</span> <span class="cn">FALSE</span>,
-  allow_download <span class="op">=</span> <span class="cn">FALSE</span>,
-  button_style <span class="op">=</span> <span class="st">""</span>,
-  autoplay <span class="op">=</span> <span class="st">"autoplay"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">audio_NAFC_page</span><span class="op">(</span></span>
+<span>  <span class="va">label</span>,</span>
+<span>  <span class="va">prompt</span>,</span>
+<span>  <span class="va">choices</span>,</span>
+<span>  <span class="va">url</span>,</span>
+<span>  labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type <span class="op">=</span> <span class="fu">tools</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/tools/fileutils.html" class="external-link">file_ext</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span>,</span>
+<span>  save_answer <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  on_complete <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  arrange_choices_vertically <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">choices</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">2L</span>,</span>
+<span>  wait <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  loop <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  admin_ui <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  btn_play_prompt <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="va">show_controls</span><span class="op">)</span> <span class="st">"Click here to play"</span>,</span>
+<span>  show_controls <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  allow_download <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  button_style <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  autoplay <span class="op">=</span> <span class="st">"autoplay"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -156,7 +156,7 @@ or a URL relative to the /www directory (e.g. "audio.mp3").</p></dd>
 <dd><p>Optional vector of labels for the NAFC choices.
 If not <code>NULL</code>, will overwrite the names of <code>choices</code>.
 This vector of labels can either be a character vector
-or a list of Shiny tag objects, e.g. as created by <code><a href="https://rdrr.io/pkg/htmltools/man/HTML.html" class="external-link">shiny::HTML()</a></code>.</p></dd>
+or a list of Shiny tag objects, e.g. as created by <code><a href="https://rstudio.github.io/htmltools/reference/HTML.html" class="external-link">shiny::HTML()</a></code>.</p></dd>
 
 
 <dt>type</dt>
@@ -237,7 +237,7 @@ default is "autoplay"</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

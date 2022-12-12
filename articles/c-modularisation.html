@@ -117,7 +117,7 @@
 
       
 
-      </header><script src="c-modularisation_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial (basic): Modularisation</h1>
@@ -133,188 +133,260 @@
 <div class="section level2">
 <h2 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
 </h2>
-<p>Modularisation is a key feature of psychTestR. By parcelling your code into reusable components, you can make your implementations quicker to write, easier to read, easier to maintain, and easier to use. This tutorial discusses a few strategies for modularisation in psychTestR.</p>
+<p>Modularisation is a key feature of psychTestR. By parcelling your
+code into reusable components, you can make your implementations quicker
+to write, easier to read, easier to maintain, and easier to use. This
+tutorial discusses a few strategies for modularisation in
+psychTestR.</p>
 </div>
 <div class="section level2">
 <h2 id="functions">Functions<a class="anchor" aria-label="anchor" href="#functions"></a>
 </h2>
-<p>The function is the basic unit of modularisation in computer programming. A function takes a set of inputs, performs some operation upon them, and (optionally) returns an output:</p>
+<p>The function is the basic unit of modularisation in computer
+programming. A function takes a set of inputs, performs some operation
+upon them, and (optionally) returns an output:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">person</span>, <span class="va">fruit</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"Greetings, %s. Would you like some %s?"</span>,
-          <span class="va">person</span>, <span class="va">fruit</span><span class="op">)</span>
-<span class="op">}</span>
-
-<span class="fu">f</span><span class="op">(</span>person <span class="op">=</span> <span class="st">"fellow researcher"</span>,
-  fruit <span class="op">=</span> <span class="st">"apples"</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">## [1] "Greetings, fellow researcher. Would you like some apples?"</span></code></pre>
-<p>When creating psychTestR tests, functions are useful for creating series of test elements that all share a common schema. For example, suppose we wanted to ask someone about their preferences for different kinds of fruit. We could write our code like this:</p>
+<code class="sourceCode R"><span><span class="va">f</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">person</span>, <span class="va">fruit</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"Greetings, %s. Would you like some %s?"</span>,</span>
+<span>          <span class="va">person</span>, <span class="va">fruit</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">f</span><span class="op">(</span>person <span class="op">=</span> <span class="st">"fellow researcher"</span>,</span>
+<span>  fruit <span class="op">=</span> <span class="st">"apples"</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] "Greetings, fellow researcher. Would you like some apples?"</span></span></code></pre>
+<p>When creating psychTestR tests, functions are useful for creating
+series of test elements that all share a common schema. For example,
+suppose we wanted to ask someone about their preferences for different
+kinds of fruit. We could write our code like this:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-    <span class="st">"apples"</span>, 
-    <span class="st">"How much do you like apples, on a scale from 1 (not at all) to 7 (lots?)"</span>,
-    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, 
-    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>,
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-    <span class="st">"pears"</span>, 
-    <span class="st">"How much do you like pears, on a scale from 1 (not at all) to 7 (lots?)"</span>,
-    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, 
-    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>,
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-    <span class="st">"plums"</span>, 
-    <span class="st">"How much do you like plums, on a scale from 1 (not at all) to 7 (lots?)"</span>,
-    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, 
-    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>,
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-    <span class="st">"apricots"</span>, 
-    <span class="st">"How much do you like apricots, on a scale from 1 (not at all) to 7 (lots?)"</span>,
-    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, 
-    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>,
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-    <span class="st">"pineapples"</span>, 
-    <span class="st">"How much do you like pineapples, on a scale from 1 (not at all) to 7 (lots?)"</span>,
-    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, 
-    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>,
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-    <span class="st">"cherries"</span>, 
-    <span class="st">"How much do you like cherries, on a scale from 1 (not at all) to 7 (lots?)"</span>,
-    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, 
-    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>,
-<span class="op">)</span></code></pre></div>
-<p>Clearly this is very inefficient: almost all the code is copy-pasted from page to page. This code is slow to read because it takes up so much space, and slow to maintain, because any change to the general schema needs to be repeated six times.</p>
-<p>Functions provide a much better way to do this. Consider the following:</p>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>    <span class="st">"apples"</span>, </span>
+<span>    <span class="st">"How much do you like apples, on a scale from 1 (not at all) to 7 (lots?)"</span>,</span>
+<span>    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, </span>
+<span>    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>    <span class="st">"pears"</span>, </span>
+<span>    <span class="st">"How much do you like pears, on a scale from 1 (not at all) to 7 (lots?)"</span>,</span>
+<span>    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, </span>
+<span>    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>    <span class="st">"plums"</span>, </span>
+<span>    <span class="st">"How much do you like plums, on a scale from 1 (not at all) to 7 (lots?)"</span>,</span>
+<span>    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, </span>
+<span>    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>    <span class="st">"apricots"</span>, </span>
+<span>    <span class="st">"How much do you like apricots, on a scale from 1 (not at all) to 7 (lots?)"</span>,</span>
+<span>    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, </span>
+<span>    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>    <span class="st">"pineapples"</span>, </span>
+<span>    <span class="st">"How much do you like pineapples, on a scale from 1 (not at all) to 7 (lots?)"</span>,</span>
+<span>    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, </span>
+<span>    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>    <span class="st">"cherries"</span>, </span>
+<span>    <span class="st">"How much do you like cherries, on a scale from 1 (not at all) to 7 (lots?)"</span>,</span>
+<span>    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, </span>
+<span>    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span>,</span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>Clearly this is very inefficient: almost all the code is copy-pasted
+from page to page. This code is slow to read because it takes up so much
+space, and slow to maintain, because any change to the general schema
+needs to be repeated six times.</p>
+<p>Functions provide a much better way to do this. Consider the
+following:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ask_liking</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">fruit</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-    <span class="va">fruit</span>, 
-    <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"How much do you like %s, on a scale from 1 (not at all) to 7 (lots?)"</span>,
-            <span class="va">fruit</span><span class="op">)</span>,
-    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, 
-    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>
-<span class="op">}</span>
-<span class="va">fruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"apples"</span>, <span class="st">"pears"</span>, <span class="st">"plums"</span>, <span class="st">"apricots"</span>, <span class="st">"pineapples"</span>, <span class="st">"cherries"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">fruits</span>, <span class="va">ask_liking</span><span class="op">)</span></code></pre></div>
-<p>There are a couple of new functions here that you may or may not have seen before:</p>
+<code class="sourceCode R"><span><span class="va">ask_liking</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">fruit</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>    <span class="va">fruit</span>, </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"How much do you like %s, on a scale from 1 (not at all) to 7 (lots?)"</span>,</span>
+<span>            <span class="va">fruit</span><span class="op">)</span>,</span>
+<span>    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, </span>
+<span>    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="va">fruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"apples"</span>, <span class="st">"pears"</span>, <span class="st">"plums"</span>, <span class="st">"apricots"</span>, <span class="st">"pineapples"</span>, <span class="st">"cherries"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">fruits</span>, <span class="va">ask_liking</span><span class="op">)</span></span></code></pre></div>
+<p>There are a couple of new functions here that you may or may not have
+seen before:</p>
 <ul>
 <li>
-<code>sprintf</code> - splices variables into a template string.</li>
+<code>sprintf</code> - splices variables into a template
+string.</li>
 <li>
-<code>lapply</code> - takes a function and applies it to each element of a list.</li>
+<code>lapply</code> - takes a function and applies it to each
+element of a list.</li>
 </ul>
-<p>Our new function <code>ask_liking</code> takes one input, <code>fruit</code>, and splices it into a standardised schema for eliciting a 7-point liking response from the participant. We apply it to each element of the vector <code>fruits</code> in turn, using the function <code>lapply</code>, and it returns the same list of elements that we had before, but with many fewer lines of code.</p>
-<p>Underneath everything, many psychTestR functions operate under similar principles: they programmaticaly generate test elements according to certain schema. If designed correctly, these functions can generalise well to many different applications.</p>
+<p>Our new function <code>ask_liking</code> takes one input,
+<code>fruit</code>, and splices it into a standardised schema for
+eliciting a 7-point liking response from the participant. We apply it to
+each element of the vector <code>fruits</code> in turn, using the
+function <code>lapply</code>, and it returns the same list of elements
+that we had before, but with many fewer lines of code.</p>
+<p>Underneath everything, many psychTestR functions operate under
+similar principles: they programmaticaly generate test elements
+according to certain schema. If designed correctly, these functions can
+generalise well to many different applications.</p>
 </div>
 <div class="section level2">
 <h2 id="modules">Modules<a class="anchor" aria-label="anchor" href="#modules"></a>
 </h2>
-<p>In psychTestR, modules are ways of wrapping sequences of test elements into coherent logical units.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Putting a sequence of test elements into a module has three main consequences:</p>
+<p>In psychTestR, modules are ways of wrapping sequences of test
+elements into coherent logical units.<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> Putting a sequence of test elements into a
+module has three main consequences:</p>
 <ol style="list-style-type: decimal">
 <li>
-<strong>Readability</strong>: It makes it clear to the reader that this sequence of test elements forms a single logical unit.</li>
+<strong>Readability</strong>: It makes it clear to the reader that
+this sequence of test elements forms a single logical unit.</li>
 <li>
-<strong>Results organisation</strong>: Any results generated in this module will be assigned to a special section in the psychTestR results object, labelled with the name of the module.</li>
+<strong>Results organisation</strong>: Any results generated in this
+module will be assigned to a special section in the psychTestR results
+object, labelled with the name of the module.</li>
 <li>
-<strong>Protected local environment</strong>: The module will receive a fresh local environment where it can create its own local variables (see <code><a href="../reference/global_local.html">?set_local</a></code>). This local environment is protected from other modules, which is useful to avoid unexpected side effects when multiple modules are chained together.</li>
+<strong>Protected local environment</strong>: The module will
+receive a fresh local environment where it can create its own local
+variables (see <code><a href="../reference/global_local.html">?set_local</a></code>). This local environment is
+protected from other modules, which is useful to avoid unexpected side
+effects when multiple modules are chained together.</li>
 </ol>
-<p>Here is a simple example of module use using the <code>ask_liking</code> function from above:</p>
+<p>Here is a simple example of module use using the
+<code>ask_liking</code> function from above:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ask_liking</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-    <span class="va">object</span>, 
-    <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"How much do you like %s, on a scale from 1 (not at all) to 7 (lots?)"</span>,
-            <span class="va">object</span><span class="op">)</span>,
-    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, 
-    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span>
-  <span class="op">)</span>
-<span class="op">}</span>
-
-<span class="va">fruits</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"apples"</span>, <span class="st">"pears"</span>, <span class="st">"plums"</span><span class="op">)</span>
-<span class="va">animals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dogs"</span>, <span class="st">"cats"</span>, <span class="st">"sheep"</span><span class="op">)</span>
-
-<span class="va">fruit_module</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/module.html">module</a></span><span class="op">(</span>
-  label <span class="op">=</span> <span class="st">"fruits"</span>,
-  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">fruits</span>, <span class="va">ask_liking</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">animal_module</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/module.html">module</a></span><span class="op">(</span>
-  label <span class="op">=</span> <span class="st">"animals"</span>,
-  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">animals</span>, <span class="va">ask_liking</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
-  <span class="va">fruit_module</span>,
-  <span class="va">animal_module</span>,
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"End."</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></code></pre></div>
-<p>If you run this code on your local computer, and complete the resulting test, then you should find your response data stored as an RDS file in <code>output/results</code>. Call <code>as.list(readRDS(file))[1:2]</code> in your R console, replacing <code>file</code> with the path to the RDS file, and you should get something like this:</p>
-<pre><code><span class="co">## $fruits</span>
-<span class="co">## $fruits$apples</span>
-<span class="co">## [1] "5"</span>
-<span class="co">## </span>
-<span class="co">## $fruits$pears</span>
-<span class="co">## [1] "3"</span>
-<span class="co">## </span>
-<span class="co">## $fruits$plums</span>
-<span class="co">## [1] "2"</span>
-<span class="co">## </span>
-<span class="co">## </span>
-<span class="co">## $animals</span>
-<span class="co">## $animals$dogs</span>
-<span class="co">## [1] "7"</span>
-<span class="co">## </span>
-<span class="co">## $animals$cats</span>
-<span class="co">## [1] "5"</span>
-<span class="co">## </span>
-<span class="co">## $animals$sheep</span>
-<span class="co">## [1] "3"</span></code></pre>
-<p>As you can see, the results from the two modules have been organised into two separate sections: one labelled <code>fruits</code>, and one labelled <code>animals</code>.</p>
-<p>It is often useful to wrap modules in functions that provide a degree of customisation. For example, suppose we wish to make <code>fruit_module</code> to have customisable length. We could do something like this:</p>
+<code class="sourceCode R"><span><span class="va">ask_liking</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">object</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>    <span class="va">object</span>, </span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span><span class="st">"How much do you like %s, on a scale from 1 (not at all) to 7 (lots?)"</span>,</span>
+<span>            <span class="va">object</span><span class="op">)</span>,</span>
+<span>    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span><span class="op">)</span>, </span>
+<span>    arrange_vertically <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">fruits</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"apples"</span>, <span class="st">"pears"</span>, <span class="st">"plums"</span><span class="op">)</span></span>
+<span><span class="va">animals</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"dogs"</span>, <span class="st">"cats"</span>, <span class="st">"sheep"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fruit_module</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/module.html">module</a></span><span class="op">(</span></span>
+<span>  label <span class="op">=</span> <span class="st">"fruits"</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">fruits</span>, <span class="va">ask_liking</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">animal_module</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/module.html">module</a></span><span class="op">(</span></span>
+<span>  label <span class="op">=</span> <span class="st">"animals"</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">animals</span>, <span class="va">ask_liking</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span></span>
+<span>  <span class="va">fruit_module</span>,</span>
+<span>  <span class="va">animal_module</span>,</span>
+<span>  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"End."</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></span></code></pre></div>
+<p>If you run this code on your local computer, and complete the
+resulting test, then you should find your response data stored as an RDS
+file in <code>output/results</code>. Call
+<code>as.list(readRDS(file))[1:2]</code> in your R console, replacing
+<code>file</code> with the path to the RDS file, and you should get
+something like this:</p>
+<pre><code><span><span class="co">## $fruits</span></span>
+<span><span class="co">## $fruits$apples</span></span>
+<span><span class="co">## [1] "5"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $fruits$pears</span></span>
+<span><span class="co">## [1] "3"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $fruits$plums</span></span>
+<span><span class="co">## [1] "2"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $animals</span></span>
+<span><span class="co">## $animals$dogs</span></span>
+<span><span class="co">## [1] "7"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $animals$cats</span></span>
+<span><span class="co">## [1] "5"</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $animals$sheep</span></span>
+<span><span class="co">## [1] "3"</span></span></code></pre>
+<p>As you can see, the results from the two modules have been organised
+into two separate sections: one labelled <code>fruits</code>, and one
+labelled <code>animals</code>.</p>
+<p>It is often useful to wrap modules in functions that provide a degree
+of customisation. For example, suppose we wish to make
+<code>fruit_module</code> to have customisable length. We could do
+something like this:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">fruit_module</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">num_items</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="va">num_items</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="va">num_items</span> <span class="op">&lt;=</span> <span class="fl">6</span><span class="op">)</span>
-  <span class="va">all_fruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"apples"</span>, <span class="st">"pears"</span>, <span class="st">"plums"</span>, <span class="st">"apricots"</span>, <span class="st">"pineapples"</span>, <span class="st">"cherries"</span><span class="op">)</span>
-  <span class="va">chosen_fruits</span> <span class="op">&lt;-</span> <span class="va">all_fruits</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">num_items</span><span class="op">]</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">chosen_fruits</span>, <span class="va">ask_liking</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
-<p>Now we can pass the desired number of items to our <code>fruit_module</code> function:</p>
+<code class="sourceCode R"><span><span class="va">fruit_module</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">num_items</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="va">num_items</span> <span class="op">&gt;</span> <span class="fl">0</span>, <span class="va">num_items</span> <span class="op">&lt;=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span>  <span class="va">all_fruits</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"apples"</span>, <span class="st">"pears"</span>, <span class="st">"plums"</span>, <span class="st">"apricots"</span>, <span class="st">"pineapples"</span>, <span class="st">"cherries"</span><span class="op">)</span></span>
+<span>  <span class="va">chosen_fruits</span> <span class="op">&lt;-</span> <span class="va">all_fruits</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="va">num_items</span><span class="op">]</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">chosen_fruits</span>, <span class="va">ask_liking</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>Now we can pass the desired number of items to our
+<code>fruit_module</code> function:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">fruit_module</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="co"># a module with 3 fruits</span></code></pre></div>
-<p>In many cases modules will typically be used in one flat layer. However, it is perfectly possible to nest modules to arbitrary depths; at any point in time, only the local variables from the lowest-level module will be visible. The results object will use a composite label derived by concatenating the names of the modules, separated by periods, for example <code>parent.child.grandchild</code>.</p>
-<p>Modules are not so important for one-off test implementations. However, they do become very useful when constructing batteries of multiple test implementations.</p>
+<code class="sourceCode R"><span><span class="fu">fruit_module</span><span class="op">(</span><span class="fl">3</span><span class="op">)</span> <span class="co"># a module with 3 fruits</span></span></code></pre></div>
+<p>In many cases modules will typically be used in one flat layer.
+However, it is perfectly possible to nest modules to arbitrary depths;
+at any point in time, only the local variables from the lowest-level
+module will be visible. The results object will use a composite label
+derived by concatenating the names of the modules, separated by periods,
+for example <code>parent.child.grandchild</code>.</p>
+<p>Modules are not so important for one-off test implementations.
+However, they do become very useful when constructing batteries of
+multiple test implementations.</p>
 </div>
 <div class="section level2">
 <h2 id="packages">Packages<a class="anchor" aria-label="anchor" href="#packages"></a>
 </h2>
-<p>A simple way of distributing R code is by sharing R source files. The new user can read this source file into their R session and take advantage of its contents: for example, this source file could provide helper functions for creating particular page types, or it could define modules implementing entire psychological tests.</p>
-<p>Packages are formalised ways of sharing R source files. They stipulate particular ways of organising and documenting these source files, and they encapsulate these source files within a namespace that prevents the resulting R objects from overwriting pre-existing objects in the user’s global namespace. It is outside the scope of this tutorial to provide an introduction to package creation in R, but there are excellent tutorials available online, for example <a href="http://r-pkgs.had.co.nz/" class="external-link">Hadley Wickham’s ‘R packages’ book site</a>. Packages are well-suited to distributing psychTestR helper functions and modules that implement specific psychological paradigms or measures. Here are some examples of such packages:</p>
+<p>A simple way of distributing R code is by sharing R source files. The
+new user can read this source file into their R session and take
+advantage of its contents: for example, this source file could provide
+helper functions for creating particular page types, or it could define
+modules implementing entire psychological tests.</p>
+<p>Packages are formalised ways of sharing R source files. They
+stipulate particular ways of organising and documenting these source
+files, and they encapsulate these source files within a namespace that
+prevents the resulting R objects from overwriting pre-existing objects
+in the user’s global namespace. It is outside the scope of this tutorial
+to provide an introduction to package creation in R, but there are
+excellent tutorials available online, for example <a href="http://r-pkgs.had.co.nz/" class="external-link">Hadley Wickham’s ‘R packages’ book
+site</a>. Packages are well-suited to distributing psychTestR helper
+functions and modules that implement specific psychological paradigms or
+measures. Here are some examples of such packages:</p>
 <ul>
 <li>
-<a href="https://pmcharrison.github.io/psychTestRCAT/">psychTestRCAT</a> - helper functions for creating adaptive tests.</li>
+<a href="https://pmcharrison.github.io/psychTestRCAT/">psychTestRCAT</a> -
+helper functions for creating adaptive tests.</li>
 <li>
-<a href="https://github.com/pmcharrison/mdt" class="external-link">mdt</a> - an adaptive melodic discrimination test.</li>
+<a href="https://github.com/pmcharrison/mdt" class="external-link">mdt</a> - an adaptive
+melodic discrimination test.</li>
 <li>
-<a href="https://github.com/pmcharrison/cabat" class="external-link">cabat</a> - an adaptive beat perception test.</li>
+<a href="https://github.com/pmcharrison/cabat" class="external-link">cabat</a> - an
+adaptive beat perception test.</li>
 <li>
-<a href="https://github.com/pmcharrison/mpt" class="external-link">mpt</a> - an adaptive mistuning perception test.</li>
+<a href="https://github.com/pmcharrison/mpt" class="external-link">mpt</a> - an adaptive
+mistuning perception test.</li>
 <li>
-<a href="https://github.com/pmcharrison/piat" class="external-link">piat</a> - the ‘Pitch Imagery Arrow Task’.</li>
+<a href="https://github.com/pmcharrison/piat" class="external-link">piat</a> - the ‘Pitch
+Imagery Arrow Task’.</li>
 </ul>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
-<li id="fn1"><p> You may have already heard of the <a href="https://cran.r-project.org/web/packages/modules/" class="external-link">modules</a> package in R; despite the shared name, psychTestR modules are something different.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p> You may have already heard of the <a href="https://cran.r-project.org/web/packages/modules/" class="external-link">modules</a>
+package in R; despite the shared name, psychTestR modules are something
+different.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
@@ -336,7 +408,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

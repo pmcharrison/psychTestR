@@ -117,10 +117,11 @@
 
       
 
-      </header><script src="d-editing-dictionaries_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Tutorial (intermediate): Editing dictionaries</h1>
+      <h1 data-toc-skip>Tutorial (intermediate): Editing
+dictionaries</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/pmcharrison/psychTestR/blob/HEAD/vignettes/d-editing-dictionaries.Rmd" class="external-link"><code>vignettes/d-editing-dictionaries.Rmd</code></a></small>
@@ -133,80 +134,110 @@
 <div class="section level2">
 <h2 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
 </h2>
-<p>Imagine that you’re using an open-source psychTestR test that has been created by another researcher, and you spot a typo in one of the test items. If this typo is hard-coded into the test implementation, then you’ll have to edit their code to fix it. However, if the typo is instead part of their internationalisation dictionary (see <a href="https://pmcharrison.github.io/psychTestR/reference/i18n_dict.html"><code>i18n_dict</code></a>), then you can fix the typo without editing their code, instead adding some code of your own when you call the test. This tutorial demonstrates this functionality.</p>
+<p>Imagine that you’re using an open-source psychTestR test that has
+been created by another researcher, and you spot a typo in one of the
+test items. If this typo is hard-coded into the test implementation,
+then you’ll have to edit their code to fix it. However, if the typo is
+instead part of their internationalisation dictionary (see <a href="https://pmcharrison.github.io/psychTestR/reference/i18n_dict.html"><code>i18n_dict</code></a>),
+then you can fix the typo without editing their code, instead adding
+some code of your own when you call the test. This tutorial demonstrates
+this functionality.</p>
 </div>
 <div class="section level2">
 <h2 id="instructions">Instructions<a class="anchor" aria-label="anchor" href="#instructions"></a>
 </h2>
 <p>Let’s begin by making a simple test with a typo.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Load the psychTestR package</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span>
-
-<span class="co"># Define a dictionary with a typo</span>
-<span class="va">my_dict</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/i18n_dict.html">i18n_dict</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"key1"</span>,
-                                    en <span class="op">=</span> <span class="st">"Welcoom to the test!"</span><span class="op">)</span><span class="op">)</span>
-
-<span class="co"># The test itself is distributed as a function,</span>
-<span class="co"># which might itself be distributed as a package</span>
-<span class="va">my_test</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dict</span> <span class="op">=</span> <span class="va">my_dict</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="fu"><a href="../reference/new_timeline.html">new_timeline</a></span><span class="op">(</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="fu"><a href="../reference/i18n.html">i18n</a></span><span class="op">(</span><span class="st">"key1"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,
-    dict <span class="op">=</span> <span class="va">dict</span>
-  <span class="op">)</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Load the psychTestR package</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define a dictionary with a typo</span></span>
+<span><span class="va">my_dict</span> <span class="op">&lt;-</span> <span class="va"><a href="../reference/i18n_dict.html">i18n_dict</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>key <span class="op">=</span> <span class="st">"key1"</span>,</span>
+<span>                                    en <span class="op">=</span> <span class="st">"Welcoom to the test!"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># The test itself is distributed as a function,</span></span>
+<span><span class="co"># which might itself be distributed as a package</span></span>
+<span><span class="va">my_test</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">dict</span> <span class="op">=</span> <span class="va">my_dict</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="fu"><a href="../reference/new_timeline.html">new_timeline</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="fu"><a href="../reference/i18n.html">i18n</a></span><span class="op">(</span><span class="st">"key1"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    dict <span class="op">=</span> <span class="va">dict</span></span>
+<span>  <span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>If we run this test, we see the typo.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">my_test</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>To fix this problem, we begin by inspecting the dictionary object to find out which component we need to change. In real-life applications, this dictionary object should be exported from the package distributing your test, and you should be able to find it by inspecting the documentation. We can inspect the dictionary using the <code>as.data.frame</code> method.</p>
+<code class="sourceCode R"><span><span class="fu">my_test</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>To fix this problem, we begin by inspecting the dictionary object to
+find out which component we need to change. In real-life applications,
+this dictionary object should be exported from the package distributing
+your test, and you should be able to find it by inspecting the
+documentation. We can inspect the dictionary using the
+<code>as.data.frame</code> method.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_dict</span><span class="op">$</span><span class="fu">as.data.frame</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##    key                   en</span>
-<span class="co">## 1 key1 Welcoom to the test!</span></code></pre>
-<p>Inspecting this dictionary shows us that we want to edit the entry with key <code>key1</code> and language code <code>en</code>. We can do this as follows:</p>
+<code class="sourceCode R"><span><span class="va">my_dict</span><span class="op">$</span><span class="fu">as.data.frame</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    key                   en</span></span>
+<span><span class="co">## 1 key1 Welcoom to the test!</span></span></code></pre>
+<p>Inspecting this dictionary shows us that we want to edit the entry
+with key <code>key1</code> and language code <code>en</code>. We can do
+this as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_dict</span><span class="op">$</span><span class="fu">edit</span><span class="op">(</span>key <span class="op">=</span> <span class="st">"key1"</span>,
-             language <span class="op">=</span> <span class="st">"en"</span>,
-             new <span class="op">=</span> <span class="st">"Welcome to the test!"</span><span class="op">)</span></code></pre></div>
-<p>Unlike most R functions, this <code>edit</code> function is <em>destructive</em>: it updates the original object, even without an assignment operator. So, if we inspect our <code>my_dict</code> object, we see that it has now changed:</p>
+<code class="sourceCode R"><span><span class="va">my_dict</span><span class="op">$</span><span class="fu">edit</span><span class="op">(</span>key <span class="op">=</span> <span class="st">"key1"</span>,</span>
+<span>             language <span class="op">=</span> <span class="st">"en"</span>,</span>
+<span>             new <span class="op">=</span> <span class="st">"Welcome to the test!"</span><span class="op">)</span></span></code></pre></div>
+<p>Unlike most R functions, this <code>edit</code> function is
+<em>destructive</em>: it updates the original object, even without an
+assignment operator. So, if we inspect our <code>my_dict</code> object,
+we see that it has now changed:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">my_dict</span><span class="op">$</span><span class="fu">as.data.frame</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code><span class="co">##    key                   en</span>
-<span class="co">## 1 key1 Welcome to the test!</span></code></pre>
+<code class="sourceCode R"><span><span class="va">my_dict</span><span class="op">$</span><span class="fu">as.data.frame</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##    key                   en</span></span>
+<span><span class="co">## 1 key1 Welcome to the test!</span></span></code></pre>
 </div>
 <div class="section level2">
 <h2 id="real-life-example">Real-life example<a class="anchor" aria-label="anchor" href="#real-life-example"></a>
 </h2>
-<p>To make this more concrete, here’s a real-life example. Let’s install the melody discrimination test of <a href="https://github.com/pmcharrison/mdt" class="external-link">Harrison &amp; Müllensiefen (2017)</a>:</p>
+<p>To make this more concrete, here’s a real-life example. Let’s install
+the melody discrimination test of <a href="https://github.com/pmcharrison/mdt" class="external-link">Harrison &amp; Müllensiefen
+(2017)</a>:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pmcharrison/mdt"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pmcharrison/mdt"</span><span class="op">)</span></span></code></pre></div>
 <p>We can demo the test as follows:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mdt</span><span class="fu">::</span><span class="fu">demo_mdt</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Now, suppose I want to replace the word ‘Next’ with the word ‘Proceed’. Inspecting the documentation, I see that the dictionary is stored in the object <code>mdt::mdt_dict</code>. I inspect this dictionary:</p>
+<code class="sourceCode R"><span><span class="fu">mdt</span><span class="fu">::</span><span class="fu">demo_mdt</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Now, suppose I want to replace the word ‘Next’ with the word
+‘Proceed’. Inspecting the documentation, I see that the dictionary is
+stored in the object <code>mdt::mdt_dict</code>. I inspect this
+dictionary:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/View.html" class="external-link">View</a></span><span class="op">(</span><span class="fu">mdt</span><span class="fu">::</span><span class="va">mdt_dict</span><span class="op">$</span><span class="fu">as.data.frame</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>and see, after some searching, that the key for the ‘Next’ button is <code>AMDI_0016_I_0001_1</code>.</p>
-<p>(Note: If you get the error “attempt to apply non-function”, you probably have an outdated version of <code>psychTestR</code> or <code>mdt</code> - reinstalling these packages should fix the problem.)</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/View.html" class="external-link">View</a></span><span class="op">(</span><span class="fu">mdt</span><span class="fu">::</span><span class="va">mdt_dict</span><span class="op">$</span><span class="fu">as.data.frame</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>and see, after some searching, that the key for the ‘Next’ button is
+<code>AMDI_0016_I_0001_1</code>.</p>
+<p>(Note: If you get the error “attempt to apply non-function”, you
+probably have an outdated version of <code>psychTestR</code> or
+<code>mdt</code> - reinstalling these packages should fix the
+problem.)</p>
 <p>I then edit the dictionary as follows:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mdt</span><span class="fu">::</span><span class="va">mdt_dict</span><span class="op">$</span><span class="fu">edit</span><span class="op">(</span>key <span class="op">=</span> <span class="st">"AMDI_0016_I_0001_1"</span>, 
-                   language <span class="op">=</span> <span class="st">"en"</span>,
-                   new <span class="op">=</span> <span class="st">"Proceed"</span><span class="op">)</span></code></pre></div>
-<p>I can check this worked by asking the dictionary to translate the key:</p>
+<code class="sourceCode R"><span><span class="fu">mdt</span><span class="fu">::</span><span class="va">mdt_dict</span><span class="op">$</span><span class="fu">edit</span><span class="op">(</span>key <span class="op">=</span> <span class="st">"AMDI_0016_I_0001_1"</span>, </span>
+<span>                   language <span class="op">=</span> <span class="st">"en"</span>,</span>
+<span>                   new <span class="op">=</span> <span class="st">"Proceed"</span><span class="op">)</span></span></code></pre></div>
+<p>I can check this worked by asking the dictionary to translate the
+key:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mdt</span><span class="fu">::</span><span class="va">mdt_dict</span><span class="op">$</span><span class="fu">translate</span><span class="op">(</span>key <span class="op">=</span> <span class="st">"AMDI_0016_I_0001_1"</span>, 
-                        language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">mdt</span><span class="fu">::</span><span class="va">mdt_dict</span><span class="op">$</span><span class="fu">translate</span><span class="op">(</span>key <span class="op">=</span> <span class="st">"AMDI_0016_I_0001_1"</span>, </span>
+<span>                        language <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span></code></pre></div>
 <p>And now, if we run the test, we should see our changes:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">mdt</span><span class="fu">::</span><span class="fu">demo_mdt</span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>Note that this edit only persists for the length of your R session: if you restart, it’ll revert to the original.</p>
+<code class="sourceCode R"><span><span class="fu">mdt</span><span class="fu">::</span><span class="fu">demo_mdt</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>Note that this edit only persists for the length of your R session:
+if you restart, it’ll revert to the original.</p>
 </div>
 <div class="section level2">
 <h2 id="feedback">Feedback<a class="anchor" aria-label="anchor" href="#feedback"></a>
 </h2>
-<p>Have you got feedback about this documentation? Please submit it to the <a href="https://github.com/pmcharrison/psychTestR/issues" class="external-link">issues tracker</a>.</p>
+<p>Have you got feedback about this documentation? Please submit it to
+the <a href="https://github.com/pmcharrison/psychTestR/issues" class="external-link">issues
+tracker</a>.</p>
 </div>
   </div>
 
@@ -227,7 +258,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

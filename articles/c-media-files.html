@@ -117,7 +117,7 @@
 
       
 
-      </header><script src="c-media-files_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Tutorial (basic): Media files</h1>
@@ -133,78 +133,130 @@
 <div class="section level2">
 <h2 id="about">About<a class="anchor" aria-label="anchor" href="#about"></a>
 </h2>
-<p>Many experiments involve administering media files (images, audio, video) to the participant. This tutorial explains how to achieve this within psychTestR.</p>
+<p>Many experiments involve administering media files (images, audio,
+video) to the participant. This tutorial explains how to achieve this
+within psychTestR.</p>
 </div>
 <div class="section level2">
 <h2 id="externally-hosted-media">Externally hosted media<a class="anchor" aria-label="anchor" href="#externally-hosted-media"></a>
 </h2>
-<p>If your media is already available via a public URL, then it is very easy to include this media within a psychTestR test. For example, the link <a href="https://via.placeholder.com/150" class="external-link uri">https://via.placeholder.com/150</a> resolves to the following placeholder image:</p>
+<p>If your media is already available via a public URL, then it is very
+easy to include this media within a psychTestR test. For example, the
+link <a href="https://via.placeholder.com/150" class="external-link uri">https://via.placeholder.com/150</a> resolves to the
+following placeholder image:</p>
 <div class="figure">
 <img src="img/150.png" alt=""><p class="caption">Placeholder image (150 px x 150px)</p>
 </div>
-<p>You can display such an image using the <code>img</code> utility function from the <code>htmltools</code> package. See below for a minimal example:</p>
+<p>You can display such an image using the <code>img</code> utility
+function from the <code>htmltools</code> package. See below for a
+minimal example:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span>
-
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">img</a></span><span class="op">(</span>src <span class="op">=</span> <span class="st">"https://via.placeholder.com/150"</span><span class="op">)</span>,
-  <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"What do you think of this image?"</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span>
-    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-      <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="va">ui</span><span class="op">)</span>
-    <span class="op">)</span>
-  <span class="op">)</span>
-<span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">img</a></span><span class="op">(</span>src <span class="op">=</span> <span class="st">"https://via.placeholder.com/150"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"What do you think of this image?"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">runApp</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="va">ui</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
 <p>Here we also used two other functions:</p>
 <ul>
 <li>
-<code><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div()</a></code> creates an HTML div, i.e. a container that can contain multiple HTML objects, in this case an image and some text.</li>
+<code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div()</a></code> creates an HTML div, i.e. a container that can
+contain multiple HTML objects, in this case an image and some text.</li>
 <li>
-<code><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">p()</a></code> creates a paragraph of text.</li>
+<code><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p()</a></code> creates a paragraph of text.</li>
 </ul>
-<p>To use this approach with your own media files, you will have to upload your media files to a publicly accessible media server, We have had success using Amazon S3 for this task.</p>
+<p>To use this approach with your own media files, you will have to
+upload your media files to a publicly accessible media server, We have
+had success using Amazon S3 for this task.</p>
 </div>
 <div class="section level2">
 <h2 id="self-hosted-media">Self-hosted media<a class="anchor" aria-label="anchor" href="#self-hosted-media"></a>
 </h2>
-<p>It is also possible to host media from within the psychTestR app itself. This approach is useful if you wish to run your test on a local computer without relying on an internet connection. However, the approach has two main disadvantages:</p>
+<p>It is also possible to host media from within the psychTestR app
+itself. This approach is useful if you wish to run your test on a local
+computer without relying on an internet connection. However, the
+approach has two main disadvantages:</p>
 <ul>
-<li>It typically means that code and media are hosted in the same repository, which is not ideal because standard version-control systems (e.g. Git) don’t work well with media files.</li>
-<li>You may have to disable some browser security settings to get the media to display properly (more on that later).</li>
+<li>It typically means that code and media are hosted in the same
+repository, which is not ideal because standard version-control systems
+(e.g. Git) don’t work well with media files.</li>
+<li>You may have to disable some browser security settings to get the
+media to display properly (more on that later).</li>
 </ul>
-<p>In the following example, we have created a file in the working directory called <code>app.R</code>, containing the following R code:</p>
+<p>In the following example, we have created a file in the working
+directory called <code>app.R</code>, containing the following R
+code:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span>
-
-<span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>
-    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">img</a></span><span class="op">(</span>src <span class="op">=</span> <span class="st">"150.png"</span><span class="op">)</span>,
-    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"What do you think of this image?"</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>
-    <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="va">ui</span><span class="op">)</span>
-  <span class="op">)</span>
-<span class="op">)</span></code></pre></div>
-<p>We have also created a folder called <code>www</code> in the working directory, into which we have saved a file called <code>150.png</code>, as downloaded from <a href="https://via.placeholder.com/150" class="external-link uri">https://via.placeholder.com/150</a>.</p>
-<p>Note that the image path has now been replaced with <code>150.png</code>, reflecting the fact that media paths are expressed relative to the <code>www</code> directory.</p>
-<p>Here comes a slightly frustrating part. There are many ways of launching a Shiny app (Shiny is the framework upon which psychTestR is built), but not all of them expose the <code>www</code> directory. If you just call <code>make_test</code>, as in the above example, Shiny will (probably) not expose the <code>www</code> directory, because it doesn’t know where the relevant <code>www</code> directory is. Instead, you must leave the <code>app.R</code> file as is, and then launch the app by running the following code at the R terminal:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/rstudio/htmltools" class="external-link">htmltools</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ui</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">img</a></span><span class="op">(</span>src <span class="op">=</span> <span class="st">"150.png"</span><span class="op">)</span>,</span>
+<span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"What do you think of this image?"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="va">ui</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>We have also created a folder called <code>www</code> in the working
+directory, into which we have saved a file called <code>150.png</code>,
+as downloaded from <a href="https://via.placeholder.com/150" class="external-link uri">https://via.placeholder.com/150</a>.</p>
+<p>Note that the image path has now been replaced with
+<code>150.png</code>, reflecting the fact that media paths are expressed
+relative to the <code>www</code> directory.</p>
+<p>Here comes a slightly frustrating part. There are many ways of
+launching a Shiny app (Shiny is the framework upon which psychTestR is
+built), but not all of them expose the <code>www</code> directory. If
+you just call <code>make_test</code>, as in the above example, Shiny
+will (probably) not expose the <code>www</code> directory, because it
+doesn’t know where the relevant <code>www</code> directory is. Instead,
+you must leave the <code>app.R</code> file as is, and then launch the
+app by running the following code at the R terminal:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span></code></pre></div>
-<p>This tells Shiny to look for an app in the current working directory (see <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">?shiny::runApp</a></code> for details). Launching the app in this way should mean that Shiny finds the <code>www</code> directory correctly.</p>
-<p>The above example used an image, but the process for audio and video is basically the same. Instead of using the <code>img</code> function from <code>htmltools</code>, you instead use the function <code>tags$audio()</code> for audio, and the function <code>tags$video()</code> for video. Each of these functions takes further arguments that correspond to the analogous arguments you might use when constructing the equivalent HTML code, such as <code>autoplay</code> and <code>width</code>.</p>
-<p>If you run into problems with your media not displaying properly, open your test in a web browser and open the Developer console. Here you should see an error message telling you more about the problem. If you see a 404 error, this means that the browser can’t find the file you specified, maybe because you got the path wrong, or because the app wasn’t launched in the way mentioned above. If you see a cross-origin resource error, this probably means that you need to change the security settings in your browser (Google the error message for more details). Note that this latter problem should disappear when you deploy the test to a remote server.</p>
-<p>psychTestR includes some prebuilt page types for displaying media items:</p>
+<code class="sourceCode R"><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span></span></code></pre></div>
+<p>This tells Shiny to look for an app in the current working directory
+(see <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">?shiny::runApp</a></code> for details). Launching the app in this
+way should mean that Shiny finds the <code>www</code> directory
+correctly.</p>
+<p>The above example used an image, but the process for audio and video
+is basically the same. Instead of using the <code>img</code> function
+from <code>htmltools</code>, you instead use the function
+<code>tags$audio()</code> for audio, and the function
+<code>tags$video()</code> for video. Each of these functions takes
+further arguments that correspond to the analogous arguments you might
+use when constructing the equivalent HTML code, such as
+<code>autoplay</code> and <code>width</code>.</p>
+<p>If you run into problems with your media not displaying properly,
+open your test in a web browser and open the Developer console. Here you
+should see an error message telling you more about the problem. If you
+see a 404 error, this means that the browser can’t find the file you
+specified, maybe because you got the path wrong, or because the app
+wasn’t launched in the way mentioned above. If you see a cross-origin
+resource error, this probably means that you need to change the security
+settings in your browser (Google the error message for more details).
+Note that this latter problem should disappear when you deploy the test
+to a remote server.</p>
+<p>psychTestR includes some prebuilt page types for displaying media
+items:</p>
 <ul>
 <li><code>audio_NAFC_page</code></li>
 <li><code>video_NAFC_page</code></li>
 </ul>
-<p>You may find these to be useful templates for developing your own page types. If you develop your own page type that you think might be useful to others, consider submitting a GitHub pull request so that your page type can be incorporated into the psychTestR code base.</p>
+<p>You may find these to be useful templates for developing your own
+page types. If you develop your own page type that you think might be
+useful to others, consider submitting a GitHub pull request so that your
+page type can be incorporated into the psychTestR code base.</p>
 </div>
   </div>
 
@@ -225,7 +277,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

@@ -117,10 +117,11 @@
 
       
 
-      </header><script src="z_code_for_article_in_musik_und_internet_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Code for Article ‘psychTestR - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare’</h1>
+      <h1 data-toc-skip>Code for Article ‘psychTestR - Ein R-Paket für
+(musik-) psychologische Tests und Fragebogeninventare’</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/pmcharrison/psychTestR/blob/HEAD/vignettes/z_code_for_article_in_musik_und_internet.Rmd" class="external-link"><code>vignettes/z_code_for_article_in_musik_und_internet.Rmd</code></a></small>
@@ -130,121 +131,128 @@
 
     
     
-<p>The following code is taken from the article “<em>psychTestR</em> - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare” in “Musik und Internet. Musikalische Phänomene populärer Kulturen” (2022) by Nicolas Ruth &amp; Peter Moormann. Feel free to copy and modify it according to your needs. <!-- This link needs to be specified. Viola informs Peter as soon as she knows the link. --></p>
+<p>The following code is taken from the article “<em>psychTestR</em> -
+Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare”
+in “Musik und Internet. Musikalische Phänomene populärer Kulturen”
+(2022) by Nicolas Ruth &amp; Peter Moormann. Feel free to copy and
+modify it according to your needs.
+<!-- This link needs to be specified. Viola informs Peter as soon as she knows the link. --></p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pmcharrison/psychTestR"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'fmhoeger/psyquest'</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"pmcharrison/psychTestR"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">'fmhoeger/psyquest'</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="code-example">Code example<a class="anchor" aria-label="anchor" href="#code-example"></a>
 </h2>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Laden der benötigten Pakete</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">psyquest</span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span>
-
-<span class="co"># Codeblöcke</span>
-<span class="va">save_time_started</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="co"># Speichern der Startzeit</span>
-  <span class="fu"><a href="../reference/global_local.html">set_global</a></span><span class="op">(</span>                                          <span class="co"># global für diesen Teilnehmer</span>
-    key <span class="op">=</span> <span class="st">"time_started"</span>,
-    value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>,
-    state <span class="op">=</span> <span class="va">state</span> <span class="co"># interne Statusvariable von psychTestR</span>
-  <span class="op">)</span>
-<span class="op">}</span><span class="op">)</span>
-
-<span class="va">compute_time_taken</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>        <span class="co"># Berechnung und Ausgabe</span>
-  <span class="va">time_taken</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="../reference/global_local.html">get_global</a></span><span class="op">(</span><span class="st">"time_started"</span>, <span class="va">state</span><span class="op">)</span> <span class="co"># der Bearbeitungsdauer</span>
-  <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span>
-    <span class="st">"So lange hast du den Fragebogen bearbeitet: "</span>,
-    <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">time_taken</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
-  <span class="op">)</span>
-  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/showNotification.html" class="external-link">showNotification</a></span><span class="op">(</span><span class="va">msg</span><span class="op">)</span>
-<span class="op">}</span><span class="op">)</span>
-
-<span class="co"># Timeline aus Abbildung 1</span>
-<span class="va">timeline_abb_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span><span class="op">(</span> <span class="co"># Willkommensseite</span>
-    button_text <span class="op">=</span> <span class="st">"Weiter"</span>,
-    <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">div</a></span><span class="op">(</span>
-      <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Willkommen zum"</span>, <span class="va">tags</span><span class="op">$</span><span class="fu">strong</span><span class="op">(</span><span class="st">"Musikfragebogen!"</span><span class="op">)</span><span class="op">)</span>,
-      <span class="fu"><a href="https://rdrr.io/pkg/htmltools/man/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="va">tags</span><span class="op">$</span><span class="fu">em</span><span class="op">(</span><span class="st">"Wir wollen heute mehr über Musik in deinem Leben erfahren."</span><span class="op">)</span><span class="op">)</span>
-    <span class="op">)</span>
-   <span class="op">)</span>,
-  <span class="fu"><a href="../reference/text_input_page.html">text_input_page</a></span><span class="op">(</span> <span class="co"># erste Frage (Instrument)</span>
-    label <span class="op">=</span> <span class="st">"Instrument"</span>,
-    prompt <span class="op">=</span> <span class="st">"Welches Instrument spielst du?"</span>,
-    button_text <span class="op">=</span> <span class="st">"Weiter"</span>,
-    on_complete <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">answer</span>, <span class="va">state</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>
-      <span class="fu"><a href="../reference/global_local.html">set_global</a></span><span class="op">(</span>
-        key <span class="op">=</span> <span class="st">"instrument"</span>,
-        value <span class="op">=</span> <span class="va">answer</span>, <span class="co"># answer enthält immer die letzte Antwort</span>
-        state <span class="op">=</span> <span class="va">state</span>   <span class="co"># interne Statusvariable von psychTestR</span>
-      <span class="op">)</span>
-    <span class="op">}</span>
-  <span class="op">)</span>,
-  <span class="fu"><a href="../reference/reactive_page.html">reactive_page</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">answer</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="co"># zweite Frage (Dauer)</span>
-    <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span>
-      <span class="st">"Wie lange spielst du schon %s?"</span>,
-      <span class="fu"><a href="../reference/global_local.html">get_global</a></span><span class="op">(</span><span class="st">"instrument"</span>, <span class="va">state</span><span class="op">)</span> <span class="co"># holt den aktuellen Wert aus state</span>
-    <span class="op">)</span>
-    <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-      label <span class="op">=</span> <span class="st">"time_instrument"</span>,
-      <span class="va">msg</span>,
-      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>
-        <span class="st">"Ich habe erst angefangen."</span>,
-        <span class="st">"ein Monat bis ein halbes Jahr"</span>,
-        <span class="st">"0,5 bis 1 Jahr"</span>
-      <span class="op">)</span>
-    <span class="op">)</span>
-  <span class="op">}</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="co"># verschiedene Pages zu einer Timeline durch join() bündeln</span>
-<span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/new_timeline.html">new_timeline</a></span><span class="op">(</span>                              <span class="co"># Timeline für die Startzeit</span>
-    <span class="va">save_time_started</span>,                       <span class="co"># Timelines brauchen ein Dictionary, das</span>
-    dict <span class="op">=</span> <span class="fu">psyquest</span><span class="fu">::</span><span class="va">psyquest_dict</span>           <span class="co"># die internationalisierten Sprach-</span>
-                                             <span class="co"># bausteine enthält, hier nur ein Dummy.</span>
-  <span class="op">)</span>,
-  <span class="va">timeline_abb_1</span>,                            <span class="co"># Timeline aus Abbildung 1</span>
-  <span class="fu">GMS</span><span class="op">(</span>language <span class="op">=</span> <span class="st">"de"</span><span class="op">)</span>,                      <span class="co"># Goldsmiths Musical Sophistication Index</span>
-  <span class="va">compute_time_taken</span>,                        <span class="co"># Berechnung und Ausgabe Bearbeitungsdauer</span>
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="co"># Speicherung der Ergebnisse</span>
-  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"Vielen Dank!"</span><span class="op">)</span>                 <span class="co"># Abschlussseite</span>
-<span class="op">)</span>
-
-<span class="co"># fertigen Fragebogen öffnen</span>
-<span class="va">questionnaire</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span>
-  <span class="va">timeline</span>,
-  opt <span class="op">=</span> <span class="fu"><a href="../reference/test_options.html">test_options</a></span><span class="op">(</span>
-    title <span class="op">=</span> <span class="st">"Musikfragebogen"</span>,
-    admin_password <span class="op">=</span> <span class="st">"abc"</span>,
-    languages <span class="op">=</span> <span class="st">"de"</span>
-  <span class="op">)</span>
-<span class="op">)</span>
-
-<span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="va">questionnaire</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Laden der benötigten Pakete</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">psyquest</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://shiny.rstudio.com/" class="external-link">shiny</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Codeblöcke</span></span>
+<span><span class="va">save_time_started</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="co"># Speichern der Startzeit</span></span>
+<span>  <span class="fu"><a href="../reference/global_local.html">set_global</a></span><span class="op">(</span>                                          <span class="co"># global für diesen Teilnehmer</span></span>
+<span>    key <span class="op">=</span> <span class="st">"time_started"</span>,</span>
+<span>    value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>    state <span class="op">=</span> <span class="va">state</span> <span class="co"># interne Statusvariable von psychTestR</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">compute_time_taken</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span>        <span class="co"># Berechnung und Ausgabe</span></span>
+<span>  <span class="va">time_taken</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="../reference/global_local.html">get_global</a></span><span class="op">(</span><span class="st">"time_started"</span>, <span class="va">state</span><span class="op">)</span> <span class="co"># der Bearbeitungsdauer</span></span>
+<span>  <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span></span>
+<span>    <span class="st">"So lange hast du den Fragebogen bearbeitet: "</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">time_taken</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/showNotification.html" class="external-link">showNotification</a></span><span class="op">(</span><span class="va">msg</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Timeline aus Abbildung 1</span></span>
+<span><span class="va">timeline_abb_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span><span class="op">(</span> <span class="co"># Willkommensseite</span></span>
+<span>    button_text <span class="op">=</span> <span class="st">"Weiter"</span>,</span>
+<span>    <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">div</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"Willkommen zum"</span>, <span class="va">tags</span><span class="op">$</span><span class="fu">strong</span><span class="op">(</span><span class="st">"Musikfragebogen!"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>      <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="va">tags</span><span class="op">$</span><span class="fu">em</span><span class="op">(</span><span class="st">"Wir wollen heute mehr über Musik in deinem Leben erfahren."</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>   <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/text_input_page.html">text_input_page</a></span><span class="op">(</span> <span class="co"># erste Frage (Instrument)</span></span>
+<span>    label <span class="op">=</span> <span class="st">"Instrument"</span>,</span>
+<span>    prompt <span class="op">=</span> <span class="st">"Welches Instrument spielst du?"</span>,</span>
+<span>    button_text <span class="op">=</span> <span class="st">"Weiter"</span>,</span>
+<span>    on_complete <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">answer</span>, <span class="va">state</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu"><a href="../reference/global_local.html">set_global</a></span><span class="op">(</span></span>
+<span>        key <span class="op">=</span> <span class="st">"instrument"</span>,</span>
+<span>        value <span class="op">=</span> <span class="va">answer</span>, <span class="co"># answer enthält immer die letzte Antwort</span></span>
+<span>        state <span class="op">=</span> <span class="va">state</span>   <span class="co"># interne Statusvariable von psychTestR</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">}</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/reactive_page.html">reactive_page</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">answer</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span> <span class="co"># zweite Frage (Dauer)</span></span>
+<span>    <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sprintf.html" class="external-link">sprintf</a></span><span class="op">(</span></span>
+<span>      <span class="st">"Wie lange spielst du schon %s?"</span>,</span>
+<span>      <span class="fu"><a href="../reference/global_local.html">get_global</a></span><span class="op">(</span><span class="st">"instrument"</span>, <span class="va">state</span><span class="op">)</span> <span class="co"># holt den aktuellen Wert aus state</span></span>
+<span>    <span class="op">)</span></span>
+<span>    <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>      label <span class="op">=</span> <span class="st">"time_instrument"</span>,</span>
+<span>      <span class="va">msg</span>,</span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
+<span>        <span class="st">"Ich habe erst angefangen."</span>,</span>
+<span>        <span class="st">"ein Monat bis ein halbes Jahr"</span>,</span>
+<span>        <span class="st">"0,5 bis 1 Jahr"</span></span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">}</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># verschiedene Pages zu einer Timeline durch join() bündeln</span></span>
+<span><span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/new_timeline.html">new_timeline</a></span><span class="op">(</span>                              <span class="co"># Timeline für die Startzeit</span></span>
+<span>    <span class="va">save_time_started</span>,                       <span class="co"># Timelines brauchen ein Dictionary, das</span></span>
+<span>    dict <span class="op">=</span> <span class="fu">psyquest</span><span class="fu">::</span><span class="va">psyquest_dict</span>           <span class="co"># die internationalisierten Sprach-</span></span>
+<span>                                             <span class="co"># bausteine enthält, hier nur ein Dummy.</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="va">timeline_abb_1</span>,                            <span class="co"># Timeline aus Abbildung 1</span></span>
+<span>  <span class="fu">GMS</span><span class="op">(</span>language <span class="op">=</span> <span class="st">"de"</span><span class="op">)</span>,                      <span class="co"># Goldsmiths Musical Sophistication Index</span></span>
+<span>  <span class="va">compute_time_taken</span>,                        <span class="co"># Berechnung und Ausgabe Bearbeitungsdauer</span></span>
+<span>  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="co"># Speicherung der Ergebnisse</span></span>
+<span>  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"Vielen Dank!"</span><span class="op">)</span>                 <span class="co"># Abschlussseite</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># fertigen Fragebogen öffnen</span></span>
+<span><span class="va">questionnaire</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span></span>
+<span>  <span class="va">timeline</span>,</span>
+<span>  opt <span class="op">=</span> <span class="fu"><a href="../reference/test_options.html">test_options</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Musikfragebogen"</span>,</span>
+<span>    admin_password <span class="op">=</span> <span class="st">"abc"</span>,</span>
+<span>    languages <span class="op">=</span> <span class="st">"de"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="va">questionnaire</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="access-to-the-results">Access to the results<a class="anchor" aria-label="anchor" href="#access-to-the-results"></a>
 </h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span>
-    <span class="st">"output/results"</span>,
-    pattern <span class="op">=</span> <span class="st">"*.rds"</span>,
-    full.names <span class="op">=</span> <span class="cn">TRUE</span>
-  <span class="op">)</span>,
-  <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>
-<span class="op">)</span>
-
-<span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>, <span class="va">data</span><span class="op">)</span></code></pre></div>
-<p>Of course, real psychTestR experiments tend to be much more complex! See <a href="https://pmcharrison.github.io/psychTestR/articles/a2-research-examples.html">Research examples</a> for some example applications.</p>
+<code class="sourceCode R"><span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/list.files.html" class="external-link">list.files</a></span><span class="op">(</span></span>
+<span>    <span class="st">"output/results"</span>,</span>
+<span>    pattern <span class="op">=</span> <span class="st">"*.rds"</span>,</span>
+<span>    full.names <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="st">"rbind"</span>, <span class="va">data</span><span class="op">)</span></span></code></pre></div>
+<p>Of course, real psychTestR experiments tend to be much more complex!
+See <a href="https://pmcharrison.github.io/psychTestR/articles/a2-research-examples.html">Research
+examples</a> for some example applications.</p>
 </div>
   </div>
 
@@ -265,7 +273,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

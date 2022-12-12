@@ -105,38 +105,38 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">test_options</span><span class="op">(</span>
-  <span class="va">title</span>,
-  <span class="va">admin_password</span>,
-  researcher_email <span class="op">=</span> <span class="cn">NULL</span>,
-  max_num_participants <span class="op">=</span> <span class="cn">NULL</span>,
-  demo <span class="op">=</span> <span class="cn">FALSE</span>,
-  languages <span class="op">=</span> <span class="st">"en"</span>,
-  log_error <span class="op">=</span> <span class="cn">TRUE</span>,
-  show_full_error_msg <span class="op">=</span> <span class="cn">TRUE</span>,
-  notify_error <span class="op">=</span> <span class="cn">FALSE</span>,
-  notify_new_participant <span class="op">=</span> <span class="cn">FALSE</span>,
-  pushbullet_email <span class="op">=</span> <span class="cn">NULL</span>,
-  pushbullet_apikey <span class="op">=</span> <span class="cn">NULL</span>,
-  max_participants_msg <span class="op">=</span> <span class="cn">NULL</span>,
-  server_closed_msg <span class="op">=</span> <span class="cn">NULL</span>,
-  problems_info <span class="op">=</span> <span class="st">"default"</span>,
-  theme <span class="op">=</span> <span class="fu">shinythemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinythemes/man/shinytheme.html" class="external-link">shinytheme</a></span><span class="op">(</span><span class="st">"yeti"</span><span class="op">)</span>,
-  auto_p_id <span class="op">=</span> <span class="cn">TRUE</span>,
-  enable_resume_session <span class="op">=</span> <span class="cn">TRUE</span>,
-  allow_any_p_id_url <span class="op">=</span> <span class="cn">FALSE</span>,
-  force_p_id_from_url <span class="op">=</span> <span class="cn">FALSE</span>,
-  enable_admin_panel <span class="op">=</span> <span class="cn">TRUE</span>,
-  output_dir <span class="op">=</span> <span class="st">"output"</span>,
-  session_timeout_min <span class="op">=</span> <span class="fl">31</span> <span class="op">*</span> <span class="fl">24</span> <span class="op">*</span> <span class="fl">60</span>,
-  clean_sessions_interval_min <span class="op">=</span> <span class="fl">15</span>,
-  logo <span class="op">=</span> <span class="cn">NULL</span>,
-  logo_width <span class="op">=</span> <span class="cn">NULL</span>,
-  logo_height <span class="op">=</span> <span class="cn">NULL</span>,
-  display <span class="op">=</span> <span class="fu"><a href="display_options.html">display_options</a></span><span class="op">(</span><span class="op">)</span>,
-  allow_url_rewrite <span class="op">=</span> <span class="cn">TRUE</span>,
-  advance_delay <span class="op">=</span> <span class="fl">0</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">test_options</span><span class="op">(</span></span>
+<span>  <span class="va">title</span>,</span>
+<span>  <span class="va">admin_password</span>,</span>
+<span>  researcher_email <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max_num_participants <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  demo <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  languages <span class="op">=</span> <span class="st">"en"</span>,</span>
+<span>  log_error <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  show_full_error_msg <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  notify_error <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  notify_new_participant <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  pushbullet_email <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pushbullet_apikey <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max_participants_msg <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  server_closed_msg <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  problems_info <span class="op">=</span> <span class="st">"default"</span>,</span>
+<span>  theme <span class="op">=</span> <span class="fu">shinythemes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shinythemes/man/shinytheme.html" class="external-link">shinytheme</a></span><span class="op">(</span><span class="st">"yeti"</span><span class="op">)</span>,</span>
+<span>  auto_p_id <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  enable_resume_session <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  allow_any_p_id_url <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  force_p_id_from_url <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  enable_admin_panel <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  output_dir <span class="op">=</span> <span class="st">"output"</span>,</span>
+<span>  session_timeout_min <span class="op">=</span> <span class="fl">31</span> <span class="op">*</span> <span class="fl">24</span> <span class="op">*</span> <span class="fl">60</span>,</span>
+<span>  clean_sessions_interval_min <span class="op">=</span> <span class="fl">15</span>,</span>
+<span>  logo <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  logo_width <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  logo_height <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  display <span class="op">=</span> <span class="fu"><a href="display_options.html">display_options</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  allow_url_rewrite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  advance_delay <span class="op">=</span> <span class="fl">0</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -316,7 +316,7 @@ upon button press.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

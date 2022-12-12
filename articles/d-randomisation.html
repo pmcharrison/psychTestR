@@ -117,10 +117,11 @@
 
       
 
-      </header><script src="d-randomisation_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Tutorial (intermediate): Randomising item administration</h1>
+      <h1 data-toc-skip>Tutorial (intermediate): Randomising item
+administration</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/pmcharrison/psychTestR/blob/HEAD/vignettes/d-randomisation.Rmd" class="external-link"><code>vignettes/d-randomisation.Rmd</code></a></small>
@@ -133,18 +134,27 @@
 <div class="section level2">
 <h2 id="overview">Overview<a class="anchor" aria-label="anchor" href="#overview"></a>
 </h2>
-<p>This tutorial addresses the common task of randomising the order in which items are administered to participants. Such techniques can be useful for avoiding order effects.</p>
-<p>In the simplest randomisation scheme, every participant receives the same set of items, and the order of these items is randomly permuted for each participant. However, many experiments require more sophisticated randomisation schemes, for example:</p>
+<p>This tutorial addresses the common task of randomising the order in
+which items are administered to participants. Such techniques can be
+useful for avoiding order effects.</p>
+<p>In the simplest randomisation scheme, every participant receives the
+same set of items, and the order of these items is randomly permuted for
+each participant. However, many experiments require more sophisticated
+randomisation schemes, for example:</p>
 <ul>
-<li>Choosing only short questions if the participant says they have a train to catch;</li>
-<li>Using the participant’s initials as the seed for the randomisation algorithm;</li>
-<li>Ensuring that each item is administered the same number of times across participants.</li>
+<li>Choosing only short questions if the participant says they have a
+train to catch;</li>
+<li>Using the participant’s initials as the seed for the randomisation
+algorithm;</li>
+<li>Ensuring that each item is administered the same number of times
+across participants.</li>
 </ul>
 </div>
 <div class="section level2">
 <h2 id="simple-randomisation">Simple randomisation<a class="anchor" aria-label="anchor" href="#simple-randomisation"></a>
 </h2>
-<p>Suppose we wish to administer the three survey items, each with a yes or no response:</p>
+<p>Suppose we wish to administer the three survey items, each with a yes
+or no response:</p>
 <ol style="list-style-type: decimal">
 <li>Are you afraid of dogs?</li>
 <li>Are you afraid of birds?</li>
@@ -152,69 +162,89 @@
 </ol>
 <p>We can code these three items as a <em>tibble</em>:<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://purrr.tidyverse.org" class="external-link">purrr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span>
-
-<span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span>
-  <span class="op">~</span> <span class="va">id</span>,       <span class="op">~</span> <span class="va">prompt</span>,
-  <span class="st">"dogs"</span>,    <span class="st">"Are you afraid of dogs?"</span>,
-  <span class="st">"birds"</span>,   <span class="st">"Are you afraid of birds?"</span>,
-  <span class="st">"heights"</span>, <span class="st">"Are you afraid of heights?"</span>
-<span class="op">)</span>
-<span class="va">items</span></code></pre></div>
-<pre><code><span class="co">## <span style="color: #949494;"># A tibble: 3 × 2</span></span>
-<span class="co">##   id      prompt                    </span>
-<span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     </span>
-<span class="co">## <span style="color: #BCBCBC;">1</span> dogs    Are you afraid of dogs?   </span>
-<span class="co">## <span style="color: #BCBCBC;">2</span> birds   Are you afraid of birds?  </span>
-<span class="co">## <span style="color: #BCBCBC;">3</span> heights Are you afraid of heights?</span></code></pre>
-<p>There are three items in total, corresponding to the three rows of <code>items</code>. First, let’s imagine that we want each participant to receive these three items in a random order, with this random order freshly determined for each participant. We can achieve this using the psychTestR function <code>randomise_at_run_time</code>.</p>
-<p>First, we construct a list of test elements corresponding to our three questions:</p>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/pmcharrison/psychTestR" class="external-link">psychTestR</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/" class="external-link">purrr</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tibble.tidyverse.org/" class="external-link">tibble</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">items</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
+<span>  <span class="op">~</span> <span class="va">id</span>,       <span class="op">~</span> <span class="va">prompt</span>,</span>
+<span>  <span class="st">"dogs"</span>,    <span class="st">"Are you afraid of dogs?"</span>,</span>
+<span>  <span class="st">"birds"</span>,   <span class="st">"Are you afraid of birds?"</span>,</span>
+<span>  <span class="st">"heights"</span>, <span class="st">"Are you afraid of heights?"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">items</span></span></code></pre></div>
+<pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
+<span><span class="co">##   id      prompt                    </span></span>
+<span><span class="co">##   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                     </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">1</span> dogs    Are you afraid of dogs?   </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">2</span> birds   Are you afraid of birds?  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">3</span> heights Are you afraid of heights?</span></span></code></pre>
+<p>There are three items in total, corresponding to the three rows of
+<code>items</code>. First, let’s imagine that we want each participant
+to receive these three items in a random order, with this random order
+freshly determined for each participant. We can achieve this using the
+psychTestR function <code>randomise_at_run_time</code>.</p>
+<p>First, we construct a list of test elements corresponding to our
+three questions:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">item_pages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">pmap</a></span><span class="op">(</span><span class="va">items</span>, <span class="kw">function</span><span class="op">(</span><span class="va">id</span>, <span class="va">prompt</span><span class="op">)</span> <span class="op">{</span>
-  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>
-    label <span class="op">=</span> <span class="va">id</span>,
-    prompt <span class="op">=</span> <span class="va">prompt</span>, 
-    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Yes"</span>, <span class="st">"No"</span><span class="op">)</span>
-  <span class="op">)</span>
-<span class="op">}</span><span class="op">)</span></code></pre></div>
-<p>Note that we used the <code>pmap</code> function from the <code>purrr</code> package to iterate over the rows of <code>items</code>, mapping each row to a list element. We then simply pass this list of pages to <code>randomise_at_run_time</code>:</p>
+<code class="sourceCode R"><span><span class="va">item_pages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">pmap</a></span><span class="op">(</span><span class="va">items</span>, <span class="kw">function</span><span class="op">(</span><span class="va">id</span>, <span class="va">prompt</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
+<span>    label <span class="op">=</span> <span class="va">id</span>,</span>
+<span>    prompt <span class="op">=</span> <span class="va">prompt</span>, </span>
+<span>    choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Yes"</span>, <span class="st">"No"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span></code></pre></div>
+<p>Note that we used the <code>pmap</code> function from the
+<code>purrr</code> package to iterate over the rows of
+<code>items</code>, mapping each row to a list element. We then simply
+pass this list of pages to <code>randomise_at_run_time</code>:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
-  <span class="fu"><a href="../reference/randomise_at_run_time.html">randomise_at_run_time</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">"item_order"</span>,
-                        logic <span class="op">=</span> <span class="va">item_pages</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"You completed the test."</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></code></pre></div>
-<p>This code should launch the test, complete with randomisation.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Results will be saved in the <code>output/results</code> directory. Login to the admin panel using the password <code>demo</code>, download the results as a csv file, and observe how the order of test elements varies between test runs, and how the order for a given participant is saved as the variable <code>results.item_order</code>.</p>
+<code class="sourceCode R"><span><span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="../reference/randomise_at_run_time.html">randomise_at_run_time</a></span><span class="op">(</span>label <span class="op">=</span> <span class="st">"item_order"</span>,</span>
+<span>                        logic <span class="op">=</span> <span class="va">item_pages</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"You completed the test."</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></span></code></pre></div>
+<p>This code should launch the test, complete with randomisation.<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a> Results
+will be saved in the <code>output/results</code> directory. Login to the
+admin panel using the password <code>demo</code>, download the results
+as a csv file, and observe how the order of test elements varies between
+test runs, and how the order for a given participant is saved as the
+variable <code>results.item_order</code>.</p>
 </div>
 <div class="section level2">
 <h2 id="complex-randomisation">Complex randomisation<a class="anchor" aria-label="anchor" href="#complex-randomisation"></a>
 </h2>
-<p>Arbitrary randomisation schemes can be implemented using the <code>order_at_run_time</code> function. For example, suppose that we wish to randomly choose between two item orders, 1-2-3 or 3-2-1. We can implement this as follows:</p>
+<p>Arbitrary randomisation schemes can be implemented using the
+<code>order_at_run_time</code> function. For example, suppose that we
+wish to randomly choose between two item orders, 1-2-3 or 3-2-1. We can
+implement this as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">randomised</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/order_at_run_time.html">order_at_run_time</a></span><span class="op">(</span>
-  label <span class="op">=</span> <span class="st">"item_order"</span>,
-  logic <span class="op">=</span> <span class="va">item_pages</span>,
-  <span class="va">get_order</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span>
-    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span> <span class="kw">else</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span>
-  <span class="op">}</span>
-<span class="op">)</span>
-
-<span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span>
-  <span class="va">randomised</span>,
-  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,
-  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"You completed the test."</span><span class="op">)</span>
-<span class="op">)</span>
-<span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">randomised</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/order_at_run_time.html">order_at_run_time</a></span><span class="op">(</span></span>
+<span>  label <span class="op">=</span> <span class="st">"item_order"</span>,</span>
+<span>  logic <span class="op">=</span> <span class="va">item_pages</span>,</span>
+<span>  <span class="va">get_order</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">1</span><span class="op">)</span> <span class="op">==</span> <span class="fl">1</span><span class="op">)</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span> <span class="kw">else</span> <span class="fl">3</span><span class="op">:</span><span class="fl">1</span></span>
+<span>  <span class="op">}</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">timeline</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span></span>
+<span>  <span class="va">randomised</span>,</span>
+<span>  <span class="fu"><a href="../reference/elt_save_results_to_disk.html">elt_save_results_to_disk</a></span><span class="op">(</span>complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"You completed the test."</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span><span class="va">timeline</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
-<li id="fn1"><p> A <em>tibble</em> is a nicely formatted version of a data frame, provide by the <em>tibble</em> package and exported by the <em>tidyverse</em> package.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
-<li id="fn2"><p> In RStudio, this means running the code with the ‘Run’ button, not the ‘Source’ button. You can use ‘Source’ but then you have to wrap the code in <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">shiny::runApp</a></code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn1"><p> A <em>tibble</em> is a nicely formatted version of a
+data frame, provide by the <em>tibble</em> package and exported by the
+<em>tidyverse</em> package.<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p> In RStudio, this means running the code with the ‘Run’
+button, not the ‘Source’ button. You can use ‘Source’ but then you have
+to wrap the code in <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">shiny::runApp</a></code>.<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
@@ -236,7 +266,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
