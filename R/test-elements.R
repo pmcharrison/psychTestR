@@ -1446,7 +1446,6 @@ loop_while <- function(test, logic) {
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                       "logical scalar")
     if (res){
-      message(sprintf("loop_while: Skipping %d pages", n))
       skip_n_pages(state, - (n + 1L))
     }
   })
@@ -1499,7 +1498,6 @@ while_loop <- function(test, logic) {
                                         "logical scalar")
       if ((skip_when == "pass" && res) ||
           (skip_when == "fail" && !res)){
-        message(sprintf("while_loop: Skipping %d pages (skip_when = %s)", skip_len, skip_when))
         skip_n_pages(state, skip_len)
       }
     })

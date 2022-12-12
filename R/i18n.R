@@ -235,7 +235,6 @@ i18n_check <- function(x) {
     stop("argument <sub> for function i18n_check() was missing names, ",
          "instead got ", utils::capture.output(print(x$sub)))
   if (!is.scalar.character(x$x)){
-    browser()
     stop("argument <x> for function i18_check() must be a character scalar, ",
          "instead got ", utils::capture.output(print(x$x)))
 
