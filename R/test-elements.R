@@ -1568,7 +1568,6 @@ conditional <- function(test, logic) {
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                       "logical scalar")
     if (!res) {
-      message(sprintf("Conditional: Skipping %d pages", n))
       skip_n_pages(state, n)
     }
   })
