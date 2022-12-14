@@ -1098,7 +1098,7 @@ checkbox_page <-
         input[[label]]
       }
     validate <- function(answer, ...)
-      if (length(answer) == 0L && force_answer) {
+      if (!any(nzchar(answer)) && force_answer) {
         failed_validation_message
       } else {
         TRUE
