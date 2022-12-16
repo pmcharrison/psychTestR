@@ -24,7 +24,7 @@ Imports:
     tidyr (>= 0.8.1),
     utils,
     R6 (>= 2.2.2),
-    markdown (>= 0.8),
+    markdown (>= 1.4),
     rstudioapi (>= 0.7),
     checkmate (>= 1.8.5),
     purrr,

@@ -1032,11 +1032,11 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 #'
 #' @param trigger_button_text (Character scalar) Text for the trigger button.
 #'
-#' @param failed_validation_message (Character scalar) Text to be displayed
-#' when validation fails.
+#' @param failed_validation_message (Named character vector) Text to be displayed
+#' when validation fails, names must match the validation type ("one" or "all"), see "force_answer".
 #'
-#' @param force_answer (Boolean scalar) Require at least one checkbox to be
-#' ticked.
+#' @param force_answer (Boolean scalar or character) Require at least one checkbox (value "one") or all checkboxes ("all") to be
+#' ticked. If no selection is required set to "no" (default). If boolean, this translate to option "one" (TRUE) or "no" (FALSE).
 #'
 #' @param javascript (Character scalar) JavaScript code to be added for
 #' controlling checkbox behaviour.
@@ -1062,8 +1062,8 @@ checkbox_page <-
            subprompt = "",
            labels = NULL,
            trigger_button_text = "Continue",
-           failed_validation_message = "Choose at least one answer!",
-           force_answer = FALSE,
+           failed_validation_message = c(one = "Choose at least one answer!", all = "Please check all boxes."),
+           force_answer = c( "no", "one", "all"),
            javascript = "",
            save_answer = TRUE,
            hide_response_ui = FALSE,
@@ -1074,10 +1074,14 @@ checkbox_page <-
       is.scalar.character(label),
       is.character(choices) && length(choices) > 0L,
       is.scalar.character(trigger_button_text),
-      is.scalar.character(failed_validation_message),
-      is.scalar.logical(force_answer),
+      is.character(failed_validation_message),
+      is.character(force_answer) || is.scalar.logical(force_answer),
       is.scalar.character(javascript)
     )
+    if(is.logical(force_answer)){
+      force_answer <- ifelse(force_answer, "one", "no")
+    }
+    force_answer <- match.arg(force_answer)[1]
     ui <- shiny::div(
       tagify(prompt),
       make_ui_checkbox(
@@ -1097,12 +1101,30 @@ checkbox_page <-
       } else {
         input[[label]]
       }
-    validate <- function(answer, ...)
-      if (!any(nzchar(answer)) && force_answer) {
-        failed_validation_message
-      } else {
-        TRUE
-      }
+    validate <- function(answer, ...){
+      ret <- TRUE
+      if(force_answer == "one"){
+        if (!any(nzchar(answer))){
+          if("one" %in% names(failed_validation_message)){
+            ret <- failed_validation_message[["one"]]
+          }
+          else{
+            ret <- failed_validation_message[[1]]
+          }
+          }
+        }
+        if (force_answer == "all"){
+          if (sum(nzchar(answer)) != length(choices)) {
+            if("all" %in% names(failed_validation_message)){
+              ret <- failed_validation_message[["all"]]
+            }
+            else{
+              ret <- failed_validation_message[1]
+            }
+          }
+        }
+      ret
+    }
     page(
       ui = ui,
       label = label,
