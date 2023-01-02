@@ -29,7 +29,7 @@ save_time_started <- code_block(function(state, ...) { # Speichern der Startzeit
   set_global(                                          # global für diesen Teilnehmer
     key = "time_started",
     value = Sys.time(),
-    state = state # interne Statusvariable von psychTestR
+    state = state                                      # interne Statusvariable von psychTestR
   )
 })
 
