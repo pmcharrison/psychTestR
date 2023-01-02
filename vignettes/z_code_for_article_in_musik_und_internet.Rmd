@@ -102,16 +102,14 @@ questionnaire <- make_test(
 shiny::runApp(questionnaire)
 
 # Zugang zu den Ergebnissen
-data <- lapply(
+data <- purrr::map_dfr(
   list.files(
     "output/results",
     pattern = "*.rds",
     full.names = TRUE
   ),
-  function(x) as.data.frame(readRDS(x))
+  ~ as.data.frame(readRDS(.))
 )
-
-data <- do.call("rbind", data)
 ```
 
 Of course, real psychTestR experiments tend to be much more complex!
