@@ -2,51 +2,55 @@
 title: "Code for Article 'psychTestR - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare'"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Code_for_article_in_musik_und_internet}
+  %\VignetteIndexEntry{Code for Article 'psychTestR - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare'}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-The following code is taken from the article "*psychTestR* - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare" in "Musik und Internet. Musikalische Phänomene populärer Kulturen" (2022) by Nicolas Ruth & Peter Moormann (see [article](https://.html)). Feel free to copy and modify it according to your needs. <!-- This link needs to be specified. Viola informs Peter as soon as she knows the link. -->
+The following code is taken from the article "*psychTestR* - Ein R-Paket für (musik-) psychologische Tests und Fragebogeninventare" in "Musik und Internet. Musikalische Phänomene populärer Kulturen" (2022) by Nicolas Ruth & Peter Moormann. Feel free to copy and modify it according to your needs. <!-- This link needs to be specified. Viola informs Peter as soon as she knows the link. -->
 
+
+## Installation
 ```r
-# Beispielcode  ------------------------------------------------------
- 
 install.packages("devtools")
 devtools::install_github("pmcharrison/psychTestR")
-library(psychTestR)
-
 devtools::install_github('fmhoeger/psyquest')
-library(psyquest)
+```
 
+## Code example 
+```r
+# Laden der benötigten Pakete
+library(psychTestR)
+library(psyquest)
 library(shiny)
- 
+
 # Codeblöcke
-save_time_started <- code_block(function(state, ...) { # Speichern der Startzeit 
-  set_local(                                           # lokal für diesen Teilnehmer
+save_time_started <- code_block(function(state, ...) { # Speichern der Startzeit
+  set_global(                                          # global für diesen Teilnehmer
     key = "time_started",
     value = Sys.time(),
-    state = state  # interne Statusvariable von psychTestR
+    state = state # interne Statusvariable von psychTestR
   )
 })
- 
-compute_time_taken <- code_block(function(state, ...) {        # Berechnung und Ausgabe          
+
+compute_time_taken <- code_block(function(state, ...) {        # Berechnung und Ausgabe
   time_taken <- Sys.time() - get_global("time_started", state) # der Bearbeitungsdauer
   msg <- paste0(
     "So lange hast du den Fragebogen bearbeitet: ",
     format(time_taken, digits = 3)
   )
-  shiny::showNotification(msg)  
+  shiny::showNotification(msg)
 })
- 
-timeline_abb_1 <- join( # Timeline aus Abbildung 1
+
+# Timeline aus Abbildung 1
+timeline_abb_1 <- join(
   one_button_page( # Willkommensseite
     button_text = "Weiter",
-      shiny::div(
-        p("Willkommen zum", tags$strong("Musikfragebogen!")),
-        p(tags$em("Wir wollen heute mehr über Musik in deinem Leben erfahren."))
-      )
-  ),
+    div(
+      p("Willkommen zum", tags$strong("Musikfragebogen!")),
+      p(tags$em("Wir wollen heute mehr über Musik in deinem Leben erfahren."))
+    )
+   ),
   text_input_page( # erste Frage (Instrument)
     label = "Instrument",
     prompt = "Welches Instrument spielst du?",
@@ -54,41 +58,42 @@ timeline_abb_1 <- join( # Timeline aus Abbildung 1
     on_complete = function(answer, state, ...) {
       set_global(
         key = "instrument",
-        value = answer,# answer enthält immer die letzte Antwort
-        state = state  # interne Statusvariable von psychTestR 
+        value = answer, # answer enthält immer die letzte Antwort
+        state = state   # interne Statusvariable von psychTestR
       )
-  }),
+    }
+  ),
   reactive_page(function(state, answer, ...) { # zweite Frage (Dauer)
     msg <- sprintf(
-        "Wie lange spielst du schon %s?",
-        get_local("instrument", state) # holt den aktuellen Wert aus state
+      "Wie lange spielst du schon %s?",
+      get_global("instrument", state) # holt den aktuellen Wert aus state
     )
     NAFC_page(
-        label = "time_instrument",
-        msg,
-        c(
-          "Ich habe erst angefangen.",
-          "ein Monat bis ein halbes Jahr",
-          "0,5 bis 1 Jahr"
-        )
+      label = "time_instrument",
+      msg,
+      c(
+        "Ich habe erst angefangen.",
+        "ein Monat bis ein halbes Jahr",
+        "0,5 bis 1 Jahr"
+      )
     )
   })
 )
- 
+
 # verschiedene Pages zu einer Timeline durch join() bündeln
 timeline <- join(
-  new_timeline(                                  # Timeline für die Startzeit
-    save_time_started,                           # Timelines brauchen ein Dictionary, das die
-    dict = psyquest::psyquest_dict               # internationalisierten Sprachbausteine 
-                                                 # enthält, hier nur ein Dummy.
+  new_timeline(                              # Timeline für die Startzeit
+    save_time_started,                       # Timelines brauchen ein Dictionary, das
+    dict = psyquest::psyquest_dict           # die internationalisierten Sprach-
+                                             # bausteine enthält, hier nur ein Dummy.
   ),
-  timeline_abb_1,                                # Timeline aus Abbildung 1
-  GMS(language = "de"),                          # Goldsmiths Musical Sophistication Index
-  compute_time_taken,                            # Berechnung und Ausgabe Bearbeitungsdauer
-  elt_save_results_to_disk(complete = TRUE),     # Speicherung der Ergebnisse
-  final_page("Vielen Dank!")                     # Abschlussseite
+  timeline_abb_1,                            # Timeline aus Abbildung 1
+  GMS(language = "de"),                      # Goldsmiths Musical Sophistication Index
+  compute_time_taken,                        # Berechnung und Ausgabe Bearbeitungsdauer
+  elt_save_results_to_disk(complete = TRUE), # Speicherung der Ergebnisse
+  final_page("Vielen Dank!")                 # Abschlussseite
 )
- 
+
 # fertigen Fragebogen öffnen
 questionnaire <- make_test(
   timeline,
@@ -98,10 +103,12 @@ questionnaire <- make_test(
     languages = "de"
   )
 )
- 
-shiny::runApp(questionnaire)
 
-# Zugang zu den Ergebnissen
+shiny::runApp(questionnaire)
+```
+
+## Access to the results
+```r
 data <- purrr::map_dfr(
   list.files(
     "output/results",
