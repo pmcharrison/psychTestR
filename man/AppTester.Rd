@@ -65,6 +65,7 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 \itemize{
 \item \href{#method-get_ui}{\code{AppTester$get_ui()}}
 \item \href{#method-get_ui_text}{\code{AppTester$get_ui_text()}}
+\item \href{#method-str_squish}{\code{AppTester$str_squish()}}
 \item \href{#method-expect_ui_text}{\code{AppTester$expect_ui_text()}}
 \item \href{#method-get_locals}{\code{AppTester$get_locals()}}
 \item \href{#method-get_globals}{\code{AppTester$get_globals()}}
@@ -144,6 +145,15 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 \subsection{Method \code{get_ui_text()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$get_ui_text(squish = TRUE)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-str_squish"></a>}}
+\if{latex}{\out{\hypertarget{method-str_squish}{}}}
+\subsection{Method \code{str_squish()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{AppTester$str_squish(x)}\if{html}{\out{</div>}}
 }
 
 }
