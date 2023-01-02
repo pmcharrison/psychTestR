@@ -14,7 +14,7 @@ The following code is taken from the article "*psychTestR* - Ein R-Paket für (m
 ```r
 install.packages("devtools")
 devtools::install_github("pmcharrison/psychTestR")
-devtools::install_github('fmhoeger/psyquest')
+devtools::install_github("fmhoeger/psyquest")
 ```
 
 ## Code example 
