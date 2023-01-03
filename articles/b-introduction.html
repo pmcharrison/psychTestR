@@ -314,8 +314,8 @@ a psychTestR page, but instead resolves to a so-called code block:</p>
 <span><span class="co">## {</span></span>
 <span><span class="co">##     save_results_to_disk(complete, state, opt)</span></span>
 <span><span class="co">## }</span></span>
-<span><span class="co">## &lt;bytecode: 0x5590357509b0&gt;</span></span>
-<span><span class="co">## &lt;environment: 0x55903574d088&gt;</span></span></code></pre>
+<span><span class="co">## &lt;bytecode: 0x563b073a2328&gt;</span></span>
+<span><span class="co">## &lt;environment: 0x563b073a27f8&gt;</span></span></code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct
 the server to run a specified function. This function can take several
 inputs, but most important is the <code>state</code> object, which
@@ -434,8 +434,8 @@ test element looks like this under the hood:</p>
 <span><span class="co">## $get_answer</span></span>
 <span><span class="co">## function (input, ...) </span></span>
 <span><span class="co">## input$last_btn_pressed</span></span>
-<span><span class="co">## &lt;bytecode: 0x5590377e55d8&gt;</span></span>
-<span><span class="co">## &lt;environment: 0x5590377e6020&gt;</span></span>
+<span><span class="co">## &lt;bytecode: 0x563b0946cc70&gt;</span></span>
+<span><span class="co">## &lt;environment: 0x563b0946d6f0&gt;</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $save_answer</span></span>
 <span><span class="co">## [1] TRUE</span></span>
@@ -443,8 +443,8 @@ test element looks like this under the hood:</p>
 <span><span class="co">## $validate</span></span>
 <span><span class="co">## function (answer, ...) </span></span>
 <span><span class="co">## !is.null(answer)</span></span>
-<span><span class="co">## &lt;bytecode: 0x5590377e5760&gt;</span></span>
-<span><span class="co">## &lt;environment: 0x5590377e6020&gt;</span></span>
+<span><span class="co">## &lt;bytecode: 0x563b0946cdf8&gt;</span></span>
+<span><span class="co">## &lt;environment: 0x563b0946d6f0&gt;</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $on_complete</span></span>
 <span><span class="co">## NULL</span></span>
@@ -828,7 +828,7 @@ individual cheeses. We could construct the following test:</p>
 <li>We created a list of items using the <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map</a></code>
 function. This is a nice way of creating a collection of test elements
 that only vary along one particular parameter. See
-<code><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">purrr::pmap</a></code> for a more powerful alternative.</li>
+<code><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">purrr::pmap</a></code> for a more powerful alternative.</li>
 <li>The <code>save_res</code> code block refers to an external variable,
 <code>cheeses</code>. This is called a “closure”: the function “closes
 over” the external variable, and carries a permanent reference to it.
@@ -1090,7 +1090,7 @@ change with future versions of psychTestR.<a href="#fnref1" class="footnote-back
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

@@ -228,7 +228,7 @@ installed the <code>tidyverse</code>, you can install it with
 <span>    <span class="va">definition</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>      <span class="fu">select</span><span class="op">(</span><span class="va">item_number</span>, <span class="va">key_type</span>, <span class="va">key</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
 <span>      <span class="fu">spread</span><span class="op">(</span><span class="va">key_type</span>, <span class="va">key</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
-<span>      <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">pmap</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">item_number</span>, <span class="va">answer_1</span>, <span class="va">answer_2</span>, <span class="va">question</span><span class="op">)</span> <span class="op">{</span></span>
+<span>      <span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">item_number</span>, <span class="va">answer_1</span>, <span class="va">answer_2</span>, <span class="va">question</span><span class="op">)</span> <span class="op">{</span></span>
 <span>        <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span>label <span class="op">=</span> <span class="va">question</span>, </span>
 <span>                  prompt <span class="op">=</span> <span class="fu"><a href="../reference/i18n.html">i18n</a></span><span class="op">(</span><span class="va">question</span><span class="op">)</span>,</span>
 <span>                  choices <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">answer_1</span>, </span>
@@ -350,7 +350,7 @@ tracker</a>.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>

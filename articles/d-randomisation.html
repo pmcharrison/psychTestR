@@ -187,7 +187,7 @@ psychTestR function <code>randomise_at_run_time</code>.</p>
 <p>First, we construct a list of test elements corresponding to our
 three questions:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">item_pages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map2.html" class="external-link">pmap</a></span><span class="op">(</span><span class="va">items</span>, <span class="kw">function</span><span class="op">(</span><span class="va">id</span>, <span class="va">prompt</span><span class="op">)</span> <span class="op">{</span></span>
+<code class="sourceCode R"><span><span class="va">item_pages</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/pmap.html" class="external-link">pmap</a></span><span class="op">(</span><span class="va">items</span>, <span class="kw">function</span><span class="op">(</span><span class="va">id</span>, <span class="va">prompt</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="fu"><a href="../reference/NAFC_page.html">NAFC_page</a></span><span class="op">(</span></span>
 <span>    label <span class="op">=</span> <span class="va">id</span>,</span>
 <span>    prompt <span class="op">=</span> <span class="va">prompt</span>, </span>
@@ -266,7 +266,7 @@ to wrap the code in <code><a href="https://shiny.rstudio.com/reference/shiny/lat
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
