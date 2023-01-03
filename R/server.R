@@ -38,7 +38,7 @@ render_title <- function(opt, state) {
     title <- i18n_title(opt, state)
     shiny::tagList(
       shiny::tags$head(shiny::tags$title(title)),
-      shiny::h4(title)
+      shiny::h4(title, style = "text-align: left; float: left; display: inline; padding: 0 0 0 20px;")
     )
   })
 }

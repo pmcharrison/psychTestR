@@ -89,6 +89,7 @@ pt_options <- function(...) {
 #' upon button press.
 #' @param additional_scripts
 #' A character vector containing file paths to any additional scripts which should be included. These will be sourced with includeScript.
+#' @param logo_right Should the logo be on the right?
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -119,7 +120,8 @@ test_options <- function(title, admin_password,
                          display = display_options(),
                          allow_url_rewrite = TRUE,
                          advance_delay = 0,
-                         additional_scripts = character()) {
+                         additional_scripts = character(),
+                         logo_right = TRUE) {
 
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
@@ -151,7 +153,8 @@ test_options <- function(title, admin_password,
             is.list(display),
             is.scalar.logical(allow_url_rewrite),
             is.scalar.numeric(advance_delay),
-            is.character(additional_scripts))
+            is.character(additional_scripts),
+            is.logical(logo_right))
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   if (!allow_url_rewrite && enable_resume_session) {
@@ -249,7 +252,8 @@ test_options <- function(title, admin_password,
        display = display,
        allow_url_rewrite = allow_url_rewrite,
        js_opt = list(advance_delay = advance_delay),
-       additional_scripts = additional_scripts)
+       additional_scripts = additional_scripts,
+       logo_right = logo_right)
 }
 
 #' Display options
