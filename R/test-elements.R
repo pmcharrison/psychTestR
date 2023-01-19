@@ -1069,7 +1069,7 @@ checkbox_page <-
            labels = NULL,
            trigger_button_text = "Continue",
            failed_validation_message = c(one = "Choose at least one answer!", all = "Please check all boxes."),
-           force_answer = c( "no", "one", "all"),
+           force_answer = c( "no", "one", "all", "first"),
            javascript = "",
            save_answer = TRUE,
            hide_response_ui = FALSE,
@@ -1119,7 +1119,17 @@ checkbox_page <-
           }
           }
         }
-        if (force_answer == "all"){
+      if(force_answer == "first"){
+        if (answer[1] != choices[1]){
+          if("first" %in% names(failed_validation_message)){
+            ret <- failed_validation_message[["first"]]
+          }
+          else{
+            ret <- failed_validation_message[[1]]
+          }
+        }
+      }
+      if (force_answer == "all"){
           if (sum(nzchar(answer)) != length(choices)) {
             if("all" %in% names(failed_validation_message)){
               ret <- failed_validation_message[["all"]]
