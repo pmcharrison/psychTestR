@@ -1,3 +1,5 @@
+# psychTestR 2.23.4
+
 - Disabled `clean_session_dir` as an attempt to avoid sporadic errors of the 
   form "Error in gzfile: all connections are in use" on long-running servers.
 
