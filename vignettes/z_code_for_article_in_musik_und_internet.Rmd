@@ -14,7 +14,7 @@ The following code is taken from the article "*psychTestR* - Ein R-Paket für (m
 ```r
 install.packages("devtools")
 devtools::install_github("pmcharrison/psychTestR")
-devtools::install_github('fmhoeger/psyquest')
+devtools::install_github("fmhoeger/psyquest")
 ```
 
 ## Code example 
@@ -29,7 +29,7 @@ save_time_started <- code_block(function(state, ...) { # Speichern der Startzeit
   set_global(                                          # global für diesen Teilnehmer
     key = "time_started",
     value = Sys.time(),
-    state = state # interne Statusvariable von psychTestR
+    state = state                                      # interne Statusvariable von psychTestR
   )
 })
 
@@ -109,16 +109,14 @@ shiny::runApp(questionnaire)
 
 ## Access to the results
 ```r
-data <- lapply(
+data <- purrr::map_dfr(
   list.files(
     "output/results",
     pattern = "*.rds",
     full.names = TRUE
   ),
-  function(x) as.data.frame(readRDS(x))
+  ~ as.data.frame(readRDS(.))
 )
-
-data <- do.call("rbind", data)
 ```
 
 Of course, real psychTestR experiments tend to be much more complex!
