@@ -25,7 +25,7 @@ parse_markdown <- function(x) {
   #message("markdownToHTML version")
   #res <- enc2utf8(markdown::markdownToHTML(text = x, fragment.only = T, encoding = "UTF_8"))
   #message("renderMarkdown version")
-  res <- markdown::renderMarkdown(file, output = NULL,
+  res <- markdown::renderMarkdown(output = NULL,
                                   text = x, renderer = "HTML",
                                   renderer.options = c(getOption("markdown.HTML.options"), "fragment_only"),
                                   extensions = getOption("markdown.extensions"),
