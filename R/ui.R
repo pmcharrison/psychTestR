@@ -59,7 +59,7 @@ ui <- function(opt) {
     content,
     footer,
     include_scripts(opt),
-    include_js_opt(opt),
+    include_js_opt(opt)
   )
 }
 
@@ -116,9 +116,9 @@ insert_logo <- function(opt, side) {
     logo <- " "
   }
 
-  if(opt$logo_right & side == "right") {
+  if(opt$logo_position == "right" & side == "right") {
     logo
-  } else if(opt$logo_right == FALSE & side == "left") {
+  } else if(opt$logo_position == "left" & side == "left") {
     logo
   } else {
     " "

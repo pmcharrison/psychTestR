@@ -36,7 +36,7 @@ test_options(
   allow_url_rewrite = TRUE,
   advance_delay = 0,
   additional_scripts = character(),
-  logo_right = TRUE
+  logo_position = "right"
 )
 }
 \arguments{
@@ -144,7 +144,7 @@ upon button press.}
 
 \item{additional_scripts}{A character vector containing file paths to any additional scripts which should be included. These will be sourced with includeScript.}
 
-\item{logo_right}{Should the logo be on the right?}
+\item{logo_position}{Which side should the logo be on? Can be "left" or "right".}
 }
 \description{
 Defines the options for running a given test.

@@ -227,10 +227,10 @@ validate_elt <- function(elt, state, input, session, opt) {
   res <- if (is.null(f)) TRUE else f(
     answer = answer(state), state = state, input = input, session = session,
     opt = opt)
-  if (res == TRUE) {
+  if (res) {
     TRUE
   } else {
-    msg <- if (res == FALSE) {
+    msg <- if (!res) {
       "Invalid result."
     } else if (is.scalar.character(res)) {
       res
