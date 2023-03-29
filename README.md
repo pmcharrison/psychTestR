@@ -7,18 +7,14 @@
 
 [psychTestR](https://pmcharrison.github.io/psychTestR) 
 is an R package for creating behavioural experiment interfaces.
-For an overview of psychTestR's features, 
-see its [overview paper](https://doi.org/10.21105/joss.02088)
-in the Journal of Open Source Software.
-For a more detailed introduction, see the
-[introductory article](https://pmcharrison.github.io/psychTestR/articles/b-introduction)
-on the psychTestR website.
-For more documentation on designing and deploying psychTestR tests,
-see the other vignettes and the
-[function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html).
-For documentation on setting up a self-hosted psychTestR server, see 
-[Guide to creating a server for online *R* experiments using *psychTestR*](https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf)
-by [Anthony Chmiel](https://www.westernsydney.edu.au/marcs/our_team/researchers/dr_anthony_chmiel).
+To learn more about psychTestR, visit the following resources:
+
+- [Overview paper in the Journal of Open Source Software](https://doi.org/10.21105/joss.02088)
+- [Introductory tutorial](https://pmcharrison.github.io/psychTestR/articles/b-introduction)
+- Other vignettes under the 'Articles' tab
+- [Function-level documentation](https://pmcharrison.github.io/psychTestR/reference/index.html)
+- [Guide to creating a server for online *R* experiments using *psychTestR* (Anthony Chmiel)](https://s3-eu-west-1.amazonaws.com/research.pmcharrison.com/psychTestR/psychTestR-server-docs-latest.pdf)
+- [Video tutorial (2 hours, for beginners, by Anthony Chmiel)](https://pmcharrison.github.io/psychTestR/articles/z_Anthony_Chmiel_video_tutorials.html)
 
 ## Installation
 

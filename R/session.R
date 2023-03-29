@@ -4,8 +4,24 @@ manage_sessions <- function(state,
   manage_url_params(state, session, opt)
   if (opt$enable_resume_session) {
     manage_p_id(state, session, opt)
-    list(shiny::observe(save_session(state, opt = opt)),
-         clean_session_dir(session = session, opt = opt))
+    # list(shiny::observe(save_session(state, opt = opt)),
+    #      clean_session_dir(session = session, opt = opt))
+    #
+    # clean_session_dir was originally used to iterate over all the files in
+    # the session directory and delete old ones. However it seemed to
+    # produce rare errors with the following traceback:
+    #
+    # Warning: Error in gzfile: all connections are in use
+    # 48: gzfile
+    # 47: readRDS
+    # 46: read_timestamp
+    # 45: ::
+    #
+    # This may be due to the fact that the process ends up iterating
+    # over very many files at the same time.
+    # On reflection, this process seems unnecessary, we don't need to
+    # delete this old data, so this functionality has now been disabled.
+    shiny::observe(save_session(state, opt = opt))
   }
 }
 

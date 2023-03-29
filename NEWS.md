@@ -1,3 +1,13 @@
+# psychTestR 2.23.4
+
+- Disabled `clean_session_dir` as an attempt to avoid sporadic errors of the 
+  form "Error in gzfile: all connections are in use" on long-running servers.
+
+# psychTestR 2.23.3
+
+- Bugfix for latest version of markdown package (thanks Klaus Frieler!)
+- Added video tutorial (thanks Anthony Chmiel!).
+
 # psychTestR 2.23.2
 
 - Fixed checkbox validation.
