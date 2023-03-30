@@ -34,7 +34,9 @@ test_options(
   logo_height = NULL,
   display = display_options(),
   allow_url_rewrite = TRUE,
-  advance_delay = 0
+  advance_delay = 0,
+  additional_scripts = character(),
+  logo_position = "right"
 )
 }
 \arguments{
@@ -139,6 +141,10 @@ can be disabled as long as \code{enable_resume_session} is also set to \code{FAL
 
 \item{advance_delay}{Number of seconds to wait before advancing to the next page
 upon button press.}
+
+\item{additional_scripts}{A character vector containing file paths to any additional scripts which should be included. These will be sourced with includeScript.}
+
+\item{logo_position}{Which side should the logo be on? Can be "left" or "right".}
 }
 \description{
 Defines the options for running a given test.

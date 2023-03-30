@@ -38,7 +38,7 @@ render_title <- function(opt, state) {
     title <- i18n_title(opt, state)
     shiny::tagList(
       shiny::tags$head(shiny::tags$title(title)),
-      shiny::h4(title)
+      shiny::h4(title, style = "text-align: left; float: left; display: inline; padding: 0 0 0 20px;")
     )
   })
 }
@@ -227,10 +227,10 @@ validate_elt <- function(elt, state, input, session, opt) {
   res <- if (is.null(f)) TRUE else f(
     answer = answer(state), state = state, input = input, session = session,
     opt = opt)
-  if (res == TRUE) {
+  if (res) {
     TRUE
   } else {
-    msg <- if (res == FALSE) {
+    msg <- if (!res) {
       "Invalid result."
     } else if (is.scalar.character(res)) {
       res

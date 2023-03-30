@@ -31,6 +31,9 @@ Imports:
     tibble,
     jsonlite,
     htm2txt,
+    shinytest,
+    testthat (>= 2.0.0),
+    stringr (>= 1.4.0)
 Depends: R (>= 3.5.0)
 RoxygenNote: 7.1.1
 Suggests: 

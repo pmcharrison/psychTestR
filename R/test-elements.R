@@ -1,14 +1,12 @@
 setOldClass("shiny.tag")
 setOldClass("shiny.tag.list")
-setOldClass("i18n_dict")
 
 setClassUnion("function_or_null", members = c("function", "NULL"))
 setClassUnion("character_or_null", members = c("character", "NULL"))
 setClassUnion("shiny_tag_or_null", members = c("shiny.tag", "NULL"))
-setClassUnion("i18n_dict_or_null", members = c("i18n_dict", "NULL"))
 
-setClass("test_element", slots = list(i18n_dict = "i18n_dict_or_null",
-                                      next_elt = "logical"))
+setClass("test_element", slots = c("i18n_dict", "next_elt"))
+
 setMethod("initialize", "test_element", function(.Object, ...) {
   .Object@i18n_dict <- I18N_STATE$dict
   callNextMethod()
@@ -932,7 +930,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     shiny::tags$source(src = url, type = paste0("audio/", type)),
     id = "media",
     preload = "auto",
-    autoplay = if(nchar(autoplay) > 0) "autoplay",
+    if(nchar(autoplay) > 0) autoplay = autoplay,
     loop = if (loop) "loop",
     oncanplaythrough = media.js$show_media_btn,
     onplay = paste0(media.js$media_played, media.js$hide_media_btn),
@@ -995,6 +993,14 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
     ),
     shiny::p("")
   )
+  audio_NAFC_page(label = "volume_calibration",
+                  prompt = prompt, choices = button_text,
+                  save_answer = FALSE,
+                  on_complete = on_complete,
+                  url = url, type = type,
+                  wait = FALSE, loop = TRUE,
+                  admin_ui = admin_ui,
+                  btn_play_prompt = btn_play_prompt)
   audio_NAFC_page(label = "volume_calibration",
                   prompt = prompt, choices = button_text,
                   save_answer = FALSE,
