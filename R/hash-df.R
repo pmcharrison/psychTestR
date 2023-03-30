@@ -25,11 +25,14 @@ parse_markdown <- function(x) {
   #message("markdownToHTML version")
   #res <- enc2utf8(markdown::markdownToHTML(text = x, fragment.only = T, encoding = "UTF_8"))
   #message("renderMarkdown version")
-  res <- markdown::renderMarkdown(output = NULL,
-                                  text = x, renderer = "HTML",
-                                  renderer.options = c(getOption("markdown.HTML.options"), "fragment_only"),
-                                  extensions = getOption("markdown.extensions"),
-                                  encoding = "UTF_8")
+
+  res <- markdown::mark(
+    file = NULL,
+    output = NULL,
+    text = x,
+    format = "html"
+  )
+  
   if (!has_paragraphs)
     res <- gsub("(<p>)|(</p>)|(\\n)", "", res)
   res
