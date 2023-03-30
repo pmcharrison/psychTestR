@@ -13,7 +13,7 @@ checkbox_page(
   trigger_button_text = "Continue",
   failed_validation_message = c(one = "Choose at least one answer!", all =
     "Please check all boxes."),
-  force_answer = c("no", "one", "all"),
+  force_answer = c("no", "one", "all", "first"),
   javascript = "",
   save_answer = TRUE,
   hide_response_ui = FALSE,

@@ -63,72 +63,76 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-get_ui}{\code{AppTester$get_ui()}}
-\item \href{#method-get_ui_text}{\code{AppTester$get_ui_text()}}
-\item \href{#method-str_squish}{\code{AppTester$str_squish()}}
-\item \href{#method-expect_ui_text}{\code{AppTester$expect_ui_text()}}
-\item \href{#method-get_locals}{\code{AppTester$get_locals()}}
-\item \href{#method-get_globals}{\code{AppTester$get_globals()}}
-\item \href{#method-get_title}{\code{AppTester$get_title()}}
-\item \href{#method-expect_title}{\code{AppTester$expect_title()}}
-\item \href{#method-get_problems_info}{\code{AppTester$get_problems_info()}}
-\item \href{#method-expect_problems_info}{\code{AppTester$expect_problems_info()}}
-\item \href{#method-get_results}{\code{AppTester$get_results()}}
-\item \href{#method-expect_results}{\code{AppTester$expect_results()}}
-\item \href{#method-stop}{\code{AppTester$stop()}}
-\item \href{#method-clean_output}{\code{AppTester$clean_output()}}
-\item \href{#method-set_inputs}{\code{AppTester$set_inputs()}}
-\item \href{#method-click}{\code{AppTester$click()}}
-\item \href{#method-click_next}{\code{AppTester$click_next()}}
-\item \href{#method-clone}{\code{AppTester$clone()}}
+\item \href{#method-AppTester-get_ui}{\code{AppTester$get_ui()}}
+\item \href{#method-AppTester-get_ui_text}{\code{AppTester$get_ui_text()}}
+\item \href{#method-AppTester-str_squish}{\code{AppTester$str_squish()}}
+\item \href{#method-AppTester-expect_ui_text}{\code{AppTester$expect_ui_text()}}
+\item \href{#method-AppTester-get_locals}{\code{AppTester$get_locals()}}
+\item \href{#method-AppTester-get_globals}{\code{AppTester$get_globals()}}
+\item \href{#method-AppTester-get_title}{\code{AppTester$get_title()}}
+\item \href{#method-AppTester-expect_title}{\code{AppTester$expect_title()}}
+\item \href{#method-AppTester-get_problems_info}{\code{AppTester$get_problems_info()}}
+\item \href{#method-AppTester-expect_problems_info}{\code{AppTester$expect_problems_info()}}
+\item \href{#method-AppTester-get_results}{\code{AppTester$get_results()}}
+\item \href{#method-AppTester-expect_results}{\code{AppTester$expect_results()}}
+\item \href{#method-AppTester-stop}{\code{AppTester$stop()}}
+\item \href{#method-AppTester-clean_output}{\code{AppTester$clean_output()}}
+\item \href{#method-AppTester-set_inputs}{\code{AppTester$set_inputs()}}
+\item \href{#method-AppTester-click}{\code{AppTester$click()}}
+\item \href{#method-AppTester-click_next}{\code{AppTester$click_next()}}
+\item \href{#method-AppTester-clone}{\code{AppTester$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="checkUniqueWidgetNames">}\href{../../shinytest/html/ShinyDriver.html#method-checkUniqueWidgetNames}{\code{shinytest::ShinyDriver$checkUniqueWidgetNames()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="enableDebugLogMessages">}\href{../../shinytest/html/ShinyDriver.html#method-enableDebugLogMessages}{\code{shinytest::ShinyDriver$enableDebugLogMessages()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="executeScript">}\href{../../shinytest/html/ShinyDriver.html#method-executeScript}{\code{shinytest::ShinyDriver$executeScript()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="executeScriptAsync">}\href{../../shinytest/html/ShinyDriver.html#method-executeScriptAsync}{\code{shinytest::ShinyDriver$executeScriptAsync()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="expectUpdate">}\href{../../shinytest/html/ShinyDriver.html#method-expectUpdate}{\code{shinytest::ShinyDriver$expectUpdate()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="finalize">}\href{../../shinytest/html/ShinyDriver.html#method-finalize}{\code{shinytest::ShinyDriver$finalize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findElement">}\href{../../shinytest/html/ShinyDriver.html#method-findElement}{\code{shinytest::ShinyDriver$findElement()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findElements">}\href{../../shinytest/html/ShinyDriver.html#method-findElements}{\code{shinytest::ShinyDriver$findElements()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findWidget">}\href{../../shinytest/html/ShinyDriver.html#method-findWidget}{\code{shinytest::ShinyDriver$findWidget()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAllValues">}\href{../../shinytest/html/ShinyDriver.html#method-getAllValues}{\code{shinytest::ShinyDriver$getAllValues()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAppDir">}\href{../../shinytest/html/ShinyDriver.html#method-getAppDir}{\code{shinytest::ShinyDriver$getAppDir()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAppFilename">}\href{../../shinytest/html/ShinyDriver.html#method-getAppFilename}{\code{shinytest::ShinyDriver$getAppFilename()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getDebugLog">}\href{../../shinytest/html/ShinyDriver.html#method-getDebugLog}{\code{shinytest::ShinyDriver$getDebugLog()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getEventLog">}\href{../../shinytest/html/ShinyDriver.html#method-getEventLog}{\code{shinytest::ShinyDriver$getEventLog()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSnapshotDir">}\href{../../shinytest/html/ShinyDriver.html#method-getSnapshotDir}{\code{shinytest::ShinyDriver$getSnapshotDir()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSource">}\href{../../shinytest/html/ShinyDriver.html#method-getSource}{\code{shinytest::ShinyDriver$getSource()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getTitle">}\href{../../shinytest/html/ShinyDriver.html#method-getTitle}{\code{shinytest::ShinyDriver$getTitle()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getUrl">}\href{../../shinytest/html/ShinyDriver.html#method-getUrl}{\code{shinytest::ShinyDriver$getUrl()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getValue">}\href{../../shinytest/html/ShinyDriver.html#method-getValue}{\code{shinytest::ShinyDriver$getValue()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getWindowSize">}\href{../../shinytest/html/ShinyDriver.html#method-getWindowSize}{\code{shinytest::ShinyDriver$getWindowSize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="goBack">}\href{../../shinytest/html/ShinyDriver.html#method-goBack}{\code{shinytest::ShinyDriver$goBack()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="initialize">}\href{../../shinytest/html/ShinyDriver.html#method-initialize}{\code{shinytest::ShinyDriver$initialize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="isRmd">}\href{../../shinytest/html/ShinyDriver.html#method-isRmd}{\code{shinytest::ShinyDriver$isRmd()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="listWidgets">}\href{../../shinytest/html/ShinyDriver.html#method-listWidgets}{\code{shinytest::ShinyDriver$listWidgets()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="logEvent">}\href{../../shinytest/html/ShinyDriver.html#method-logEvent}{\code{shinytest::ShinyDriver$logEvent()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="refresh">}\href{../../shinytest/html/ShinyDriver.html#method-refresh}{\code{shinytest::ShinyDriver$refresh()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="sendKeys">}\href{../../shinytest/html/ShinyDriver.html#method-sendKeys}{\code{shinytest::ShinyDriver$sendKeys()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setInputs">}\href{../../shinytest/html/ShinyDriver.html#method-setInputs}{\code{shinytest::ShinyDriver$setInputs()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setValue">}\href{../../shinytest/html/ShinyDriver.html#method-setValue}{\code{shinytest::ShinyDriver$setValue()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setWindowSize">}\href{../../shinytest/html/ShinyDriver.html#method-setWindowSize}{\code{shinytest::ShinyDriver$setWindowSize()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshot">}\href{../../shinytest/html/ShinyDriver.html#method-snapshot}{\code{shinytest::ShinyDriver$snapshot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotCompare">}\href{../../shinytest/html/ShinyDriver.html#method-snapshotCompare}{\code{shinytest::ShinyDriver$snapshotCompare()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotDownload">}\href{../../shinytest/html/ShinyDriver.html#method-snapshotDownload}{\code{shinytest::ShinyDriver$snapshotDownload()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotInit">}\href{../../shinytest/html/ShinyDriver.html#method-snapshotInit}{\code{shinytest::ShinyDriver$snapshotInit()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="takeScreenshot">}\href{../../shinytest/html/ShinyDriver.html#method-takeScreenshot}{\code{shinytest::ShinyDriver$takeScreenshot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="uploadFile">}\href{../../shinytest/html/ShinyDriver.html#method-uploadFile}{\code{shinytest::ShinyDriver$uploadFile()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitFor">}\href{../../shinytest/html/ShinyDriver.html#method-waitFor}{\code{shinytest::ShinyDriver$waitFor()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="checkUniqueWidgetNames"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-checkUniqueWidgetNames'><code>shinytest::ShinyDriver$checkUniqueWidgetNames()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="enableDebugLogMessages"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-enableDebugLogMessages'><code>shinytest::ShinyDriver$enableDebugLogMessages()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="executeScript"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-executeScript'><code>shinytest::ShinyDriver$executeScript()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="executeScriptAsync"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-executeScriptAsync'><code>shinytest::ShinyDriver$executeScriptAsync()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="expectUpdate"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-expectUpdate'><code>shinytest::ShinyDriver$expectUpdate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="finalize"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-finalize'><code>shinytest::ShinyDriver$finalize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findElement"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-findElement'><code>shinytest::ShinyDriver$findElement()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findElements"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-findElements'><code>shinytest::ShinyDriver$findElements()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findWidget"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-findWidget'><code>shinytest::ShinyDriver$findWidget()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAllValues"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getAllValues'><code>shinytest::ShinyDriver$getAllValues()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAppDir"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getAppDir'><code>shinytest::ShinyDriver$getAppDir()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAppFilename"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getAppFilename'><code>shinytest::ShinyDriver$getAppFilename()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getDebugLog"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getDebugLog'><code>shinytest::ShinyDriver$getDebugLog()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getEventLog"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getEventLog'><code>shinytest::ShinyDriver$getEventLog()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getRelativePathToApp"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getRelativePathToApp'><code>shinytest::ShinyDriver$getRelativePathToApp()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSnapshotDir"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getSnapshotDir'><code>shinytest::ShinyDriver$getSnapshotDir()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSource"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getSource'><code>shinytest::ShinyDriver$getSource()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getTestsDir"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getTestsDir'><code>shinytest::ShinyDriver$getTestsDir()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getTitle"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getTitle'><code>shinytest::ShinyDriver$getTitle()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getUrl"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getUrl'><code>shinytest::ShinyDriver$getUrl()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getValue"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getValue'><code>shinytest::ShinyDriver$getValue()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getWindowSize"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-getWindowSize'><code>shinytest::ShinyDriver$getWindowSize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="goBack"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-goBack'><code>shinytest::ShinyDriver$goBack()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="initialize"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-initialize'><code>shinytest::ShinyDriver$initialize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="isRmd"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-isRmd'><code>shinytest::ShinyDriver$isRmd()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="listWidgets"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-listWidgets'><code>shinytest::ShinyDriver$listWidgets()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="logEvent"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-logEvent'><code>shinytest::ShinyDriver$logEvent()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="refresh"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-refresh'><code>shinytest::ShinyDriver$refresh()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="sendKeys"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-sendKeys'><code>shinytest::ShinyDriver$sendKeys()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setInputs"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-setInputs'><code>shinytest::ShinyDriver$setInputs()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setValue"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-setValue'><code>shinytest::ShinyDriver$setValue()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setWindowSize"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-setWindowSize'><code>shinytest::ShinyDriver$setWindowSize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshot"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-snapshot'><code>shinytest::ShinyDriver$snapshot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotCompare"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-snapshotCompare'><code>shinytest::ShinyDriver$snapshotCompare()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotDownload"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-snapshotDownload'><code>shinytest::ShinyDriver$snapshotDownload()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotInit"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-snapshotInit'><code>shinytest::ShinyDriver$snapshotInit()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="takeScreenshot"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-takeScreenshot'><code>shinytest::ShinyDriver$takeScreenshot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="uploadFile"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-uploadFile'><code>shinytest::ShinyDriver$uploadFile()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitFor"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-waitFor'><code>shinytest::ShinyDriver$waitFor()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForShiny"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-waitForShiny'><code>shinytest::ShinyDriver$waitForShiny()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForValue"><a href='../../shinytest/html/ShinyDriver.html#method-ShinyDriver-waitForValue'><code>shinytest::ShinyDriver$waitForValue()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_ui"></a>}}
-\if{latex}{\out{\hypertarget{method-get_ui}{}}}
+\if{html}{\out{<a id="method-AppTester-get_ui"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-get_ui}{}}}
 \subsection{Method \code{get_ui()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$get_ui()}\if{html}{\out{</div>}}
@@ -136,8 +140,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_ui_text"></a>}}
-\if{latex}{\out{\hypertarget{method-get_ui_text}{}}}
+\if{html}{\out{<a id="method-AppTester-get_ui_text"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-get_ui_text}{}}}
 \subsection{Method \code{get_ui_text()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$get_ui_text(squish = TRUE)}\if{html}{\out{</div>}}
@@ -145,8 +149,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-str_squish"></a>}}
-\if{latex}{\out{\hypertarget{method-str_squish}{}}}
+\if{html}{\out{<a id="method-AppTester-str_squish"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-str_squish}{}}}
 \subsection{Method \code{str_squish()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$str_squish(x)}\if{html}{\out{</div>}}
@@ -154,8 +158,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-expect_ui_text"></a>}}
-\if{latex}{\out{\hypertarget{method-expect_ui_text}{}}}
+\if{html}{\out{<a id="method-AppTester-expect_ui_text"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-expect_ui_text}{}}}
 \subsection{Method \code{expect_ui_text()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$expect_ui_text(text, squish = TRUE)}\if{html}{\out{</div>}}
@@ -163,8 +167,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_locals"></a>}}
-\if{latex}{\out{\hypertarget{method-get_locals}{}}}
+\if{html}{\out{<a id="method-AppTester-get_locals"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-get_locals}{}}}
 \subsection{Method \code{get_locals()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$get_locals()}\if{html}{\out{</div>}}
@@ -172,8 +176,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_globals"></a>}}
-\if{latex}{\out{\hypertarget{method-get_globals}{}}}
+\if{html}{\out{<a id="method-AppTester-get_globals"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-get_globals}{}}}
 \subsection{Method \code{get_globals()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$get_globals()}\if{html}{\out{</div>}}
@@ -181,8 +185,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_title"></a>}}
-\if{latex}{\out{\hypertarget{method-get_title}{}}}
+\if{html}{\out{<a id="method-AppTester-get_title"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-get_title}{}}}
 \subsection{Method \code{get_title()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$get_title()}\if{html}{\out{</div>}}
@@ -190,8 +194,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-expect_title"></a>}}
-\if{latex}{\out{\hypertarget{method-expect_title}{}}}
+\if{html}{\out{<a id="method-AppTester-expect_title"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-expect_title}{}}}
 \subsection{Method \code{expect_title()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$expect_title(text)}\if{html}{\out{</div>}}
@@ -199,8 +203,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_problems_info"></a>}}
-\if{latex}{\out{\hypertarget{method-get_problems_info}{}}}
+\if{html}{\out{<a id="method-AppTester-get_problems_info"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-get_problems_info}{}}}
 \subsection{Method \code{get_problems_info()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$get_problems_info()}\if{html}{\out{</div>}}
@@ -208,8 +212,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-expect_problems_info"></a>}}
-\if{latex}{\out{\hypertarget{method-expect_problems_info}{}}}
+\if{html}{\out{<a id="method-AppTester-expect_problems_info"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-expect_problems_info}{}}}
 \subsection{Method \code{expect_problems_info()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$expect_problems_info(text)}\if{html}{\out{</div>}}
@@ -217,8 +221,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_results"></a>}}
-\if{latex}{\out{\hypertarget{method-get_results}{}}}
+\if{html}{\out{<a id="method-AppTester-get_results"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-get_results}{}}}
 \subsection{Method \code{get_results()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$get_results()}\if{html}{\out{</div>}}
@@ -226,8 +230,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-expect_results"></a>}}
-\if{latex}{\out{\hypertarget{method-expect_results}{}}}
+\if{html}{\out{<a id="method-AppTester-expect_results"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-expect_results}{}}}
 \subsection{Method \code{expect_results()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$expect_results(val)}\if{html}{\out{</div>}}
@@ -235,8 +239,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-stop"></a>}}
-\if{latex}{\out{\hypertarget{method-stop}{}}}
+\if{html}{\out{<a id="method-AppTester-stop"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-stop}{}}}
 \subsection{Method \code{stop()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$stop(clean = TRUE)}\if{html}{\out{</div>}}
@@ -244,8 +248,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clean_output"></a>}}
-\if{latex}{\out{\hypertarget{method-clean_output}{}}}
+\if{html}{\out{<a id="method-AppTester-clean_output"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-clean_output}{}}}
 \subsection{Method \code{clean_output()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$clean_output()}\if{html}{\out{</div>}}
@@ -253,8 +257,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-set_inputs"></a>}}
-\if{latex}{\out{\hypertarget{method-set_inputs}{}}}
+\if{html}{\out{<a id="method-AppTester-set_inputs"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-set_inputs}{}}}
 \subsection{Method \code{set_inputs()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$set_inputs(...)}\if{html}{\out{</div>}}
@@ -262,8 +266,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-click"></a>}}
-\if{latex}{\out{\hypertarget{method-click}{}}}
+\if{html}{\out{<a id="method-AppTester-click"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-click}{}}}
 \subsection{Method \code{click()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$click(buttons)}\if{html}{\out{</div>}}
@@ -271,8 +275,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-click_next"></a>}}
-\if{latex}{\out{\hypertarget{method-click_next}{}}}
+\if{html}{\out{<a id="method-AppTester-click_next"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-click_next}{}}}
 \subsection{Method \code{click_next()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{AppTester$click_next()}\if{html}{\out{</div>}}
@@ -280,8 +284,8 @@ which you can install with \code{\link[shinytest]{installDependencies}}.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-AppTester-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-AppTester-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

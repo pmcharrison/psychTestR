@@ -32,10 +32,7 @@ slider_page(
 
 \item{prompt}{Prompt to display (character scalar or Shiny tag object).}
 
-\item{min}{The minimum and maximum values (inclusive) that can be
-selected.}
-
-\item{max}{The minimum and maximum values (inclusive) that can be
+\item{min, max}{The minimum and maximum values (inclusive) that can be
 selected.}
 
 \item{value}{The initial value of the slider, either a number, a date
@@ -75,7 +72,7 @@ according to some simple heuristics.}
 
 \item{animate}{\code{TRUE} to show simple animation controls with default
 settings; \code{FALSE} not to; or a custom settings list, such as those
-created using \code{\link[shiny:sliderInput]{animationOptions()}}.}
+created using \code{\link[shiny:animationOptions]{animationOptions()}}.}
 
 \item{width}{The width of the input, e.g. \code{'400px'}, or \code{'100\%'};
 see \code{\link[shiny:validateCssUnit]{validateCssUnit()}}.}

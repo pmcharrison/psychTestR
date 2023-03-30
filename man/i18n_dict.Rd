@@ -52,17 +52,17 @@ when no translation is found, otherwise an error is thrown.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{i18n_dict$new()}}
-\item \href{#method-as.data.frame}{\code{i18n_dict$as.data.frame()}}
-\item \href{#method-translate}{\code{i18n_dict$translate()}}
-\item \href{#method-edit}{\code{i18n_dict$edit()}}
-\item \href{#method-print}{\code{i18n_dict$print()}}
-\item \href{#method-clone}{\code{i18n_dict$clone()}}
+\item \href{#method-i18n_dict-new}{\code{i18n_dict$new()}}
+\item \href{#method-i18n_dict-as.data.frame}{\code{i18n_dict$as.data.frame()}}
+\item \href{#method-i18n_dict-translate}{\code{i18n_dict$translate()}}
+\item \href{#method-i18n_dict-edit}{\code{i18n_dict$edit()}}
+\item \href{#method-i18n_dict-print}{\code{i18n_dict$print()}}
+\item \href{#method-i18n_dict-clone}{\code{i18n_dict$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-i18n_dict-new"></a>}}
+\if{latex}{\out{\hypertarget{method-i18n_dict-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{i18n_dict$new(x, markdown = TRUE)}\if{html}{\out{</div>}}
@@ -70,8 +70,8 @@ when no translation is found, otherwise an error is thrown.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-as.data.frame"></a>}}
-\if{latex}{\out{\hypertarget{method-as.data.frame}{}}}
+\if{html}{\out{<a id="method-i18n_dict-as.data.frame"></a>}}
+\if{latex}{\out{\hypertarget{method-i18n_dict-as.data.frame}{}}}
 \subsection{Method \code{as.data.frame()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{i18n_dict$as.data.frame()}\if{html}{\out{</div>}}
@@ -79,8 +79,8 @@ when no translation is found, otherwise an error is thrown.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-translate"></a>}}
-\if{latex}{\out{\hypertarget{method-translate}{}}}
+\if{html}{\out{<a id="method-i18n_dict-translate"></a>}}
+\if{latex}{\out{\hypertarget{method-i18n_dict-translate}{}}}
 \subsection{Method \code{translate()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{i18n_dict$translate(key, language, allow_missing = FALSE)}\if{html}{\out{</div>}}
@@ -88,8 +88,8 @@ when no translation is found, otherwise an error is thrown.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-edit"></a>}}
-\if{latex}{\out{\hypertarget{method-edit}{}}}
+\if{html}{\out{<a id="method-i18n_dict-edit"></a>}}
+\if{latex}{\out{\hypertarget{method-i18n_dict-edit}{}}}
 \subsection{Method \code{edit()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{i18n_dict$edit(key, language, new)}\if{html}{\out{</div>}}
@@ -97,8 +97,8 @@ when no translation is found, otherwise an error is thrown.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-i18n_dict-print"></a>}}
+\if{latex}{\out{\hypertarget{method-i18n_dict-print}{}}}
 \subsection{Method \code{print()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{i18n_dict$print(...)}\if{html}{\out{</div>}}
@@ -106,8 +106,8 @@ when no translation is found, otherwise an error is thrown.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-i18n_dict-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-i18n_dict-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
