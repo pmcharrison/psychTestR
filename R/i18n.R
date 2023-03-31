@@ -234,11 +234,9 @@ i18n_check <- function(x) {
   if (length(x$sub) > 0 && is.null(names(x$sub)))
     stop("argument <sub> for function i18n_check() was missing names, ",
          "instead got ", utils::capture.output(print(x$sub)))
-  if (!is.scalar.character(x$x)){
+  if (!is.scalar.character(x$x))
     stop("argument <x> for function i18_check() must be a character scalar, ",
          "instead got ", utils::capture.output(print(x$x)))
-
-  }
   if (!is.scalar.logical(x$html))
     stop("argument <html> for function i18_check() must be a logical scalar, ",
          "instead got ", utils::capture.output(print(x$html)))

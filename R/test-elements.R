@@ -1119,7 +1119,7 @@ checkbox_page <-
           }
           }
         }
-      if(force_answer == "first"){
+      else if(force_answer == "first"){
         if (answer[1] != choices[1]){
           if("first" %in% names(failed_validation_message)){
             ret <- failed_validation_message[["first"]]
@@ -1129,7 +1129,7 @@ checkbox_page <-
           }
         }
       }
-      if (force_answer == "all"){
+      else if (force_answer == "all"){
           if (sum(nzchar(answer)) != length(choices)) {
             if("all" %in% names(failed_validation_message)){
               ret <- failed_validation_message[["all"]]
@@ -1535,9 +1535,8 @@ while_loop <- function(test, logic) {
       if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                         "logical scalar")
       if ((skip_when == "pass" && res) ||
-          (skip_when == "fail" && !res)){
+          (skip_when == "fail" && !res))
         skip_n_pages(state, skip_len)
-      }
     })
   }
 

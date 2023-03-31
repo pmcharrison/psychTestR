@@ -498,44 +498,6 @@ df_all_results <- function(results_dir) {
   df[order(df$session.current_time), cols_in_order]
 }
 
-#df_all_results <- function(results_dir) {
-#  files <- list_results_files(results_dir, full.names = TRUE)
-#  if (length(files) == 0L) return(data.frame())
-#  data <- lapply(files, readRDS)
-#  data_df <- lapply(data, function(x) as.data.frame(as.list(x), stringsAsFactors = F))
-#  any_cols_duplicated <- any(vapply(data_df,
-#                                    function(df) anyDuplicated(names(df)),
-#                                    integer(1)) > 0L)
-#  if (any_cols_duplicated) {
-#    msg <- "CSV export cannot cope with duplicated fields in results objects."
-#    shiny::showNotification(msg, type = "error")
-#    stop(msg)
-#  }
-#  df <- do.call(plyr::rbind.fill, data_df)
-#  df <- df[order(df$session.current_time, decreasing = FALSE), ]
-#  session_info_cols <- grepl("^session\\.", names(df))
-#  df[, c(which(session_info_cols), which(!session_info_cols))]
-#}
-
-#df_all_results <- function(results_dir) {
-#  files <- list_results_files(results_dir, full.names = TRUE)
-#  if (length(files) == 0L) return(data.frame())
-#  data <- lapply(files, readRDS)
-#  data_df <- lapply(data, function(x) as.data.frame(as.list(x), stringsAsFactors = F))
-#  any_cols_duplicated <- any(vapply(data_df,
-#                                    function(df) anyDuplicated(names(df)),
-#                                    integer(1)) > 0L)
-#  if (any_cols_duplicated) {
-#    msg <- "CSV export cannot cope with duplicated fields in results objects."
-#    shiny::showNotification(msg, type = "error")
-#    stop(msg)
-#  }
-#  df <- do.call(plyr::rbind.fill, data_df)
-#  df <- df[order(df$session.current_time, decreasing = FALSE), ]
-#  session_info_cols <- grepl("^session\\.", names(df))
-#  df[, c(which(session_info_cols), which(!session_info_cols))]
-#}
-
 admin_panel.server <- function(state, input, output, session, opt, elts) {
   if (opt$enable_admin_panel) {
     admin_panel.render_ui(state, output, elts, opt)
