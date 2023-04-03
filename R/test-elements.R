@@ -1109,8 +1109,8 @@ checkbox_page <-
           else{
             ret <- failed_validation_message[[1]]
           }
-          }
         }
+      }
       else if(force_answer == "first"){
         if (answer[1] != choices[1]){
           if("first" %in% names(failed_validation_message)){
@@ -1122,15 +1122,15 @@ checkbox_page <-
         }
       }
       else if (force_answer == "all"){
-          if (sum(nzchar(answer)) != length(choices)) {
-            if("all" %in% names(failed_validation_message)){
-              ret <- failed_validation_message[["all"]]
-            }
-            else{
-              ret <- failed_validation_message[1]
-            }
+        if (sum(nzchar(answer)) != length(choices)) {
+          if("all" %in% names(failed_validation_message)){
+            ret <- failed_validation_message[["all"]]
+          }
+          else{
+            ret <- failed_validation_message[1]
           }
         }
+      }
       ret
     }
     page(
