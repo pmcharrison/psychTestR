@@ -1,3 +1,5 @@
+# psychTestR 2.24.0
+
 - Bugfix in `audio_NAFC_page` autoplay (thanks Klaus Frieler!).
 - Extra options for `checkbox_page` (thanks Klaus Frieler!).
 - Better support for additional scripts (thanks Seb Silas!).
