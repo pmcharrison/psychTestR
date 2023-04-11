@@ -1,3 +1,8 @@
+- Bugfix in `audio_NAFC_page` autoplay (thanks Klaus Frieler!).
+- Extra options for `checkbox_page` (thanks Klaus Frieler!).
+- Better support for additional scripts (thanks Seb Silas!).
+- Support for lab logos (thanks Seb Silas!).
+
 # psychTestR 2.23.4
 
 - Disabled `clean_session_dir` as an attempt to avoid sporadic errors of the 
