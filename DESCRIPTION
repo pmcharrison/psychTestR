@@ -24,15 +24,18 @@ Imports:
     tidyr (>= 0.8.1),
     utils,
     R6 (>= 2.2.2),
-    markdown (>= 0.8),
+    markdown (>= 1.4),
     rstudioapi (>= 0.7),
     checkmate (>= 1.8.5),
     purrr,
     tibble,
     jsonlite,
     htm2txt,
+    shinytest,
+    testthat (>= 2.0.0),
+    stringr (>= 1.4.0)
 Depends: R (>= 3.5.0)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 Suggests: 
     knitr,
     rmarkdown,

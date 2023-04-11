@@ -39,16 +39,16 @@ of languages to remove.
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{timeline$new()}}
-\item \href{#method-get}{\code{timeline$get()}}
-\item \href{#method-drop_languages}{\code{timeline$drop_languages()}}
-\item \href{#method-print}{\code{timeline$print()}}
-\item \href{#method-clone}{\code{timeline$clone()}}
+\item \href{#method-timeline-new}{\code{timeline$new()}}
+\item \href{#method-timeline-get}{\code{timeline$get()}}
+\item \href{#method-timeline-drop_languages}{\code{timeline$drop_languages()}}
+\item \href{#method-timeline-print}{\code{timeline$print()}}
+\item \href{#method-timeline-clone}{\code{timeline$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-timeline-new"></a>}}
+\if{latex}{\out{\hypertarget{method-timeline-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{timeline$new(x)}\if{html}{\out{</div>}}
@@ -56,8 +56,8 @@ of languages to remove.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get"></a>}}
-\if{latex}{\out{\hypertarget{method-get}{}}}
+\if{html}{\out{<a id="method-timeline-get"></a>}}
+\if{latex}{\out{\hypertarget{method-timeline-get}{}}}
 \subsection{Method \code{get()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{timeline$get(language, i = NULL)}\if{html}{\out{</div>}}
@@ -65,8 +65,8 @@ of languages to remove.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-drop_languages"></a>}}
-\if{latex}{\out{\hypertarget{method-drop_languages}{}}}
+\if{html}{\out{<a id="method-timeline-drop_languages"></a>}}
+\if{latex}{\out{\hypertarget{method-timeline-drop_languages}{}}}
 \subsection{Method \code{drop_languages()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{timeline$drop_languages(drop)}\if{html}{\out{</div>}}
@@ -74,8 +74,8 @@ of languages to remove.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-print"></a>}}
-\if{latex}{\out{\hypertarget{method-print}{}}}
+\if{html}{\out{<a id="method-timeline-print"></a>}}
+\if{latex}{\out{\hypertarget{method-timeline-print}{}}}
 \subsection{Method \code{print()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{timeline$print(...)}\if{html}{\out{</div>}}
@@ -83,8 +83,8 @@ of languages to remove.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-timeline-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-timeline-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

@@ -11,8 +11,9 @@ checkbox_page(
   subprompt = "",
   labels = NULL,
   trigger_button_text = "Continue",
-  failed_validation_message = "Choose at least one answer!",
-  force_answer = FALSE,
+  failed_validation_message = c(one = "Choose at least one answer!", all =
+    "Please check all boxes."),
+  force_answer = c("no", "one", "all", "first"),
   javascript = "",
   save_answer = TRUE,
   hide_response_ui = FALSE,
@@ -44,11 +45,11 @@ or a list of Shiny tag objects, e.g. as created by \code{shiny::HTML()}.}
 
 \item{trigger_button_text}{(Character scalar) Text for the trigger button.}
 
-\item{failed_validation_message}{(Character scalar) Text to be displayed
-when validation fails.}
+\item{failed_validation_message}{(Named character vector) Text to be displayed
+when validation fails, names must match the validation type ("one" or "all"), see "force_answer".}
 
-\item{force_answer}{(Boolean scalar) Require at least one checkbox to be
-ticked.}
+\item{force_answer}{(Boolean scalar or character) Require at least one checkbox (value "one") or all checkboxes ("all") to be
+ticked. If no selection is required set to "no" (default). If boolean, this translate to option "one" (TRUE) or "no" (FALSE).}
 
 \item{javascript}{(Character scalar) JavaScript code to be added for
 controlling checkbox behaviour.}

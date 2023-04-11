@@ -930,7 +930,7 @@ audio_NAFC_page <- function(label, prompt, choices, url,
     shiny::tags$source(src = url, type = paste0("audio/", type)),
     id = "media",
     preload = "auto",
-    autoplay = if(nchar(autoplay) > 0) "autoplay",
+    if(nchar(autoplay) > 0) autoplay = autoplay,
     loop = if (loop) "loop",
     oncanplaythrough = media.js$show_media_btn,
     onplay = paste0(media.js$media_played, media.js$hide_media_btn),
@@ -1030,11 +1030,11 @@ volume_calibration_page <- function(url, type = tools::file_ext(url),
 #'
 #' @param trigger_button_text (Character scalar) Text for the trigger button.
 #'
-#' @param failed_validation_message (Character scalar) Text to be displayed
-#' when validation fails.
+#' @param failed_validation_message (Named character vector) Text to be displayed
+#' when validation fails, names must match the validation type ("one" or "all"), see "force_answer".
 #'
-#' @param force_answer (Boolean scalar) Require at least one checkbox to be
-#' ticked.
+#' @param force_answer (Boolean scalar or character) Require at least one checkbox (value "one") or all checkboxes ("all") to be
+#' ticked. If no selection is required set to "no" (default). If boolean, this translate to option "one" (TRUE) or "no" (FALSE).
 #'
 #' @param javascript (Character scalar) JavaScript code to be added for
 #' controlling checkbox behaviour.
@@ -1060,8 +1060,8 @@ checkbox_page <-
            subprompt = "",
            labels = NULL,
            trigger_button_text = "Continue",
-           failed_validation_message = "Choose at least one answer!",
-           force_answer = FALSE,
+           failed_validation_message = c(one = "Choose at least one answer!", all = "Please check all boxes."),
+           force_answer = c( "no", "one", "all", "first"),
            javascript = "",
            save_answer = TRUE,
            hide_response_ui = FALSE,
@@ -1072,10 +1072,14 @@ checkbox_page <-
       is.scalar.character(label),
       is.character(choices) && length(choices) > 0L,
       is.scalar.character(trigger_button_text),
-      is.scalar.character(failed_validation_message),
-      is.scalar.logical(force_answer),
+      is.character(failed_validation_message),
+      is.character(force_answer) || is.scalar.logical(force_answer),
       is.scalar.character(javascript)
     )
+    if(is.logical(force_answer)){
+      force_answer <- ifelse(force_answer, "one", "no")
+    }
+    force_answer <- match.arg(force_answer)[1]
     ui <- shiny::div(
       tagify(prompt),
       make_ui_checkbox(
@@ -1091,16 +1095,44 @@ checkbox_page <-
     )
     get_answer <- function(input, ...)
       if (is.null(input[[label]])) {
-        character(0)
+        ""
       } else {
         input[[label]]
       }
-    validate <- function(answer, ...)
-      if (length(answer) == 0L && force_answer) {
-        failed_validation_message
-      } else {
-        TRUE
+    validate <- function(answer, ...){
+      ret <- TRUE
+      if(force_answer == "one"){
+        if (!any(nzchar(answer))){
+          if("one" %in% names(failed_validation_message)){
+            ret <- failed_validation_message[["one"]]
+          }
+          else{
+            ret <- failed_validation_message[[1]]
+          }
+        }
       }
+      else if(force_answer == "first"){
+        if (answer[1] != choices[1]){
+          if("first" %in% names(failed_validation_message)){
+            ret <- failed_validation_message[["first"]]
+          }
+          else{
+            ret <- failed_validation_message[[1]]
+          }
+        }
+      }
+      else if (force_answer == "all"){
+        if (sum(nzchar(answer)) != length(choices)) {
+          if("all" %in% names(failed_validation_message)){
+            ret <- failed_validation_message[["all"]]
+          }
+          else{
+            ret <- failed_validation_message[1]
+          }
+        }
+      }
+      ret
+    }
     page(
       ui = ui,
       label = label,
@@ -1443,7 +1475,9 @@ loop_while <- function(test, logic) {
                 session = session, opt = opt)
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                       "logical scalar")
-    if (res) skip_n_pages(state, - (n + 1L))
+    if (res){
+      skip_n_pages(state, - (n + 1L))
+    }
   })
   join(logic, elt)
 }
@@ -1493,7 +1527,8 @@ while_loop <- function(test, logic) {
       if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                         "logical scalar")
       if ((skip_when == "pass" && res) ||
-          (skip_when == "fail" && !res)) skip_n_pages(state, skip_len)
+          (skip_when == "fail" && !res))
+        skip_n_pages(state, skip_len)
     })
   }
 
@@ -1555,7 +1590,9 @@ conditional <- function(test, logic) {
                 session = session, opt = opt)
     if (!is.scalar.logical(res)) stop("<test> did not return a ",
                                       "logical scalar")
-    if (!res) skip_n_pages(state, n)
+    if (!res) {
+      skip_n_pages(state, n)
+    }
   })
 
   join(
