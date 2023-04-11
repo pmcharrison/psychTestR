@@ -112,8 +112,9 @@
 <span>  subprompt <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  trigger_button_text <span class="op">=</span> <span class="st">"Continue"</span>,</span>
-<span>  failed_validation_message <span class="op">=</span> <span class="st">"Choose at least one answer!"</span>,</span>
-<span>  force_answer <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  failed_validation_message <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>one <span class="op">=</span> <span class="st">"Choose at least one answer!"</span>, all <span class="op">=</span></span>
+<span>    <span class="st">"Please check all boxes."</span><span class="op">)</span>,</span>
+<span>  force_answer <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"no"</span>, <span class="st">"one"</span>, <span class="st">"all"</span>, <span class="st">"first"</span><span class="op">)</span>,</span>
 <span>  javascript <span class="op">=</span> <span class="st">""</span>,</span>
 <span>  save_answer <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  hide_response_ui <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -160,13 +161,13 @@ or a list of Shiny tag objects, e.g. as created by <code><a href="https://rstudi
 
 
 <dt>failed_validation_message</dt>
-<dd><p>(Character scalar) Text to be displayed
-when validation fails.</p></dd>
+<dd><p>(Named character vector) Text to be displayed
+when validation fails, names must match the validation type ("one" or "all"), see "force_answer".</p></dd>
 
 
 <dt>force_answer</dt>
-<dd><p>(Boolean scalar) Require at least one checkbox to be
-ticked.</p></dd>
+<dd><p>(Boolean scalar or character) Require at least one checkbox (value "one") or all checkboxes ("all") to be
+ticked. If no selection is required set to "no" (default). If boolean, this translate to option "one" (TRUE) or "no" (FALSE).</p></dd>
 
 
 <dt>javascript</dt>

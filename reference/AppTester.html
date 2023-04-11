@@ -172,66 +172,66 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
-<ul><li><p><a href="#method-get_ui"><code>AppTester$get_ui()</code></a></p></li>
-<li><p><a href="#method-get_ui_text"><code>AppTester$get_ui_text()</code></a></p></li>
-<li><p><a href="#method-str_squish"><code>AppTester$str_squish()</code></a></p></li>
-<li><p><a href="#method-expect_ui_text"><code>AppTester$expect_ui_text()</code></a></p></li>
-<li><p><a href="#method-get_locals"><code>AppTester$get_locals()</code></a></p></li>
-<li><p><a href="#method-get_globals"><code>AppTester$get_globals()</code></a></p></li>
-<li><p><a href="#method-get_title"><code>AppTester$get_title()</code></a></p></li>
-<li><p><a href="#method-expect_title"><code>AppTester$expect_title()</code></a></p></li>
-<li><p><a href="#method-get_problems_info"><code>AppTester$get_problems_info()</code></a></p></li>
-<li><p><a href="#method-expect_problems_info"><code>AppTester$expect_problems_info()</code></a></p></li>
-<li><p><a href="#method-get_results"><code>AppTester$get_results()</code></a></p></li>
-<li><p><a href="#method-expect_results"><code>AppTester$expect_results()</code></a></p></li>
-<li><p><a href="#method-stop"><code>AppTester$stop()</code></a></p></li>
-<li><p><a href="#method-clean_output"><code>AppTester$clean_output()</code></a></p></li>
-<li><p><a href="#method-set_inputs"><code>AppTester$set_inputs()</code></a></p></li>
-<li><p><a href="#method-click"><code>AppTester$click()</code></a></p></li>
-<li><p><a href="#method-click_next"><code>AppTester$click_next()</code></a></p></li>
-<li><p><a href="#method-clone"><code>AppTester$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="checkUniqueWidgetNames"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-checkUniqueWidgetNames"><code>shinytest::ShinyDriver$checkUniqueWidgetNames()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="enableDebugLogMessages"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-enableDebugLogMessages"><code>shinytest::ShinyDriver$enableDebugLogMessages()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="executeScript"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-executeScript"><code>shinytest::ShinyDriver$executeScript()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="executeScriptAsync"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-executeScriptAsync"><code>shinytest::ShinyDriver$executeScriptAsync()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="expectUpdate"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-expectUpdate"><code>shinytest::ShinyDriver$expectUpdate()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="finalize"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-finalize"><code>shinytest::ShinyDriver$finalize()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findElement"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-findElement"><code>shinytest::ShinyDriver$findElement()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findElements"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-findElements"><code>shinytest::ShinyDriver$findElements()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findWidget"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-findWidget"><code>shinytest::ShinyDriver$findWidget()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAllValues"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getAllValues"><code>shinytest::ShinyDriver$getAllValues()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAppDir"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getAppDir"><code>shinytest::ShinyDriver$getAppDir()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAppFilename"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getAppFilename"><code>shinytest::ShinyDriver$getAppFilename()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getDebugLog"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getDebugLog"><code>shinytest::ShinyDriver$getDebugLog()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getEventLog"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getEventLog"><code>shinytest::ShinyDriver$getEventLog()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getRelativePathToApp"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getRelativePathToApp"><code>shinytest::ShinyDriver$getRelativePathToApp()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSnapshotDir"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getSnapshotDir"><code>shinytest::ShinyDriver$getSnapshotDir()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSource"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getSource"><code>shinytest::ShinyDriver$getSource()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getTestsDir"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getTestsDir"><code>shinytest::ShinyDriver$getTestsDir()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getTitle"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getTitle"><code>shinytest::ShinyDriver$getTitle()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getUrl"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getUrl"><code>shinytest::ShinyDriver$getUrl()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getValue"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getValue"><code>shinytest::ShinyDriver$getValue()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getWindowSize"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getWindowSize"><code>shinytest::ShinyDriver$getWindowSize()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="goBack"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-goBack"><code>shinytest::ShinyDriver$goBack()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="initialize"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-initialize"><code>shinytest::ShinyDriver$initialize()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="isRmd"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-isRmd"><code>shinytest::ShinyDriver$isRmd()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="listWidgets"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-listWidgets"><code>shinytest::ShinyDriver$listWidgets()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="logEvent"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-logEvent"><code>shinytest::ShinyDriver$logEvent()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="refresh"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-refresh"><code>shinytest::ShinyDriver$refresh()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="sendKeys"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-sendKeys"><code>shinytest::ShinyDriver$sendKeys()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setInputs"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-setInputs"><code>shinytest::ShinyDriver$setInputs()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setValue"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-setValue"><code>shinytest::ShinyDriver$setValue()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setWindowSize"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-setWindowSize"><code>shinytest::ShinyDriver$setWindowSize()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshot"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-snapshot"><code>shinytest::ShinyDriver$snapshot()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotCompare"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-snapshotCompare"><code>shinytest::ShinyDriver$snapshotCompare()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotDownload"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-snapshotDownload"><code>shinytest::ShinyDriver$snapshotDownload()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotInit"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-snapshotInit"><code>shinytest::ShinyDriver$snapshotInit()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="takeScreenshot"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-takeScreenshot"><code>shinytest::ShinyDriver$takeScreenshot()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="uploadFile"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-uploadFile"><code>shinytest::ShinyDriver$uploadFile()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitFor"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-waitFor"><code>shinytest::ShinyDriver$waitFor()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForShiny"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-waitForShiny"><code>shinytest::ShinyDriver$waitForShiny()</code></a></span></p></li>
-<li><p><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForValue"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-waitForValue"><code>shinytest::ShinyDriver$waitForValue()</code></a></span></p></li>
-</ul></details></p><hr><a id="method-get_ui"></a><div class="section">
+<ul><li><p><a href="#method-AppTester-get_ui"><code>AppTester$get_ui()</code></a></p></li>
+<li><p><a href="#method-AppTester-get_ui_text"><code>AppTester$get_ui_text()</code></a></p></li>
+<li><p><a href="#method-AppTester-str_squish"><code>AppTester$str_squish()</code></a></p></li>
+<li><p><a href="#method-AppTester-expect_ui_text"><code>AppTester$expect_ui_text()</code></a></p></li>
+<li><p><a href="#method-AppTester-get_locals"><code>AppTester$get_locals()</code></a></p></li>
+<li><p><a href="#method-AppTester-get_globals"><code>AppTester$get_globals()</code></a></p></li>
+<li><p><a href="#method-AppTester-get_title"><code>AppTester$get_title()</code></a></p></li>
+<li><p><a href="#method-AppTester-expect_title"><code>AppTester$expect_title()</code></a></p></li>
+<li><p><a href="#method-AppTester-get_problems_info"><code>AppTester$get_problems_info()</code></a></p></li>
+<li><p><a href="#method-AppTester-expect_problems_info"><code>AppTester$expect_problems_info()</code></a></p></li>
+<li><p><a href="#method-AppTester-get_results"><code>AppTester$get_results()</code></a></p></li>
+<li><p><a href="#method-AppTester-expect_results"><code>AppTester$expect_results()</code></a></p></li>
+<li><p><a href="#method-AppTester-stop"><code>AppTester$stop()</code></a></p></li>
+<li><p><a href="#method-AppTester-clean_output"><code>AppTester$clean_output()</code></a></p></li>
+<li><p><a href="#method-AppTester-set_inputs"><code>AppTester$set_inputs()</code></a></p></li>
+<li><p><a href="#method-AppTester-click"><code>AppTester$click()</code></a></p></li>
+<li><p><a href="#method-AppTester-click_next"><code>AppTester$click_next()</code></a></p></li>
+<li><p><a href="#method-AppTester-clone"><code>AppTester$clone()</code></a></p></li>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="checkUniqueWidgetNames"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-checkUniqueWidgetNames"><code>shinytest::ShinyDriver$checkUniqueWidgetNames()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="enableDebugLogMessages"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-enableDebugLogMessages"><code>shinytest::ShinyDriver$enableDebugLogMessages()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="executeScript"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-executeScript"><code>shinytest::ShinyDriver$executeScript()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="executeScriptAsync"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-executeScriptAsync"><code>shinytest::ShinyDriver$executeScriptAsync()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="expectUpdate"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-expectUpdate"><code>shinytest::ShinyDriver$expectUpdate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="finalize"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-finalize"><code>shinytest::ShinyDriver$finalize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findElement"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-findElement"><code>shinytest::ShinyDriver$findElement()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findElements"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-findElements"><code>shinytest::ShinyDriver$findElements()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="findWidget"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-findWidget"><code>shinytest::ShinyDriver$findWidget()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAllValues"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getAllValues"><code>shinytest::ShinyDriver$getAllValues()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAppDir"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getAppDir"><code>shinytest::ShinyDriver$getAppDir()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getAppFilename"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getAppFilename"><code>shinytest::ShinyDriver$getAppFilename()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getDebugLog"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getDebugLog"><code>shinytest::ShinyDriver$getDebugLog()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getEventLog"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getEventLog"><code>shinytest::ShinyDriver$getEventLog()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getRelativePathToApp"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getRelativePathToApp"><code>shinytest::ShinyDriver$getRelativePathToApp()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSnapshotDir"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getSnapshotDir"><code>shinytest::ShinyDriver$getSnapshotDir()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getSource"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getSource"><code>shinytest::ShinyDriver$getSource()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getTestsDir"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getTestsDir"><code>shinytest::ShinyDriver$getTestsDir()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getTitle"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getTitle"><code>shinytest::ShinyDriver$getTitle()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getUrl"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getUrl"><code>shinytest::ShinyDriver$getUrl()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getValue"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getValue"><code>shinytest::ShinyDriver$getValue()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="getWindowSize"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-getWindowSize"><code>shinytest::ShinyDriver$getWindowSize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="goBack"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-goBack"><code>shinytest::ShinyDriver$goBack()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="initialize"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-initialize"><code>shinytest::ShinyDriver$initialize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="isRmd"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-isRmd"><code>shinytest::ShinyDriver$isRmd()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="listWidgets"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-listWidgets"><code>shinytest::ShinyDriver$listWidgets()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="logEvent"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-logEvent"><code>shinytest::ShinyDriver$logEvent()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="refresh"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-refresh"><code>shinytest::ShinyDriver$refresh()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="sendKeys"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-sendKeys"><code>shinytest::ShinyDriver$sendKeys()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setInputs"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-setInputs"><code>shinytest::ShinyDriver$setInputs()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setValue"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-setValue"><code>shinytest::ShinyDriver$setValue()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="setWindowSize"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-setWindowSize"><code>shinytest::ShinyDriver$setWindowSize()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshot"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-snapshot"><code>shinytest::ShinyDriver$snapshot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotCompare"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-snapshotCompare"><code>shinytest::ShinyDriver$snapshotCompare()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotDownload"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-snapshotDownload"><code>shinytest::ShinyDriver$snapshotDownload()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="snapshotInit"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-snapshotInit"><code>shinytest::ShinyDriver$snapshotInit()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="takeScreenshot"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-takeScreenshot"><code>shinytest::ShinyDriver$takeScreenshot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="uploadFile"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-uploadFile"><code>shinytest::ShinyDriver$uploadFile()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitFor"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-waitFor"><code>shinytest::ShinyDriver$waitFor()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForShiny"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-waitForShiny"><code>shinytest::ShinyDriver$waitForShiny()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="shinytest" data-topic="ShinyDriver" data-id="waitForValue"><a href="https://rdrr.io/pkg/shinytest/man/ShinyDriver.html#method-waitForValue"><code>shinytest::ShinyDriver$waitForValue()</code></a></span></li>
+</ul></details></p><hr><a id="method-AppTester-get_ui"></a><div class="section">
 <h3 id="method-get-ui-">Method <code>get_ui()</code><a class="anchor" aria-label="anchor" href="#method-get-ui-"></a></h3>
 
 <div class="section">
@@ -240,7 +240,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-get_ui_text"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-get_ui_text"></a><div class="section">
 <h3 id="method-get-ui-text-">Method <code>get_ui_text()</code><a class="anchor" aria-label="anchor" href="#method-get-ui-text-"></a></h3>
 
 <div class="section">
@@ -249,7 +249,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-str_squish"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-str_squish"></a><div class="section">
 <h3 id="method-str-squish-">Method <code>str_squish()</code><a class="anchor" aria-label="anchor" href="#method-str-squish-"></a></h3>
 
 <div class="section">
@@ -258,7 +258,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-expect_ui_text"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-expect_ui_text"></a><div class="section">
 <h3 id="method-expect-ui-text-">Method <code>expect_ui_text()</code><a class="anchor" aria-label="anchor" href="#method-expect-ui-text-"></a></h3>
 
 <div class="section">
@@ -267,7 +267,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-get_locals"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-get_locals"></a><div class="section">
 <h3 id="method-get-locals-">Method <code>get_locals()</code><a class="anchor" aria-label="anchor" href="#method-get-locals-"></a></h3>
 
 <div class="section">
@@ -276,7 +276,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-get_globals"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-get_globals"></a><div class="section">
 <h3 id="method-get-globals-">Method <code>get_globals()</code><a class="anchor" aria-label="anchor" href="#method-get-globals-"></a></h3>
 
 <div class="section">
@@ -285,7 +285,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-get_title"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-get_title"></a><div class="section">
 <h3 id="method-get-title-">Method <code>get_title()</code><a class="anchor" aria-label="anchor" href="#method-get-title-"></a></h3>
 
 <div class="section">
@@ -294,7 +294,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-expect_title"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-expect_title"></a><div class="section">
 <h3 id="method-expect-title-">Method <code>expect_title()</code><a class="anchor" aria-label="anchor" href="#method-expect-title-"></a></h3>
 
 <div class="section">
@@ -303,7 +303,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-get_problems_info"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-get_problems_info"></a><div class="section">
 <h3 id="method-get-problems-info-">Method <code>get_problems_info()</code><a class="anchor" aria-label="anchor" href="#method-get-problems-info-"></a></h3>
 
 <div class="section">
@@ -312,7 +312,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-expect_problems_info"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-expect_problems_info"></a><div class="section">
 <h3 id="method-expect-problems-info-">Method <code>expect_problems_info()</code><a class="anchor" aria-label="anchor" href="#method-expect-problems-info-"></a></h3>
 
 <div class="section">
@@ -321,7 +321,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-get_results"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-get_results"></a><div class="section">
 <h3 id="method-get-results-">Method <code><a href="get_results.html">get_results()</a></code><a class="anchor" aria-label="anchor" href="#method-get-results-"></a></h3>
 
 <div class="section">
@@ -330,7 +330,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-expect_results"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-expect_results"></a><div class="section">
 <h3 id="method-expect-results-">Method <code>expect_results()</code><a class="anchor" aria-label="anchor" href="#method-expect-results-"></a></h3>
 
 <div class="section">
@@ -339,7 +339,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-stop"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-stop"></a><div class="section">
 <h3 id="method-stop-">Method <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code><a class="anchor" aria-label="anchor" href="#method-stop-"></a></h3>
 
 <div class="section">
@@ -348,7 +348,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-clean_output"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-clean_output"></a><div class="section">
 <h3 id="method-clean-output-">Method <code>clean_output()</code><a class="anchor" aria-label="anchor" href="#method-clean-output-"></a></h3>
 
 <div class="section">
@@ -357,7 +357,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-set_inputs"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-set_inputs"></a><div class="section">
 <h3 id="method-set-inputs-">Method <code>set_inputs()</code><a class="anchor" aria-label="anchor" href="#method-set-inputs-"></a></h3>
 
 <div class="section">
@@ -366,7 +366,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-click"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-click"></a><div class="section">
 <h3 id="method-click-">Method <code>click()</code><a class="anchor" aria-label="anchor" href="#method-click-"></a></h3>
 
 <div class="section">
@@ -375,7 +375,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-click_next"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-click_next"></a><div class="section">
 <h3 id="method-click-next-">Method <code>click_next()</code><a class="anchor" aria-label="anchor" href="#method-click-next-"></a></h3>
 
 <div class="section">
@@ -384,7 +384,7 @@ which you can install with <code><a href="https://rdrr.io/pkg/shinytest/man/inst
 </div>
 
 
-</div><p></p><hr><a id="method-clone"></a><div class="section">
+</div><p></p><hr><a id="method-AppTester-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
 <h4 id="usage-17">Usage<a class="anchor" aria-label="anchor" href="#usage-17"></a></h4>
