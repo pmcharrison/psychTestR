@@ -1,3 +1,5 @@
+# psychTestR 2.24.1
+
 - Bugfix in response validation, which was causing participant sessions to crash.
 
 # psychTestR 2.24.0
