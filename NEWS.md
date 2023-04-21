@@ -1,3 +1,5 @@
+- Bugfix in response validation, which was causing participant sessions to crash.
+
 # psychTestR 2.24.0
 
 - Bugfix in `audio_NAFC_page` autoplay (thanks Klaus Frieler!).
