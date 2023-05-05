@@ -1,3 +1,5 @@
+# psychTestR 2.24.2
+
 - Revert Klaus's changes to `audio_NAFC_page` autoplay, which had caused autoplay to stop working.
 
 # psychTestR 2.24.1
