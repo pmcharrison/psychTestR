@@ -22,6 +22,11 @@ server <- function(elts, opt, custom_admin_panel) {
     if (opt$enable_admin_panel)
       shiny::outputOptions(output, "admin_panel.ui", suspendWhenHidden = FALSE)
 
+    if(!is.null(opt$on_session_ended_fun))
+      session$onSessionEnded(function() {
+        opt$on_session_ended_fun(state)
+      })
+
     shiny::exportTestValues(
       ui = get_current_elt(state, elts, opt, eval = TRUE)@ui,
       title = i18n_title(opt, state),

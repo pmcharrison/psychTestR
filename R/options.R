@@ -90,6 +90,7 @@ pt_options <- function(...) {
 #' @param additional_scripts
 #' A character vector containing file paths to any additional scripts which should be included. These will be sourced with includeScript.
 #' @param logo_position Which side should the logo be on? Can be "left" or "right".
+#' @param on_session_ended_fun An optional function to execute when the Shiny session ends.
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -121,7 +122,8 @@ test_options <- function(title, admin_password,
                          allow_url_rewrite = TRUE,
                          advance_delay = 0,
                          additional_scripts = character(),
-                         logo_position = "right") {
+                         logo_position = "right",
+                         on_session_ended_fun = NULL) {
 
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
@@ -154,7 +156,9 @@ test_options <- function(title, admin_password,
             is.scalar.logical(allow_url_rewrite),
             is.scalar.numeric(advance_delay),
             is.character(additional_scripts),
-            is.scalar.character(logo_position))
+            is.scalar.character(logo_position),
+            is.null.or(on_session_ended_fun, is.function)
+  )
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   if (!allow_url_rewrite && enable_resume_session) {
@@ -253,7 +257,8 @@ test_options <- function(title, admin_password,
        allow_url_rewrite = allow_url_rewrite,
        js_opt = list(advance_delay = advance_delay),
        additional_scripts = additional_scripts,
-       logo_position = logo_position)
+       logo_position = logo_position,
+       on_session_ended_fun = on_session_ended_fun)
 }
 
 #' Display options
@@ -331,15 +336,15 @@ test_options <- function(title, admin_password,
 #'
 #' @export
 display_options <- function(
-  full_screen = FALSE,
-  content_background_colour = "white",
-  content_border = "1px solid #e8e8e8",
-  show_header = TRUE,
-  show_footer = TRUE,
-  left_margin = 2L,
-  right_margin = 2L,
-  css = character(),
-  admin_panel = TRUE
+    full_screen = FALSE,
+    content_background_colour = "white",
+    content_border = "1px solid #e8e8e8",
+    show_header = TRUE,
+    show_footer = TRUE,
+    left_margin = 2L,
+    right_margin = 2L,
+    css = character(),
+    admin_panel = TRUE
 ) {
   checkmate::qassert(show_header, "B1")
   checkmate::qassert(show_footer, "B1")
