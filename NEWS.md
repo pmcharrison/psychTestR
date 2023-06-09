@@ -1,3 +1,5 @@
+- Add hooks for running functions at start and end of sessions (thanks Seb Silas!).
+
 # psychTestR 2.24.2
 
 - Revert Klaus's changes to `audio_NAFC_page` autoplay, which had caused autoplay to stop working.
