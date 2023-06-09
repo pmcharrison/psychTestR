@@ -149,9 +149,9 @@ upon button press.}
 
 \item{logo_position}{Which side should the logo be on? Can be "left" or "right".}
 
-\item{on_start_fun}{An optional function to execute when the Shiny server function begins.}
+\item{on_start_fun}{An optional function to execute when the Shiny server function begins. The function should include the "..." argument.}
 
-\item{on_stop_fun}{An optional function to execute when the Shiny server function terminates.}
+\item{on_stop_fun}{An optional function to execute when the Shiny server function terminates. The function should include the "..." argument.}
 
 \item{on_session_ended_fun}{An optional function to execute when a Shiny user session ends. The function should take the arguments state and "...".}
 }

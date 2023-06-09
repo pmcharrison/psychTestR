@@ -24,6 +24,7 @@ server <- function(elts, opt, custom_admin_panel) {
 
       if (!is.null(opt$on_session_ended_fun))
         session$onSessionEnded(function() {
+          message("Calling onSessionEnded fun")
           opt$on_session_ended_fun(state)
         })
 

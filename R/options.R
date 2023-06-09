@@ -90,8 +90,8 @@ pt_options <- function(...) {
 #' @param additional_scripts
 #' A character vector containing file paths to any additional scripts which should be included. These will be sourced with includeScript.
 #' @param logo_position Which side should the logo be on? Can be "left" or "right".
-#' @param on_start_fun An optional function to execute when the Shiny server function begins.
-#' @param on_stop_fun An optional function to execute when the Shiny server function terminates.
+#' @param on_start_fun An optional function to execute when the Shiny server function begins. The function should include the "..." argument.
+#' @param on_stop_fun An optional function to execute when the Shiny server function terminates. The function should include the "..." argument.
 #' @param on_session_ended_fun An optional function to execute when a Shiny user session ends. The function should take the arguments state and "...".
 #' @export
 test_options <- function(title, admin_password,
@@ -265,7 +265,8 @@ test_options <- function(title, admin_password,
        additional_scripts = additional_scripts,
        logo_position = logo_position,
        on_session_ended_fun = on_session_ended_fun,
-       on_stop_fun = on_stop_fun)
+       on_stop_fun = on_stop_fun,
+       on_start_fun = on_start_fun)
 }
 
 #' Display options

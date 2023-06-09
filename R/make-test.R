@@ -36,13 +36,13 @@ setup_on_start <- function(opt) {
 
   function() {
     # On start:
-    cat("Setting up application \n")
+    message("Calling onStart fun")
     if (!is.null(opt$on_start_fun)) opt$on_start_fun()
 
     # On stop:
     if (!is.null(opt$on_stop_fun)) {
       onStop(function() {
-        cat("Stopping application and cleaning up\n")
+        message("Calling onStop fun")
         opt$on_stop_fun()
       })
     }
