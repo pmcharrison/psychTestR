@@ -36,7 +36,10 @@ test_options(
   allow_url_rewrite = TRUE,
   advance_delay = 0,
   additional_scripts = character(),
-  logo_position = "right"
+  logo_position = "right",
+  on_start_fun = NULL,
+  on_stop_fun = NULL,
+  on_session_ended_fun = NULL
 )
 }
 \arguments{
@@ -145,6 +148,12 @@ upon button press.}
 \item{additional_scripts}{A character vector containing file paths to any additional scripts which should be included. These will be sourced with includeScript.}
 
 \item{logo_position}{Which side should the logo be on? Can be "left" or "right".}
+
+\item{on_start_fun}{An optional function to execute when the Shiny server function begins. The function should include the "..." argument.}
+
+\item{on_stop_fun}{An optional function to execute when the Shiny server function terminates. The function should include the "..." argument.}
+
+\item{on_session_ended_fun}{An optional function to execute when a Shiny user session ends. The function should take the arguments state and "...".}
 }
 \description{
 Defines the options for running a given test.

@@ -90,6 +90,9 @@ pt_options <- function(...) {
 #' @param additional_scripts
 #' A character vector containing file paths to any additional scripts which should be included. These will be sourced with includeScript.
 #' @param logo_position Which side should the logo be on? Can be "left" or "right".
+#' @param on_start_fun An optional function to execute when the Shiny server function begins. The function should include the "..." argument.
+#' @param on_stop_fun An optional function to execute when the Shiny server function terminates. The function should include the "..." argument.
+#' @param on_session_ended_fun An optional function to execute when a Shiny user session ends. The function should take the arguments state and "...".
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -121,7 +124,10 @@ test_options <- function(title, admin_password,
                          allow_url_rewrite = TRUE,
                          advance_delay = 0,
                          additional_scripts = character(),
-                         logo_position = "right") {
+                         logo_position = "right",
+                         on_start_fun = NULL,
+                         on_stop_fun = NULL,
+                         on_session_ended_fun = NULL) {
 
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
@@ -154,7 +160,11 @@ test_options <- function(title, admin_password,
             is.scalar.logical(allow_url_rewrite),
             is.scalar.numeric(advance_delay),
             is.character(additional_scripts),
-            is.scalar.character(logo_position))
+            is.scalar.character(logo_position),
+            is.null.or(on_start_fun, is.function),
+            is.null.or(on_stop_fun, is.function),
+            is.null.or(on_session_ended_fun, is.function)
+  )
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   if (!allow_url_rewrite && enable_resume_session) {
@@ -253,7 +263,10 @@ test_options <- function(title, admin_password,
        allow_url_rewrite = allow_url_rewrite,
        js_opt = list(advance_delay = advance_delay),
        additional_scripts = additional_scripts,
-       logo_position = logo_position)
+       logo_position = logo_position,
+       on_session_ended_fun = on_session_ended_fun,
+       on_stop_fun = on_stop_fun,
+       on_start_fun = on_start_fun)
 }
 
 #' Display options
