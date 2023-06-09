@@ -285,7 +285,7 @@ without a button to advance to the next page.</p>
 <span>  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"The end"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span>elts <span class="op">=</span> <span class="va">timeline</span><span class="op">)</span></span>
-<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div>
 <p>As you can see, the function <code>make_test</code> takes the input
 timeline and turns it into a Shiny app object that can then be run with
 . See <code><a href="../reference/make_test.html">?make_test</a></code> for more details.</p>
@@ -303,7 +303,7 @@ does collect data:</p>
 <span>  <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"Thanks for completing the survey!"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">test</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span>elts <span class="op">=</span> <span class="va">timeline</span><span class="op">)</span></span>
-<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="va">test</span><span class="op">)</span></span></code></pre></div>
 <p>Note that we have introduced a new builder function,
 <code>elt_save_results_to_disk</code>. This function doesn’t resolve to
 a psychTestR page, but instead resolves to a so-called code block:</p>
@@ -314,8 +314,8 @@ a psychTestR page, but instead resolves to a so-called code block:</p>
 <span><span class="co">## {</span></span>
 <span><span class="co">##     save_results_to_disk(complete, state, opt)</span></span>
 <span><span class="co">## }</span></span>
-<span><span class="co">## &lt;bytecode: 0x56313978cb30&gt;</span></span>
-<span><span class="co">## &lt;environment: 0x56313978c6d0&gt;</span></span></code></pre>
+<span><span class="co">## &lt;bytecode: 0x55636ee8b690&gt;</span></span>
+<span><span class="co">## &lt;environment: 0x55636ee8f060&gt;</span></span></code></pre>
 <p>Code blocks don’t display anything to the user, but instead instruct
 the server to run a specified function. This function can take several
 inputs, but most important is the <code>state</code> object, which
@@ -432,8 +432,8 @@ test element looks like this under the hood:</p>
 <span><span class="co">## $get_answer</span></span>
 <span><span class="co">## function (input, ...) </span></span>
 <span><span class="co">## input$last_btn_pressed</span></span>
-<span><span class="co">## &lt;bytecode: 0x563138dae220&gt;</span></span>
-<span><span class="co">## &lt;environment: 0x563138dad810&gt;</span></span>
+<span><span class="co">## &lt;bytecode: 0x55636cfe8020&gt;</span></span>
+<span><span class="co">## &lt;environment: 0x55636cfef128&gt;</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $save_answer</span></span>
 <span><span class="co">## [1] TRUE</span></span>
@@ -441,8 +441,8 @@ test element looks like this under the hood:</p>
 <span><span class="co">## $validate</span></span>
 <span><span class="co">## function (answer, ...) </span></span>
 <span><span class="co">## !is.null(answer)</span></span>
-<span><span class="co">## &lt;bytecode: 0x563138dae098&gt;</span></span>
-<span><span class="co">## &lt;environment: 0x563138dad810&gt;</span></span>
+<span><span class="co">## &lt;bytecode: 0x55636cfe7e98&gt;</span></span>
+<span><span class="co">## &lt;environment: 0x55636cfef128&gt;</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $on_complete</span></span>
 <span><span class="co">## NULL</span></span>
@@ -469,8 +469,8 @@ that look something like this:</p>
 <span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv</a></span><span class="op">(</span><span class="st">"data.csv"</span><span class="op">)</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># Run separately for each user</span></span>
-<span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/shinyServer.html" class="external-link">shinyServer</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">output</span><span class="op">$</span><span class="va">distPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/renderPlot.html" class="external-link">renderPlot</a></span><span class="op">(</span><span class="op">{</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/shinyServer.html" class="external-link">shinyServer</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">input</span>, <span class="va">output</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">output</span><span class="op">$</span><span class="va">distPlot</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/shiny/man/renderPlot.html" class="external-link">renderPlot</a></span><span class="op">(</span><span class="op">{</span></span>
 <span>    <span class="va">bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>, length.out <span class="op">=</span> <span class="va">input</span><span class="op">$</span><span class="va">bins</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/graphics/hist.html" class="external-link">hist</a></span><span class="op">(</span><span class="va">data</span>, breaks <span class="op">=</span> <span class="va">bins</span>, col <span class="op">=</span> <span class="st">'darkgray'</span>, border <span class="op">=</span> <span class="st">'white'</span><span class="op">)</span></span>
 <span>  <span class="op">}</span><span class="op">)</span></span>
@@ -577,7 +577,7 @@ total time taken, as in the following example:</p>
 <span><span class="va">compute_time_taken</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/code_block.html">code_block</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">state</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
 <span>  <span class="va">time_taken</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="../reference/global_local.html">get_global</a></span><span class="op">(</span><span class="st">"time_started"</span>, <span class="va">state</span><span class="op">)</span></span>
 <span>  <span class="va">msg</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Time taken: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="va">time_taken</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span></span>
-<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/showNotification.html" class="external-link">showNotification</a></span><span class="op">(</span><span class="va">msg</span><span class="op">)</span></span>
+<span>  <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/showNotification.html" class="external-link">showNotification</a></span><span class="op">(</span><span class="va">msg</span><span class="op">)</span></span>
 <span><span class="op">}</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span></span>
@@ -654,11 +654,11 @@ have been defined as part of the page UI. For example, the UI for
 <code>text_input_page</code> includes a text-box input defined as
 follows:</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">"text_input"</span>, </span>
+<code class="sourceCode R"><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">textInput</a></span><span class="op">(</span><span class="st">"text_input"</span>, </span>
 <span>                 label <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>                 placeholder <span class="op">=</span> <span class="va">placeholder</span>,</span>
 <span>                 width <span class="op">=</span> <span class="va">width</span><span class="op">)</span></span></code></pre></div>
-<p>The first argument to <code><a href="https://shiny.rstudio.com/reference/shiny/latest/textInput.html" class="external-link">shiny::textInput</a></code> determines the
+<p>The first argument to <code><a href="https://rdrr.io/pkg/shiny/man/textInput.html" class="external-link">shiny::textInput</a></code> determines the
 input slot that will be used to access the value in the text box.
 Correspondingly, the <code>get_answer</code> argument is defined simply
 as follows:</p>
@@ -704,7 +704,7 @@ The below example shows a pop-up notification with the current time.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/join.html">join</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="../reference/one_button_page.html">one_button_page</a></span><span class="op">(</span><span class="st">"Hello!"</span>, on_complete <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
-<span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/showNotification.html" class="external-link">showNotification</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"The current time is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"."</span><span class="op">)</span><span class="op">)</span></span>
+<span>      <span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/showNotification.html" class="external-link">showNotification</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"The current time is "</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.time</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"."</span><span class="op">)</span><span class="op">)</span></span>
 <span>    <span class="op">}</span><span class="op">)</span>,</span>
 <span>    <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="st">"End."</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>

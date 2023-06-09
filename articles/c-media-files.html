@@ -159,7 +159,7 @@ minimal example:</p>
 <span>  <span class="fu"><a href="https://rstudio.github.io/htmltools/reference/builder.html" class="external-link">p</a></span><span class="op">(</span><span class="st">"What do you think of this image?"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">runApp</a></span><span class="op">(</span></span>
+<span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="../reference/make_test.html">make_test</a></span><span class="op">(</span></span>
 <span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
 <span>      <span class="fu"><a href="../reference/final_page.html">final_page</a></span><span class="op">(</span><span class="va">ui</span><span class="op">)</span></span>
@@ -224,9 +224,9 @@ doesn’t know where the relevant <code>www</code> directory is. Instead,
 you must leave the <code>app.R</code> file as is, and then launch the
 app by running the following code at the R terminal:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">shiny</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">runApp</a></span><span class="op">(</span><span class="st">"."</span><span class="op">)</span></span></code></pre></div>
 <p>This tells Shiny to look for an app in the current working directory
-(see <code><a href="https://shiny.rstudio.com/reference/shiny/latest/runApp.html" class="external-link">?shiny::runApp</a></code> for details). Launching the app in this
+(see <code><a href="https://rdrr.io/pkg/shiny/man/runApp.html" class="external-link">?shiny::runApp</a></code> for details). Launching the app in this
 way should mean that Shiny finds the <code>www</code> directory
 correctly.</p>
 <p>The above example used an image, but the process for audio and video

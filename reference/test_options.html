@@ -137,7 +137,10 @@
 <span>  allow_url_rewrite <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  advance_delay <span class="op">=</span> <span class="fl">0</span>,</span>
 <span>  additional_scripts <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  logo_position <span class="op">=</span> <span class="st">"right"</span></span>
+<span>  logo_position <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>  on_start_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  on_stop_fun <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  on_session_ended_fun <span class="op">=</span> <span class="cn">NULL</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -311,6 +314,18 @@ upon button press.</p></dd>
 
 <dt>logo_position</dt>
 <dd><p>Which side should the logo be on? Can be "left" or "right".</p></dd>
+
+
+<dt>on_start_fun</dt>
+<dd><p>An optional function to execute when the Shiny server function begins. The function should include the "..." argument.</p></dd>
+
+
+<dt>on_stop_fun</dt>
+<dd><p>An optional function to execute when the Shiny server function terminates. The function should include the "..." argument.</p></dd>
+
+
+<dt>on_session_ended_fun</dt>
+<dd><p>An optional function to execute when a Shiny user session ends. The function should take the arguments state and "...".</p></dd>
 
 </dl></div>
 
