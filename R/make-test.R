@@ -36,13 +36,11 @@ setup_on_start <- function(opt) {
 
   function() {
     # On start:
-    message("Calling onStart fun")
     if (!is.null(opt$on_start_fun)) opt$on_start_fun()
 
     # On stop:
     if (!is.null(opt$on_stop_fun)) {
       onStop(function() {
-        message("Calling onStop fun")
         opt$on_stop_fun()
       })
     }
