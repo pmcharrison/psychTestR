@@ -1,3 +1,5 @@
+# psychTestR 2.25.0
+
 - Add hooks for running functions at start and end of sessions (thanks Seb Silas!).
 
 # psychTestR 2.24.2
