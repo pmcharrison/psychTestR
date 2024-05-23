@@ -43,6 +43,7 @@ server <- function(elts, opt, custom_admin_panel) {
   }
 }
 
+<<<<<<< HEAD
 setup_on_start <- function(opt) {
 
   function() {
@@ -57,6 +58,8 @@ setup_on_start <- function(opt) {
     }
   }
 }
+=======
+>>>>>>> 0fbacc0baa366c1062ffe9b320d144244df5360f
 
 render_title <- function(opt, state) {
   shiny::renderUI({
