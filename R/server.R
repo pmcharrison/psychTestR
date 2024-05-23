@@ -22,10 +22,14 @@ server <- function(elts, opt, custom_admin_panel) {
     if (opt$enable_admin_panel)
       shiny::outputOptions(output, "admin_panel.ui", suspendWhenHidden = FALSE)
 
-      if (!is.null(opt$on_session_ended_fun))
-        session$onSessionEnded(function() {
-          opt$on_session_ended_fun(state)
-        })
+    if (!is.null(opt$on_start_fun)) {
+      opt$on_start_fun(state, session)
+    }
+
+    if (!is.null(opt$on_session_ended_fun))
+      session$onSessionEnded(function() {
+        opt$on_session_ended_fun(state, session)
+      })
 
 
     shiny::exportTestValues(
@@ -39,6 +43,20 @@ server <- function(elts, opt, custom_admin_panel) {
   }
 }
 
+setup_on_start <- function(opt) {
+
+  function() {
+    # On start:
+    if (!is.null(opt$on_start_fun)) opt$on_start_fun()
+
+    # On stop:
+    if (!is.null(opt$on_stop_fun)) {
+      onStop(function() {
+        opt$on_stop_fun()
+      })
+    }
+  }
+}
 
 render_title <- function(opt, state) {
   shiny::renderUI({
