@@ -61,9 +61,7 @@ display_error <- function(...) {
 #' @export
 assert_global_is_null <- function(key, state) {
   stopifnot(is.scalar.character(key), is(state, "state"))
-  if (is.null(get_global(key, state))) {
-    return(TRUE)
-  } else {
+  if (is.null(get_global(key, state))) TRUE else {
     stop("global variable <", key, "> in <state> was not NULL")
   }
 }

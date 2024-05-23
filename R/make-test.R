@@ -29,6 +29,7 @@ make_test <- function(elts, opt = demo_options(),
     server = server(elts = elts, opt = opt,
                     custom_admin_panel = custom_admin_panel)
     )
+}
 
 
 
