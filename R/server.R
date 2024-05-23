@@ -43,23 +43,6 @@ server <- function(elts, opt, custom_admin_panel) {
   }
 }
 
-<<<<<<< HEAD
-setup_on_start <- function(opt) {
-
-  function() {
-    # On start:
-    if (!is.null(opt$on_start_fun)) opt$on_start_fun()
-
-    # On stop:
-    if (!is.null(opt$on_stop_fun)) {
-      onStop(function() {
-        opt$on_stop_fun()
-      })
-    }
-  }
-}
-=======
->>>>>>> 0fbacc0baa366c1062ffe9b320d144244df5360f
 
 render_title <- function(opt, state) {
   shiny::renderUI({
