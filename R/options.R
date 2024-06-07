@@ -93,6 +93,7 @@ pt_options <- function(...) {
 #' @param on_start_fun An optional function to execute when the Shiny server function begins. The function should include the "..." argument.
 #' @param on_stop_fun An optional function to execute when the Shiny server function terminates. The function should include the "..." argument.
 #' @param on_session_ended_fun An optional function to execute when a Shiny user session ends. The function should take the arguments state and "...".
+#' @param logo_url An optional URL for the logo image to link to (if a logo is specified).
 #' @export
 test_options <- function(title, admin_password,
                          researcher_email = NULL,
@@ -127,7 +128,8 @@ test_options <- function(title, admin_password,
                          logo_position = "right",
                          on_start_fun = NULL,
                          on_stop_fun = NULL,
-                         on_session_ended_fun = NULL) {
+                         on_session_ended_fun = NULL,
+                         logo_url = NULL) {
 
   stopifnot(is.character(title),
             is.scalar.character(admin_password),
@@ -163,7 +165,8 @@ test_options <- function(title, admin_password,
             is.scalar.character(logo_position),
             is.null.or(on_start_fun, is.function),
             is.null.or(on_stop_fun, is.function),
-            is.null.or(on_session_ended_fun, is.function)
+            is.null.or(on_session_ended_fun, is.function),
+            is.null.or(logo_url, is.scalar.character)
   )
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
@@ -266,7 +269,8 @@ test_options <- function(title, admin_password,
        logo_position = logo_position,
        on_session_ended_fun = on_session_ended_fun,
        on_stop_fun = on_stop_fun,
-       on_start_fun = on_start_fun)
+       on_start_fun = on_start_fun,
+       logo_url = logo_url)
 }
 
 #' Display options
