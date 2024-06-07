@@ -27,25 +27,11 @@ make_test <- function(elts, opt = demo_options(),
   shiny::shinyApp(
     ui = ui(opt = opt),
     server = server(elts = elts, opt = opt,
-                    custom_admin_panel = custom_admin_panel),
-    onStart = setup_on_start(opt)
+                    custom_admin_panel = custom_admin_panel)
     )
 }
 
-setup_on_start <- function(opt) {
 
-  function() {
-    # On start:
-    if (!is.null(opt$on_start_fun)) opt$on_start_fun()
-
-    # On stop:
-    if (!is.null(opt$on_stop_fun)) {
-      onStop(function() {
-        opt$on_stop_fun()
-      })
-    }
-  }
-}
 
 check_opt <- function(opt, elts) {
   stopifnot(is(elts, "timeline"))
