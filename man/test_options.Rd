@@ -39,7 +39,8 @@ test_options(
   logo_position = "right",
   on_start_fun = NULL,
   on_stop_fun = NULL,
-  on_session_ended_fun = NULL
+  on_session_ended_fun = NULL,
+  logo_url = NULL
 )
 }
 \arguments{
@@ -154,6 +155,8 @@ upon button press.}
 \item{on_stop_fun}{An optional function to execute when the Shiny server function terminates. The function should include the "..." argument.}
 
 \item{on_session_ended_fun}{An optional function to execute when a Shiny user session ends. The function should take the arguments state and "...".}
+
+\item{logo_url}{An optional URL for the logo image to link to (if a logo is specified).}
 }
 \description{
 Defines the options for running a given test.

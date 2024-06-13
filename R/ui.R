@@ -112,6 +112,11 @@ insert_logo <- function(opt, side) {
       style = sprintf("text-align: left; display: inline; width: %s; height: %s;",
                       width = opt$logo_width,
                       height = opt$logo_height))
+
+    if(!is.null(opt$logo_url)) {
+      logo <- shiny::tags$a(logo, href = opt$logo_url)
+    }
+
   } else {
     logo <- " "
   }
