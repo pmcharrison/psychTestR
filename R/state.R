@@ -63,7 +63,8 @@ STATE <- R6::R6Class(
       closed = FALSE,
       allow_session_saving = TRUE,
       url_params = list(),
-      allow_url_rewrite = as.logical(NA)
+      allow_url_rewrite = as.logical(NA),
+      user_ip = as.character(NA)
     )
   )
 )
@@ -419,6 +420,7 @@ p_id <- function(state) {
   stopifnot(is(state, "state"))
   state$passive$p_id
 }
+
 
 `ip_address<-` <- function(state, value) {
   stopifnot(is(state, "state"))
