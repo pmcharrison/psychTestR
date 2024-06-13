@@ -267,7 +267,8 @@ get_session_info <- function(state, complete) {
     time_started = state$passive$time_started,
     current_time = Sys.time(),
     num_restarts = state$passive$num_restarts,
-    language = state$passive$language
+    language = state$passive$language,
+    ip_address = state$passive$ip_address
   )
   attr(res, "server") <- utils::sessionInfo()
   res
@@ -417,6 +418,12 @@ get_results_label <- function(state) {
 p_id <- function(state) {
   stopifnot(is(state, "state"))
   state$passive$p_id
+}
+
+`ip_address<-` <- function(state, value) {
+  stopifnot(is(state, "state"))
+  state$passive$ip_address <- value
+  return(state)
 }
 
 # Sets participant ID

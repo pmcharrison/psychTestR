@@ -1,5 +1,14 @@
 server <- function(elts, opt, custom_admin_panel) {
   function(input, output, session) {
+
+    # Get user IP
+    user_ip <- shiny::reactive({
+      input$getIP
+    })
+    shiny::observe({
+      ip_address(state) <- user_ip()
+    })
+
     # warning("Error handling doesn't work. Remove it :(")
     # set_error_handling(opt, session, state)
     state <- STATE$new(opt)
