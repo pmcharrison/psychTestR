@@ -23,7 +23,11 @@ server <- function(elts, opt, custom_admin_panel) {
       shiny::outputOptions(output, "admin_panel.ui", suspendWhenHidden = FALSE)
 
     if (!is.null(opt$on_start_fun)) {
-      opt$on_start_fun(state, session)
+      if (is.null(formalArgs(opt$on_start_fun))) {
+        opt$on_start_fun()
+      } else {
+        opt$on_start_fun(state, session)
+      }
     }
 
     if (!is.null(opt$on_session_ended_fun))
