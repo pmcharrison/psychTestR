@@ -82,7 +82,8 @@ include_scripts <- function(opt) {
     "js/show-footer.js",
     "js/trigger-button.js",
     "js/navigate-away.js",
-    "js/get-ip.js")
+    if(opt$get_user_info) "js/get-user-info.js" else NULL
+    )
 
   wrapped_scripts <- lapply(scripts, function(x) shiny::includeScript(system.file(
     x, package = "psychTestR")))

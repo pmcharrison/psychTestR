@@ -3,10 +3,6 @@ manage_sessions <- function(state,
                             session = shiny::getDefaultReactiveDomain()) {
   manage_url_params(state, session, opt)
 
-  user_ip <- shiny::reactive({
-    session$request$REMOTE_ADDR
-  })
-
   if (opt$enable_resume_session) {
     manage_p_id(state, session, opt)
     # list(shiny::observe(save_session(state, opt = opt)),
@@ -27,9 +23,6 @@ manage_sessions <- function(state,
     # On reflection, this process seems unnecessary, we don't need to
     # delete this old data, so this functionality has now been disabled.
     shiny::observe(save_session(state, opt = opt))
-    shiny::observe({
-      ip_address(state) <- user_ip()
-    })
   }
 }
 
