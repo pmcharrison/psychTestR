@@ -1,3 +1,8 @@
+# psychTestR 2.26.0
+
+- New option for adding URL to logo (thanks Seb Silas!)
+- `on_start_fun` now optionally accepts two arguments: `state` and `session`.
+
 # psychTestR 2.25.0
 
 - Add hooks for running functions at start and end of sessions (thanks Seb Silas!).

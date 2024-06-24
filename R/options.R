@@ -169,8 +169,8 @@ test_options <- function(title, admin_password,
             is.null.or(on_stop_fun, is.function),
             is.null.or(on_session_ended_fun, is.function),
             is.null.or(logo_url, is.scalar.character),
-            is.scalar.logical(get_user_info)
-  )
+            is.scalar.logical(get_user_info))
+
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   if (!allow_url_rewrite && enable_resume_session) {

@@ -8,3 +8,4 @@ output
 docs
 vignettes/output
 .DS_Store
+test_apps/
