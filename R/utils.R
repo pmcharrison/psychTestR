@@ -65,3 +65,23 @@ assert_global_is_null <- function(key, state) {
     stop("global variable <", key, "> in <state> was not NULL")
   }
 }
+
+
+tidy_user_info <- function(user_info) {
+
+  while(purrr::every(user_info, function(x) length(x) == 1)){
+    user_info <- purrr::map(user_info, function(x) {
+      if(length(x) > 1) return(x) else return(paste0(x, collapse = ", "))
+    })
+  }
+
+  user_info <- unlist(user_info) %>%
+    as.list() %>% # This looks counterintuitive, but we use unlist for its recursive property, then it's easier to go from a named list to a tibble
+    tibble::as_tibble(.name_repair = 'universal')
+
+  # Tidy names for language specifically
+  idx <- which(grepl("language", names(user_info)))
+  names(user_info)[idx] <- paste0("language", 1:length(idx))
+
+  return(user_info)
+}

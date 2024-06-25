@@ -1,7 +1,7 @@
 
 
 // Add an event listener for when the Shiny session is initialized
-$(document).on("shiny:sessioninitialized",function() {
+$(document).on("shiny:sessioninitialized", function() {
 
   // Make a GET request to the API using the fetch API
   fetch("https://freeipapi.com/api/json")
@@ -17,7 +17,7 @@ $(document).on("shiny:sessioninitialized",function() {
 
       // Grab additional info through the browser
       const navigatorJSON = getBrowserAndHardwareInfo();
-      Shiny.setInputValue("user_navigator_info", navigatorJSON);
+      Shiny.setInputValue("user_navigator_info", JSON.stringify(navigatorJSON));
 
     })
 
@@ -28,9 +28,10 @@ $(document).on("shiny:sessioninitialized",function() {
 
 function getBrowserAndHardwareInfo () {
     var _navigator = {};
-    for (var i in navigator) _navigator[i] = navigator[i];
+    for (var i in navigator) {
+      _navigator[i] = navigator[i];
+    }
     delete _navigator.plugins;
     delete _navigator.mimeTypes;
-    navigatorJSON = JSON.stringify(_navigator);
-    return(navigatorJSON)
+    return(_navigator);
 }
