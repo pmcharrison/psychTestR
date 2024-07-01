@@ -69,20 +69,9 @@ assert_global_is_null <- function(key, state) {
 
 tidy_user_info <- function(user_info) {
 
-  # while(purrr::every(user_info, function(x) length(x) == 1)){
-  #   user_info <- purrr::map(user_info, function(x) {
-  #     if(length(x) > 1) return(x) else return(paste0(x, collapse = ", "))
-  #   })
-  # }
-
-  # Peter:
-  user_info <- map(user_info, jsonlite::toJSON)
-
-
-  # user_info <- purrr::map(user_info, function(x) {
-  #   if(length(x) > 1) jsonlite::toJSON(x) else x
-  # })
-
+  user_info <- purrr::map(user_info, function(x) {
+    if(length(x) > 1) jsonlite::toJSON(x) else x
+  })
 
   user_info <- unlist(user_info) %>%
     as.list() %>% # This looks counterintuitive, but we use unlist for its recursive property, then it's easier to go from a named list to a tibble
