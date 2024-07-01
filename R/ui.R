@@ -82,7 +82,7 @@ include_scripts <- function(opt) {
     "js/show-footer.js",
     "js/trigger-button.js",
     "js/navigate-away.js",
-    if(opt$get_user_info) "js/get-user-info.js" else NULL
+    if(opt$get_user_info) "js/get-user-info.js"
     )
 
   wrapped_scripts <- lapply(scripts, function(x) shiny::includeScript(system.file(
