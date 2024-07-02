@@ -1,3 +1,5 @@
+- Added support for collecting IP address, geolocation, and other browser information (thanks Seb Silas!)
+
 # psychTestR 2.26.0
 
 - New option for adding URL to logo (thanks Seb Silas!)
