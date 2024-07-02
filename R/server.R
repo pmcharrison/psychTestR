@@ -1,5 +1,41 @@
 server <- function(elts, opt, custom_admin_panel) {
   function(input, output, session) {
+
+    if(opt$get_user_info) {
+
+      # Get user information
+      user_info <- shiny::reactive({
+
+        # First, navigator information (browser, hardware etc.)
+        navigator_info <- input$user_navigator_info
+
+        if(!is.null(navigator_info)) {
+          navigator_info <- navigator_info %>%
+            jsonlite::fromJSON() %>%
+            purrr::map(function(.x) {
+            if (length(.x) > 0L) {
+              return(list(.x))
+            } else {
+              return(NA)
+            }
+          })
+        }
+
+        # Then geolocation info
+        ip_info <- input$getIP
+
+        c(navigator_info, ip_info)
+
+      })
+
+      shiny::observe({
+        user_info <- user_info()
+        shiny::req(user_info)
+        user_information(state) <- tidy_user_info(user_info)
+      })
+    }
+
+
     # warning("Error handling doesn't work. Remove it :(")
     # set_error_handling(opt, session, state)
     state <- STATE$new(opt)

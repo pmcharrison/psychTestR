@@ -63,7 +63,8 @@ STATE <- R6::R6Class(
       closed = FALSE,
       allow_session_saving = TRUE,
       url_params = list(),
-      allow_url_rewrite = as.logical(NA)
+      allow_url_rewrite = as.logical(NA),
+      user_ip = as.character(NA)
     )
   )
 )
@@ -267,7 +268,8 @@ get_session_info <- function(state, complete) {
     time_started = state$passive$time_started,
     current_time = Sys.time(),
     num_restarts = state$passive$num_restarts,
-    language = state$passive$language
+    language = state$passive$language,
+    user_info = state$passive$user_info
   )
   attr(res, "server") <- utils::sessionInfo()
   res
@@ -418,6 +420,14 @@ p_id <- function(state) {
   stopifnot(is(state, "state"))
   state$passive$p_id
 }
+
+
+`user_information<-` <- function(state, value) {
+  stopifnot(is(state, "state"))
+  state$passive$user_info <- value
+  return(state)
+}
+
 
 # Sets participant ID
 #

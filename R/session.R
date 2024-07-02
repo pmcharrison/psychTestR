@@ -2,6 +2,7 @@ manage_sessions <- function(state,
                             opt,
                             session = shiny::getDefaultReactiveDomain()) {
   manage_url_params(state, session, opt)
+
   if (opt$enable_resume_session) {
     manage_p_id(state, session, opt)
     # list(shiny::observe(save_session(state, opt = opt)),

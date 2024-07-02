@@ -40,7 +40,8 @@ test_options(
   on_start_fun = NULL,
   on_stop_fun = NULL,
   on_session_ended_fun = NULL,
-  logo_url = NULL
+  logo_url = NULL,
+  get_user_info = FALSE
 )
 }
 \arguments{
@@ -157,6 +158,8 @@ upon button press.}
 \item{on_session_ended_fun}{An optional function to execute when a Shiny user session ends. The function should take the arguments state and "...".}
 
 \item{logo_url}{An optional URL for the logo image to link to (if a logo is specified).}
+
+\item{get_user_info}{Optionally collect information about the user such as their IP address, browser, and hardware information.}
 }
 \description{
 Defines the options for running a given test.
