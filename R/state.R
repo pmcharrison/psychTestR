@@ -64,7 +64,7 @@ STATE <- R6::R6Class(
       allow_session_saving = TRUE,
       url_params = list(),
       allow_url_rewrite = as.logical(NA),
-      user_ip = as.character(NA)
+      user_info = FALSE
     )
   )
 )
