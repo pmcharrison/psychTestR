@@ -1,3 +1,5 @@
+# psychTestR 2.27.1
+
 - Fixed regression introduced in v2.27.0 (thanks Seb Silas!)
 
 # psychTestR 2.27.0
