@@ -1,3 +1,5 @@
+- Fixed regression introduced in v2.27.0 (thanks Seb Silas!)
+
 # psychTestR 2.27.0
 
 - Added support for collecting IP address, geolocation, and other browser information (thanks Seb Silas!)
