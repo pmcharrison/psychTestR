@@ -105,6 +105,8 @@ i18n_check_df <- function(x) {
     stop("input to i18n_dict() must have exactly one character column called 'key")
   if (!all(sapply(x, is.character)))
     stop("all columns of input to i18n_dict() must be character class")
+  if (any(duplicated(x$key)))
+    stop("there are duplicates in the `key` column. Keys must be unique.")
 }
 
 i18n_state <- R6::R6Class(
