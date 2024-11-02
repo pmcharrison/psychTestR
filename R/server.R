@@ -238,21 +238,21 @@ check_elts <- function(x) {
   }
   # first_elt <- elts[[1]]
   # if (!(is(first_elt, "page") || is(first_elt, "reactive_page"))) {
-  #   stop("The first element in <elts> must be a (possibly reactive) test page.")
+  #   stop("The first element in `elts` must be a (possibly reactive) test page.")
   # }
   elts <- x$get(x$languages[1]) # Check the elements for the first available language
   last_elt <- elts[[length(elts)]]
   if (!(is(last_elt, "page") || is(last_elt, "reactive_page"))) {
-    stop("The last element in <elts> must be a (possibly reactive) test page.")
+    stop("The last element in `elts` must be a (possibly reactive) test page.")
   }
   if (is(last_elt, "page") && !last_elt@final) {
-    stop("The last element in <elts> must be marked 'final' ",
-         "(try setting final = TRUE in the last test page).")
+    stop("The last element in `elts` must be marked 'final' ",
+         "(try setting `final` to `TRUE` in the last test page).")
   }
   class_check <- vapply(elts, function(x) is(x, "test_element"), logical(1))
   class_check_failed <- which(!class_check)
   if (!all(class_check))
-    stop("every element of elts must be an object of class test_element, ",
+    stop("every element of `elts` must be an object of class `test_element`, ",
          "but this was not true for ",
          ngettext(length(class_check_failed), "element ", "elements "),
          paste(class_check_failed, collapse = ", "))
@@ -287,8 +287,8 @@ validate_elt <- function(elt, state, input, session, opt) {
       res
     } else {
       print(res)
-      stop("validation function must either return TRUE for success or, ",
-           "for failure, either FALSE or a character scalar error message")
+      stop("validation function must either return `TRUE` for success or, ",
+           "for failure, either `FALSE` or a character scalar error message")
     }
     shinyjs::alert(msg)
     FALSE
