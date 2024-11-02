@@ -251,7 +251,7 @@ page <- function(ui, admin_ui = NULL, label = NULL,
     is.null.or(on_complete, is.function),
     is.scalar.logical(next_elt))
   if (save_answer && !is.scalar.character(label))
-    stop("if save_answer is TRUE then a character scalar label ",
+    stop("if `save_answer` is `TRUE` then a character scalar label ",
          "must be provided")
   if (is.scalar.character(admin_ui)) admin_ui <- tagify(admin_ui)
   new("page", ui = ui, admin_ui = admin_ui, label = label, final = final,
@@ -1461,19 +1461,19 @@ NULL
 loop_while <- function(test, logic) {
   .Deprecated(new = "while_loop",
               package = "psychTestR")
-  if (!is.function(test)) stop("<test> must be a function")
+  if (!is.function(test)) stop("`test` must be a function")
   if (!(is.list(logic) ||
         is.test_element(logic) ||
         is.timeline(logic))) {
-    stop("<logic> must be either a test element, a list, or a timeline")
+    stop("`logic` must be either a test element, a list, or a timeline")
   }
   if (is.test_element(logic)) logic <- list(logic)
-  if (length(logic) == 0L) stop("<logic> may not be empty")
+  if (length(logic) == 0L) stop("`logic` may not be empty")
   n <- length(logic)
   elt <- code_block(function(state, elts, input, output, session, opt, ...) {
     res <- test(state = state, input = input, output = output,
                 session = session, opt = opt)
-    if (!is.scalar.logical(res)) stop("<test> did not return a ",
+    if (!is.scalar.logical(res)) stop("`test` did not return a ",
                                       "logical scalar")
     if (res){
       skip_n_pages(state, - (n + 1L))
@@ -1511,20 +1511,20 @@ loop_while <- function(test, logic) {
 #' @md
 #' @export
 while_loop <- function(test, logic) {
-  if (!is.function(test)) stop("<test> must be a function")
+  if (!is.function(test)) stop("`test` must be a function")
   if (!(is.list(logic) ||
         is.test_element(logic) ||
         is.timeline(logic))) {
-    stop("<logic> must be either a test element, a list, or a timeline")
+    stop("`logic` must be either a test element, a list, or a timeline")
   }
   if (is.test_element(logic)) logic <- list(logic)
-  if (length(logic) == 0L) stop("<logic> may not be empty")
+  if (length(logic) == 0L) stop("`logic` may not be empty")
 
   eval_test <- function(skip_len, skip_when) {
     code_block(function(state, elts, input, output, session, opt, ...) {
       res <- test(state = state, input = input, output = output,
                   session = session, opt = opt)
-      if (!is.scalar.logical(res)) stop("<test> did not return a ",
+      if (!is.scalar.logical(res)) stop("`test` did not return a ",
                                         "logical scalar")
       if ((skip_when == "pass" && res) ||
           (skip_when == "fail" && !res))
@@ -1569,17 +1569,17 @@ while_loop <- function(test, logic) {
 #' @md
 #' @export
 conditional <- function(test, logic) {
-  if (!is.function(test)) stop("<test> must be a function")
+  if (!is.function(test)) stop("`test` must be a function")
   if (!(is.list(logic) ||
         is.test_element(logic) ||
         is.timeline(logic))) {
-    stop("<logic> must be either a test element, a list, or a timeline")
+    stop("`logic` must be either a test element, a list, or a timeline")
   }
   if (is.test_element(logic)) logic <- list(logic)
-  if (length(logic) == 0L) stop("<logic> may not be empty")
+  if (length(logic) == 0L) stop("`logic` may not be empty")
   if (is.list(logic)) {
     if (!all(purrr::map_lgl(logic, is.test_element))) {
-      stop("If conditional() is passed a list, every list element must be a test element.")
+      stop("If `conditional()` is passed a list, every list element must be a test element.")
     }
   }
 
@@ -1588,7 +1588,7 @@ conditional <- function(test, logic) {
   eval_test <- code_block(function(state, elts, input, output, session, opt, ...) {
     res <- test(state = state, input = input, output = output,
                 session = session, opt = opt)
-    if (!is.scalar.logical(res)) stop("<test> did not return a ",
+    if (!is.scalar.logical(res)) stop("`test` did not return a ",
                                       "logical scalar")
     if (!res) {
       skip_n_pages(state, n)
