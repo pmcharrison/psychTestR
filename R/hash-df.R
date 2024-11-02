@@ -2,9 +2,9 @@
 hash_df <- function(x, markdown) {
   stopifnot(is.scalar.logical(markdown))
   if (!is.data.frame(x))
-    stop("input must be a dataframe ")
+    stop("input must be a `data.frame` ")
   if (!is.character(x$key))
-    stop("input must have character column called 'key")
+    stop("input must have character column called `key`")
   y <- new.env()
   for (i in seq_len(nrow(x))) {
     key <- enc2utf8(x$key[i])
@@ -31,7 +31,7 @@ parse_markdown <- function(x) {
     text = x,
     format = "html"
   )
-  
+
   if (!has_paragraphs)
     res <- gsub("(<p>)|(</p>)|(\\n)", "", res)
   res
