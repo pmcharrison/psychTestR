@@ -1,3 +1,5 @@
+- Throw an error when a dictionary contains a duplicate key (thanks Killian Sander!)
+
 # psychTestR 2.27.1
 
 - Fixed regression introduced in v2.27.0 (thanks Seb Silas!)
