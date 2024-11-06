@@ -37,9 +37,9 @@ check_opt <- function(opt, elts) {
   stopifnot(is(elts, "timeline"))
   unsupported_languages <- setdiff(opt$languages, elts$languages)
   if (length(unsupported_languages) > 0L)
-    stop("the following language(s) specified in 'opt$languages' ",
+    stop("the following language(s) specified in `opt$languages` ",
          "are not supported by 'elts': ",
          paste(unsupported_languages, collapse = ", "),
-         ". Consider removing some languages from 'opt$languages', ",
-         " or otherwise adding relevant language support to 'elts'.")
+         ". Consider removing some languages from `opt$languages`, ",
+         " or otherwise adding relevant language support to `elts`.")
 }
