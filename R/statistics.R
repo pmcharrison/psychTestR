@@ -6,7 +6,7 @@
 #     num_incomplete <- sum(!df$complete)
 #   )
 #
-#   warning("p_id may only contain alphanumerics and underscores, and maxchar")
+#   warning("`p_id` may only contain alphanumerics and underscores, and maxchar")
 #
 # }
 #

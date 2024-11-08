@@ -466,7 +466,7 @@ list_cols_to_json <- function(df) {
 }
 
 zip_dir <- function(dir, output_file) {
-  if (!dir.exists(dir)) stop("<dir> doesn't exist")
+  if (!dir.exists(dir)) stop("`dir` doesn't exist")
   old_wd <- getwd()
   dir <- gsub("/$", "", dir)
   dir_parent <- dirname(dir)

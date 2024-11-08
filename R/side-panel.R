@@ -10,9 +10,9 @@
 #'   }
 #'   for (f in list(render_ui, render_outputs, render_modals, observe_events)) {
 #'     if(!identical(names(formals(f)), c("state", "input", "output", "session"))) {
-#'       stop("Arguments render_ui, render_outputs, render_modals, and ",
-#'            "observe_events should be either NULL or functions ",
-#'            "with the arguments 'state', 'input', 'output', and 'session', ",
+#'       stop("Arguments `render_ui`, `render_outputs`, `render_modals`, and ",
+#'            "`observe_events` should be either `NULL` or functions ",
+#'            "with the arguments `state`, `input`, `output`, and `session`, ",
 #'            "in that order.")
 #'     }
 #'   }

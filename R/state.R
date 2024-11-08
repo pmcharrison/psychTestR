@@ -356,7 +356,7 @@ check_key <- function(key, allow_dots) {
   if (substr(key, 1, 1) == "." && !allow_dots) {
     stop("Variable names beginning with '.' are reserved for use by psychTestR. ",
          "If you are sure you want to overwrite this variable, ",
-         "set allow_dots = TRUE.")
+         "set `allow_dots` to `TRUE`.")
   }
 }
 

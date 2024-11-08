@@ -98,13 +98,13 @@ as.data.frame.i18n_dict <- function(x, ...) {
 # Checks the validity of the dictionary
 i18n_check_df <- function(x) {
   if (!is.data.frame(x))
-    stop("input to i18n_dict() must be a dataframe ")
+    stop("input to `i18n_dict()` must be a `dataframe` ")
   if (!is.character(x$key))
-    stop("input to i18n_dict() must have a character column called 'key")
+    stop("input to `i18n_dict()` must have a character column called `key`")
   if (sum(names(x) == "key") > 1)
-    stop("input to i18n_dict() must have exactly one character column called 'key")
+    stop("input to `i18n_dict()` must have exactly one character column called `key`")
   if (!all(sapply(x, is.character)))
-    stop("all columns of input to i18n_dict() must be character class")
+    stop("all columns of input to `i18n_dict()` must be character class")
   if (any(duplicated(x$key)))
     stop("there are duplicates in the `key` column. Keys must be unique.")
 }
@@ -120,13 +120,13 @@ i18n_state <- R6::R6Class(
       self$lang <- NULL
     },
     enter_new_timeline = function() {
-      if (self$in_new_timeline) warning("tried to enter new_timeline(), ",
-                                        "but was already in new_timeline()")
+      if (self$in_new_timeline) warning("tried to enter `new_timeline()`, ",
+                                        "but was already in `new_timeline()`")
       self$in_new_timeline <- TRUE
     },
     exit_new_timeline = function() {
-      if (!self$in_new_timeline) warning("tried to exit new_timeline(), ",
-                                         "but was not in new_timeline()")
+      if (!self$in_new_timeline) warning("tried to exit `new_timeline()`, ",
+                                         "but was not in `new_timeline()`")
       self$in_new_timeline <- FALSE
     },
     set = function(dict, lang) {
@@ -231,16 +231,16 @@ i18n <- function(x, html = TRUE, sub = character()) {
 
 i18n_check <- function(x) {
   if (!(is.null(x$sub) || is.vector(x$sub)))
-    stop("argument <sub> for function i18n_check() must be a vector, ",
+    stop("argument `sub` for function `i18n_check()` must be a vector, ",
          "instead got ", utils::capture.output(print(x$sub)))
   if (length(x$sub) > 0 && is.null(names(x$sub)))
-    stop("argument <sub> for function i18n_check() was missing names, ",
+    stop("argument `sub` for function `i18n_check()` was missing names, ",
          "instead got ", utils::capture.output(print(x$sub)))
   if (!is.scalar.character(x$x))
-    stop("argument <x> for function i18_check() must be a character scalar, ",
+    stop("argument `x` for function `i18_check()` must be a character scalar, ",
          "instead got ", utils::capture.output(print(x$x)))
   if (!is.scalar.logical(x$html))
-    stop("argument <html> for function i18_check() must be a logical scalar, ",
+    stop("argument `html` for function `i18_check()` must be a logical scalar, ",
          "instead got ", utils::capture.output(print(x$html)))
 }
 
@@ -288,12 +288,12 @@ timeline <- R6::R6Class(
     },
     get = function(language, i = NULL) {
       if (!is.scalar.character(language))
-        stop("'language' must be a character scalar")
+        stop("`language` must be a character scalar")
       if (!language %in% self$languages)
-        stop("'language'", language, " not supported by timeline ",
+        stop("`language` ", language, " not supported by timeline ",
              "(valid languages: ", paste(self$languages, collapse = ", "), ")")
       if (!is.null.or(i, is.scalar.integerlike))
-        stop("'i' must either be NULL or a scalar integer")
+        stop("`i` must either be `NULL` or a scalar integer")
       lst <- private$data[[language]]
       if (is.null(i)) lst else {
         n <- length(lst)
@@ -397,8 +397,8 @@ as.timeline <- function(x, ...) {
 #' @export
 new_timeline <- defmacro(x, dict = NULL, default_lang = "en", expr = tryCatch({
   if (psychTestR::I18N_STATE$in_new_timeline) {
-    stop("Nested calls to new_timeline() are not supported. ",
-         "Instead you should use the join() function to connect multiple timelines.")
+    stop("Nested calls to `new_timeline()` are not supported. ",
+         "Instead you should use the `join()` function to connect multiple timelines.")
   }
   psychTestR::I18N_STATE$enter_new_timeline()
   stopifnot(psychTestR::is.null.or(dict, function(z) is(dict, "i18n_dict")))
@@ -442,9 +442,9 @@ format_new_timeline <- function(input, langs) {
   stopifnot(is(input, "timeline"),
             is.character(langs))
   if (!all(langs %in% input$languages))
-    stop("new_timeline() was called with dictionary languages ",
+    stop("`new_timeline()` was called with dictionary languages ",
          paste(langs, collapse = ", "),
-         " but the input <x> evaluated to a timeline where these ",
+         " but the input `x` evaluated to a timeline where these ",
          "languages were not available ",
          "(available languages: ", paste(input$languages, collapse = ", "),
          ")")
@@ -474,7 +474,7 @@ format_new_timeline <- function(input, langs) {
 format_test_element_list <- function(input, lang) {
   stopifnot(is.scalar.character(lang))
   x <- if (psychTestR::is.test_element(input)) list(input) else input
-  if (!is.list(x)) stop("new_timeline() received an input that wasn't a ",
+  if (!is.list(x)) stop("`new_timeline()` received an input that wasn't a ",
                         "test element or a list")
   format_test_element_list.check_classes(x)
   x <- format_test_element_list.dissolve_timelines(x, lang)
@@ -487,7 +487,7 @@ format_test_element_list.check_classes <- function(x) {
       psychTestR::is.timeline(y)
   }, logical(1)))) {
     classes <- vapply(x, class, character(1))
-    stop("new_timeline() received a list as input, ",
+    stop("`new_timeline()` received a list as input, ",
          "but not all elements were test elements. ",
          "Here is the class list: ",
          paste(classes, collapse = ", "))
@@ -500,7 +500,7 @@ format_test_element_list.dissolve_timelines <- function(x, lang) {
       y
     } else if (is.timeline(y)) {
       if (!(lang %in% y$languages)) {
-        stop("argument <x> to new_timeline() produced a list ",
+        stop("argument `x` to `new_timeline()` produced a list ",
              "containing a timeline, but this timeline ",
              "did not support the language ", lang, " ",
              "(supported languages: {",

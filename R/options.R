@@ -174,7 +174,7 @@ test_options <- function(title, admin_password,
   # if (is.null(session_dir)) session_dir <- get_default_session_dir()
 
   if (!allow_url_rewrite && enable_resume_session) {
-    stop("if allow_url_rewrite is FALSE then enable_resume_session must also be FALSE")
+    stop("if `allow_url_rewrite` is `FALSE` then `enable_resume_session` must also be `FALSE`")
   }
 
   title <- iconv(enc2utf8(title), "UTF-8", "UTF-8", sub = "")
@@ -182,18 +182,18 @@ test_options <- function(title, admin_password,
     stop("maximum title length is 100 characters")
 
   if (length(title) > 1 && is.null(names(title)))
-    stop("if option 'title' has length > 1, it must be named")
+    stop("if option `title` has length > 1, it must be named")
   if (!is.null(names(title)) && !all(languages %in% names(title)))
     stop("titles must be provided for all supported languages")
 
 
   if (force_p_id_from_url && !allow_any_p_id_url)
-    stop("if force_p_id_from_url is TRUE then allow_any_p_id_url must be TRUE")
+    stop("if `force_p_id_from_url` is `TRUE` then `allow_any_p_id_url` must be `TRUE`")
 
   if ((notify_new_participant || notify_error) &&
       (is.null(pushbullet_email) || is.null(pushbullet_apikey))) stop(
-        "if notify_error or notify_new_participant is TRUE, ",
-        "both pushbullet_email and pushbullet_apikey must be provided.")
+        "if `notify_error` or `notify_new_participant` is `TRUE`, ",
+        "both `pushbullet_email` and `pushbullet_apikey` must be provided.")
 
   if (is.null(max_participants_msg)) {
     max_participants_msg <- paste0(
@@ -212,7 +212,7 @@ test_options <- function(title, admin_password,
   }
 
   if (length(problems_info) > 1 && is.null(names(problems_info)))
-    stop("if option 'problems_info' has length > 1, it must be named")
+    stop("if option `problems_info` has length > 1, it must be named")
 
   if (!is.null(names(problems_info)) && !all(languages %in% names(problems_info)))
     stop("problem info texts must be provided for all supported languages")
@@ -372,7 +372,7 @@ display_options <- function(
   checkmate::qassert(admin_panel, "B1")
   stopifnot(is.character(css))
   if (left_margin + right_margin >= 12)
-    stop("left_margin and right_margin must sum to less than 12")
+    stop("`left_margin` and `right_margin` must sum to less than 12")
 
   arg <- as.list(environment())
   if (full_screen) {
