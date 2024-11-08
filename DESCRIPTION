@@ -1,7 +1,7 @@
 Package: psychTestR
 Type: Package
 Title: Framework for delivering psychological tests via Shiny
-Version: 2.27.2
+Version: 2.27.3
 Authors@R: c(
   person("Peter", "Harrison", email = "pmc.harrison@gmail.com", role = c("aut", "cre")),
   person("Frank", "Höger", email = "frank@mirsem.org", role = c("ctb"))
