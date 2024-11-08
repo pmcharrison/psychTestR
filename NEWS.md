@@ -1,3 +1,5 @@
+- Follow tidyverse style guides regarding backticks in user-facing messages (thanks Kilian Sander!)
+
 # psychTestR 2.27.2
 
 - Throw an error when a dictionary contains a duplicate key (thanks Kilian Sander!)
